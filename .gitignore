@@ -89,6 +89,9 @@ config.properties
 *_LOCAL_*.txt
 *_REMOTE_*.txt
 
+### Servers
+Servers/
+
 ### Java ###
 # Compiled class file
 *.class
