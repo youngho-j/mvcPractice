@@ -11,14 +11,19 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	
-	<!-- Root Context: defines shared resources visible to all other web components -->
-	<!-- MariaDB JDBC DataSource -->
+	<!-- PropertyPlaceholderConfigurer 사용하여 외부 프로퍼티 값을 빈 정의부로 가져올 수 있음-->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	  	<property name="location" value="properties/config.properties"/>
+        <property name="fileEncoding" value="UTF-8" />
+  	</bean>
+	
+	<!-- MySQLDB JDBC DataSource -->
 	<!-- 삽질 1. mariadb를 처음에 적용해서 안들어가짐 / 2. 스키마 적는곳에 DB 이름을 적어서 오류 / MySQL 버전 오류(POM 추가)-->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/" />
-		<property name="username" value="root" />
-		<property name="password" value="dhkfkr1317@" />
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.userName}" />
+		<property name="password" value="${jdbc.password}" />
 	</bean>
     
 	<!-- mybatis SqlSessionFactoryBean -->
