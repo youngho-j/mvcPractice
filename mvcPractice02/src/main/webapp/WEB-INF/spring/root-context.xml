@@ -13,7 +13,7 @@
 	
 	<!-- PropertyPlaceholderConfigurer 사용하여 외부 프로퍼티 값을 빈 정의부로 가져올 수 있음-->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	  	<property name="location" value="properties/config.properties"/>
+	  	<property name="location" value="classpath:properties/config.properties"/>
         <property name="fileEncoding" value="UTF-8" />
   	</bean>
 	
