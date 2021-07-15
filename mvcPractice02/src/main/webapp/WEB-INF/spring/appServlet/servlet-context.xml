@@ -24,10 +24,12 @@
 	
 	<context:component-scan base-package="com.board.controller" />
 	
+	<!-- interceptor -->
 	<mvc:interceptors>
 		<mvc:interceptor>
+			<!-- 가로 챌 URI -->
 			<mvc:mapping path="/**"/>
-			<beans:bean id="loggerInterceptor" class="com.board.controller.common.LoggerInterceptor"></beans:bean>
+			<beans:bean id="loggerInterceptor" class="com.board.controller.interceptor.LoggerInterceptor"></beans:bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
