@@ -1,4 +1,4 @@
-package com.board.controller;
+package com.spring.board;
 
 import org.junit.Before;
 import org.junit.Test;

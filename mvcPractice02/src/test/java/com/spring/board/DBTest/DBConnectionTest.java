@@ -1,9 +1,10 @@
-package com.board.DBTest;
+package com.spring.board.DBTest;
+
+import java.sql.Connection;
 
 import javax.inject.Inject;
+import javax.sql.DataSource;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -13,26 +14,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
-public class MyBatisTest {
+public class DBConnectionTest {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
 	
 	@Inject
-	private SqlSessionFactory sqlfactory;
+	private DataSource source;
 	
 	@Test
-	public void 팩토리_테스트() throws Exception {
-		logger.info("SqlSessionFactory 주소 : [{}]", sqlfactory);
-	}
-	
-	@Test
-	public void 세션_테스트() throws Exception {
-		try (SqlSession session = sqlfactory.openSession()) {
-			logger.info("SqlSession 주소 : [{}]", session);
+	public void DB_연결테스트() throws Exception {
+		try(Connection con = source.getConnection()) {
+			logger.info("con : [{}]",con);
 		} catch (Exception e) {
 			logger.info("오류 : {}", e.getStackTrace());
 		}
-		
 	}
 }

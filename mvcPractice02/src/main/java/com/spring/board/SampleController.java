@@ -1,4 +1,4 @@
-package com.board.controller;
+package com.spring.board;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

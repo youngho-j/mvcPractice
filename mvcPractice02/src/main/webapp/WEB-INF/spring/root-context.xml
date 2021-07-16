@@ -13,12 +13,11 @@
 	
 	<!-- PropertyPlaceholderConfigurer 사용하여 외부 프로퍼티 값을 빈 정의부로 가져올 수 있음-->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	  	<property name="location" value="classpath:properties/config.properties"/>
+	  	<property name="location" value="classpath:/properties/config.properties"/>
         <property name="fileEncoding" value="UTF-8" />
   	</bean>
 	
-	<!-- MySQLDB JDBC DataSource -->
-	<!-- 삽질 1. mariadb를 처음에 적용해서 안들어가짐 / 2. 스키마 적는곳에 DB 이름을 적어서 오류 / MySQL 버전 오류(POM 추가)-->
+	<!-- MySQLDB JDBC DataSource : MySQL DB에서 데이터 풀을 가져옴-->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
@@ -26,10 +25,15 @@
 		<property name="password" value="${jdbc.password}" />
 	</bean>
     
-	<!-- mybatis SqlSessionFactoryBean -->
+	<!-- mybatis SqlSessionFactoryBean : 생성된 데이터 풀을 톧해 sql문 관리하는 공장을 생성-->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:/mybatis-config.xml" />
-        <property name="mapperLocations" value="classpath:/mappers/**/*Mapper.xml" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath:mappers/**/*.xml" />
 	</bean>
+	
+	<!-- SqlSessionTemplate : 공장에서 관리하는 각각의 생성자를 정의(Mybatis쿼리문을 수행해주는 역할) -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
 </beans>

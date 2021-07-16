@@ -1,4 +1,4 @@
-package com.board.controller.interceptor;
+package com.spring.board.interceptor;
 
 import java.util.Enumeration;
 
