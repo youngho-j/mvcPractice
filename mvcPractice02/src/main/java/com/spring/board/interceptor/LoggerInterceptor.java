@@ -28,6 +28,8 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 			String value = request.getParameter(key);
 			logger.debug("RequestParameter Data : [ " + key + " : " + value + " ]");
 		}
+		
+		System.out.println("LoggerInterceptor START");
 		return super.preHandle(request, response, handler);
 	}
 //	Controller에서 View로 가기 전에 실행되는 메서드 - Ex) 메뉴 권한 체크
@@ -35,6 +37,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		logger.debug("= = = = = = = = = = = LoggerInterceptor END = = = = = = = = = = =");
+		System.out.println("LoggerInterceptor END");
 	}
 	
 }
