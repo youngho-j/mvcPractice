@@ -2,11 +2,15 @@ package com.spring.board.dto;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class BoardDto {
 	
 	int board_seq;
@@ -19,8 +23,10 @@ public class BoardDto {
     int board_hits;
     String del_yn;
     String ins_user_id;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     Date ins_date;
     String upd_user_id;
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     Date upd_date;
 
 }
