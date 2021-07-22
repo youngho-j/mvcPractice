@@ -25,7 +25,7 @@ public class BoardDaoTest {
 	private BoardDto board;
 	
 	@Test
-	public void BoardDto_리턴 () throws Exception {
+	public void List_BoardDto_리턴 () throws Exception {
 		
 		List<BoardDto> list = boardDao.getBoardList(board);
 			
@@ -33,6 +33,15 @@ public class BoardDaoTest {
 		
 		assertThat(dto1.getBoard_content()).isEqualTo("게시글 내용1");
 			
+	}
+	
+	@Test
+	public void 상세_BoardDto_리턴 () throws Exception {
+		board = new BoardDto();
+		board.setBoard_seq(1);
+		
+		BoardDto dto = boardDao.getBoardDetail(board);
+		assertThat(dto.getBoard_content()).isEqualTo("게시글 내용1");
 	}
 
 }

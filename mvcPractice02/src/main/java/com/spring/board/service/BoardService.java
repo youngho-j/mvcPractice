@@ -18,4 +18,8 @@ public class BoardService {
 	public List<BoardDto> getBoardList(BoardDto boardDto) throws Exception {
 		return boardDao.getBoardList(boardDto);
 	}
+
+	public BoardDto getBoardDetail(BoardDto boardForm) throws Exception {
+		return boardDao.getBoardDetail(boardForm);
+	}
 }

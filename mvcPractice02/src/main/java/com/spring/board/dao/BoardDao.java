@@ -16,7 +16,13 @@ public class BoardDao {
 	
 	private static final String NAMESPACE = "com.spring.board.boardMapper";
 	
+	// 목록 데이터
 	public List<BoardDto> getBoardList(BoardDto boardDto) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getBoardList");
+	}
+	
+	// 상세 데이터
+	public BoardDto getBoardDetail(BoardDto boardDto) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getBoardDetail", boardDto);
 	}
 }

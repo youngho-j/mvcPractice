@@ -49,5 +49,20 @@ public class BoardControllerTest {
 		.andExpect(jsonPath("$.[1].board_writer").value("게시글 작성자5"))
 		.andDo(print());
 	}
-
+	
+	@Test
+	public void 상세_페이지_출력_확인_테스트() throws Exception {
+		mock.perform(get("/board/boardDetail"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("board/boardDetail"));
+	}
+	
+	@Test
+	public void 상세_데이터_확인_테스트() throws Exception {
+		mock.perform(get("/board/getBoardDetail").param("board_seq", "1").accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("board_writer").value("게시글 작성자1"))
+		.andDo(print());
+	}
+	
 }

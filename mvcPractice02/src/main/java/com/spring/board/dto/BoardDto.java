@@ -31,5 +31,8 @@ public class BoardDto {
     String upd_user_id;
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     Date upd_date;
-
+    // 데이터 수정, 삭제, 입력시 사용할 변수 
+    String result;
+    // 상세 정보로 넘어갈때 필요한 변수
+    String searchType;
 }

@@ -33,15 +33,19 @@ public class BoardDtoTest {
 	    Date ins_date = sdf.parse("2021-07-18 17:00:00");
 	    String upd_user_id = "test01";
 	    Date upd_date = sdf.parse("2021-07-18 18:00:00");
+	    String result = "Y";
+	    String searchType = "S";
 	    //when
 	    BoardDto boardDto = 
 	    		new BoardDto(board_seq, board_re_ref, board_re_lev, board_re_seq,
 	    				board_writer, board_subject, board_content, board_hits,
-	    				del_yn, ins_user_id, ins_date, upd_user_id, upd_date);
+	    				del_yn, ins_user_id, ins_date, upd_user_id, upd_date, result, searchType);
 	    
 	    //then(일부 테스트)
 	    assertThat(boardDto.getBoard_content()).isEqualTo(board_content);
-	    assertThat(ins_date).isCloseTo(ins_date, 0);
-	    assertThat(upd_date).isCloseTo(ins_date, 3600000);
+	    assertThat(boardDto.ins_date).isCloseTo(ins_date, 0);
+	    assertThat(boardDto.upd_date).isCloseTo(ins_date, 3600000);
+	    assertThat(boardDto.result).isEqualTo(result);
+	    assertThat(boardDto.searchType).isEqualTo(searchType);
 	}
 }

@@ -1,5 +1,6 @@
 package com.spring.board.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
@@ -35,5 +36,14 @@ public class BoardServiceTest {
 	@Test
 	public void 목록_출력_테스트() throws Exception {
 		boardService.getBoardList(dto).forEach(board ->log.info(board));
+	}
+	
+	@Test
+	public void 상세_출력_테스트() throws Exception {
+		dto = new BoardDto();
+		dto.setBoard_seq(1);
+		BoardDto result = boardService.getBoardDetail(dto);
+		log.info(result);
+		assertThat(result.getBoard_subject()).isEqualTo("게시글 제목1");
 	}
 }
