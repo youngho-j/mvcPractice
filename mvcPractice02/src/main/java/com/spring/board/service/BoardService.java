@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.board.dao.BoardDao;
 import com.spring.board.dto.BoardDto;
+import com.spring.board.form.BoardForm;
 
 @Service
 public class BoardService {
@@ -15,11 +16,11 @@ public class BoardService {
 	private BoardDao boardDao;
 	
 	
-	public List<BoardDto> getBoardList(BoardDto boardDto) throws Exception {
-		return boardDao.getBoardList(boardDto);
+	public List<BoardDto> getBoardList(BoardForm boardForm) throws Exception {
+		return boardDao.getBoardList(boardForm);
 	}
 
-	public BoardDto getBoardDetail(BoardDto boardForm) throws Exception {
+	public BoardDto getBoardDetail(BoardForm boardForm) throws Exception {
 		return boardDao.getBoardDetail(boardForm);
 	}
 }

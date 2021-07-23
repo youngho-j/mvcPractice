@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.spring.board.dto.BoardDto;
+import com.spring.board.form.BoardForm;
 
 import lombok.extern.log4j.Log4j;
 
@@ -25,7 +26,7 @@ public class BoardServiceTest {
 	@Inject
 	private BoardService boardService;
 	
-	private BoardDto dto;
+	private BoardForm form;
 	
 	@Test
 	public void 주입_테스트() throws Exception {
@@ -35,14 +36,14 @@ public class BoardServiceTest {
 	
 	@Test
 	public void 목록_출력_테스트() throws Exception {
-		boardService.getBoardList(dto).forEach(board ->log.info(board));
+		boardService.getBoardList(form).forEach(board ->log.info(board));
 	}
 	
 	@Test
 	public void 상세_출력_테스트() throws Exception {
-		dto = new BoardDto();
-		dto.setBoard_seq(1);
-		BoardDto result = boardService.getBoardDetail(dto);
+		form = new BoardForm();
+		form.setBoard_seq(1);
+		BoardDto result = boardService.getBoardDetail(form);
 		log.info(result);
 		assertThat(result.getBoard_subject()).isEqualTo("게시글 제목1");
 	}

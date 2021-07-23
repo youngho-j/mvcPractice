@@ -46,7 +46,7 @@ public class BoardControllerTest {
 	public void 리스트_데이터_확인_테스트() throws Exception {
 		mock.perform(get("/board/getBoardList").accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.[1].board_writer").value("게시글 작성자5"))
+		.andExpect(jsonPath("$.[1].board_writer").value("게시글 작성자1"))
 		.andDo(print());
 	}
 	

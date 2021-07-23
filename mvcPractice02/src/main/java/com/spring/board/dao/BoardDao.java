@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.board.dto.BoardDto;
+import com.spring.board.form.BoardForm;
 
 @Repository
 public class BoardDao {
@@ -17,12 +18,12 @@ public class BoardDao {
 	private static final String NAMESPACE = "com.spring.board.boardMapper";
 	
 	// 목록 데이터
-	public List<BoardDto> getBoardList(BoardDto boardDto) throws Exception {
+	public List<BoardDto> getBoardList(BoardForm boardForm) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getBoardList");
 	}
 	
 	// 상세 데이터
-	public BoardDto getBoardDetail(BoardDto boardDto) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getBoardDetail", boardDto);
+	public BoardDto getBoardDetail(BoardForm boardForm) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getBoardDetail", boardForm);
 	}
 }

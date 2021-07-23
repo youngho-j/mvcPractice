@@ -1,9 +1,7 @@
 package com.spring.board.dto;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,11 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BoardDtoTest {
 	SimpleDateFormat sdf;
 	
-	@Before
-	public void setUp() throws Exception {
-		sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-	}
-
 	@Test
 	public void 롬복_기능_테스트() throws Exception{
 		
@@ -30,22 +23,22 @@ public class BoardDtoTest {
 	    int board_hits = 0;
 	    String del_yn = "N";
 	    String ins_user_id = "test01";
-	    Date ins_date = sdf.parse("2021-07-18 17:00:00");
+	    String ins_date = "2021-07-18 17:00:00";
 	    String upd_user_id = "test01";
-	    Date upd_date = sdf.parse("2021-07-18 18:00:00");
+	    String upd_date = "2021-07-18 18:00:00";
 	    String result = "Y";
-	    String searchType = "S";
+	    
 	    //when
 	    BoardDto boardDto = 
 	    		new BoardDto(board_seq, board_re_ref, board_re_lev, board_re_seq,
 	    				board_writer, board_subject, board_content, board_hits,
-	    				del_yn, ins_user_id, ins_date, upd_user_id, upd_date, result, searchType);
+	    				del_yn, ins_user_id, ins_date, upd_user_id, upd_date, result);
+	    
 	    
 	    //then(일부 테스트)
 	    assertThat(boardDto.getBoard_content()).isEqualTo(board_content);
-	    assertThat(boardDto.ins_date).isCloseTo(ins_date, 0);
-	    assertThat(boardDto.upd_date).isCloseTo(ins_date, 3600000);
+	    assertThat(boardDto.ins_date).isEqualTo(ins_date);
+	    assertThat(boardDto.upd_date).isEqualTo(upd_date);
 	    assertThat(boardDto.result).isEqualTo(result);
-	    assertThat(boardDto.searchType).isEqualTo(searchType);
 	}
 }

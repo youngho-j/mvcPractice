@@ -5,89 +5,128 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시판 목록</title>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<!-- 공통 CSS -->
+<link rel="stylesheet" type="text/css" href="/css/common/common.css"/>
+ 
+<!-- 공통 JavaScript -->
+<script type="text/javascript" src="/js/common/jquery.js"></script>
 <script type="text/javascript">
     
-    $(document).ready(function(){        
+    $(document).ready(function() {        
         getBoardList();
     });
- 
-    function getBoardList(){
+ 	
+    /* 게시판 - 상세 페이지 이동 */
+    function goBoardDetail(boardSeq) {                
+        location.href = "/board/boardDetail?boardSeq="+ boardSeq;
+    }
+    
+    /* 게시판 - 글작성 페이지 이동 */
+    function goBoardWrite() {         
+        location.href = "/board/boardWrite";
+    }
+    
+    /* 게시판 - 목록 데이터*/
+    function getBoardList() {
         
         $.ajax({            
-            type:"GET",
-            url:"/board/getBoardList",
+            type : "POST",
+            url : "/board/getBoardList",
+            data : $("#boardDto").serialize(),
             dataType:"JSON",
+            cache : false,
+            async : true,
             success : function(obj) {
                 getBoardListCallback(obj);                
             },           
             error : function(xhr, status, error) {}
          });
+        
     }
     
-    function getBoardListCallback(obj){
+    /* 목록 데이터 콜백 함수 */
+    function getBoardListCallback(obj) {
         
         var list = obj;
         var listLen = obj.length;
         
-        console.log(list);
-        console.log(listLen);
-        
         var str = "";
         
-        if(listLen >  0){
+        if(listLen > 0){
             
-            for(var a=0; a < listLen; a++){
+            for(var a = 0 ; a < listLen ; a++){
                 
-                var boardSeq        = list[a].board_seq; 
-                var boardReRef         = list[a].board_re_ref; 
-                var boardReLev         = list[a].board_re_lev; 
-                var boardReSeq         = list[a].board_re_seq; 
-                var boardWriter     = list[a].board_writer; 
-                var boardSubject     = list[a].board_subject; 
-                var boardContent     = list[a].board_content; 
-                var boardHits         = list[a].board_hits;
-                var delYn             = list[a].del_yn; 
-                var insUserId         = list[a].ins_user_id;
-                var insDate         = list[a].ins_date; 
-                var updUserId         = list[a].upd_user_id;
-                var updDate         = list[a].upd_date;
+                var boardSeq = list[a].board_seq; 
+                var boardReRef = list[a].board_re_ref; 
+                var boardReLev = list[a].board_re_lev; 
+                var boardReSeq = list[a].board_re_seq; 
+                var boardWriter = list[a].board_writer; 
+                var boardSubject = list[a].board_subject; 
+                var boardContent = list[a].board_content; 
+                var boardHits = list[a].board_hits;
+                var delYn = list[a].del_yn; 
+                var insUserId = list[a].ins_user_id;
+                var insDate = list[a].ins_date; 
+                var updUserId = list[a].upd_user_id;
+                var updDate = list[a].upd_date;
                 
                 str += "<tr>";
-                str += "<td>"+ boardSeq +"</td>";
-                str += "<td>"+ boardSubject +"</td>";
-                str += "<td>"+ boardHits +"</td>";
-                str += "<td>"+ boardWriter +"</td>";                
+                str += "<td>" + boardSeq + "</td>";
+                str += "<td onclick='javascript:goBoardDetail("+ boardSeq +");' style='cursor:Pointer'>"+ boardSubject +"</td>";
+                str += "<td>" + boardHits + "</td>";
+                str += "<td>" + boardWriter + "</td>";  
+                str += "<td>" + insDate + "</td>";
                 str += "</tr>";
                 
             } 
             
         } else {
             
-            str += "<tr colspan='4'>";
-            str += "<td>등록된 글이 존재하지 않습니다.</td>";
             str += "<tr>";
+            str += "<td colspan='5'>등록된 글이 존재하지 않습니다.</td>";
+            str += "</tr>";
+            
         }
         
         $("#tbody").html(str);
+        
     }
-    
 </script>
 </head>
 <body>
-<table border=1 width=350>
-    <thead>
-        <tr>
-            <td>글번호</td>
-            <td>제목</td>
-            <td>조회수</td>
-            <td>작성자</td>
-        </tr>
-    </thead>
-    <tbody id="tbody">
-    
-    </tbody>
-    
-</table>
+<div id="wrap">
+    <div id="container">
+        <div class="inner">        
+            <h2>게시글 목록</h2>            
+            <form id="boardForm" name="boardForm">
+                <table width="100%" class="table01">
+                    <colgroup>
+                        <col width="10%" />
+                        <col width="25%" />
+                        <col width="10%" />
+                        <col width="15%" />
+                        <col width="20%" />
+                    </colgroup>
+                    <thead>        
+                        <tr>
+                            <th>글번호</th>
+                            <th>제목</th>
+                            <th>조회수</th>
+                            <th>작성자</th>
+                            <th>작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    
+                    </tbody>    
+                </table>
+            </form>            
+            <div class="btn_right mt15">
+                <button type="button" class="btn black mr5" onclick="javascript:goBoardWrite();">작성하기</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
