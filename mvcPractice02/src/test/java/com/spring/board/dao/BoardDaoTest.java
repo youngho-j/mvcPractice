@@ -45,5 +45,13 @@ public class BoardDaoTest {
 		BoardDto dto = boardDao.getBoardDetail(form);
 		assertThat(dto.getBoard_content()).isEqualTo("게시글 내용1");
 	}
+	
+	@Test
+	public void 조회수_증가_테스트() throws Exception {
+		form = new BoardForm();
+		form.setBoard_seq(1);
+		int hits = boardDao.updateBoardHits(form);
+		assertThat(hits).isEqualTo(1);
+	}
 
 }

@@ -47,4 +47,15 @@ public class BoardServiceTest {
 		log.info(result);
 		assertThat(result.getBoard_subject()).isEqualTo("게시글 제목1");
 	}
+	
+	@Test
+	public void 조회수_업데이트_테스트() throws Exception {
+		form = new BoardForm();
+		form.setBoard_seq(1);
+//		form.setSearch_type("S");
+		BoardDto result = boardService.getBoardDetail(form);
+		log.info(result);
+		assertThat(result.getBoard_hits()).isEqualTo(3);
+	}
+	
 }

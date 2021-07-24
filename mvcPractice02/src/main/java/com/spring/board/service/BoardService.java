@@ -21,6 +21,22 @@ public class BoardService {
 	}
 
 	public BoardDto getBoardDetail(BoardForm boardForm) throws Exception {
-		return boardDao.getBoardDetail(boardForm);
+		
+		BoardDto boardDto = new BoardDto();
+		
+		String searchType = boardForm.getSearch_type();
+		
+		if("S".equals(searchType)) {
+			int updateHitCnt = boardDao.updateBoardHits(boardForm);
+			
+			if(updateHitCnt > 0) {
+				boardDto = boardDao.getBoardDetail(boardForm);
+			}
+			
+		} else {
+			boardDto = boardDao.getBoardDetail(boardForm);
+		}
+		
+		return boardDto;
 	}
 }

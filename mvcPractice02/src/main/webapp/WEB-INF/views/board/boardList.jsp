@@ -27,13 +27,13 @@
         location.href = "/board/boardWrite";
     }
     
-    /* 게시판 - 목록 데이터*/
+    /* 게시판 - 목록 데이터 */
     function getBoardList() {
         
         $.ajax({            
             type : "POST",
             url : "/board/getBoardList",
-            data : $("#boardDto").serialize(),
+            data : $("#boardForm").serialize(),
             dataType:"JSON",
             cache : false,
             async : true,

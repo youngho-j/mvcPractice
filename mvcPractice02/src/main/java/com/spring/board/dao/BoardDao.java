@@ -26,4 +26,9 @@ public class BoardDao {
 	public BoardDto getBoardDetail(BoardForm boardForm) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".getBoardDetail", boardForm);
 	}
+	
+	// 조회수 수정
+	public int updateBoardHits(BoardForm boardForm) throws Exception {
+		return sqlSession.update(NAMESPACE + ".updateBoardHits", boardForm);
+	}
 }
