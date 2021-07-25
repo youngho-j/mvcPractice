@@ -8,9 +8,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.board.dto.BoardDto;
 import com.spring.board.form.BoardForm;
@@ -20,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
+@Transactional
 public class BoardDaoTest {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardDaoTest.class);
@@ -45,7 +48,7 @@ public class BoardDaoTest {
 				logger.info("==================================");
 			}
 			BoardDto dto1 = list.get(0);
-			assertThat(dto1.getBoard_content()).isEqualTo("게시글 내용5");
+			assertThat(dto1.getBoard_content()).isEqualTo("테스트입니다");
 		} else {
 			logger.info("데이터 없음");
 		}
@@ -91,6 +94,7 @@ public class BoardDaoTest {
 	}
 	
 	@Test
+	@Rollback(true)
 	public void 게시글_등록_테스트() throws Exception {
 		form = new BoardForm();
 		form.setBoard_writer("테스트1");
@@ -101,10 +105,9 @@ public class BoardDaoTest {
 		
 		if(result == 1) {
 			logger.info("게시글 등록 성공 " + result);
-			assertThat(result).isEqualTo(1);
 		} else {
 			logger.info("게시글 등록 실패");			
 		}
 	}
-
+	
 }

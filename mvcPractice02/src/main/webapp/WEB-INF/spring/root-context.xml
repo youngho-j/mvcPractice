@@ -17,6 +17,10 @@
         <property name="fileEncoding" value="UTF-8" />
   	</bean>
 	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+	
 	<!-- MySQLDB JDBC DataSource : MySQL DB에서 데이터 풀을 가져옴-->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
