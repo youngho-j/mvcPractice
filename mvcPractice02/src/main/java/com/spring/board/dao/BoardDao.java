@@ -31,4 +31,9 @@ public class BoardDao {
 	public int updateBoardHits(BoardForm boardForm) throws Exception {
 		return sqlSession.update(NAMESPACE + ".updateBoardHits", boardForm);
 	}
+	
+	// 등록
+	public int insertBoard(BoardForm boardForm) throws Exception {
+		return sqlSession.insert(NAMESPACE + ".insertBoard", boardForm);
+	}
 }
