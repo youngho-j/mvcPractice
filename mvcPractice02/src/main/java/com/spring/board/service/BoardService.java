@@ -39,4 +39,19 @@ public class BoardService {
 		
 		return boardDto;
 	}
+
+	public BoardDto insertBoard(BoardForm form) throws Exception {
+		
+		BoardDto boardDto = new BoardDto();
+		
+		int insertCnt = boardDao.insertBoard(form);
+		
+		if(insertCnt > 0) {
+			boardDto.setResult("SUCCESS");
+		} else {
+			boardDto.setResult("FAIL");			
+		}
+		
+		return boardDto;
+	}
 }

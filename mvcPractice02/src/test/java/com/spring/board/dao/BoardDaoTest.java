@@ -76,6 +76,7 @@ public class BoardDaoTest {
 	}
 	
 	@Test
+	@Rollback(true)
 	public void 조회수_증가_테스트() throws Exception {
 		form = new BoardForm();
 		form.setBoard_seq(1);

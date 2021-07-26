@@ -7,9 +7,11 @@ import javax.inject.Inject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.board.dto.BoardDto;
 import com.spring.board.form.BoardForm;
@@ -21,6 +23,7 @@ import lombok.extern.log4j.Log4j;
 @WebAppConfiguration
 @ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
 @Log4j
+@Transactional
 public class BoardServiceTest {
 	
 	@Inject
@@ -43,19 +46,41 @@ public class BoardServiceTest {
 	public void 상세_출력_테스트() throws Exception {
 		form = new BoardForm();
 		form.setBoard_seq(1);
+		
 		BoardDto result = boardService.getBoardDetail(form);
+		
 		log.info(result);
+		
 		assertThat(result.getBoard_subject()).isEqualTo("게시글 제목1");
 	}
 	
 	@Test
+	@Rollback(true)
 	public void 조회수_업데이트_테스트() throws Exception {
 		form = new BoardForm();
 		form.setBoard_seq(1);
-//		form.setSearch_type("S");
+		form.setSearch_type("S");
+		
 		BoardDto result = boardService.getBoardDetail(form);
+		
 		log.info(result);
-		assertThat(result.getBoard_hits()).isEqualTo(3);
+		
+		assertThat(result.getBoard_hits()).isEqualTo(13);
+	}
+	
+	@Test
+	@Rollback(true)
+	public void 게시글_등록_테스트() throws Exception {
+		form = new BoardForm();
+		form.setBoard_writer("테스트1");
+		form.setBoard_subject("테스트");
+		form.setBoard_content("테스트입니다");
+		
+		BoardDto dto = boardService.insertBoard(form);
+		
+		log.info(dto);
+		
+		assertThat(dto.getResult()).isEqualTo("SUCCESS");
 	}
 	
 }
