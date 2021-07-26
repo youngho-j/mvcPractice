@@ -65,4 +65,11 @@ public class BoardControllerTest {
 		.andDo(print());
 	}
 	
+	@Test
+	public void 등록_페이지_출력_확인_테스트() throws Exception {
+		mock.perform(get("/board/boardWrite"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("board/boardWrite"));
+	}
+	
 }
