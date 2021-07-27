@@ -49,9 +49,17 @@ public class BoardController {
 		return boardDto;
 	}
 	
-	/* 게시판 - 상세 페이지 이동 */
+	/* 게시판 - 등록 페이지 이동 */
 	@RequestMapping(value = "/boardWrite")
 	public String boardWrite(HttpServletRequest req, HttpServletResponse res) throws Exception {
 		return "board/boardWrite";
+	}
+	
+	/* 게시판 - 등록 */
+	@RequestMapping(value = "/insertBoard")
+	@ResponseBody
+	public BoardDto insertBoard(HttpServletRequest req, HttpServletResponse res, BoardForm boardForm) throws Exception {
+		BoardDto boardDto = boardService.insertBoard(boardForm);
+		return boardDto;
 	}
 }
