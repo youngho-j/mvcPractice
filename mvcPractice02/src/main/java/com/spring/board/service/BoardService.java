@@ -54,4 +54,18 @@ public class BoardService {
 		
 		return boardDto;
 	}
+	
+	public BoardDto updateBoard(BoardForm boardForm) throws Exception {
+		BoardDto boardDto = new BoardDto();
+		
+		int updateCnt = boardDao.insertBoard(boardForm);
+		
+		if(updateCnt > 0) {
+			boardDto.setResult("SUCCESS");
+		} else {
+			boardDto.setResult("FAIL");			
+		}
+		
+		return boardDto;
+	}
 }

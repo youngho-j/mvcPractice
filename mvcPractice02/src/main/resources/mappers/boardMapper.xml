@@ -45,10 +45,10 @@
     
     <update id="updateBoardHits" parameterType="com.spring.board.form.BoardForm">
     	UPDATE board.MyBOARD
-    		SET BOARD_HITS = BOARD_HITS + 1
+    	SET BOARD_HITS = BOARD_HITS + 1
     			, UPD_USER_ID = 'NONMEMBER'
             	, UPD_DATE = NOW()
-         	WHERE BOARD_SEQ = #{board_seq}
+        WHERE BOARD_SEQ = #{board_seq}
     </update>
     
     <insert id="insertBoard" parameterType="com.spring.board.form.BoardForm">
@@ -79,5 +79,14 @@
                 , NOW() 	
     		)
     </insert>
+    
+    <update id="updateBoard" parameterType="com.spring.board.form.BoardForm">
+    	UPDATE board.MyBOARD
+    	SET BOARD_SUBJECT = #{board_subject}
+    		, BOARD_CONTENT = #{board_content}
+    		, UPD_USER_ID = 'NOMEMBER'
+    		, UPD_DATE = NOW()
+    	WHERE BOARD_SEQ = #{board_seq}
+    </update>
     
 </mapper>

@@ -62,4 +62,20 @@ public class BoardController {
 		BoardDto boardDto = boardService.insertBoard(boardForm);
 		return boardDto;
 	}
+	
+	/* 게시판 - 수정 페이지 이동 */
+	@RequestMapping(value = "/boardUpdate")
+	public String boardUpdate(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		return "board/boardUpdate";
+	}
+	
+	/* 게시판 - 수정 */
+	@RequestMapping(value = "/updateBoard")
+	@ResponseBody
+	public BoardDto updateBoard(HttpServletRequest req, HttpServletResponse res, BoardForm boardForm) throws Exception {
+		BoardDto boardDto = boardService.updateBoard(boardForm);
+		return boardDto;
+	}
+	
+	
 }

@@ -99,4 +99,27 @@ public class BoardControllerTest {
 		.andDo(print());
 	}
 	
+	@Test
+	public void 수정_페이지_출력_확인_테스트() throws Exception {
+		mock.perform(get("/board/boardUpdate"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("board/boardUpdate"));
+	}
+	
+	@Test
+	@Rollback(true)
+	public void 게시글_수정_확인_테스트() throws Exception {
+		BoardForm form = new BoardForm();
+		
+		form.setBoard_subject("test");
+		form.setBoard_content("testing");
+		
+		mock.perform(post("/board/updateBoard")
+				.content(objectMapper.writeValueAsString(form))
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("result").value("SUCCESS"))
+		.andDo(print());
+	}
 }

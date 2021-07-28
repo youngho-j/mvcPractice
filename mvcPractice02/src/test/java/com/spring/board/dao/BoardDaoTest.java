@@ -111,4 +111,20 @@ public class BoardDaoTest {
 		}
 	}
 	
+	@Test
+	@Rollback(true)
+	public void 게시글_수정_테스트() throws Exception {
+		form = new BoardForm();
+		form.setBoard_subject("수정테스트");
+		form.setBoard_content("수정된애용입니다");
+		form.setBoard_seq(3);
+		
+		int result = boardDao.updateBoard(form);
+		
+		if(result == 1) {
+			logger.info("게시글 수정 성공 " + result);
+		} else {
+			logger.info("게시글 수정 실패");			
+		}
+	}
 }

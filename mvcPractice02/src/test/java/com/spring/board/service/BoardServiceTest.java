@@ -83,4 +83,18 @@ public class BoardServiceTest {
 		assertThat(dto.getResult()).isEqualTo("SUCCESS");
 	}
 	
+	@Test
+	@Rollback(true)
+	public void 게시글_수정_테스트() throws Exception {
+		form = new BoardForm();
+		form.setBoard_subject("수정테스트");
+		form.setBoard_content("수정테스트입니다");
+		
+		BoardDto dto = boardService.updateBoard(form);
+		
+		log.info(dto);
+		
+		assertThat(dto.getResult()).isEqualTo("SUCCESS");
+	}
+	
 }
