@@ -89,4 +89,10 @@
     	WHERE BOARD_SEQ = #{board_seq}
     </update>
     
+    <delete id="deleteBoard" parameterType="com.spring.board.form.BoardForm">
+    	DELETE
+    	FROM board.MyBOARD
+    	WHERE BOARD_SEQ = #{board_seq}
+    </delete>
+    
 </mapper>
