@@ -5,11 +5,13 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- PropertyPlaceholderConfigurer 사용하여 외부 프로퍼티 값을 빈 정의부로 가져올 수 있음-->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -17,9 +19,6 @@
         <property name="fileEncoding" value="UTF-8" />
   	</bean>
 	
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
 	
 	<!-- MySQLDB JDBC DataSource : MySQL DB에서 데이터 풀을 가져옴-->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -40,4 +39,28 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
         <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
+    
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <!-- 디폴트 어노테이션을 스캔 대상에서 제외하고 @Service와 @Repository를 스캔할 수 있도록 설정 -->
+    <context:component-scan base-package="com.spring.board" use-default-filters="false">
+    	<context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    	<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+    
+    <!-- execution([수식어] 리턴타입 [클래스이름].이름(파라미터) -->
+    <aop:config proxy-target-class="true"> 
+        <aop:pointcut id="serviceOperation" expression="execution(public * com.spring.board..service.*Service.*(..))" /> 
+        <aop:advisor id="transactionAdvisor" pointcut-ref="serviceOperation" advice-ref="txAdvice"/> 
+    </aop:config> 
+    
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+    	<tx:attributes>
+    		<tx:method name="insert*" rollback-for="Excetpion"/>
+    		<tx:method name="update*" rollback-for="Excetpion"/>
+    		<tx:method name="delete*" rollback-for="Excetpion"/>
+    	</tx:attributes>
+    </tx:advice>
 </beans>

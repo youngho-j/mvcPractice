@@ -12,9 +12,11 @@
 		<org.springframework-version>4.3.15.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
-		<jackson.version>2.9.5</jackson.version> 
+		<jackson.version>2.9.5</jackson.version>
+		<cglib.version>3.2.3</cglib.version>
 	</properties>
 	<dependencies>
+		
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -38,6 +40,7 @@
 		    <artifactId>spring-test</artifactId>
 		    <version>${org.springframework-version}</version>
 		</dependency>
+		
 		<!-- Spring-jdbc -->
 		<dependency>
 		    <groupId>org.springframework</groupId>
@@ -55,7 +58,19 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${org.aspectj-version}</version>
-		</dependency>	
+		</dependency>
+		<dependency> 
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${org.aspectj-version}</version> 
+        </dependency>	
+		
+		<!-- CGLIB -->
+        <dependency> 
+            <groupId>cglib</groupId> 
+            <artifactId>cglib-nodep</artifactId> 
+            <version>${cglib.version}</version> 
+        </dependency>
 		
 		<!-- MyBatis 3.4.6 -->
 		<dependency>
