@@ -65,7 +65,7 @@ public class BoardServiceTest {
 		
 		log.info(result);
 		
-		assertThat(result.getBoard_hits()).isEqualTo(13);
+		assertThat(result.getBoard_hits()).isEqualTo(14);
 	}
 	
 	@Test
@@ -89,6 +89,7 @@ public class BoardServiceTest {
 		form = new BoardForm();
 		form.setBoard_subject("수정테스트");
 		form.setBoard_content("수정테스트입니다");
+		form.setBoard_seq(1);
 		
 		BoardDto dto = boardService.updateBoard(form);
 		
@@ -97,4 +98,16 @@ public class BoardServiceTest {
 		assertThat(dto.getResult()).isEqualTo("SUCCESS");
 	}
 	
+	@Test
+	@Rollback(true)
+	public void 게시글_삭제_테스트() throws Exception {
+		form = new BoardForm();
+		form.setBoard_seq(1);
+		
+		BoardDto dto = boardService.deleteBoard(form);
+		
+		log.info(dto);
+		
+		assertThat(dto.getResult()).isEqualTo("SUCCESS");
+	}
 }

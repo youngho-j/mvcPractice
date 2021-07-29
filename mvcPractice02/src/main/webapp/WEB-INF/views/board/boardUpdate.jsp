@@ -89,8 +89,8 @@
     /** 게시판 - 수정  */
     function updateBoard(){
  
-        var boardSubject    = $("#board_subject").val();
-        var boardContent     = $("#board_content").val();
+        var boardSubject = $("#board_subject").val();
+        var boardContent = $("#board_content").val();
             
         if (boardSubject == ""){            
             alert("제목을 입력해주세요.");

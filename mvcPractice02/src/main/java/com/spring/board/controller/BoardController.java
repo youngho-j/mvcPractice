@@ -77,5 +77,13 @@ public class BoardController {
 		return boardDto;
 	}
 	
+	/* 게시판 - 삭제 */
+	@RequestMapping( value = "/deleteBoard")
+    @ResponseBody
+    public BoardDto deleteBoard(HttpServletRequest req, HttpServletResponse res, BoardForm boardForm) throws Exception{
+        BoardDto boardDto = boardService.deleteBoard(boardForm);
+        return boardDto;
+    }
+	
 	
 }

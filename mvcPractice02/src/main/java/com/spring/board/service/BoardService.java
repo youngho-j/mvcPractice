@@ -58,7 +58,7 @@ public class BoardService {
 	public BoardDto updateBoard(BoardForm boardForm) throws Exception {
 		BoardDto boardDto = new BoardDto();
 		
-		int updateCnt = boardDao.insertBoard(boardForm);
+		int updateCnt = boardDao.updateBoard(boardForm);
 		
 		if(updateCnt > 0) {
 			boardDto.setResult("SUCCESS");
@@ -66,6 +66,19 @@ public class BoardService {
 			boardDto.setResult("FAIL");			
 		}
 		
+		return boardDto;
+	}
+	
+	public BoardDto deleteBoard(BoardForm boardForm) throws Exception {
+		BoardDto boardDto = new BoardDto();
+		
+		int deleteCnt = boardDao.deleteBoard(boardForm);
+		
+		if(deleteCnt > 0) {
+			boardDto.setResult("SUCCESS");
+		} else {
+			boardDto.setResult("FAIL");
+		}
 		return boardDto;
 	}
 }

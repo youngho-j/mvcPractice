@@ -41,4 +41,11 @@ public class BoardDao {
 	public int updateBoard(BoardForm boardForm) throws Exception {
 		return sqlSession.update(NAMESPACE + ".updateBoard", boardForm);
 	}
+
+	// 글 삭제
+	public int deleteBoard(BoardForm boardForm) {
+		return sqlSession.delete(NAMESPACE + ".deleteBoard", boardForm);
+	}
+	
+	
 }

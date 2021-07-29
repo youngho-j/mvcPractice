@@ -48,7 +48,7 @@ public class BoardDaoTest {
 				logger.info("==================================");
 			}
 			BoardDto dto1 = list.get(0);
-			assertThat(dto1.getBoard_content()).isEqualTo("테스트입니다");
+			assertThat(dto1.getBoard_content()).isEqualTo("33");
 		} else {
 			logger.info("데이터 없음");
 		}
@@ -125,6 +125,21 @@ public class BoardDaoTest {
 			logger.info("게시글 수정 성공 " + result);
 		} else {
 			logger.info("게시글 수정 실패");			
+		}
+	}
+	
+	@Test
+	@Rollback(true)
+	public void 게시글_삭제_테스트() throws Exception {
+		form = new BoardForm();
+		form.setBoard_seq(3);
+		
+		int result = boardDao.deleteBoard(form);
+		
+		if(result == 1) {
+			logger.info("게시글 삭제 성공");
+		} else {
+			logger.info("게시글 삭제 실패");			
 		}
 	}
 }

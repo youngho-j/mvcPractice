@@ -14,12 +14,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spring.board.form.BoardForm;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -36,8 +34,6 @@ public class BoardControllerTest {
 	
 	private MockMvc mock;
 	
-	private static ObjectMapper objectMapper = new ObjectMapper();
-	
 	@Before
 	public void setUp() {
 		this.mock = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -53,9 +49,10 @@ public class BoardControllerTest {
 	
 	@Test
 	public void 리스트_데이터_확인_테스트() throws Exception {
-		mock.perform(get("/board/getBoardList").accept(MediaType.APPLICATION_JSON))
+		mock.perform(post("/board/getBoardList")
+				.accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.[1].board_writer").value("게시글 작성자1"))
+		.andExpect(jsonPath("$.[3].board_writer").value("게시글 작성자1"))
 		.andDo(print());
 	}
 	
@@ -68,7 +65,9 @@ public class BoardControllerTest {
 	
 	@Test
 	public void 상세_데이터_확인_테스트() throws Exception {
-		mock.perform(get("/board/getBoardDetail").param("board_seq", "1").accept(MediaType.APPLICATION_JSON))
+		mock.perform(post("/board/getBoardDetail")
+				.param("board_seq", "1")
+				.accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("board_writer").value("게시글 작성자1"))
 		.andDo(print());
@@ -84,16 +83,12 @@ public class BoardControllerTest {
 	@Test
 	@Rollback(true)
 	public void 게시글_등록_확인_테스트() throws Exception {
-		BoardForm form = new BoardForm();
-		
-		form.setBoard_subject("test");
-		form.setBoard_writer("tester");
-		form.setBoard_content("testing");
 		
 		mock.perform(post("/board/insertBoard")
-		.content(objectMapper.writeValueAsString(form))
-		.contentType(MediaType.APPLICATION_JSON)
-		.accept(MediaType.APPLICATION_JSON))
+				.param("board_subject", "test")
+				.param("board_writer", "tester")
+				.param("board_content", "testing")
+				.accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("result").value("SUCCESS"))
 		.andDo(print());
@@ -109,17 +104,31 @@ public class BoardControllerTest {
 	@Test
 	@Rollback(true)
 	public void 게시글_수정_확인_테스트() throws Exception {
-		BoardForm form = new BoardForm();
-		
-		form.setBoard_subject("test");
-		form.setBoard_content("testing");
 		
 		mock.perform(post("/board/updateBoard")
-				.content(objectMapper.writeValueAsString(form))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
+				.param("board_seq", "20")
+				.param("board_subject", "test")
+				.param("board_content", "testing")
+				.accept(MediaType.APPLICATION_JSON_VALUE))
+		.andDo(print())
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("result").value("SUCCESS"))
-		.andDo(print());
+		.andExpect(handler().handlerType(BoardController.class))
+		.andExpect(handler().methodName("updateBoard"))
+		.andExpect(jsonPath("result").value("SUCCESS"));
 	}
+	
+	@Test
+	@Rollback(true)
+	public void 게시글_삭제_확인_테스트() throws Exception {
+		
+		mock.perform(post("/board/deleteBoard")
+				.param("board_seq", "20")
+				.accept(MediaType.APPLICATION_JSON))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(handler().handlerType(BoardController.class))
+		.andExpect(handler().methodName("deleteBoard"))
+		.andExpect(jsonPath("result").value("SUCCESS"));
+	}
+	
 }
