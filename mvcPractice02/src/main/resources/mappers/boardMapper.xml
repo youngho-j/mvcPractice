@@ -5,22 +5,25 @@
  
     <select id="getBoardList" parameterType="com.spring.board.form.BoardForm" resultType="com.spring.board.dto.BoardDto">
     
-         SELECT BOARD_SEQ 
-             , BOARD_RE_REF 
-             , BOARD_RE_LEV 
-             , BOARD_RE_SEQ 
-             , BOARD_WRITER 
-             , BOARD_SUBJECT 
-             , BOARD_CONTENT 
-             , BOARD_HITS
-             , DEL_YN 
-             , INS_USER_ID
-             , CAST( DATE_FORMAT( INS_DATE, '%Y-%m-%d %H:%i:%s' ) AS CHAR(19) ) AS INS_DATE
-             , UPD_USER_ID
-             , CAST( DATE_FORMAT( UPD_DATE, '%Y-%m-%d %H:%i:%s' ) AS CHAR(19) ) AS UPD_DATE  
-        FROM board.MyBOARD
-        ORDER BY BOARD_SEQ DESC
-    
+         SELECT *
+         FROM (
+         		SELECT BOARD_SEQ 
+             		 , BOARD_RE_REF 
+             		 , BOARD_RE_LEV 
+           	 		 , BOARD_RE_SEQ 
+             		 , BOARD_WRITER 
+             		 , BOARD_SUBJECT 
+             		 , BOARD_CONTENT 
+             		 , BOARD_HITS
+             		 , DEL_YN 
+		             , INS_USER_ID
+		             , CAST( DATE_FORMAT( INS_DATE, '%Y-%m-%d %H:%i:%s' ) AS CHAR(19) ) AS INS_DATE
+		             , UPD_USER_ID
+		             , CAST( DATE_FORMAT( UPD_DATE, '%Y-%m-%d %H:%i:%s' ) AS CHAR(19) ) AS UPD_DATE  
+        		FROM board.MyBOARD
+        		ORDER BY BOARD_RE_REF DESC, BOARD_RE_SEQ ASC
+    		 ) T1
+    	LIMIT #{limit} OFFSET #{offset}
     </select>
     
      <select id="getBoardDetail" parameterType="com.spring.board.form.BoardForm" resultType="com.spring.board.dto.BoardDto">
@@ -94,5 +97,10 @@
     	FROM board.MyBOARD
     	WHERE BOARD_SEQ = #{board_seq}
     </delete>
+    
+    <select id="getBoardCnt" parameterType="com.spring.board.form.BoardForm" resultType="int">
+		SELECT COUNT(*)
+		FROM board.MyBOARD    	
+    </select>
     
 </mapper>
