@@ -18,6 +18,7 @@ import com.spring.board.dto.BoardDto;
 import com.spring.board.form.BoardForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -141,5 +142,13 @@ public class BoardDaoTest {
 		} else {
 			logger.info("게시글 삭제 실패");			
 		}
+	}
+	
+	@Test
+	public void 전체_게시글_갯수출력_테스트() throws Exception {
+		form = new BoardForm();
+		
+		int result = boardDao.getBoardCnt(form);
+		assertThat(result).isEqualTo(5);
 	}
 }
