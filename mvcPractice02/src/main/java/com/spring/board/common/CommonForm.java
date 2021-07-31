@@ -1,6 +1,5 @@
 package com.spring.board.common;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +16,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class CommonForm {
 	String funtion_name;
 	int current_page_num;

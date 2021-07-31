@@ -1,16 +1,13 @@
 package com.spring.board.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.spring.board.common.CommonDto;
+
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-@Data
+
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class BoardDto {
+public class BoardDto extends CommonDto {
 	
 	int board_seq;
     int board_re_ref;

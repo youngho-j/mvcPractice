@@ -9,7 +9,10 @@ public class CommonFormTest {
 
 	@Test
 	public void 롬복_기능테스트() throws Exception {
-		CommonForm form = new CommonForm("함수", 1, 5, 5, 25, 5, 5, 1);
+		CommonForm form = new CommonForm();
+		
+		form.setFuntion_name("함수");
+		form.setTotal_list_count(25);
 		
 		assertThat(form.getFuntion_name()).isEqualTo("함수");
 		assertThat(form.getTotal_list_count()).isEqualTo(25);

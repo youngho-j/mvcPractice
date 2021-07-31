@@ -2,18 +2,14 @@ package com.spring.board.form;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.spring.board.common.CommonForm;
+
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class BoardForm {
+public class BoardForm extends CommonForm{
 	int board_seq;
     int board_re_ref;
     int board_re_lev;
