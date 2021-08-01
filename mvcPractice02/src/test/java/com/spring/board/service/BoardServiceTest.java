@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.board.common.ResultUtil;
 import com.spring.board.dto.BoardDto;
 import com.spring.board.form.BoardForm;
 
@@ -39,7 +40,14 @@ public class BoardServiceTest {
 	
 	@Test
 	public void 목록_출력_테스트() throws Exception {
-		boardService.getBoardList(form).forEach(board ->log.info(board));
+		form = new BoardForm();
+		form.setLimit(10);
+		form.setOffset(10);
+		ResultUtil resultUtil = boardService.getBoardList(form);
+		log.info(resultUtil.getState());
+//		HashMap<String, Object> resultMap = (HashMap<String, Object>)resultUtil.getData();
+//		List<BoardDto> list = (List<BoardDto>)resultMap.get("list");
+//		list.forEach(board -> log.info(board));
 	}
 	
 	@Test
