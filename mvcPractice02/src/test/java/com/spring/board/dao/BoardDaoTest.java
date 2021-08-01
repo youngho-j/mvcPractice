@@ -18,7 +18,6 @@ import com.spring.board.dto.BoardDto;
 import com.spring.board.form.BoardForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -35,6 +34,9 @@ public class BoardDaoTest {
 	
 	@Test
 	public void List_BoardDto_리턴() throws Exception {
+		form = new BoardForm();
+		form.setLimit(3);
+		form.setOffset(0);
 		
 		List<BoardDto> list = boardDao.getBoardList(form);
 		
@@ -49,7 +51,7 @@ public class BoardDaoTest {
 				logger.info("==================================");
 			}
 			BoardDto dto1 = list.get(0);
-			assertThat(dto1.getBoard_content()).isEqualTo("33");
+			assertThat(dto1.getBoard_content()).isEqualTo("게시글 내용1");
 		} else {
 			logger.info("데이터 없음");
 		}

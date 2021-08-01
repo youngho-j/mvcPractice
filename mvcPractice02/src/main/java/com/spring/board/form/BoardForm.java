@@ -9,7 +9,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BoardForm extends CommonForm{
+public class BoardForm extends CommonForm {
+	
 	int board_seq;
     int board_re_ref;
     int board_re_lev;
@@ -25,4 +26,5 @@ public class BoardForm extends CommonForm{
     Date upd_date;
     // 상세 정보로 넘어갈때 필요한 변수
     String search_type;
+    
 }
