@@ -30,13 +30,19 @@
     /* 게시판 - 목록 데이터 */
     function getBoardList(currentPageNum) {
         
+    	if(currentPageNum === undefined) {
+    		currentPageNum = "1";
+    	}
+    	
+    	$("#current_page_num").val(currentPageNum);
+    	
         $.ajax({            
-            type : "POST",
             url : "/board/getBoardList",
             data : $("#boardForm").serialize(),
             dataType:"JSON",
             cache : false,
             async : true,
+            type : "POST",
             success : function(obj) {
                 getBoardListCallback(obj);                
             },           
@@ -49,19 +55,20 @@
     function getBoardListCallback(obj) {
         
        var state = obj.state;
+       
        if(state == "SUCCESS") {
 	   		
     	    var data = obj.data;
-    	    var list = obj.list;
-	        var listLen = list.length;
+    	    var list = data.list;
+    	    var listLen = list.length;
 	        var totalCount = data.totalCount;
 	        var pagination = data.pagination;
 	        
 	        var str = "";
 	        
-	        if(listLen > 0){
+	        if(listLen > 0) {
 	            
-	            for(var a = 0 ; a < listLen ; a++){
+	            for(var a = 0 ; a < listLen ; a++) {
 	                
 	                var boardSeq = list[a].board_seq; 
 	                var boardReRef = list[a].board_re_ref; 
@@ -110,7 +117,7 @@
             <h2>게시글 목록</h2>            
             <form id="boardForm" name="boardForm">
                 <input type="hidden" id="function_name" name="function_name" value="getBoardList" />
-                <input type="hidden" id="current_page_no" name="current_page_no" value="1" />
+                <input type="hidden" id="current_page_num" name="current_page_num" value="1" />
                 
                 <div class="page_info">
                     <span class="total_count"><strong>전체</strong> : <span id="total_count" class="t_red">0</span>개</span>
