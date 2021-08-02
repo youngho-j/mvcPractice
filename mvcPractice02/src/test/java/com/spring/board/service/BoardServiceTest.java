@@ -41,13 +41,12 @@ public class BoardServiceTest {
 	@Test
 	public void 목록_출력_테스트() throws Exception {
 		form = new BoardForm();
-		form.setLimit(10);
-		form.setOffset(10);
+		form.setFuntion_name("목록 출력");
+		form.setCurrent_page_num(1);
+		
 		ResultUtil resultUtil = boardService.getBoardList(form);
-		log.info(resultUtil.getState());
-//		HashMap<String, Object> resultMap = (HashMap<String, Object>)resultUtil.getData();
-//		List<BoardDto> list = (List<BoardDto>)resultMap.get("list");
-//		list.forEach(board -> log.info(board));
+		
+		assertThat(resultUtil.getState()).isEqualTo("SUCCESS");
 	}
 	
 	@Test

@@ -50,9 +50,11 @@ public class BoardControllerTest {
 	@Test
 	public void 리스트_데이터_확인_테스트() throws Exception {
 		mock.perform(post("/board/getBoardList")
+				.param("funtion_name", "목록")
+				.param("current_page_num", "1")
 				.accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.[3].board_writer").value("게시글 작성자1"))
+		.andExpect(jsonPath("$.state").value("SUCCESS"))
 		.andDo(print());
 	}
 	

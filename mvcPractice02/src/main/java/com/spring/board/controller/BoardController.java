@@ -1,7 +1,5 @@
 package com.spring.board.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.board.common.ResultUtil;
 import com.spring.board.dto.BoardDto;
 import com.spring.board.form.BoardForm;
 import com.spring.board.service.BoardService;
@@ -30,9 +29,9 @@ public class BoardController {
 	/* 게시판 - 목록 데이터 조회 */
 	@RequestMapping(value = "/getBoardList")
 	@ResponseBody
-	public List<BoardDto> getBoardList(HttpServletRequest req, HttpServletResponse res, BoardForm boardform) throws Exception {
-		List<BoardDto> boardDtoList = boardService.getBoardList(boardform);
-		return boardDtoList;
+	public ResultUtil getBoardList(HttpServletRequest req, HttpServletResponse res, BoardForm boardform) throws Exception {
+		ResultUtil resultUtil = boardService.getBoardList(boardform);
+		return resultUtil;
 	}
 	
 	/* 게시판 - 상세 페이지 이동 */
