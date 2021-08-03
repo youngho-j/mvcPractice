@@ -26,6 +26,7 @@ public class BoardFormTest {
 	    Date upd_date = sdf.parse("2021-07-18 18:00:00");
 	    String search_type = "S";
 	    int total_list_conut = 50;
+	    int board_parent_seq = 1;
 	    
 	    //when
 	    BoardForm boardForm = new BoardForm();
@@ -34,6 +35,7 @@ public class BoardFormTest {
 	    boardForm.setUpd_date(upd_date);
 	    boardForm.setSearch_type(search_type);
 	    boardForm.setTotal_list_count(total_list_conut);
+	    boardForm.setBoard_parent_seq(board_parent_seq);
 	    
 	    //then(일부 테스트)
 	    assertThat(boardForm.getBoard_content()).isEqualTo(board_content);
@@ -41,6 +43,6 @@ public class BoardFormTest {
 	    assertThat(boardForm.getUpd_date()).isCloseTo(ins_date, 3600000);
 	    assertThat(boardForm.getSearch_type()).isEqualTo(search_type);
 	    assertThat(boardForm.getTotal_list_count()).isEqualTo(total_list_conut);
+	    assertThat(boardForm.getBoard_parent_seq()).isEqualTo(board_parent_seq);
 	}
-
 }

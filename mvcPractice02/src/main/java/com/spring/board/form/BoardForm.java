@@ -12,9 +12,10 @@ import lombok.Setter;
 public class BoardForm extends CommonForm {
 	
 	int board_seq;
-    int board_re_ref;
-    int board_re_lev;
-    int board_re_seq;
+	int board_parent_seq; // 부모글 번호
+    int board_re_ref; // 그룹 번호
+    int board_re_lev; // 답급 깊이
+    int board_re_seq; // 답글 순서(번호)
     String board_writer;
     String board_subject;
     String board_content;

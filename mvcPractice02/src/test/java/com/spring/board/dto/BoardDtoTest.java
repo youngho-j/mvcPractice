@@ -18,6 +18,7 @@ public class BoardDtoTest {
 	    String upd_date = "2021-07-18 18:00:00";
 	    String result = "Y";
 	    String pagination = "함수명";
+	    int board_parent_seq = 1;
 	    
 	    //when
 	    BoardDto boardDto = new BoardDto();
@@ -26,6 +27,7 @@ public class BoardDtoTest {
 	    boardDto.setUpd_date(upd_date);
 	    boardDto.setResult(result);
 	    boardDto.setPagination(pagination);
+	    boardDto.setBoard_parent_seq(board_parent_seq);
 	    
 	    //then(일부 테스트)
 	    assertThat(boardDto.getBoard_content()).isEqualTo(board_content);
@@ -33,5 +35,6 @@ public class BoardDtoTest {
 	    assertThat(boardDto.getUpd_date()).isEqualTo(upd_date);
 	    assertThat(boardDto.getResult()).isEqualTo(result);
 	    assertThat(boardDto.getPagination()).isEqualTo(pagination);
+	    assertThat(boardDto.getBoard_parent_seq()).isEqualTo(board_parent_seq);
 	}
 }

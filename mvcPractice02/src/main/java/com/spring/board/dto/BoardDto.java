@@ -10,6 +10,7 @@ import lombok.Setter;
 public class BoardDto extends CommonDto {
 	
 	int board_seq;
+	int board_parent_seq; // 부모글 번호
     int board_re_ref;
     int board_re_lev;
     int board_re_seq;
