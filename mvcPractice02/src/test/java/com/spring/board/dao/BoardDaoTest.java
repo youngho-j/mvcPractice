@@ -18,6 +18,7 @@ import com.spring.board.dto.BoardDto;
 import com.spring.board.form.BoardForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -152,5 +153,54 @@ public class BoardDaoTest {
 		
 		int result = boardDao.getBoardCnt(form);
 		assertThat(result).isEqualTo(5);
+	}
+	
+	@Test
+	public void 게시글_그룹번호_조회_테스트() throws Exception {
+		form = new BoardForm();
+		assertThat(boardDao.getBoardReRef(form)).isEqualTo(1);
+		
+	}
+	
+	@Test
+	public void 답글_정보_조회_테스트() throws Exception {
+		form = new BoardForm();
+		form.setBoard_parent_seq(1);
+		BoardDto boardDto = boardDao.getBoardReplyInfo(form);
+		assertThat(boardDto.getBoard_re_ref()).isEqualTo(0);
+	}
+	
+	@Test
+	@Rollback(true)
+	public void 답글_순서_수정_테스트() throws Exception {
+		form = new BoardForm();
+		form.setBoard_re_ref(0);
+		form.setBoard_re_seq(0);
+		int result = boardDao.updateBoardReSeq(form);
+		if(result == 1) {
+			logger.info("기존 답글 번호 증가 성공");
+		} else {
+			logger.info("실패!");			
+		}
+	}
+	
+	@Test
+	@Rollback(true)
+	public void 답글_등록하기_테스트() throws Exception {
+		form = new BoardForm();
+		form.setBoard_re_ref(1);
+		form.setBoard_re_lev(0);
+		form.setBoard_re_seq(0);
+		form.setBoard_writer("답글테스트1");
+		form.setBoard_subject("답글테스트");
+		form.setBoard_content("답글테스트입니다");
+		
+		int result = boardDao.insertBoardReply(form);
+		
+		if(result == 1) {
+			logger.info("답글 등록 성공");
+		} else {
+			logger.info("실패!");			
+		}
 	}
 }

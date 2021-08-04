@@ -48,9 +48,27 @@ public class BoardDao {
 	}
 
 	// 글 삭제
-	public int deleteBoard(BoardForm boardForm) {
+	public int deleteBoard(BoardForm boardForm) throws Exception {
 		return sqlSession.delete(NAMESPACE + ".deleteBoard", boardForm);
 	}
 	
+	// 글 그룹번호 조회
+	public int getBoardReRef(BoardForm boardForm) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getBoardReRef", boardForm);
+	}
 	
+	// 답글 등록시 부모 게시글 정보 조회
+	public BoardDto getBoardReplyInfo(BoardForm boardForm) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getBoardReplyInfo", boardForm);
+	}
+	
+	// 답글 등록시 기존에 등록된 답글 순서 수정(증가)
+	public int updateBoardReSeq(BoardForm boardForm) throws Exception {
+		return sqlSession.update(NAMESPACE + ".updateBoardReSeq", boardForm);
+	}
+	
+	// 답글 등록
+	public int insertBoardReply(BoardForm boardForm) throws Exception {
+		return sqlSession.insert(NAMESPACE + ".insertBoardReply", boardForm);
+	}
 }

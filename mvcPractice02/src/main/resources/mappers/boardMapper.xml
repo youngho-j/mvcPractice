@@ -3,6 +3,14 @@
  
 <mapper namespace="com.spring.board.boardMapper">
  	
+ 	<!-- 게시글 그룹번호 조회 -->
+ 	<select id="getBoardReRef" parameterType="com.spring.board.form.BoardForm" resultType="int">
+    
+        SELECT IFNULL(MAX(BOARD_RE_REF), 0) + 1
+        FROM board.MyBOARD
+    
+    </select>
+ 	
  	<!-- 게시판 목록 조회 -->
     <select id="getBoardList" parameterType="com.spring.board.form.BoardForm" resultType="com.spring.board.dto.BoardDto">
  
@@ -84,7 +92,7 @@
         WHERE BOARD_SEQ = #{board_seq}
     </update>
     
-    <!-- 게시글 답글 순서 수정 -->
+    <!-- 게시글 답글시 기존에 작성된 답글 순서 수정(증가) -->
     <update id="updateBoardReSeq" parameterType="com.spring.board.form.BoardForm">
     	UPDATE board.MyBOARD
        	SET BOARD_RE_SEQ = BOARD_RE_SEQ + 1
@@ -131,7 +139,7 @@
     </insert>
     
     <!-- 게시글 답글 등록 -->
-    <insert id="insertBoardReply" parameterType="com.spring.board.form.boardForm">
+    <insert id="insertBoardReply" parameterType="com.spring.board.form.BoardForm">
     	INSERT INTO board.MyBOARD
 		    (
 		          BOARD_RE_REF
