@@ -63,7 +63,7 @@
 		FROM board.MyBOARD    	
     </select>
     
-    <!-- 게시글 답글 정보 조회 -->
+    <!-- 답글 작성을 위한 부모 게시글 정보 조회 -->
     <select id="getBoardReplyInfo" parameterType="com.spring.board.form.BoardForm" resultType="com.spring.board.dto.BoardDto">
     	SELECT BOARD_SEQ
         	 , BOARD_RE_REF

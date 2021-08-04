@@ -20,25 +20,33 @@
 <script type="text/javascript" src="/js/common/jquery.js"></script>
 <script type="text/javascript">
     
-    $(document).ready(function(){        
+    $(document).ready(function() {        
         getBoardDetail();        
     });
     
     /* 게시판 - 목록 페이지 이동 */
-    function goBoardList(){                
+    function goBoardList() {                
         location.href = "/board/boardList";
     }
     
     /* 게시판 - 수정 페이지 이동 */
-    function goBoardUpdate(){
+    function goBoardUpdate() {
         
         var boardSeq = $("#board_seq").val();
         
         location.href = "/board/boardUpdate?boardSeq="+ boardSeq;
     }
     
+    /* 게시판 - 답글 작성 페이지 이동 */
+    function goBoardReply() {
+    	
+    	var boardSeq = $("#board_seq").val();
+    	
+    	location.href = "/board/boardReply?boardSeq=" + boardSeq;
+    }
+    
     /* 게시판 - 상세 페이지  */
-    function getBoardDetail(boardSeq){
+    function getBoardDetail(boardSeq) {
         
         var boardSeq = $("#board_seq").val();
  
@@ -178,6 +186,7 @@
                 <button type="button" class="btn black mr5" onclick="javascript:goBoardList();">목록으로</button>
                 <button type="button" class="btn black mr5" onclick="javascript:goBoardUpdate();">수정하기</button>
                 <button type="button" class="btn black" onclick="javascript:deleteBoard();">삭제하기</button>
+                <button type="button" class="btn black mr5" onclick="javascript:goBoardReply();">답글쓰기</button>
             </div>
         </div>
     </div>

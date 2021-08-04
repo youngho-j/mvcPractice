@@ -77,11 +77,18 @@ public class BoardService {
 		return boardDto;
 	}
 
-	public BoardDto insertBoard(BoardForm form) throws Exception {
+	public BoardDto insertBoard(BoardForm boardForm) throws Exception {
+		
+		int insertCnt = 0;
 		
 		BoardDto boardDto = new BoardDto();
 		
-		int insertCnt = boardDao.insertBoard(form);
+		// 그룹 번호 조회
+		int boardReRef = boardDao.getBoardReRef(boardForm);
+		
+		boardForm.setBoard_re_ref(boardReRef);
+		
+		insertCnt = boardDao.insertBoard(boardForm);
 		
 		if(insertCnt > 0) {
 			boardDto.setResult("SUCCESS");
@@ -116,6 +123,34 @@ public class BoardService {
 		} else {
 			boardDto.setResult("FAIL");
 		}
+		return boardDto;
+	}
+	
+	public BoardDto insertBoardReply(BoardForm boardForm) throws Exception {
+		int insertCnt = 0;
+		
+		BoardDto boardDto = new BoardDto();
+		
+		// 답글 작성을 위한 부모 게시글 정보 조회
+		BoardDto boardReplyInfo = boardDao.getBoardReplyInfo(boardForm);
+		
+		boardForm.setBoard_seq(boardReplyInfo.getBoard_seq());
+		boardForm.setBoard_re_ref(boardReplyInfo.getBoard_re_ref());
+		boardForm.setBoard_re_lev(boardReplyInfo.getBoard_re_lev());
+		boardForm.setBoard_re_seq(boardReplyInfo.getBoard_re_seq());
+		
+		// 기존 작성된 답글의 번호 증가
+		insertCnt += boardDao.updateBoardReSeq(boardForm);
+		
+		// 답글 작성
+		insertCnt += boardDao.insertBoardReply(boardForm);
+		
+		if(insertCnt > 0) {
+			boardDto.setResult("SUCCESS");
+		} else {
+			boardDto.setResult("FAIL");			
+		}
+		
 		return boardDto;
 	}
 }

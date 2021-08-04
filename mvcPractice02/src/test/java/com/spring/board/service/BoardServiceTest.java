@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.Rollback;
@@ -32,6 +33,11 @@ public class BoardServiceTest {
 	
 	private BoardForm form;
 	
+	@Before
+	public void setUp() throws Exception {
+		form = new BoardForm();
+	}
+	
 	@Test
 	public void 주입_테스트() throws Exception {
 		log.info(boardService);
@@ -40,7 +46,6 @@ public class BoardServiceTest {
 	
 	@Test
 	public void 목록_출력_테스트() throws Exception {
-		form = new BoardForm();
 		form.setFuntion_name("목록 출력");
 		form.setCurrent_page_num(1);
 		
@@ -51,7 +56,6 @@ public class BoardServiceTest {
 	
 	@Test
 	public void 상세_출력_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_seq(1);
 		
 		BoardDto result = boardService.getBoardDetail(form);
@@ -64,7 +68,6 @@ public class BoardServiceTest {
 	@Test
 	@Rollback(true)
 	public void 조회수_업데이트_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_seq(1);
 		form.setSearch_type("S");
 		
@@ -78,7 +81,6 @@ public class BoardServiceTest {
 	@Test
 	@Rollback(true)
 	public void 게시글_등록_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_writer("테스트1");
 		form.setBoard_subject("테스트");
 		form.setBoard_content("테스트입니다");
@@ -93,7 +95,6 @@ public class BoardServiceTest {
 	@Test
 	@Rollback(true)
 	public void 게시글_수정_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_subject("수정테스트");
 		form.setBoard_content("수정테스트입니다");
 		form.setBoard_seq(1);
@@ -108,7 +109,6 @@ public class BoardServiceTest {
 	@Test
 	@Rollback(true)
 	public void 게시글_삭제_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_seq(1);
 		
 		BoardDto dto = boardService.deleteBoard(form);
@@ -116,5 +116,21 @@ public class BoardServiceTest {
 		log.info(dto);
 		
 		assertThat(dto.getResult()).isEqualTo("SUCCESS");
+	}
+	
+	@Test
+	@Rollback(true)
+	public void 답글_작성_테스트() throws Exception {
+		form.setBoard_parent_seq(35);
+		form.setBoard_writer("답글작성");
+		form.setBoard_subject("답글테스트");
+		form.setBoard_content("답글 테스트입니다");
+		
+		BoardDto dto = boardService.insertBoardReply(form);
+		
+		log.info(dto);
+		
+		assertThat(dto.getResult()).isEqualTo("SUCCESS");
+		
 	}
 }
