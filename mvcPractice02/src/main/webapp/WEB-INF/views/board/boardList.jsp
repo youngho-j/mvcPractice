@@ -86,7 +86,16 @@
 	                
 	                str += "<tr>";
 	                str += "<td>" + boardSeq + "</td>";
-	                str += "<td onclick='javascript:goBoardDetail("+ boardSeq +");' style='cursor:Pointer'>"+ boardSubject +"</td>";
+	                str += "<td onclick='javascript:goBoardDetail("+ boardSeq +");' style='cursor:Pointer'>";
+	                
+	                if(boardReLev > 0) {
+	                	for(var i = 0 ; i < boardReLev ; i++) {
+	                		str += " ";
+	                	}
+	                	str += "➥ "
+	                }
+	                
+	                str += boardSubject +"</td>";
 	                str += "<td>" + boardHits + "</td>";
 	                str += "<td>" + boardWriter + "</td>";  
 	                str += "<td>" + insDate + "</td>";
@@ -106,6 +115,9 @@
 	        $("#total_count").text(totalCount);
 	        $("#pagination").html(pagination);
     	   
+       } else {
+    	   alert("관리자에게 문의하세요.");
+    	   return;
        }
     }
 </script>

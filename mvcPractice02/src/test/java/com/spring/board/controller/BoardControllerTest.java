@@ -132,5 +132,27 @@ public class BoardControllerTest {
 		.andExpect(handler().methodName("deleteBoard"))
 		.andExpect(jsonPath("result").value("SUCCESS"));
 	}
+
+	@Test
+	public void 답글_페이지_출력_확인_테스트() throws Exception {
+		mock.perform(get("/board/boardReply"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("board/boardReply"));
+	}
 	
+	@Test
+	@Rollback(true)
+	public void 답글_등록_확인_테스트() throws Exception {
+		mock.perform(post("/board/insertBoardReply")
+				.param("board_parent_seq", "35")
+				.param("board_subject", "testReply")
+				.param("board_writer", "replyTester")
+				.param("board_content", "testing")
+				.accept(MediaType.APPLICATION_JSON))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(handler().handlerType(BoardController.class))
+		.andExpect(handler().methodName("insertBoardReply"))
+		.andExpect(jsonPath("result").value("SUCCESS"));
+	}
 }

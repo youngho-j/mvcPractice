@@ -77,12 +77,24 @@ public class BoardController {
 	}
 	
 	/* 게시판 - 삭제 */
-	@RequestMapping( value = "/deleteBoard")
+	@RequestMapping(value = "/deleteBoard")
     @ResponseBody
     public BoardDto deleteBoard(HttpServletRequest req, HttpServletResponse res, BoardForm boardForm) throws Exception{
         BoardDto boardDto = boardService.deleteBoard(boardForm);
         return boardDto;
     }
 	
+	/* 게시판 - 답글 입력 페이지 이동 */
+	@RequestMapping(value = "/boardReply")
+	public String boardReply(HttpServletRequest req ,HttpServletResponse res) throws Exception {
+		return "board/boardReply";
+	}
 	
+	/* 게시판 - 답글 등록*/
+	@RequestMapping(value = "/insertBoardReply")
+	@ResponseBody
+	public BoardDto insertBoardReply(HttpServletRequest req ,HttpServletResponse res, BoardForm boardForm) throws Exception {
+		BoardDto boardDto = boardService.insertBoardReply(boardForm);
+		return boardDto;
+	}
 }
