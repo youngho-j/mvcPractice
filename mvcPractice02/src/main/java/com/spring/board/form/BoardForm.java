@@ -1,6 +1,9 @@
 package com.spring.board.form;
 
 import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.board.common.CommonForm;
 
@@ -11,6 +14,7 @@ import lombok.Setter;
 @Setter
 public class BoardForm extends CommonForm {
 	
+	List<MultipartFile> files;
 	int board_seq;
 	int board_parent_seq; // 부모글 번호
     int board_re_ref; // 그룹 번호

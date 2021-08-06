@@ -7,6 +7,8 @@
 	<name>mvcPractice02</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
+	
+	<!-- maven 버전 관리 -->
 	<properties>
 		<java-version>11</java-version>
 		<org.springframework-version>4.3.15.RELEASE</org.springframework-version>
@@ -14,9 +16,23 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 		<jackson.version>2.9.5</jackson.version>
 		<cglib.version>3.2.3</cglib.version>
+		<mybatis.version>3.4.6</mybatis.version>
+		<mybatis.spring.version>1.3.2</mybatis.spring.version>
+		<commons-dbcp2.version>2.6.0</commons-dbcp2.version>
+		<mysql-connector-java.version>8.0.25</mysql-connector-java.version>
+		<json-path-assert.version>2.4.0</json-path-assert.version>
+		<log4jdbc-log4j2-jdbc4.version>1.16</log4jdbc-log4j2-jdbc4.version>
+		<log4j.version>1.2.15</log4j.version>
+		<assertj.version>3.16.1</assertj.version>
+		<junit.version>4.12</junit.version>
+		<hamcrest.version>1.3</hamcrest.version>
+		<mokito.version>1.10.19</mokito.version>
+		<lombok.version>1.18.0</lombok.version>
+		<commons-fileupload.version>1.2.2</commons-fileupload.version>
+		<commons-io.version>1.3.2</commons-io.version>
 	</properties>
+	
 	<dependencies>
-		
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -65,7 +81,7 @@
             <version>${org.aspectj-version}</version> 
         </dependency>	
 		
-		<!-- CGLIB -->
+		<!-- CGLIB : 코드 생성 라이브러리(자바 클래스 프록시 생성) -->
         <dependency> 
             <groupId>cglib</groupId> 
             <artifactId>cglib-nodep</artifactId> 
@@ -76,27 +92,28 @@
 		<dependency>
 		    <groupId>org.mybatis</groupId>
 		    <artifactId>mybatis</artifactId>
-		    <version>3.4.6</version>
+		    <version>${mybatis.version}</version>
 		</dependency>
 
 		<!-- MyBatis-Spring 1.3.2 -->		
 		<dependency>
 		    <groupId>org.mybatis</groupId>
 		    <artifactId>mybatis-spring</artifactId>
-		    <version>1.3.2</version>
+		    <version>${mybatis.spring.version}</version>
 		</dependency>
 		
+		<!-- Commons DBCP2 : 커넥션 객체를 Pool로 관리 -->
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-dbcp2</artifactId>
-		    <version>2.6.0</version>
+		    <version>${commons-dbcp2.version}</version>
 		</dependency>
 	
-		<!-- mysql -->
+		<!-- mysql java connector -->
      	<dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.25</version>
+            <version>${mysql-connector-java.version}</version>
         </dependency>
 		
 		<!-- Jackson, version은 properties 영역에서 관리 -->
@@ -120,18 +137,18 @@
 		<dependency>
 		    <groupId>com.jayway.jsonpath</groupId>
 		    <artifactId>json-path-assert</artifactId>
-		    <version>2.4.0</version>
+		    <version>${json-path-assert.version}</version>
 		    <scope>test</scope>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.bgee.log4jdbc-log4j2/log4jdbc-log4j2-jdbc4 -->
+		<!-- log4jdbc-log4j2-jdbc4 : SQL 로그 출력 -->
 		<dependency>
 		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
 		    <artifactId>log4jdbc-log4j2-jdbc4</artifactId>
-		    <version>1.16</version>
+		    <version>${log4jdbc-log4j2-jdbc4.version}</version>
 		</dependency>
 				
-		<!-- Logging -->
+		<!-- Logging - SLF4J : 추상 로깅 프레임워크, 다양한 로깅 프레임워크간 쉬운 전호나 가능-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -149,10 +166,11 @@
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<version>${log4j.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.mail</groupId>
@@ -188,7 +206,6 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
@@ -205,42 +222,64 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-core</artifactId>
+				</exclusion>
+			</exclusions>
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+		<!--assertj : 자바 테스트를 위한 문법 제공(직관적)  -->
 		<dependency>
 		    <groupId>org.assertj</groupId>
 		    <artifactId>assertj-core</artifactId>
-		    <version>3.16.1</version>
+		    <version>${assertj.version}</version>
 		    <scope>test</scope>
 		</dependency>
 		
+		<!-- hamcrest : Matcher를 통해 테스트를 직관적으로 볼 수 있도록 도와주는 라이브러리 -->
 		<dependency>
 		    <groupId>org.hamcrest</groupId>
 		    <artifactId>hamcrest-all</artifactId>
-		    <version>1.3</version>
+		    <version>${hamcrest.version}</version>
 		    <scope>test</scope>
 		</dependency>		
 		
-		 <!-- mock -->
+		 <!-- mockito : 유닛 테스트를 위한 java mocking framework -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
+            <version>${mokito.version}</version>
             <scope>test</scope>
         </dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<!-- Lombok : 어노테이션을 기반으로 코드를 자동완성 해주는 라이브러리 -->
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
-		    <version>1.18.0</version>
+		    <version>${lombok.version}</version>
 		    <scope>provided</scope>
 		</dependency>
-		        
+		
+		<!-- Apache Commons file upload : 파일 업로드 라이브러리 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload.version}</version>
+        </dependency>
+         
+        <!-- Apache Commons IO : FileUpload 라이브러리에서 내부적으로 사용됨 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+		
 	</dependencies>
+    
     <build>
         <plugins>
             <plugin>
