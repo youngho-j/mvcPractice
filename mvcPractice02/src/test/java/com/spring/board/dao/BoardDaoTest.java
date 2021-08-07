@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.board.dto.BoardDto;
+import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,10 +34,22 @@ public class BoardDaoTest {
 	private BoardDao boardDao;
 	
 	private BoardForm form;
+	private BoardFileForm fileForm;
+	
+	@Before
+	public void setUp() throws Exception {
+		form = new BoardForm();
+		fileForm = new BoardFileForm();
+	}
+	
+	@After
+	public void init() throws Exception {
+		form = new BoardForm();
+		fileForm = new BoardFileForm();
+	}
 	
 	@Test
 	public void List_BoardDto_리턴() throws Exception {
-		form = new BoardForm();
 		form.setLimit(3);
 		form.setOffset(0);
 		
@@ -59,7 +74,6 @@ public class BoardDaoTest {
 	
 	@Test
 	public void 상세_BoardDto_리턴() throws Exception {
-		form = new BoardForm();
 		form.setBoard_seq(1);
 		
 		BoardDto dto = boardDao.getBoardDetail(form);
@@ -81,7 +95,6 @@ public class BoardDaoTest {
 	@Test
 	@Rollback(true)
 	public void 조회수_증가_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_seq(1);
 		
 		logger.info("조회수 업데이트");
@@ -100,7 +113,6 @@ public class BoardDaoTest {
 	@Test
 	@Rollback(true)
 	public void 게시글_등록_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_writer("테스트1");
 		form.setBoard_subject("테스트");
 		form.setBoard_content("테스트입니다");
@@ -117,7 +129,6 @@ public class BoardDaoTest {
 	@Test
 	@Rollback(true)
 	public void 게시글_수정_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_subject("수정테스트");
 		form.setBoard_content("수정된애용입니다");
 		form.setBoard_seq(3);
@@ -134,7 +145,6 @@ public class BoardDaoTest {
 	@Test
 	@Rollback(true)
 	public void 게시글_삭제_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_seq(3);
 		
 		int result = boardDao.deleteBoard(form);
@@ -148,7 +158,6 @@ public class BoardDaoTest {
 	
 	@Test
 	public void 전체_게시글_갯수출력_테스트() throws Exception {
-		form = new BoardForm();
 		
 		int result = boardDao.getBoardCnt(form);
 		assertThat(result).isEqualTo(5);
@@ -156,14 +165,12 @@ public class BoardDaoTest {
 	
 	@Test
 	public void 게시글_그룹번호_조회_테스트() throws Exception {
-		form = new BoardForm();
 		assertThat(boardDao.getBoardReRef(form)).isEqualTo(1);
 		
 	}
 	
 	@Test
 	public void 답글_정보_조회_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_parent_seq(1);
 		BoardDto boardDto = boardDao.getBoardReplyInfo(form);
 		assertThat(boardDto.getBoard_re_ref()).isEqualTo(0);
@@ -172,7 +179,6 @@ public class BoardDaoTest {
 	@Test
 	@Rollback(true)
 	public void 답글_순서_수정_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_re_ref(0);
 		form.setBoard_re_seq(0);
 		int result = boardDao.updateBoardReSeq(form);
@@ -186,7 +192,6 @@ public class BoardDaoTest {
 	@Test
 	@Rollback(true)
 	public void 답글_등록하기_테스트() throws Exception {
-		form = new BoardForm();
 		form.setBoard_re_ref(1);
 		form.setBoard_re_lev(0);
 		form.setBoard_re_seq(0);
@@ -198,6 +203,24 @@ public class BoardDaoTest {
 		
 		if(result == 1) {
 			logger.info("답글 등록 성공");
+		} else {
+			logger.info("실패!");			
+		}
+	}
+	
+	@Test
+	@Rollback(true)
+	public void 파일_등록하기_테스트() throws Exception {
+		fileForm.setBoard_seq(35);
+		fileForm.setFile_name_key("file");
+		fileForm.setFile_name("사진1.jpg");
+		fileForm.setFile_path("C:");
+		fileForm.setFile_size("324KB");
+		
+		int result = boardDao.insertBoardFile(fileForm);
+		
+		if(result == 1) {
+			logger.info("파일 등록 성공");
 		} else {
 			logger.info("실패!");			
 		}

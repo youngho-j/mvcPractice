@@ -1,10 +1,14 @@
 package com.spring.board.service;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.board.common.CommonDto;
 import com.spring.board.common.CommonForm;
@@ -12,6 +16,7 @@ import com.spring.board.common.PagingUtil;
 import com.spring.board.common.ResultUtil;
 import com.spring.board.dao.BoardDao;
 import com.spring.board.dto.BoardDto;
+import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
 
 @Service
@@ -90,6 +95,13 @@ public class BoardService {
 		
 		insertCnt = boardDao.insertBoard(boardForm);
 		
+		// 파일 등록
+		List<BoardFileForm> boardFileList = getBoardFileInfo(boardForm);
+		
+		for(BoardFileForm boardFileForm : boardFileList) {
+			boardDao.insertBoardFile(boardFileForm);
+		}
+		
 		if(insertCnt > 0) {
 			boardDto.setResult("SUCCESS");
 		} else {
@@ -152,5 +164,60 @@ public class BoardService {
 		}
 		
 		return boardDto;
+	}
+	
+	// 첨부 파일 정보 조회
+	public List<BoardFileForm> getBoardFileInfo(BoardForm boardForm) throws Exception {
+		BoardFileForm boardFileForm = new BoardFileForm();
+		
+		List<BoardFileForm> boardFileList = new ArrayList<BoardFileForm>();
+		
+		List<MultipartFile> files = boardForm.getFiles();
+		
+		int boardSeq = boardForm.getBoard_seq();
+        String fileName = null;
+        String fileExt = null;
+        String fileNameKey = null;
+        String fileSize = null;
+        
+        // 파일이 저장될 디렉토리 경로 설정
+        String filePath = "H:\\RebuildProject2file";
+        
+        if(files != null && files.size() > 0) {
+        	
+        	File file = new File(filePath);
+        	
+        	if(!file.exists()) {
+        		file.mkdirs();
+        	}
+        	
+        	for(MultipartFile multipartFile : files) {
+        		fileName = multipartFile.getOriginalFilename();
+        		fileExt = fileName.substring(fileName.lastIndexOf("."));
+        		
+        		// 파일명을 UUID로 암호화하여 저장
+        		fileNameKey = getRandomString() + fileExt;
+        		
+        		fileSize = String.valueOf(multipartFile.getSize());
+        		
+        		file = new File(filePath + "/" + fileNameKey);
+        		
+        		multipartFile.transferTo(file);
+
+                boardFileForm = new BoardFileForm();
+                boardFileForm.setBoard_seq(boardSeq);
+                boardFileForm.setFile_name(fileName);
+                boardFileForm.setFile_name_key(fileNameKey);
+                boardFileForm.setFile_path(filePath);
+                boardFileForm.setFile_size(fileSize);
+                boardFileList.add(boardFileForm);
+        	}
+        }
+		return boardFileList;
+	}
+	
+	// 랜덤문자열 생성
+	public String getRandomString() {
+		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 }

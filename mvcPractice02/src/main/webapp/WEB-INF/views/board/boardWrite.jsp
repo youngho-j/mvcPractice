@@ -3,13 +3,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시판 글작성</title>
+<title>게시판 글 작성</title>
  
 <!-- 공통 CSS -->
 <link rel="stylesheet" type="text/css" href="/css/common/common.css"/>
  
 <!-- 공통 JavaScript -->
 <script type="text/javascript" src="/js/common/jquery.js"></script>
+<script type="text/javascript" src="/js/common/jquery.form.js"></script>
 <script type="text/javascript">
     
     $(document).ready(function(){        
@@ -40,13 +41,19 @@
         }
         
         var yn = confirm("게시글을 등록하시겠습니까?");        
+        
         if(yn){
-                
-            $.ajax({    
+            
+            var filesChk = $("input[name='files[0]']").val();
+            
+            if(filesChk == ""){
+                $("input[name='files[0]']").remove();
+            }
+        	
+            $("#boardForm").ajaxForm({    
                 
                url      : "/board/insertBoard",
-               data     : $("#boardForm").serialize(),
-               dataType : "JSON",
+               enctype  : "multipart/form-data",
                cache    : false,
                async    : true,
                type     : "POST",    
@@ -55,7 +62,7 @@
                 },           
                error    : function(xhr, status, error) {}
                 
-            });
+            }).submit();
         }
     }
     
@@ -83,7 +90,7 @@
     <div id="container">
         <div class="inner">        
             <h2>게시글 작성</h2>
-            <form id="boardForm" name="boardForm">
+            <form id="boardForm" name="boardForm" action="/board/insertBoard" enctype="multipart/form-data" method="post" onsubmit="return false;">
                 <table width="100%" class="table02">
                 <caption><strong><span class="t_red">*</span> 표시는 필수입력 항목입니다.</strong></caption>
                     <colgroup>
@@ -102,6 +109,10 @@
                         <tr>
                             <th>내용<span class="t_red">*</span></th>
                             <td><textarea id="board_content" name="board_content" cols="10" rows="5" class="textarea01"></textarea></td>
+                        </tr>
+                        <tr>
+                        	<th scope="row">첨부파일</th>
+                        	<td><input type="file" id="files[0]" name="files[0]" value=""></td>
                         </tr>
                     </tbody>
                 </table>

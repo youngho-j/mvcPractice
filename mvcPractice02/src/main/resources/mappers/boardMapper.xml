@@ -181,7 +181,7 @@
         INTO board.MyBOARDFILE
         (
               BOARD_SEQ
-            , FILE_NO
+            , FILE_NUM
             , FILE_NAME_KEY
             , FILE_NAME
             , FILE_PATH
@@ -195,7 +195,7 @@
         VALUES
         (
               #{board_seq}
-            , #{file_no}
+            , #{file_num}
             , #{file_name_key}
             , #{file_name}
             , #{file_path}

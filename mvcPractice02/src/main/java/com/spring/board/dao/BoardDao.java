@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.board.dto.BoardDto;
+import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
 
 @Repository
@@ -70,5 +71,10 @@ public class BoardDao {
 	// 답글 등록
 	public int insertBoardReply(BoardForm boardForm) throws Exception {
 		return sqlSession.insert(NAMESPACE + ".insertBoardReply", boardForm);
+	}
+	
+	// 첨부 파일 등록(글 등록 후 실행되어야함)
+	public int insertBoardFile(BoardFileForm boardFileForm) throws Exception {
+		return sqlSession.insert(NAMESPACE + ".insertBoardFile", boardFileForm);
 	}
 }
