@@ -22,15 +22,27 @@
 	
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!-- View Resolver가 2개 이상일 경우 `우선순위`를 꼭 지정해줘야함 -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="1" />
 	</beans:bean>
+	
+	
+	<!-- 응답 시 따로 정해진 결과 페이지가 존재 하지 않는 기술 사용시 반드시 구현(FileDownload, ajax) -->
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0" />
+	</beans:bean>
+	
+	<!-- 파일 다운로드를 처리할 클래스를 빈으로 등록 -->
+	<beans:bean id="fileDownloadUtil" class="com.spring.board.common.FileDownloadUtil" />
 	
 	<!-- 디폴트 어노테이션들을 스캔 대상에서 제외하고 @Controller만 스캔할 수 있도록 변경 -->
 	<context:component-scan base-package="com.spring.board" use-default-filters="false"> 
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" /> 
     </context:component-scan>
+	
 	
 	<!-- interceptor -->
 	<mvc:interceptors>
