@@ -1,5 +1,7 @@
 package com.spring.board.dto;
 
+import java.util.List;
+
 import com.spring.board.common.CommonDto;
 
 import lombok.Getter;
@@ -23,6 +25,10 @@ public class BoardDto extends CommonDto {
     String ins_date;
     String upd_user_id;
     String upd_date;
+    
     // 데이터 수정, 삭제, 입력시 사용할 변수 
     String result;
+    
+    // 여러개의 첨부파일 정보를 받을 수 있도록 List로 변수 생성
+    List<BoardFileDto> files;
 }

@@ -77,4 +77,9 @@ public class BoardDao {
 	public int insertBoardFile(BoardFileForm boardFileForm) throws Exception {
 		return sqlSession.insert(NAMESPACE + ".insertBoardFile", boardFileForm);
 	}
+	
+	// 게시글에 첨부된 파일 목록 조회
+	public List<BoardFileForm> getBoardFileList(BoardFileForm boardFileForm) {
+		return sqlSession.selectList(NAMESPACE + ".getBoardFileList", boardFileForm);
+	}
 }

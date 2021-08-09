@@ -1,16 +1,22 @@
 package com.spring.board.dto;
 
-import java.text.SimpleDateFormat;
-
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoardDtoTest {
-	SimpleDateFormat sdf;
+	
 	
 	@Test
 	public void 롬복_기능_테스트() throws Exception{
+
+		BoardFileDto file1 = new BoardFileDto();
+		BoardFileDto file2 = new BoardFileDto();
+		BoardFileDto file3 = new BoardFileDto();
 		
 		//given
 	    String board_content = "내용";
@@ -20,6 +26,11 @@ public class BoardDtoTest {
 	    String pagination = "함수명";
 	    int board_parent_seq = 1;
 	    
+	    List<BoardFileDto> list = new ArrayList<BoardFileDto>();
+	    list.add(file1);
+	    list.add(file2);
+	    list.add(file3);
+	    
 	    //when
 	    BoardDto boardDto = new BoardDto();
 	    boardDto.setBoard_content(board_content);
@@ -28,6 +39,7 @@ public class BoardDtoTest {
 	    boardDto.setResult(result);
 	    boardDto.setPagination(pagination);
 	    boardDto.setBoard_parent_seq(board_parent_seq);
+	    boardDto.setFiles(list);
 	    
 	    //then(일부 테스트)
 	    assertThat(boardDto.getBoard_content()).isEqualTo(board_content);
@@ -36,5 +48,6 @@ public class BoardDtoTest {
 	    assertThat(boardDto.getResult()).isEqualTo(result);
 	    assertThat(boardDto.getPagination()).isEqualTo(pagination);
 	    assertThat(boardDto.getBoard_parent_seq()).isEqualTo(board_parent_seq);
+	    assertThat(boardDto.getFiles().size()).isEqualTo(3);
 	}
 }

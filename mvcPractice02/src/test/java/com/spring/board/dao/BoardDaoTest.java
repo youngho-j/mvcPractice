@@ -21,6 +21,7 @@ import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -224,5 +225,13 @@ public class BoardDaoTest {
 		} else {
 			logger.info("실패!");			
 		}
+	}
+	
+	@Test
+	public void 게시글_첨부파일_정보조회_테스트() throws Exception {
+		fileForm.setBoard_seq(54);
+		List<BoardFileForm> list = boardDao.getBoardFileList(fileForm);
+		
+		assertThat(list.size()).isEqualTo(1);
 	}
 }
