@@ -19,6 +19,7 @@ public class FileDownloadUtil extends AbstractView {
 	private static final Logger logger = LoggerFactory.getLogger(FileDownloadUtil.class);
 	
 	public FileDownloadUtil() {
+		// 화면 하단 부 다운로드 창만 보여지도록 설정
 		setContentType("application/download; charset=utf-8");
 	}
 	
