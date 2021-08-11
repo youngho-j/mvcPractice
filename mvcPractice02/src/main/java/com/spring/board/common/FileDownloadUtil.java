@@ -19,7 +19,7 @@ public class FileDownloadUtil extends AbstractView {
 	private static final Logger logger = LoggerFactory.getLogger(FileDownloadUtil.class);
 	
 	public FileDownloadUtil() {
-		// 화면 하단 부 다운로드 창만 보여지도록 설정
+		// 보내는 자원의 contentType
 		setContentType("application/download; charset=utf-8");
 	}
 	
@@ -61,20 +61,27 @@ public class FileDownloadUtil extends AbstractView {
             fileName = new String( fileName.getBytes("UTF-8"), "8859_1");
         }
         
+        // 브라우저에서 다운로드 창을 띄워줌(attachment 다음 띄어쓰기 중요!)
         response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+        // 바이너리 타입으로 인코딩하여 전송
         response.setHeader("Content-Transfer-Encoding", "binary");
         
         try {
+        	
         	fis = new FileInputStream(file);
         	FileCopyUtils.copy(fis, out);
         	logger.info("성공");
+        
         } catch (Exception e) {
         	e.printStackTrace();
+        
         } finally {
 			if(fis != null) {
 				fis.close();
 			}
-		}
+		
+        }
+        
         out.flush();
 	}
 	

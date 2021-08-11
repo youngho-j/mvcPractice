@@ -16,10 +16,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.net.URLEncoder;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -154,5 +153,17 @@ public class BoardControllerTest {
 		.andExpect(handler().handlerType(BoardController.class))
 		.andExpect(handler().methodName("insertBoardReply"))
 		.andExpect(jsonPath("result").value("SUCCESS"));
+	}
+	
+	@Test
+	public void 파일_다운로드_테스트() throws Exception {
+		mock.perform(get("/board/fileDownload")
+				.param("fileNameKey", "2dbd9ac377d54384a7512a5084193a55.txt")
+				.param("fileName", URLEncoder.encode("회원번호.txt", "UTF-8"))
+				.param("filePath", "H:\\RebuildProject2file")
+				.header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("fileDownloadUtil"))
+		.andDo(print());
 	}
 }

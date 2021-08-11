@@ -71,7 +71,7 @@
         }            
     }
     
-    /** 게시판 - 상세 조회  콜백 함수 */
+    /** 게시판 - 상세 조회 콜백 함수 */
     function getBoardDetailCallback(obj){
         
         var str = "";
@@ -91,6 +91,8 @@
             var insDate         = obj.ins_date; 
             var updUserId       = obj.upd_user_id;
             var updDate         = obj.upd_date;
+            var files           = obj.files;
+            var filesLen        = files.length;
                     
             str += "<tr>";
             str += "<th>제목</th>";
@@ -108,6 +110,32 @@
             str += "<th>내용</th>";
             str += "<td colspan='3'>"+ boardContent +"</td>";
             str += "</tr>";
+            
+            /* 첨부 파일 관련 정보 */
+			if(filesLen > 0){
+                
+                for(var i = 0; i < filesLen; i++){
+                    
+                    var boardSeq    = files[i].board_seq;
+                    var fileNum     = files[i].file_num;
+                    var fileNameKey = files[i].file_name_key;
+                    var fileName    = files[i].file_name;
+                    var filePath    = files[i].file_path;
+                    var fileSize    = files[i].file_size;
+                    var remark      = files[i].remark;
+                    var delYn       = files[i].del_yn;
+                    var insUserId   = files[i].ins_user_id;
+                    var insDate     = files[i].ins_date;
+                    var updUserId   = files[i].upd_user_id;
+                    var updDate     = files[i].upd_date;
+                    
+                    str += "<tr>";
+                    str += "<th>첨부파일</th>";
+                    str += "<td colspan='3'><a href='/board/fileDownload?fileNameKey="+encodeURI(fileNameKey)+"&fileName="+encodeURI(fileName)+"&filePath="+encodeURI(filePath)+"'>" + fileName + "</a></td>";
+                    str += "</tr>";
+                }
+                
+            }
             
         } else {
             

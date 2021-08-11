@@ -1,12 +1,17 @@
 package com.spring.board.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.board.common.ResultUtil;
 import com.spring.board.dto.BoardDto;
@@ -96,5 +101,19 @@ public class BoardController {
 	public BoardDto insertBoardReply(HttpServletRequest req ,HttpServletResponse res, BoardForm boardForm) throws Exception {
 		BoardDto boardDto = boardService.insertBoardReply(boardForm);
 		return boardDto;
+	}
+	
+	/*게시판 - 첨부 파일 다운로드 */
+	@RequestMapping("/fileDownload")
+	public ModelAndView fileDownload(@RequestParam("fileNameKey") String fileNameKey
+									,@RequestParam("fileName") String fileName
+									,@RequestParam("filePath") String filePath ) throws Exception {
+		
+		Map<String, Object> fileInfo = new HashMap<String, Object>();
+		fileInfo.put("fileNameKey", fileNameKey);
+		fileInfo.put("fileName", fileName);
+		fileInfo.put("filePath", filePath);
+		
+		return new ModelAndView("fileDownloadUtil", "fileInfo", fileInfo);
 	}
 }
