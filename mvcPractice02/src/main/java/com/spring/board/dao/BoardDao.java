@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.board.dto.BoardDto;
+import com.spring.board.dto.BoardFileDto;
 import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
 
@@ -79,7 +80,7 @@ public class BoardDao {
 	}
 	
 	// 게시글에 첨부된 파일 목록 조회
-	public List<BoardFileForm> getBoardFileList(BoardFileForm boardFileForm) {
+	public List<BoardFileDto> getBoardFileList(BoardFileForm boardFileForm) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getBoardFileList", boardFileForm);
 	}
 }

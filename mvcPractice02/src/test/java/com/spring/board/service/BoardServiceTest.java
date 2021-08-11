@@ -1,7 +1,6 @@
 package com.spring.board.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class BoardServiceTest {
 	@Test
 	public void 주입_테스트() throws Exception {
 		log.info(boardService);
-		assertNotNull(boardService);
+		assertThat(boardService).isNotNull();
 	}
 	
 	@Test
@@ -63,13 +62,12 @@ public class BoardServiceTest {
 	
 	@Test
 	public void 상세_출력_테스트() throws Exception {
-		form.setBoard_seq(1);
+		form.setBoard_seq(54);
 		
 		BoardDto result = boardService.getBoardDetail(form);
 		
-		log.info(result);
-		
-		assertThat(result.getBoard_subject()).isEqualTo("게시글 제목1");
+		assertThat(result.getBoard_subject()).isEqualTo("첨부용글");
+		assertThat(result.getFiles().size()).isEqualTo(1);
 	}
 	
 	@Test

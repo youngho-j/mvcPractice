@@ -25,6 +25,7 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 	
+	// 게시글 목록 조회
 	public ResultUtil getBoardList(BoardForm boardForm) throws Exception {
 		
 		ResultUtil resultUtil = new ResultUtil();
@@ -42,6 +43,7 @@ public class BoardService {
 			commonForm.setCount_per_list(10);
 			commonForm.setTotal_list_count(totalCount);
 			
+			// 페이징 처리 정보를 담은 객체
 			commonDto = PagingUtil.setPageUtil(commonForm);
 		}
 		
@@ -61,7 +63,8 @@ public class BoardService {
 		
 		return resultUtil;
 	}
-
+	
+	// 게시글 상세 정보 조회
 	public BoardDto getBoardDetail(BoardForm boardForm) throws Exception {
 		
 		BoardDto boardDto = new BoardDto();
@@ -79,9 +82,16 @@ public class BoardService {
 			boardDto = boardDao.getBoardDetail(boardForm);
 		}
 		
+		// 다운로드를 위해 첨부파일 정보 조회
+		BoardFileForm boardFileForm = new BoardFileForm();
+		boardFileForm.setBoard_seq(boardForm.getBoard_seq());
+		
+		boardDto.setFiles(boardDao.getBoardFileList(boardFileForm));
+		
 		return boardDto;
 	}
-
+	
+	// 게시글 작성
 	public BoardDto insertBoard(BoardForm boardForm) throws Exception {
 		
 		int insertCnt = 0;
@@ -111,7 +121,9 @@ public class BoardService {
 		return boardDto;
 	}
 	
+	// 게시글 수정
 	public BoardDto updateBoard(BoardForm boardForm) throws Exception {
+		
 		BoardDto boardDto = new BoardDto();
 		
 		int updateCnt = boardDao.updateBoard(boardForm);
@@ -125,6 +137,7 @@ public class BoardService {
 		return boardDto;
 	}
 	
+	// 게시글 삭제
 	public BoardDto deleteBoard(BoardForm boardForm) throws Exception {
 		BoardDto boardDto = new BoardDto();
 		
@@ -138,6 +151,7 @@ public class BoardService {
 		return boardDto;
 	}
 	
+	// 답글 등록
 	public BoardDto insertBoardReply(BoardForm boardForm) throws Exception {
 		int insertCnt = 0;
 		

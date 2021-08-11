@@ -1,6 +1,5 @@
 package com.spring.board.dto;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,15 +9,15 @@ import java.util.List;
 
 public class BoardDtoTest {
 	
-	
 	@Test
 	public void 롬복_기능_테스트() throws Exception{
-
+		
+		// 파일 테스트를 위해 임시로 만든 객체
 		BoardFileDto file1 = new BoardFileDto();
 		BoardFileDto file2 = new BoardFileDto();
 		BoardFileDto file3 = new BoardFileDto();
 		
-		//given
+		// 테스트를 위한 변수
 	    String board_content = "내용";
 	    String ins_date = "2021-07-18 17:00:00";
 	    String upd_date = "2021-07-18 18:00:00";

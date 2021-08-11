@@ -17,11 +17,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.board.dto.BoardDto;
+import com.spring.board.dto.BoardFileDto;
 import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -159,15 +159,14 @@ public class BoardDaoTest {
 	
 	@Test
 	public void 전체_게시글_갯수출력_테스트() throws Exception {
-		
 		int result = boardDao.getBoardCnt(form);
+		
 		assertThat(result).isEqualTo(5);
 	}
 	
 	@Test
 	public void 게시글_그룹번호_조회_테스트() throws Exception {
 		assertThat(boardDao.getBoardReRef(form)).isEqualTo(1);
-		
 	}
 	
 	@Test
@@ -230,7 +229,7 @@ public class BoardDaoTest {
 	@Test
 	public void 게시글_첨부파일_정보조회_테스트() throws Exception {
 		fileForm.setBoard_seq(54);
-		List<BoardFileForm> list = boardDao.getBoardFileList(fileForm);
+		List<BoardFileDto> list = boardDao.getBoardFileList(fileForm);
 		
 		assertThat(list.size()).isEqualTo(1);
 	}
