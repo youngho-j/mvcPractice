@@ -237,4 +237,13 @@
     	WHERE BOARD_SEQ = #{board_seq}
     </delete>
     
+    <!-- 첨부 파일 삭제(데이터 상태 변경) -->
+    <update id="deleteBoardFile" parameterType="com.spring.board.form.BoardFileForm">
+    	UPDATE board.MyBoardFILE
+    	SET DEL_YN = 'Y'
+    	  , UPD_USER_ID = 'NOMEMBER'
+    	  , UPD_DATE = NOW()
+    	WHERE BOARD_SEQ = #{board_seq}
+    	AND FILE_NUM = #{file_num}
+    </update>
 </mapper>

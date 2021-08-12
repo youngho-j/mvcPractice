@@ -31,5 +31,6 @@ public class BoardForm extends CommonForm {
     Date upd_date;
     // 상세 정보로 넘어갈때 필요한 변수
     String search_type;
+    String delete_file;
     
 }

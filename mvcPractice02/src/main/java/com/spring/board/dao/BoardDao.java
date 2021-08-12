@@ -83,4 +83,9 @@ public class BoardDao {
 	public List<BoardFileDto> getBoardFileList(BoardFileForm boardFileForm) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getBoardFileList", boardFileForm);
 	}
+	
+	// 게시글 첨부 파일 삭제(상태 변경)
+	public int deleteBoardFile(BoardFileForm boardFileForm) throws Exception {
+		return sqlSession.update(NAMESPACE + ".deleteBoardFile", boardFileForm);
+	}
 }

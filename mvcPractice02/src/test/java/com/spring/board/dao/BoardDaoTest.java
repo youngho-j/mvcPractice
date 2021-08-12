@@ -22,6 +22,7 @@ import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -232,5 +233,20 @@ public class BoardDaoTest {
 		List<BoardFileDto> list = boardDao.getBoardFileList(fileForm);
 		
 		assertThat(list.size()).isEqualTo(1);
+	}
+	
+	@Test
+	@Rollback(true)
+	public void 게시글_첨부파일_삭제_상태변경_테스트() throws Exception {
+		fileForm.setBoard_seq(54);
+		fileForm.setFile_num(1);
+		
+		int result = boardDao.deleteBoardFile(fileForm);
+		
+		if(result == 1) {
+			logger.info("첨부파일 상태 변경 성공");
+		} else {
+			logger.info("실패!");			
+		}
 	}
 }
