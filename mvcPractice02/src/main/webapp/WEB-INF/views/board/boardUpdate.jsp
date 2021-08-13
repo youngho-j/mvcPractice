@@ -100,12 +100,12 @@
                      
                      fileStr += "<a href='/board/fileDownload?fileNameKey=" + encodeURI(fileNameKey);
                      fileStr += "&fileName=" + encodeURI(fileName) + "&filePath=" + encodeURI(filePath)+"'>" + fileName + "</a>";
-                     fileStr += "<button type='button' class='btn black ml15' style='padding:3px 5px 6px 5px;' onclick='javascript:setDeleteFile("
-                     fileStr += boardSeq + ", "+ fileNo + ")'>X</button>";
+                     fileStr += "<button type='button' class='btn black ml15' style='padding:3px 5px 6px 5px;' onclick='javascript:setDeleteFile(" 
+                     fileStr += boardSeq + ", "+ fileNum + ")'>X</button>";
             	}
             	
             } else {
-            	fileStr = "<input type='file' id='files[0]' name='files[0]' value=''></td>";
+            	fileStr = "<input type='file' id='files[0]' name='files[0]' value=''>";
             }
             
             $("#file_td").html(fileStr);

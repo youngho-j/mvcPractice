@@ -128,6 +128,31 @@ public class BoardService {
 		
 		int updateCnt = boardDao.updateBoard(boardForm);
 		
+		// 첨부된 파일 삭제 
+		String deleteFile = boardForm.getDelete_file();
+		
+		if(!"".equals(deleteFile)) {
+			
+			String[] deleteFileInfo = deleteFile.split("!");
+			
+			int boardSeq = Integer.parseInt(deleteFileInfo[0]);
+			int fileNum = Integer.parseInt(deleteFileInfo[1]);
+			
+			BoardFileForm deleteBoardFileForm = new BoardFileForm();
+			
+			deleteBoardFileForm.setBoard_seq(boardSeq);
+			deleteBoardFileForm.setFile_num(fileNum);
+			
+			boardDao.deleteBoardFile(deleteBoardFileForm);
+		}
+		
+		// 첨부 파일 등록
+		List<BoardFileForm> boardFileList = getBoardFileInfo(boardForm);
+				
+		for(BoardFileForm boardFileForm : boardFileList) {
+			boardDao.insertBoardFile(boardFileForm);
+		}
+		
 		if(updateCnt > 0) {
 			boardDto.setResult("SUCCESS");
 		} else {
