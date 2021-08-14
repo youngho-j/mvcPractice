@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +50,12 @@ public class BoardController {
 	@RequestMapping(value = "/getBoardDetail")
 	@ResponseBody
 	public BoardDto getBoardDetail(HttpServletRequest req, HttpServletResponse res, BoardForm boardForm) throws Exception {
+		MDC.put("ID", String.valueOf(boardForm.getBoard_seq()));
+		
 		BoardDto boardDto = boardService.getBoardDetail(boardForm);
+		
+		MDC.remove("ID");
+		
 		return boardDto;
 	}
 	
