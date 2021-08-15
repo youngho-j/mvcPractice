@@ -24,9 +24,9 @@ public class DBConnectionTest {
 	@Test
 	public void DB_연결테스트() throws Exception {
 		try(Connection con = source.getConnection()) {
-			logger.info("con : [{}]",con);
+			logger.info("con : [{}]", con);
 		} catch (Exception e) {
-			logger.info("오류 : {}", e.getStackTrace());
+			logger.info("오류 : {}", e.getMessage());
 		}
 	}
 }

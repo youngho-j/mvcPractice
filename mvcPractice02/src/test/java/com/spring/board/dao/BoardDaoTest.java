@@ -22,7 +22,6 @@ import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration

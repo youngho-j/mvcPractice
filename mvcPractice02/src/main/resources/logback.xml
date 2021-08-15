@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml> <!-- 해당 타입 추가하는 이유 : Logback에서는 DTD나 Schema를 제공하지 않아 경고 창이 뜨므로 해당 경로를 없애기 위해 추가 -->
+<configuration>  
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d [%thread] %-5level %logger - [%X{ID}] : %msg%n</pattern>
+          </layout>
+    </appender>
+  
+      <logger name="org.springframework" level="info" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+  
+      <logger name="com.spring.board" level="debug" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    
+      <root level="error">
+        <appender-ref ref="STDOUT"/>
+    </root>
+  
+</configuration>

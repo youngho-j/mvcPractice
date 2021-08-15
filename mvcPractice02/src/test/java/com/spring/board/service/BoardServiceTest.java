@@ -10,6 +10,8 @@ import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.Rollback;
@@ -24,15 +26,14 @@ import com.spring.board.dto.BoardDto;
 import com.spring.board.form.BoardFileForm;
 import com.spring.board.form.BoardForm;
 
-import lombok.extern.log4j.Log4j;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
-@Log4j
 @Transactional
 public class BoardServiceTest {
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Inject
 	private BoardService boardService;
@@ -46,7 +47,7 @@ public class BoardServiceTest {
 	
 	@Test
 	public void 주입_테스트() throws Exception {
-		log.info(boardService);
+		logger.info("boardService : {}", boardService);
 		assertThat(boardService).isNotNull();
 	}
 	
@@ -78,7 +79,7 @@ public class BoardServiceTest {
 		
 		BoardDto result = boardService.getBoardDetail(form);
 		
-		log.info(result);
+		logger.info("result : {}", result);
 		
 		assertThat(result.getBoard_hits()).isEqualTo(14);
 	}
@@ -92,7 +93,7 @@ public class BoardServiceTest {
 		
 		BoardDto dto = boardService.insertBoard(form);
 		
-		log.info(dto);
+		logger.info("dto.result : {}", dto.getResult());
 		
 		assertThat(dto.getResult()).isEqualTo("SUCCESS");
 	}
@@ -103,10 +104,11 @@ public class BoardServiceTest {
 		form.setBoard_subject("수정테스트");
 		form.setBoard_content("수정테스트입니다");
 		form.setBoard_seq(1);
+		form.setDelete_file("");
 		
 		BoardDto dto = boardService.updateBoard(form);
 		
-		log.info(dto);
+		logger.info("dto.result : {}", dto.getResult());
 		
 		assertThat(dto.getResult()).isEqualTo("SUCCESS");
 	}
@@ -118,7 +120,7 @@ public class BoardServiceTest {
 		
 		BoardDto dto = boardService.deleteBoard(form);
 		
-		log.info(dto);
+		logger.info("dto.result : {}", dto.getResult());
 		
 		assertThat(dto.getResult()).isEqualTo("SUCCESS");
 	}
@@ -133,7 +135,7 @@ public class BoardServiceTest {
 		
 		BoardDto dto = boardService.insertBoardReply(form);
 		
-		log.info(dto);
+		logger.info("dto.result : {}", dto.getResult());
 		
 		assertThat(dto.getResult()).isEqualTo("SUCCESS");
 	}

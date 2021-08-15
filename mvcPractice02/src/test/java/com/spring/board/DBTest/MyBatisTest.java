@@ -31,7 +31,7 @@ public class MyBatisTest {
 		try (SqlSession session = sqlfactory.openSession()) {
 			logger.info("SqlSession 주소 : [{}]", session);
 		} catch (Exception e) {
-			logger.info("오류 : {}", e.getStackTrace());
+			logger.info("오류 : {}", e.getMessage());
 		}
 		
 	}
