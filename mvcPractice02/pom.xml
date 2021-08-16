@@ -135,20 +135,38 @@
 		    <scope>test</scope>
 		</dependency>
 		
-		<!-- log4jdbc-log4j2-jdbc4 : SQL 로그 출력 -->
+		<!-- Unable to find Log4j2 as default logging library 오류 해결 위해 아래 maven 추가-->
+		<dependency> 
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+	    
+	    <dependency>
+	    	<groupId>org.apache.logging.log4j</groupId>
+	    	<artifactId>log4j-core</artifactId>
+	    	<version>2.0.1</version>
+	    </dependency>
+
+		
+		<!-- log4jdbc-log4j2-jdbc4 : SQL 로그 출력(정돈) -->
 		<dependency>
 		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
 		    <artifactId>log4jdbc-log4j2-jdbc4</artifactId>
 		    <version>${log4jdbc-log4j2-jdbc4.version}</version>
 		</dependency>
 				
-		<!-- Logging - SLF4J : 추상 로깅 프레임워크, 다양한 로깅 프레임워크간 쉬운 전환 가능-->
+		<!-- Logging - jcl-over-slf4j : JCL(Common Loggin) 인터페이스와 SLF4j 간의 브릿지 역할-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!-- Logback : SLF4J 구현체이기 떄문에 SQLF4J와 JCL을 연결해주는 브릿지가 필요
+					   해당 라이브러리를 사용하기위해 commons-logging 라이브러리 제외 필요
+		 -->
 		<dependency>
 		    <groupId>ch.qos.logback</groupId>
 		    <artifactId>logback-classic</artifactId>

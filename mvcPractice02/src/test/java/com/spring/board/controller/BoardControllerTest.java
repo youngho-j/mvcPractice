@@ -107,9 +107,10 @@ public class BoardControllerTest {
 	public void 게시글_수정_확인_테스트() throws Exception {
 		
 		mock.perform(post("/board/updateBoard")
-				.param("board_seq", "20")
+				.param("board_seq", "35")
 				.param("board_subject", "test")
 				.param("board_content", "testing")
+				.param("delete_file", "")
 				.accept(MediaType.APPLICATION_JSON_VALUE))
 		.andDo(print())
 		.andExpect(status().isOk())
