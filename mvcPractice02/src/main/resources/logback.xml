@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml> <!-- 해당 타입 추가하는 이유 : Logback에서는 DTD나 Schema를 제공하지 않아 경고 창이 뜨므로 해당 경로를 없애기 위해 추가 -->
 <configuration>  
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    
+ 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d [%thread] %-5level %logger - [%X{ID}] : %msg%n</pattern>
-        </layout>
+    	<layout class="ch.qos.logback.classic.PatternLayout">
+	        <encoder>
+	            <pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger - [%X{ID}] : %msg%n</pattern>
+	        </encoder>
+	   	</layout>
     </appender>
   
     <logger name="org.springframework" level="info" additivity="false">
@@ -18,12 +19,7 @@
     </logger>
 
     <!-- log4jdbc-log4j2 -->
-    <logger name="jdbc.sqltiming" level="info" additivity="false">
-    	<appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="jdbc.resultsettable" level="info" additivity="false">
-    	<appender-ref ref="STDOUT"/>
-    </logger>
+    <logger name="jdbc.sqltiming" level="debug" />
     
     <root level="info">
         <appender-ref ref="STDOUT"/>
