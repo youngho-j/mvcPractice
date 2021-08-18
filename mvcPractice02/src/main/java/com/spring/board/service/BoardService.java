@@ -41,7 +41,7 @@ public class BoardService {
 		if(totalCount != 0) {
 			CommonForm commonForm = new CommonForm();
 			
-			commonForm.setFuntion_name(boardForm.getFuntion_name());
+			commonForm.setFunction_name(boardForm.getFunction_name());
 			commonForm.setCurrent_page_num(boardForm.getCurrent_page_num());
 			commonForm.setCount_per_page(10);
 			commonForm.setCount_per_list(10);

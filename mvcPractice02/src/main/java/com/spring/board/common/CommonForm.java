@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommonForm {
-	String funtion_name;
+	String function_name;
 	int current_page_num;
     int count_per_list;
     int count_per_page;

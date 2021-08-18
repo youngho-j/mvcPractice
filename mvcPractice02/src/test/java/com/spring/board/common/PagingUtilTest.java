@@ -12,7 +12,7 @@ public class PagingUtilTest {
 	@Before
 	public void setUp() throws Exception {
 		commonForm = new CommonForm();
-		commonForm.setFuntion_name("출력");
+		commonForm.setFunction_name("출력");
 		commonForm.setCurrent_page_num(4);
 		commonForm.setCount_per_list(3);
 		commonForm.setCount_per_page(5);

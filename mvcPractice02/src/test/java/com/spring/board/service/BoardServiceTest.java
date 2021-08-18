@@ -53,7 +53,7 @@ public class BoardServiceTest {
 	
 	@Test
 	public void 목록_출력_테스트() throws Exception {
-		form.setFuntion_name("목록 출력");
+		form.setFunction_name("목록 출력");
 		form.setCurrent_page_num(1);
 		
 		ResultUtil resultUtil = boardService.getBoardList(form);

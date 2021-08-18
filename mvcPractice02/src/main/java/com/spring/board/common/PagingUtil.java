@@ -11,7 +11,7 @@ public class PagingUtil {
 		String pagination = "";
 		
 		// 자바스크립트 함수 명
-		String functionName = commonForm.getFuntion_name();
+		String functionName = commonForm.getFunction_name();
 		
 		// 현재 페이지 번호
 		int currentPage = commonForm.getCurrent_page_num();
