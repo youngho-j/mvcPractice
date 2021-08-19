@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml> <!-- 해당 타입 추가하는 이유 : Logback에서는 DTD나 Schema를 제공하지 않아 경고 창이 뜨므로 해당 경로를 없애기 위해 추가 -->
-<configuration>  
- 
+<configuration> 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    	<layout class="ch.qos.logback.classic.PatternLayout">
-	        <encoder>
-	            <pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger - [%X{ID}] : %msg%n</pattern>
-	        </encoder>
-	   	</layout>
+		<encoder>
+	    	<pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger - [%X{ID}] : %msg%n</pattern>
+	    </encoder>
     </appender>
   
-    <logger name="org.springframework" level="info" additivity="false">
+    <logger name="org.springframework" level="INFO" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
   
-    <logger name="com.spring.board" level="debug" additivity="false">
+    <logger name="com.spring.board" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 	
-    <!-- log4jdbc-log4j2 -->
-	<Loggers>
-	    <logger name="jdbc.sqlonly" level="off" />
-		<logger name="jdbc.sqltiming" level="debug" additivity="false">
-			<appender-ref ref="STDOUT"/>
-		</logger>
-		<logger name="jdbc.audit" level="off" />
-		<logger name="jdbc.resultset" level="off" />
-		<logger name="jdbc.resultsettable" level="off" />
-		<logger name="jdbc.connection" level="off" />
-	</Loggers>
+	<!-- log4jdbc 옵션 설정 --> 
+	<logger name="jdbc" level="OFF"/> 
+	
+	<!-- connection open close 로깅 여부 --> 
+	<logger name="jdbc.connection" level="OFF"/> 
+	
+	<logger name="jdbc.sqlonly" level="OFF"/>
+	<logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger> 
+	<logger name="jdbc.audit" level="OFF"/>
+	<logger name="jdbc.resultset" level="OFF"/> 
+	  
+	<logger name="jdbc.resultsettable" level="DEBUG" additivity="false">
+	  	<appender-ref ref="STDOUT" />
+	</logger>  
     
-    <root level="info">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
   

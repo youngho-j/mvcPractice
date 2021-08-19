@@ -20,6 +20,7 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		logger.debug("= = = = = = = = = = = LoggerInterceptor START = = = = = = = = = = =");
+		
 		logger.debug("URI : [{}]", request.getRequestURI());
 		
 		Enumeration<String> paramNames = request.getParameterNames();
