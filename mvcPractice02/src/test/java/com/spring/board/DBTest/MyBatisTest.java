@@ -1,5 +1,7 @@
 package com.spring.board.DBTest;
 
+import static org.junit.Assert.assertNotNull;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -29,6 +31,7 @@ public class MyBatisTest {
 	@Test
 	public void 세션_테스트() throws Exception {
 		try (SqlSession session = sqlfactory.openSession()) {
+			assertNotNull(session);
 			logger.info("SqlSession 주소 : [{}]", session);
 		} catch (Exception e) {
 			logger.info("오류 : {}", e.getMessage());
