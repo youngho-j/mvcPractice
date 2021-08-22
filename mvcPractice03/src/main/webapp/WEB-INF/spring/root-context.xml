@@ -3,12 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 	
 	<!-- PropertyPlaceholderConfigurer 삭제로 인해 해당 util 사용-->
-	<util:properties id="dbProperty" location="/properties/dbConfig.properties" />
+	<util:properties id="dbProperty" location="classpath:properties/dbConfig.properties" />
 	
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName" value="#{dbProperty['jdbc.driverClassName']}" />
@@ -24,4 +26,8 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="datasource"></property>
 	</bean>
+	
+	<mybatis-spring:scan base-package="com.spring.board.dao" />
+	<context:component-scan base-package="com.spring.board.vo" />
+	<context:component-scan base-package="com.spring.board.service" />
 </beans>
