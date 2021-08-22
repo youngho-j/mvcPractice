@@ -7,19 +7,24 @@
 	<name>mvcPractice03</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
+	<!-- 버전관리 목록 -->
 	<properties>
 		<java-version>11</java-version>
 		<org.springframework-version>5.2.8.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
-		<org.slf4j-version>1.6.6</org.slf4j-version>
-		<log4j.version>1.2.17</log4j.version>
+		<jcl-over-slf4j.version>1.7.25</jcl-over-slf4j.version>
 		<mysql.connector.version>8.0.25</mysql.connector.version>
 		<lombok.version>1.18.12</lombok.version>
 		<hikariCP.version>4.0.2</hikariCP.version>
 		<mybatis.version>3.5.3</mybatis.version>
 		<mybatis.spring.version>2.0.5</mybatis.spring.version>
 		<junit.version>4.12</junit.version>
+		<log4jdbc-log4j2.version>1.16</log4jdbc-log4j2.version>
+		<log4j.version>2.9.0</log4j.version>
+		<log4j-slf4j-impl.version>2.12.1</log4j-slf4j-impl.version>
+		<slf4j-api.version>1.7.25</slf4j-api.version>
 	</properties>
+	
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -27,7 +32,7 @@
 			<artifactId>spring-context</artifactId>
 			<version>${org.springframework-version}</version>
 			<exclusions>
-				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<!-- SLF4j 사용을 위해 jcl 제거 -->
 				<exclusion>
 					<groupId>commons-logging</groupId>
 					<artifactId>commons-logging</artifactId>
@@ -95,6 +100,13 @@
 		    <version>${mybatis.spring.version}</version>
 		</dependency>
 		
+		<!-- DB 상세로그 출력 -->
+		<dependency>
+		    <groupId>org.bgee.log4jdbc-log4j2</groupId>
+		    <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+		    <version>${log4jdbc-log4j2.version}</version>
+		</dependency>
+		
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -102,31 +114,58 @@
 			<version>${org.aspectj-version}</version>
 		</dependency>	
 		
-		<!-- Logging -->
+		<!-- slf4j와 jcl을 연결해주는 다리 역할
+			 내부적으로 slf4j-api dependency 포함되어 있음
+		     spring의 경우 default 값으로 jcl(commons-logging)을 사용하므로 이를 대체 하기 위해 해당 라이브러리 사용
+		-->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${org.slf4j-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${org.slf4j-version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${org.slf4j-version}</version>
-			<scope>runtime</scope>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>jcl-over-slf4j</artifactId>
+		    <version>${jcl-over-slf4j.version}</version>
+		    <exclusions>
+		    	<exclusion>
+		        	<groupId>org.slf4j</groupId>
+    				<artifactId>slf4j-api</artifactId>
+		        </exclusion>
+		    </exclusions>
 		</dependency>
 		
+		<!-- log4j 2.x 버전 
+			 내부적으로 log4j-api dependency 포함되어 있음 
+		-->
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-
+		
+		<!-- log4j-slf4j-impl 사용시 sl4j-api 1.7.x 릴리스 또는 이전 버전만 사용해야함  -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		    <version>${log4j-slf4j-impl.version}</version>
+		    <!-- log4j-core에 log4j-api dependency가 포함되어 있으므로 제거 -->
+		    <exclusions>
+		    	<exclusion>
+		        	<groupId>org.apache.logging.log4j</groupId>
+		        	<artifactId>log4j-api</artifactId>
+		        </exclusion>
+		        <exclusion>
+		        	<groupId>org.slf4j</groupId>
+    				<artifactId>slf4j-api</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency>
+		
+		<!-- 해당 버전 설정하지 않았을때 설정을 추가 한 적이 없으나 
+			 2.0.0-alpha1 버전이 자동으로 인식되어 에러가 발생 
+			 에러 해결을 위해 해당 버전 추가 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>1.7.25</version>
+		</dependency>
+		
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>
