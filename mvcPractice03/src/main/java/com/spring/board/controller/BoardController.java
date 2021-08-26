@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.board.service.BoardService;
 import com.spring.board.vo.BoardVO;
@@ -31,11 +32,20 @@ public class BoardController {
 	}
 	
 	@PostMapping("/enroll")
-	public String boardEnrollPOST(BoardVO boardVO) throws Exception {
+	public String boardEnrollPOST(BoardVO boardVO, RedirectAttributes redirectAttributes) throws Exception {
 		logger.info("게시글 입력 정보" + boardVO);
 		
-		boardService.enroll(boardVO);
+		int resultSQL = boardService.enroll(boardVO);
+		
+		resultCheck(resultSQL, redirectAttributes);
 		
 		return "redirect:/board/list";
+	}
+	
+	private RedirectAttributes resultCheck(int resultSQL, RedirectAttributes redirectAttributes) {
+		if(resultSQL == 1) {
+			return redirectAttributes.addFlashAttribute("result", "success");
+		}
+		return redirectAttributes.addFlashAttribute("result", "");
 	}
 }

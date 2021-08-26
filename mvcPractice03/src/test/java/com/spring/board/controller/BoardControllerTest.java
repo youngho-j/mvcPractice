@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +52,9 @@ public class BoardControllerTest {
 	@Test
 	public void 등록후_리스트페이지_이동() throws Exception {
 		mock.perform(post(("/board/enroll")))
+		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/board/list"))
+		.andExpect(flash().attribute("result", "success"))
 		.andDo(print());
 	}
 }

@@ -14,8 +14,8 @@ public class BoardServiceImpl implements BoardService{
 	
 	// 게시글 등록
 	@Override
-	public void enroll(BoardVO boardVO) throws Exception {
-		boardMapper.enroll(boardVO);
+	public int enroll(BoardVO boardVO) throws Exception {
+		return boardMapper.enroll(boardVO);
 	}
 	
 }
