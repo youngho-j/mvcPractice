@@ -54,7 +54,7 @@ public class BoardControllerTest {
 		mock.perform(post(("/board/enroll")))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/board/list"))
-		.andExpect(flash().attribute("result", "success"))
+		.andExpect(flash().attribute("result", ""))
 		.andDo(print());
 	}
 }

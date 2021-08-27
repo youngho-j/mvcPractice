@@ -4,20 +4,55 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시글 등록</title>
+<title>게시글 등록 페이지</title>
 <link rel="stylesheet" type="text/css" href="/css/common/common.css"/>
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous">
 </script>
+<script type="text/javascript">
+	$(document).ready(function(){        
+	    
+	});
+	
+	function goList() {
+		location.href = "/board/list";
+	}
+	
+	function nullCheck() {
+		
+		let title = $("#title").val();
+		let content = $("#content").val();
+		let writer = $("#writer").val();
+		
+		if (title == ""){            
+            alert("제목을 입력해주세요.");
+            $("#title").focus();
+            return false;
+        }
+		
+		if (content == ""){            
+            alert("내용을 입력해주세요.");
+            $("#content").focus();
+            return false;
+        }
+		
+		if (writer == ""){            
+            alert("작성자를 입력해주세요.");
+            $("#writer").focus();
+            return false;
+        }
+	}
+	
+</script>
 </head>
 <body>
 <div id="wrap">
     <div id="container">
         <div class="inner">
-			<h1>게시글 등록</h1>
-			<form action="/board/enroll" method="post">
+			<h1>게시글 등록 페이지</h1>
+			<form action="/board/enroll" method="post" onsubmit="return nullCheck()">
 				<table width="100%" class="table02">
 				<caption>
 					<strong>
@@ -44,6 +79,7 @@
 					</tbody>
 				</table>
 				<div class="btn_right mt15">
+					<button type="button" class="btn black" onclick="javascript:goList();">목록으로</button>						
 					<button type="submit" class="btn black mr5">글 등록</button>						
 				</div>
 			</form>

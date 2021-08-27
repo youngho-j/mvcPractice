@@ -15,6 +15,11 @@ public class BoardServiceImpl implements BoardService{
 	// 게시글 등록
 	@Override
 	public int enroll(BoardVO boardVO) throws Exception {
+		
+		if(boardVO.getTitle() == null || boardVO.getContent() == null || boardVO.getWriter() == null) {
+			return 0;
+		}
+		
 		return boardMapper.enroll(boardVO);
 	}
 	
