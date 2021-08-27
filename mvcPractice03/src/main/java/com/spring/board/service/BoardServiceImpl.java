@@ -1,5 +1,7 @@
 package com.spring.board.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,11 @@ public class BoardServiceImpl implements BoardService{
 		}
 		
 		return boardMapper.enroll(boardVO);
+	}
+
+	@Override
+	public List<BoardVO> getList() throws Exception {
+		return boardMapper.getList();
 	}
 	
 }

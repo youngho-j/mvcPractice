@@ -1,5 +1,9 @@
 package com.spring.board.service;
 
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +29,12 @@ public class BoardServiceTest {
         boardVO.setWriter("서비스테스터1");
         
         boardService.enroll(boardVO);
+	}
+	
+	@Test
+	public void 게시글_목록_출력_테스트() throws Exception {
+		List<BoardVO> list = boardService.getList();
+		
+		assertTrue(list.size() > 0);
 	}
 }

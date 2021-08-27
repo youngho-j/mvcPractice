@@ -4,6 +4,12 @@
 
 	<!-- 게시글 등록 -->
 	<insert id="enroll">
-		insert into Myboard2(title, content, writer) values (#{title}, #{content}, #{writer});
+		insert into Myboard2(title, content, writer) values (#{title}, #{content}, #{writer})
 	</insert>
+	
+	<!-- 게시글 목록 출력 -->
+	<select id="getList" resultType="com.spring.board.vo.BoardVO">
+		select * from Myboard2
+		order by bno desc;
+	</select>
 </mapper>
