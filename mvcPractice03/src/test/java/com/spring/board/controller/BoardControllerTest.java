@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,10 +35,11 @@ public class BoardControllerTest {
 	}
 	
 	@Test
-	public void 목록페이지_이동() throws Exception {
+	public void 목록페이지_이동과_목록값_확인() throws Exception {
 		mock.perform(get(("/board/list")))
 		.andExpect(status().isOk())
 		.andExpect(view().name("board/list"))
+		.andExpect(model().attributeExists("list"))
 		.andDo(print());
 	}
 	
