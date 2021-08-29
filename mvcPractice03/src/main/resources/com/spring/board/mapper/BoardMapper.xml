@@ -12,4 +12,17 @@
 		select * from Myboard2
 		order by bno desc;
 	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="modify">
+		update Myboard2 
+		set title = #{title}, content = #{content}, updateDate = now()
+		where bno = #{bno}
+	</update>
+	
+	<!-- 게시글 상세 출력 -->
+	<select id="getDetail" resultType="com.spring.board.vo.BoardVO" parameterType="com.spring.board.vo.BoardVO">
+		select * from Myboard2
+		where bno = #{bno}
+	</select>
 </mapper>

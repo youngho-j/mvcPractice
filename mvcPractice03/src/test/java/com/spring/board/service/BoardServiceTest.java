@@ -1,6 +1,7 @@
 package com.spring.board.service;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 import java.util.List;
 
@@ -36,5 +37,17 @@ public class BoardServiceTest {
 		List<BoardVO> list = boardService.getList();
 		
 		assertTrue(list.size() > 0);
+	}
+	
+	@Test
+	public void 게시글_수정_테스트() throws Exception {
+		BoardVO boardVO = new BoardVO();
+		boardVO.setBno(17);
+		boardVO.setTitle(null);
+        boardVO.setContent("서비스수정테스트입니다.");
+        
+        int result = boardService.modify(boardVO);
+        
+        assertThat(0, equalTo(result));
 	}
 }

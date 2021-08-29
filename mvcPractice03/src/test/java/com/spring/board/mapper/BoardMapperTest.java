@@ -1,6 +1,7 @@
 package com.spring.board.mapper;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.core.IsEqual.equalTo;
 
 import java.util.List;
 
@@ -12,7 +13,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.spring.board.vo.BoardVO;
 
+import lombok.extern.log4j.Log4j2;
 
+
+@Log4j2
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 public class BoardMapperTest {
@@ -37,5 +41,27 @@ public class BoardMapperTest {
 		List<BoardVO> list = boardMapper.getList();
 		
 		assertNotNull(list.get(0));
+	}
+	
+	@Test
+	public void 게시물_수정_쿼리_테스트() throws Exception {
+		BoardVO vo = new BoardVO();
+		vo.setBno(11);
+		vo.setTitle("수정1");
+		vo.setContent("수정했수");
+		
+		int result = boardMapper.modify(vo);
+		assertThat(1, equalTo(result));
+	}
+	
+	@Test
+	public void 게시물_상세출력_쿼리_테스트() throws Exception {
+		BoardVO vo = new BoardVO();
+		vo.setBno(11);
+		BoardVO detail = boardMapper.getDetail(vo);
+		
+		assertNotNull(detail);
+		log.info(detail);
+		
 	}
 }

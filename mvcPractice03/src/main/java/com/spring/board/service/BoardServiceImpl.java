@@ -18,7 +18,7 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int enroll(BoardVO boardVO) throws Exception {
 		
-		if(boardVO.getTitle() == null || boardVO.getContent() == null || boardVO.getWriter() == null) {
+		if(enrollNullCheck(boardVO)) {
 			return 0;
 		}
 		
@@ -27,7 +27,37 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public List<BoardVO> getList() throws Exception {
+		
 		return boardMapper.getList();
 	}
+
+	@Override
+	public int modify(BoardVO boardVO) throws Exception {
+		
+		if(modifyNullCheck(boardVO)) {
+			return 0;
+		}
+		
+		return boardMapper.modify(boardVO);
+	}
 	
+	// 등록시 데이터 값 Null인지 체크
+	private boolean enrollNullCheck(BoardVO boardVO) throws Exception {
+		
+		if(boardVO.getTitle() == null || boardVO.getContent() == null || boardVO.getWriter() == null) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	// 수정시 데이터 값 Null인지 체크
+	private boolean modifyNullCheck(BoardVO boardVO) throws Exception {
+	
+		if(boardVO.getTitle() == null || boardVO.getContent() == null) {
+			return true;
+		}
+	
+		return false;
+	}
 }

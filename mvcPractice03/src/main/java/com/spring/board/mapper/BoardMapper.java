@@ -12,4 +12,9 @@ public interface BoardMapper {
 	// 게시글 목록 출력
 	public List<BoardVO> getList() throws Exception;
 	
+	// 게시글 수정
+	public int modify(BoardVO boardVO) throws Exception;
+	
+	// 게시글 상세 출력
+	public BoardVO getDetail(BoardVO boardVO) throws Exception;
 }
