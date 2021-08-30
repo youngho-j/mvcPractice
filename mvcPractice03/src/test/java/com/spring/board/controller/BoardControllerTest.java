@@ -59,4 +59,14 @@ public class BoardControllerTest {
 		.andExpect(flash().attribute("result", ""))
 		.andDo(print());
 	}
+	
+	@Test
+	public void 상세페이지_이동() throws Exception {
+		mock.perform(get("/board/detail")
+				.param("bno", "6"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("board/detail"))
+		.andDo(print());
+		
+	}
 }

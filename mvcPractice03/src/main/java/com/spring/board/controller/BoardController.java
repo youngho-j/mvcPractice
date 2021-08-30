@@ -44,6 +44,12 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	@GetMapping("/detail")
+	public void boardDetailGET(Model model, BoardVO boardVO) throws Exception {
+		logger.info("게시판 상세 페이지");
+		model.addAttribute("detail", boardService.getDetail(boardVO));
+	}
+	
 	private RedirectAttributes resultCheck(int resultSQL, RedirectAttributes redirectAttributes) {
 		if(resultSQL == 1) {
 			return redirectAttributes.addFlashAttribute("result", "success");

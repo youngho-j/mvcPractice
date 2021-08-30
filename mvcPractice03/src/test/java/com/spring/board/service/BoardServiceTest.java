@@ -50,4 +50,14 @@ public class BoardServiceTest {
         
         assertThat(0, equalTo(result));
 	}
+	
+	@Test
+	public void 게시물_상세_테스트() throws Exception {
+		BoardVO vo = new BoardVO();
+		vo.setBno(12);
+		
+		BoardVO detail = boardService.getDetail(vo);
+		
+		assertNotNull(detail);
+	}
 }

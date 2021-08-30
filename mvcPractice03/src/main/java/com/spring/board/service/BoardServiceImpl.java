@@ -41,6 +41,13 @@ public class BoardServiceImpl implements BoardService{
 		return boardMapper.modify(boardVO);
 	}
 	
+	
+	@Override
+	public BoardVO getDetail(BoardVO boardVO) throws Exception {
+		return boardMapper.getDetail(boardVO);
+	}
+	
+	
 	// 등록시 데이터 값 Null인지 체크
 	private boolean enrollNullCheck(BoardVO boardVO) throws Exception {
 		

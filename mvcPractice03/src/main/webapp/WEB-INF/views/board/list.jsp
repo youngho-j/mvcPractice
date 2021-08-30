@@ -39,6 +39,11 @@
         location.href = "/board/enroll";
     }
 	
+	/* 글 상세 페이지 이동 */
+	function goDetail(bno) {
+		location.href = "/board/detail?bno="+ bno;
+	}
+	
 </script>
 
 </head>
@@ -67,7 +72,7 @@
                 <c:forEach items="${list}" var="list">
 			    	<tr>
 			        	<td><c:out value="${list.bno}"/></td>
-			            <td><c:out value="${list.title}"/></td>
+			            <td onclick='javascript:goDetail("<c:out value="${list.bno}"/>");' style='cursor:Pointer'><c:out value="${list.title}"/></td>
 			            <td><c:out value="${list.writer}"/></td>
 			            <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${list.regdate}" /></td>
 			            <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${list.updateDate}" /></td>

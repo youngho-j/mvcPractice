@@ -14,4 +14,7 @@ public interface BoardService {
 	
 	// 게시글 수정
 	public int modify(BoardVO boardVO) throws Exception;
+
+	// 게시글 상세 
+	public BoardVO getDetail(BoardVO boardVO) throws Exception;
 }
