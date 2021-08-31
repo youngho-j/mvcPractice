@@ -50,6 +50,17 @@ public class BoardController {
 		model.addAttribute("detail", boardService.getDetail(boardVO));
 	}
 	
+	@GetMapping("/delete")
+	public String boardDeleteGET(BoardVO boardVO, RedirectAttributes redirectAttributes) throws Exception {
+		logger.info("게시글 삭제");
+		
+		int resultSQL = boardService.delete(boardVO);
+		
+		resultCheck(resultSQL, redirectAttributes);
+		
+		return "redirect:/board/list";
+	}
+	
 	private RedirectAttributes resultCheck(int resultSQL, RedirectAttributes redirectAttributes) {
 		if(resultSQL == 1) {
 			return redirectAttributes.addFlashAttribute("result", "success");

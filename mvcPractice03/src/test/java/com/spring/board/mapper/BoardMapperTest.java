@@ -62,6 +62,13 @@ public class BoardMapperTest {
 		
 		assertNotNull(detail);
 		log.info(detail);
+	}
+	
+	@Test
+	public void 게시물_삭제_쿼리_테스트() throws Exception {
+		BoardVO boardVO = new BoardVO();
+		boardVO.setBno(17);
 		
+		assertThat(1, equalTo(boardMapper.delete(boardVO)));
 	}
 }

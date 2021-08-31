@@ -60,4 +60,13 @@ public class BoardServiceTest {
 		
 		assertNotNull(detail);
 	}
+	@Test
+	public void 게시글_삭제_테스트() throws Exception {
+		BoardVO boardVO = new BoardVO();
+		boardVO.setBno(17);
+		
+		int result = boardService.delete(boardVO);
+		
+		assertThat(0, equalTo(result));
+	}
 }

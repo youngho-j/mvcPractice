@@ -30,7 +30,7 @@
         }
         
         if(result === "success"){
-            alert("등록 성공!");
+            alert("성공!");
         }
 	}
 	

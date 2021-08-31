@@ -28,6 +28,18 @@ function goList() {
     location.href = "/board/list";
 }
 
+function deletePost() {
+	var bno = $("#bno").val();
+    
+    var yn = confirm("게시글을 삭제하시겠습니까?");
+    
+    if(yn) {
+    	location.href = "/board/delete?bno=" + bno;
+    }
+    
+}
+/* 글 삭제 */
+
 </script>
 </head>
 <body>
@@ -57,10 +69,11 @@ function goList() {
                    		<td colspan="3"><c:out value="${detail.content}"/></td>
 					</tr>
             </table>
+             <input type="hidden" id="bno"   name="bno"   value="${bno}"/>
             <div class="btn_right mt15">
                 <button type="button" class="btn black mr5" onclick="javascript:goList();">목록으로</button>
                 <button type="button" class="btn black mr5" onclick="javascript:goModify();">수정하기</button>
-                <button type="button" class="btn black" onclick="javascript:delete();">삭제하기</button>
+                <button type="button" class="btn black" onclick="javascript:deletePost();">삭제하기</button>
             </div>
 		</div>
 	</div>

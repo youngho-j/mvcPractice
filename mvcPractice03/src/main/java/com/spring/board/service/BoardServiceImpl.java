@@ -47,6 +47,10 @@ public class BoardServiceImpl implements BoardService{
 		return boardMapper.getDetail(boardVO);
 	}
 	
+	@Override
+	public int delete(BoardVO boardVO) throws Exception {
+		return boardMapper.delete(boardVO);
+	}
 	
 	// 등록시 데이터 값 Null인지 체크
 	private boolean enrollNullCheck(BoardVO boardVO) throws Exception {
@@ -67,4 +71,5 @@ public class BoardServiceImpl implements BoardService{
 	
 		return false;
 	}
+
 }
