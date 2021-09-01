@@ -69,4 +69,13 @@ public class BoardControllerTest {
 		.andDo(print());
 		
 	}
+	@Test
+	public void 삭제후_리스트페이지_이동() throws Exception {
+		mock.perform(get("/board/delete")
+				.param("bno", "18"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/board/list"))
+		.andExpect(flash().attribute("result", ""))
+		.andDo(print());
+	}
 }
