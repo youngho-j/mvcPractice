@@ -28,8 +28,9 @@ function goList() {
     location.href = "/board/list";
 }
 
+/* 글 삭제 */
 function deletePost() {
-	var bno = $("#bno").val();
+	let bno = $("#bno").val();
     
     var yn = confirm("게시글을 삭제하시겠습니까?");
     
@@ -38,8 +39,13 @@ function deletePost() {
     }
     
 }
-/* 글 삭제 */
 
+/*글 수정 페이지 이동*/
+function goModify() {
+	let bno = $("#bno").val();
+	
+	location.href = "/board/modify?bno=" + bno;
+}
 </script>
 </head>
 <body>

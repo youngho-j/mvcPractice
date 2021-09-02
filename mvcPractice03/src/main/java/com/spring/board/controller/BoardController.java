@@ -61,6 +61,23 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	@GetMapping("/modify")
+	public void boardUpdateGET(Model model, BoardVO boardVO) throws Exception {
+		logger.info("게시글 수정 페이지");
+		model.addAttribute("before", boardService.getDetail(boardVO));
+	}
+	
+	@PostMapping("/modify")
+	public String boardUpdatePOST(BoardVO boardVO, RedirectAttributes redirectAttributes) throws Exception {
+		logger.info("게시글 수정 정보" + boardVO);
+		
+		int resultSQL = boardService.modify(boardVO);
+		
+		resultCheck(resultSQL, redirectAttributes);
+		
+		return "redirect:/board/list";
+	}
+	
 	private RedirectAttributes resultCheck(int resultSQL, RedirectAttributes redirectAttributes) {
 		if(resultSQL == 1) {
 			return redirectAttributes.addFlashAttribute("result", "success");

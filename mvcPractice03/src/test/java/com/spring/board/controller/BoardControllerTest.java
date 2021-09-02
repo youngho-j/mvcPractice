@@ -69,10 +69,31 @@ public class BoardControllerTest {
 		.andDo(print());
 		
 	}
+	
 	@Test
 	public void 삭제후_리스트페이지_이동() throws Exception {
 		mock.perform(get("/board/delete")
 				.param("bno", "18"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/board/list"))
+		.andExpect(flash().attribute("result", ""))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 수정페이지_이동() throws Exception {
+		mock.perform(get("/board/modify")
+				.param("bno", "1"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("board/modify"))
+		.andDo(print());
+		
+	}
+	
+	@Test
+	public void 수정후_리스트페이지_이동() throws Exception {
+		mock.perform(post("/board/modify")
+				.param("bno", "33"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/board/list"))
 		.andExpect(flash().attribute("result", ""))
