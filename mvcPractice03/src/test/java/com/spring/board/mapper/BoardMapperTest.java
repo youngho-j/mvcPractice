@@ -71,4 +71,9 @@ public class BoardMapperTest {
 		
 		assertThat(1, equalTo(boardMapper.delete(boardVO)));
 	}
+	
+	@Test
+	public void 총_게시글_수() throws Exception {
+		assertThat(8, equalTo(boardMapper.getTotalCount()));		
+	}
 }

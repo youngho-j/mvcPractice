@@ -20,4 +20,8 @@ public interface BoardMapper {
 	
 	// 게시글 삭제
 	public int delete(BoardVO boardVO) throws Exception;
+	
+	// 총 게시글 수 
+	public int getTotalCount() throws Exception;
+
 }
