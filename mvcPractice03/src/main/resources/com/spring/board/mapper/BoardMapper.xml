@@ -8,9 +8,16 @@
 	</insert>
 	
 	<!-- 게시글 목록 출력 -->
-	<select id="getList" resultType="com.spring.board.vo.BoardVO">
-		select * from Myboard2
-		order by bno desc;
+	<select id="getList" resultType="com.spring.board.vo.BoardVO" parameterType="com.spring.board.model.PagingModel">
+		select * from
+			(
+				select bno, title, writer, regdate, updatedate
+				from Myboard2
+				order by bno desc
+			) as T1
+		limit #{skipOverPost}, #{viewPerPage}
+			 
+		
 	</select>
 	
 	<!-- 게시글 수정 -->

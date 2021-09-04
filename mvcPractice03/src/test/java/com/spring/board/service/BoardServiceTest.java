@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.spring.board.model.PagingModel;
 import com.spring.board.vo.BoardVO;
 
 
@@ -34,7 +35,9 @@ public class BoardServiceTest {
 	
 	@Test
 	public void 게시글_목록_출력_테스트() throws Exception {
-		List<BoardVO> list = boardService.getList();
+		PagingModel pagingModel = new PagingModel();
+		
+		List<BoardVO> list = boardService.getList(pagingModel);
 		
 		assertTrue(list.size() > 0);
 	}

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.spring.board.model.PagingModel;
 import com.spring.board.vo.BoardVO;
 
 import lombok.extern.log4j.Log4j2;
@@ -38,7 +39,9 @@ public class BoardMapperTest {
 	
 	@Test
 	public void 게시글_목록_출력_쿼리_테스트() throws Exception {
-		List<BoardVO> list = boardMapper.getList();
+		PagingModel pagingModel = new PagingModel();
+		
+		List<BoardVO> list = boardMapper.getList(pagingModel);
 		
 		assertNotNull(list.get(0));
 	}

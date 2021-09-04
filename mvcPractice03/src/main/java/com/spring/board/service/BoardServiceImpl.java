@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.board.mapper.BoardMapper;
+import com.spring.board.model.PagingModel;
 import com.spring.board.vo.BoardVO;
 
 @Service
@@ -26,9 +27,9 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardVO> getList() throws Exception {
+	public List<BoardVO> getList(PagingModel pagingModel) throws Exception {
 		
-		return boardMapper.getList();
+		return boardMapper.getList(pagingModel);
 	}
 
 	@Override
