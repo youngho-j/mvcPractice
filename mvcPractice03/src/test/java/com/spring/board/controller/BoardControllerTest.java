@@ -40,6 +40,7 @@ public class BoardControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(view().name("board/list"))
 		.andExpect(model().attributeExists("list"))
+		.andExpect(model().attributeExists("pageData"))
 		.andDo(print());
 	}
 	

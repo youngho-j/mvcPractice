@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.board.dto.PageDataDTO;
 import com.spring.board.model.PagingModel;
 import com.spring.board.service.BoardService;
 import com.spring.board.vo.BoardVO;
@@ -27,6 +28,10 @@ public class BoardController {
 	public void boardListGET(Model model, PagingModel pagingModel) throws Exception {
 		logger.info("게시판 목록 페이지");
 		model.addAttribute("list", boardService.getList(pagingModel));
+		
+		PageDataDTO pageData = new PageDataDTO(pagingModel, boardService.getTotalPost());
+		
+		model.addAttribute("pageData", pageData);
 	}
 	
 	@GetMapping("/enroll")

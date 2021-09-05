@@ -72,4 +72,9 @@ public class BoardServiceTest {
 		
 		assertThat(0, equalTo(result));
 	}
+	
+	@Test
+	public void 게시글_수_출력_테스트() throws Exception {
+		assertThat(11, equalTo(boardService.getTotalPost()));
+	}
 }

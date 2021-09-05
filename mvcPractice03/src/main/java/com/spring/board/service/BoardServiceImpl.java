@@ -25,13 +25,15 @@ public class BoardServiceImpl implements BoardService{
 		
 		return boardMapper.enroll(boardVO);
 	}
-
+	
+	// 게시글 리스트 
 	@Override
 	public List<BoardVO> getList(PagingModel pagingModel) throws Exception {
 		
 		return boardMapper.getList(pagingModel);
 	}
 
+	// 게시글 수정
 	@Override
 	public int modify(BoardVO boardVO) throws Exception {
 		
@@ -42,17 +44,24 @@ public class BoardServiceImpl implements BoardService{
 		return boardMapper.modify(boardVO);
 	}
 	
-	
+	// 게시글 상세정보
 	@Override
 	public BoardVO getDetail(BoardVO boardVO) throws Exception {
 		return boardMapper.getDetail(boardVO);
 	}
 	
+	// 게시글 삭제
 	@Override
 	public int delete(BoardVO boardVO) throws Exception {
 		return boardMapper.delete(boardVO);
 	}
 	
+	// 전체 게시글 수
+	@Override
+	public int getTotalPost() throws Exception {
+		return boardMapper.getTotalCount();
+	}
+
 	// 등록시 데이터 값 Null인지 체크
 	private boolean enrollNullCheck(BoardVO boardVO) throws Exception {
 		

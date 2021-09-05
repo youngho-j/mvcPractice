@@ -77,6 +77,6 @@ public class BoardMapperTest {
 	
 	@Test
 	public void 총_게시글_수() throws Exception {
-		assertThat(8, equalTo(boardMapper.getTotalCount()));		
+		assertThat(11, equalTo(boardMapper.getTotalCount()));		
 	}
 }
