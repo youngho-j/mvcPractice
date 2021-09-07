@@ -7,11 +7,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 상세 페이지</title>
-<%
-	String bno = request.getParameter("bno");
-%>
-
-<c:set var="bno" value="<%=bno %>"/>
 
 <link rel="stylesheet" type="text/css" href="/css/common/common.css"/>
 
@@ -21,32 +16,6 @@
   crossorigin="anonymous">
 </script>
 
-<script type="text/javascript">
-
-/*글 등록 페이지 이동*/
-function goList() {         
-    location.href = "/board/list";
-}
-
-/* 글 삭제 */
-function deletePost() {
-	let bno = $("#bno").val();
-    
-    var yn = confirm("게시글을 삭제하시겠습니까?");
-    
-    if(yn) {
-    	location.href = "/board/delete?bno=" + bno;
-    }
-    
-}
-
-/*글 수정 페이지 이동*/
-function goModify() {
-	let bno = $("#bno").val();
-	
-	location.href = "/board/modify?bno=" + bno;
-}
-</script>
 </head>
 <body>
 <div id="wrap">
@@ -75,7 +44,11 @@ function goModify() {
                    		<td colspan="3"><c:out value="${detail.content}"/></td>
 					</tr>
             </table>
-             <input type="hidden" id="bno"   name="bno"   value="${bno}"/>
+            <form id="infoForm" method="get">
+	            <input type="hidden" id="bno"         name="bno"          value="${detail.bno}"/>
+	            <input type="hidden" id="curPageNum"  name="curPageNum"   value="${pagingModel.curPageNum}"/>
+	            <input type="hidden" id="viewPerPage" name="viewPerPage"  value="${pagingModel.viewPerPage}"/>
+            </form>
             <div class="btn_right mt15">
                 <button type="button" class="btn black mr5" onclick="javascript:goList();">목록으로</button>
                 <button type="button" class="btn black mr5" onclick="javascript:goModify();">수정하기</button>
@@ -84,5 +57,34 @@ function goModify() {
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+
+var infoForm = $("#infoForm");
+
+/*글 등록 페이지 이동*/
+function goList() {
+	infoForm.find("#bno").remove();
+	infoForm.attr("action", "/board/list");
+	infoForm.submit();
+}
+
+/* 글 삭제 */
+function deletePost() {
+	let bno = $("#bno").val();
+    
+    var yn = confirm("게시글을 삭제하시겠습니까?");
+    
+    if(yn) {
+    	location.href = "/board/delete?bno=" + bno;
+    }
+    
+}
+
+/*글 수정 페이지 이동*/
+function goModify() {
+	infoForm.attr("action", "/board/modify");
+	infoForm.submit();	
+}
+</script>
 </body>
 </html>

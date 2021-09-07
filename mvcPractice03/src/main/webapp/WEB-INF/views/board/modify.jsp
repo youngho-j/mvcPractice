@@ -6,11 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 수정 페이지</title>
-<%    
-    String bno = request.getParameter("bno");        
-%>
- 
-<c:set var="bno" value="<%=bno%>"/>
 <link rel="stylesheet" type="text/css" href="/css/common/common.css"/>
 
 <script
@@ -19,35 +14,6 @@
   crossorigin="anonymous">
 </script>
 
-<script type="text/javascript">
-	$(document).ready(function(){        
-	    
-	});
-	
-	function goList() {
-		location.href = "/board/list";
-	}
-	
-	function nullCheck() {
-		
-		let title = $("#title").val();
-		let content = $("#content").val();
-		
-		if (title == ""){            
-	        alert("제목을 입력해주세요.");
-	        $("#title").focus();
-	        return false;
-	    }
-		
-		if (content == ""){            
-	        alert("내용을 입력해주세요.");
-	        $("#content").focus();
-	        return false;
-	    }
-		return true;
-	}
-</script>
-	
 </head>
 <body>
 <div id="wrap">
@@ -76,14 +42,51 @@
                         </tr>
                     </tbody>
                 </table>    
-                <input type="hidden" id="bno" name="bno" value="${bno}"/>
+                <input type="hidden" id="bno" name="bno" value="${before.bno}"/>
             <div class="btn_right mt15">
                 <button type="button" class="btn black" onclick="javascript:goList();">목록으로</button>
                 <button type="submit" class="btn black mr5">글 수정</button>
             </div>
             </form>
+            <form id="infoForm" method="get">
+	            <input type="hidden" id="bno"         name="bno"          value="${before.bno}"/>
+	            <input type="hidden" id="curPageNum"  name="curPageNum"   value="${pagingModel.curPageNum}"/>
+	            <input type="hidden" id="viewPerPage" name="viewPerPage"  value="${pagingModel.viewPerPage}"/>
+            </form>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function(){        
+	    
+	});
+	
+	var infoForm = $("#infoForm");
+	
+	function goList() {
+		infoForm.find("#bno").remove();
+		infoForm.attr("action", "/board/list");
+		infoForm.submit();
+	}
+	
+	function nullCheck() {
+		
+		let title = $("#title").val();
+		let content = $("#content").val();
+		
+		if (title == ""){            
+	        alert("제목을 입력해주세요.");
+	        $("#title").focus();
+	        return false;
+	    }
+		
+		if (content == ""){            
+	        alert("내용을 입력해주세요.");
+	        $("#content").focus();
+	        return false;
+	    }
+		return true;
+	}
+</script>
 </body>
 </html>

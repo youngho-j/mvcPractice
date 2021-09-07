@@ -51,9 +51,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("/detail")
-	public void boardDetailGET(Model model, BoardVO boardVO) throws Exception {
+	public void boardDetailGET(Model model, BoardVO boardVO, PagingModel pagingModel) throws Exception {
 		logger.info("게시판 상세 페이지");
 		model.addAttribute("detail", boardService.getDetail(boardVO));
+		model.addAttribute("pagingModel", pagingModel);
 	}
 	
 	@GetMapping("/delete")
@@ -68,9 +69,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public void boardUpdateGET(Model model, BoardVO boardVO) throws Exception {
+	public void boardUpdateGET(Model model, BoardVO boardVO, PagingModel pagingModel) throws Exception {
 		logger.info("게시글 수정 페이지");
 		model.addAttribute("before", boardService.getDetail(boardVO));
+		model.addAttribute("pagingModel", pagingModel);
 	}
 	
 	@PostMapping("/modify")
