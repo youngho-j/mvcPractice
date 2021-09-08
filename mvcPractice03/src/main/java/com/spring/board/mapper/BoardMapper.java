@@ -23,6 +23,6 @@ public interface BoardMapper {
 	public int delete(BoardVO boardVO) throws Exception;
 	
 	// 총 게시글 수 
-	public int getTotalCount() throws Exception;
+	public int getTotalCount(PagingModel pagingModel) throws Exception;
 
 }

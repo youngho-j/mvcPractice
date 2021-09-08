@@ -36,7 +36,7 @@ public class BoardServiceTest {
 	@Test
 	public void 게시글_목록_출력_테스트() throws Exception {
 		PagingModel pagingModel = new PagingModel();
-		
+		pagingModel.setKeyword(null);
 		List<BoardVO> list = boardService.getList(pagingModel);
 		
 		assertTrue(list.size() > 0);
@@ -75,6 +75,8 @@ public class BoardServiceTest {
 	
 	@Test
 	public void 게시글_수_출력_테스트() throws Exception {
-		assertThat(11, equalTo(boardService.getTotalPost()));
+		PagingModel pagingModel = new PagingModel();
+		pagingModel.setKeyword(null);
+		assertThat(174, equalTo(boardService.getTotalPost(pagingModel)));
 	}
 }

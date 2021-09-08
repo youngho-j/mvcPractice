@@ -1,7 +1,9 @@
 package com.spring.board.model;
 
+import lombok.Getter;
 import lombok.ToString;
 
+@Getter
 @ToString
 public class PagingModel {
 	
@@ -14,6 +16,9 @@ public class PagingModel {
 	// 스킵 할 게시물 수 (curPageNum - 1) * viewPerPage
 	private int skipOverPost;
 	
+	// 검색 키워드
+	private String keyword;
+	
 	public PagingModel() {
 		this(1, 10);
 	}
@@ -24,9 +29,6 @@ public class PagingModel {
 		this.skipOverPost = (curPageNum - 1) * viewPerPage;
 	}
 
-	public int getCurPageNum() {
-		return curPageNum;
-	}
 
 	public void setCurPageNum(int curPageNum) {
 		this.curPageNum = curPageNum;
@@ -34,22 +36,19 @@ public class PagingModel {
 		this.skipOverPost = (curPageNum - 1) * this.viewPerPage;
 	}
 
-	public int getViewPerPage() {
-		return viewPerPage;
-	}
 
 	public void setViewPerPage(int viewPerPage) {
 		this.viewPerPage = viewPerPage;
 		this.skipOverPost = (curPageNum - 1) * this.viewPerPage;
 	}
 
-	public int getSkipOverPost() {
-		return skipOverPost;
-	}
 
 	public void setSkipOverPost(int skipOverPost) {
 		this.skipOverPost = skipOverPost;
 	}
-	
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 	
 }

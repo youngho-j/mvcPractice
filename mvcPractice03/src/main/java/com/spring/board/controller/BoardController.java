@@ -29,7 +29,7 @@ public class BoardController {
 		logger.info("게시판 목록 페이지");
 		model.addAttribute("list", boardService.getList(pagingModel));
 		
-		PageDataDTO pageData = new PageDataDTO(pagingModel, boardService.getTotalPost());
+		PageDataDTO pageData = new PageDataDTO(pagingModel, boardService.getTotalPost(pagingModel));
 		
 		model.addAttribute("pageData", pageData);
 	}

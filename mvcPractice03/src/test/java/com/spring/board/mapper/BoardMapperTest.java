@@ -40,7 +40,7 @@ public class BoardMapperTest {
 	@Test
 	public void 게시글_목록_출력_쿼리_테스트() throws Exception {
 		PagingModel pagingModel = new PagingModel();
-		
+		pagingModel.setKeyword(null);
 		List<BoardVO> list = boardMapper.getList(pagingModel);
 		
 		assertNotNull(list.get(0));
@@ -77,6 +77,8 @@ public class BoardMapperTest {
 	
 	@Test
 	public void 총_게시글_수() throws Exception {
-		assertThat(11, equalTo(boardMapper.getTotalCount()));		
+		PagingModel pagingModel = new PagingModel();
+		pagingModel.setKeyword(null);
+		assertThat(174, equalTo(boardMapper.getTotalCount(pagingModel)));		
 	}
 }

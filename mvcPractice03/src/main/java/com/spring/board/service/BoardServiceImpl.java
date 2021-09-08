@@ -58,8 +58,8 @@ public class BoardServiceImpl implements BoardService{
 	
 	// 전체 게시글 수
 	@Override
-	public int getTotalPost() throws Exception {
-		return boardMapper.getTotalCount();
+	public int getTotalPost(PagingModel pagingModel) throws Exception {
+		return boardMapper.getTotalCount(pagingModel);
 	}
 
 	// 등록시 데이터 값 Null인지 체크
