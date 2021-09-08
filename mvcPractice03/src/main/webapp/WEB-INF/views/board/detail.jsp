@@ -48,6 +48,7 @@
 	            <input type="hidden" id="bno"         name="bno"          value="${detail.bno}"/>
 	            <input type="hidden" id="curPageNum"  name="curPageNum"   value="${pagingModel.curPageNum}"/>
 	            <input type="hidden" id="viewPerPage" name="viewPerPage"  value="${pagingModel.viewPerPage}"/>
+	            <input type="hidden" id="keyword"     name="keyword"      value="${pagingModel.keyword}">
             </form>
             <div class="btn_right mt15">
                 <button type="button" class="btn black mr5" onclick="javascript:goList();">목록으로</button>

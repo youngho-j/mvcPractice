@@ -40,16 +40,31 @@
                         <th>수정일</th>
                    </tr>
                 </thead>
-                <c:forEach items="${list}" var="list">
-			    	<tr>
-			        	<td><c:out value="${list.bno}"/></td>
-			            <td onclick='javascript:goDetail("<c:out value="${list.bno}"/>");' style='cursor:Pointer'><c:out value="${list.title}"/></td>
-			            <td><c:out value="${list.writer}"/></td>
-			            <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${list.regdate}" /></td>
-			            <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${list.updateDate}" /></td>
-			        </tr>
-			    </c:forEach>   
+                <c:choose>
+	                <c:when test="${not empty list}">
+		                <c:forEach items="${list}" var="list">
+					    	<tr>
+					        	<td><c:out value="${list.bno}"/></td>
+					            <td onclick='javascript:goDetail("<c:out value="${list.bno}"/>");' style='cursor:Pointer'><c:out value="${list.title}"/></td>
+					            <td><c:out value="${list.writer}"/></td>
+					            <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${list.regdate}" /></td>
+					            <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${list.updateDate}" /></td>
+					        </tr>
+					    </c:forEach>
+	                </c:when>
+	                <c:otherwise>
+	                	<tr>
+		            		<td colspan='5'>해당 키워드로 등록된 글이 존재하지 않습니다.</td>
+		            	</tr>
+	                </c:otherwise>
+			    </c:choose>   
             </table>
+            <div id="search">
+ 				<div class="btn_right mt15">
+ 					<input type="text" name="keyword" value="${pageData.pagingModel.keyword}" class="tbox01 mr5">
+ 					<button id="search_button" class="btn black mr5">Search</button>
+ 				</div>           
+            </div>
 			<div id="paging">
 				<ul class="pagination">
 					<!-- 이전 페이지 -->
@@ -71,7 +86,8 @@
 		</div>
         <form id="moveForm" method="get">
          	<input type="hidden" name="curPageNum"  value="${pageData.pagingModel.curPageNum}">	
-          	<input type="hidden" name="viewPerPage" value="${pageData.pagingModel.viewPerPage}">	
+          	<input type="hidden" name="viewPerPage" value="${pageData.pagingModel.viewPerPage}">
+          	<input type="hidden" name="keyword"     value="${pageData.pagingModel.keyword}">
         </form>
 	</div>
 </div>
@@ -120,6 +136,18 @@ hmtl 파싱 후 script를 실행할 수 있도록 변경 단, 웹이 자바스�
 		moveForm.attr("action", "/board/detail");
 		moveForm.submit();
 	}
+	
+	$("#search_button").click(function(e){
+		e.preventDefault();
+		
+		let keyword = $("input[name = 'keyword']").val();
+		
+		moveForm.find("input[name='keyword']").val(keyword);
+		moveForm.find("input[name='curPageNum']").val(1);
+		/*action 속성을 따로 지정하지 않아도 현재 url 경로의 매핑된 메서드를 호출하기때문에 적어주지 않아도됨*/
+		moveForm.attr("action", "/board/list");
+		moveForm.submit();
+	});
 	
 </script>
 </body>

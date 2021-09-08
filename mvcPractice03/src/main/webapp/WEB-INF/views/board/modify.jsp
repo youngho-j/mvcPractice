@@ -52,6 +52,7 @@
 	            <input type="hidden" id="bno"         name="bno"          value="${before.bno}"/>
 	            <input type="hidden" id="curPageNum"  name="curPageNum"   value="${pagingModel.curPageNum}"/>
 	            <input type="hidden" id="viewPerPage" name="viewPerPage"  value="${pagingModel.viewPerPage}"/>
+	            <input type="hidden" id="keyword"     name="keyword"      value="${pagingModel.keyword}">
             </form>
         </div>
     </div>
