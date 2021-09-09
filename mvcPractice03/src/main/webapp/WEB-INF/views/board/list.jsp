@@ -61,6 +61,15 @@
             </table>
             <div id="search">
  				<div class="btn_right mt15">
+ 					<select name=type class="selbox">
+ 						<option value=""    <c:out value="${pageData.pagingModel.type == null?'selected':''}"/>>---</option>
+ 						<option value="T"   <c:out value="${pageData.pagingModel.type == 'T'?'selected':''}"/>>제목</option>
+ 						<option value="C"   <c:out value="${pageData.pagingModel.type == 'C'?'selected':''}"/>>내용</option>
+ 						<option value="W"   <c:out value="${pageData.pagingModel.type == 'W'?'selected':''}"/>>작성자</option>
+ 						<option value="TC"  <c:out value="${pageData.pagingModel.type == 'TC'?'selected':''}"/>>제목 + 내용</option>
+ 						<option value="TW"  <c:out value="${pageData.pagingModel.type == 'TW'?'selected':''}"/>>제목 + 작성자</option>
+ 						<option value="TCW" <c:out value="${pageData.pagingModel.type == 'TCW'?'selected':''}"/>>제목 + 내용 + 작성자</option>
+ 					</select>
  					<input type="text" name="keyword" value="${pageData.pagingModel.keyword}" class="tbox01 mr5">
  					<button id="search_button" class="btn black mr5">Search</button>
  				</div>           
@@ -88,6 +97,7 @@
          	<input type="hidden" name="curPageNum"  value="${pageData.pagingModel.curPageNum}">	
           	<input type="hidden" name="viewPerPage" value="${pageData.pagingModel.viewPerPage}">
           	<input type="hidden" name="keyword"     value="${pageData.pagingModel.keyword}">
+          	<input type="hidden" name="type"        value="${pageData.pagingModel.type}">
         </form>
 	</div>
 </div>
@@ -141,7 +151,20 @@ hmtl 파싱 후 script를 실행할 수 있도록 변경 단, 웹이 자바스�
 		e.preventDefault();
 		
 		let keyword = $("input[name = 'keyword']").val();
+		let type = $("select[name = 'type']").val();
 		
+		if(!type) {
+			alert("검색 타입을 선택하세요.");
+			return false;
+		}
+		
+		if(!keyword) {
+			alert("키워드를 입력하세요.");
+			return false;
+		}
+		
+		
+		moveForm.find("input[name='type']").val(type);
 		moveForm.find("input[name='keyword']").val(keyword);
 		moveForm.find("input[name='curPageNum']").val(1);
 		/*action 속성을 따로 지정하지 않아도 현재 url 경로의 매핑된 메서드를 호출하기때문에 적어주지 않아도됨*/

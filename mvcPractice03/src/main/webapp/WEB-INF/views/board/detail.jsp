@@ -49,6 +49,7 @@
 	            <input type="hidden" id="curPageNum"  name="curPageNum"   value="${pagingModel.curPageNum}"/>
 	            <input type="hidden" id="viewPerPage" name="viewPerPage"  value="${pagingModel.viewPerPage}"/>
 	            <input type="hidden" id="keyword"     name="keyword"      value="${pagingModel.keyword}">
+	            <input type="hidden" id="keyword"     name="type"      value="${pagingModel.type}">
             </form>
             <div class="btn_right mt15">
                 <button type="button" class="btn black mr5" onclick="javascript:goList();">목록으로</button>
@@ -62,7 +63,7 @@
 
 var infoForm = $("#infoForm");
 
-/*글 등록 페이지 이동*/
+/*글 목록 페이지 이동*/
 function goList() {
 	infoForm.find("#bno").remove();
 	infoForm.attr("action", "/board/list");

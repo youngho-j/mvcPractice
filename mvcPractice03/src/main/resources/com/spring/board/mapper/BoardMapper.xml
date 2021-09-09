@@ -14,7 +14,7 @@
 				select bno, title, writer, regdate, updatedate
 				from Myboard2
 				<if test="keyword != null" >
-					where title like concat('%', #{keyword}, '%')
+					<include refid="classify" />
 				</if>
 				order by bno desc
 			) as T1
@@ -45,7 +45,29 @@
 	<select id="getTotalCount" resultType="int">
 		select count(*) from Myboard2
 		<if test="keyword != null">
-			where title like concat('%', #{keyword}, '%')
+			<include refid="classify" />
 		</if>
 	</select>
+	
+	<!-- 주제별 검색 조건 -->
+	<sql id="classify">
+		<trim prefix="where ("  suffix=")"  prefixOverrides="or">
+			<foreach collection="typeArr" item="type">
+				<trim prefix="or">
+					<choose>
+						<when test="type == 'T'.toString()" >
+							title like concat('%', #{keyword}, '%')
+						</when>
+						<when test="type == 'C'.toString()" >
+							content like concat('%', #{keyword}, '%')
+						</when>
+						<when test="type == 'W'.toString()" >
+							writer like concat('%', #{keyword}, '%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
 </mapper>

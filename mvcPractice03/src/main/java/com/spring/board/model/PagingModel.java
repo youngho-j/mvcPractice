@@ -19,6 +19,12 @@ public class PagingModel {
 	// 검색 키워드
 	private String keyword;
 	
+	// 검색 타입
+	private String type;
+	
+	// 검색 타입 배열
+	private String[] typeArr;
+	
 	public PagingModel() {
 		this(1, 10);
 	}
@@ -50,5 +56,13 @@ public class PagingModel {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	
+
+	public void setType(String type) {
+		this.type = type;
+		this.typeArr = type.split("");
+	}
+
+	public void setTypeArr(String[] typeArr) {
+		this.typeArr = typeArr;
+	}
 }

@@ -53,6 +53,7 @@
 	            <input type="hidden" id="curPageNum"  name="curPageNum"   value="${pagingModel.curPageNum}"/>
 	            <input type="hidden" id="viewPerPage" name="viewPerPage"  value="${pagingModel.viewPerPage}"/>
 	            <input type="hidden" id="keyword"     name="keyword"      value="${pagingModel.keyword}">
+	            <input type="hidden" id="type"        name="type"      value="${pagingModel.type}">
             </form>
         </div>
     </div>
