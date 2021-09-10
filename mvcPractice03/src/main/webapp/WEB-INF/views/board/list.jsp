@@ -61,6 +61,7 @@
             </table>
             <div id="search">
  				<div class="btn_right mt15">
+ 					<form id="searchForm">
  					<select name=type class="selbox">
  						<option value=""    <c:out value="${pageData.pagingModel.type == null?'selected':''}"/>>---</option>
  						<option value="T"   <c:out value="${pageData.pagingModel.type == 'T'?'selected':''}"/>>제목</option>
@@ -71,7 +72,8 @@
  						<option value="TCW" <c:out value="${pageData.pagingModel.type == 'TCW'?'selected':''}"/>>제목 + 내용 + 작성자</option>
  					</select>
  					<input type="text" name="keyword" value="${pageData.pagingModel.keyword}" class="tbox01 mr5">
- 					<button id="search_button" class="btn black mr5">Search</button>
+ 					<button type="submit" id="search_button" class="btn black mr5">Search</button>
+ 					</form>
  				</div>           
             </div>
 			<div id="paging">
@@ -147,7 +149,25 @@ hmtl 파싱 후 script를 실행할 수 있도록 변경 단, 웹이 자바스�
 		moveForm.submit();
 	}
 	
-	$("#search_button").click(function(e){
+	function typeCheck(type) {
+		if(!type) {
+			alert("검색 타입을 선택하세요.");
+			return false;
+		}
+	}
+	
+	function keywordCheck(keyword) {
+		if(!keyword) {
+			alert("키워드를 입력하세요.");
+			return false;
+		}
+	}
+	
+	
+	const searchForm = document.querySelector('#searchForm');
+	
+	/* 검색시 엔터 or 클릭 모두 사용 가능 */
+	searchForm.addEventListener('submit', function(e){
 		e.preventDefault();
 		
 		let keyword = $("input[name = 'keyword']").val();
@@ -162,7 +182,6 @@ hmtl 파싱 후 script를 실행할 수 있도록 변경 단, 웹이 자바스�
 			alert("키워드를 입력하세요.");
 			return false;
 		}
-		
 		
 		moveForm.find("input[name='type']").val(type);
 		moveForm.find("input[name='keyword']").val(keyword);
