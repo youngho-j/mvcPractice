@@ -22,7 +22,7 @@
 <div id="wrap">
 	<div id="container">
 		<div class="inner">
-			<h1>게시판</h1>
+			<h1 onclick="goListMainPage()">게시판</h1>
 			<table width="100%" class="table01">
             	<colgroup>
                 	<col width="10%" />
@@ -125,12 +125,17 @@ hmtl 파싱 후 script를 실행할 수 있도록 변경 단, 웹이 자바스�
         }
 	}
 	
+	/* 목록 첫 페이지로 이동 */
+	function goListMainPage() {
+		location.href = "/board/list"
+	}
+	
 	/* 글 등록 페이지 이동 */
 	function goEnroll() {         
         location.href = "/board/enroll";
     }
 	
-	var moveForm = $("#moveForm");
+	const moveForm = $("#moveForm");
 	
 	/* 페이지 이동 번호 클릭시 해당 페이지로 이동 */
 	$(".pagination a").click(function(e){
@@ -149,22 +154,12 @@ hmtl 파싱 후 script를 실행할 수 있도록 변경 단, 웹이 자바스�
 		moveForm.submit();
 	}
 	
-	function typeCheck(type) {
-		if(!type) {
-			alert("검색 타입을 선택하세요.");
-			return false;
-		}
-	}
-	
-	function keywordCheck(keyword) {
-		if(!keyword) {
-			alert("키워드를 입력하세요.");
-			return false;
-		}
-	}
-	
-	
-	const searchForm = document.querySelector('#searchForm');
+	/* const searchForm = document.querySelector('#searchForm');
+	   위의 코드는 HTML DOM 객체를 리턴하므로 이벤트 리스너 등록이 가능
+	   jquery를 통해 HTML DOM 객체를 리턴하기 위해서는 jquery 객체의 첫번째 element를 불러와야함
+	   (const searchForm = $('#searchForm'); -> jquery 객체 리턴, 이벤트 리스너 등록 불가)
+	*/
+	const searchForm = $('#searchForm')[0];
 	
 	/* 검색시 엔터 or 클릭 모두 사용 가능 */
 	searchForm.addEventListener('submit', function(e){
@@ -186,7 +181,7 @@ hmtl 파싱 후 script를 실행할 수 있도록 변경 단, 웹이 자바스�
 		moveForm.find("input[name='type']").val(type);
 		moveForm.find("input[name='keyword']").val(keyword);
 		moveForm.find("input[name='curPageNum']").val(1);
-		/*action 속성을 따로 지정하지 않아도 현재 url 경로의 매핑된 메서드를 호출하기때문에 적어주지 않아도됨*/
+		/*action 속성을 따로 지정하지 않아도 현재 url 경로의 매핑된 메서드를 호출하기때문에 적어주지 않아도됨 */
 		moveForm.attr("action", "/board/list");
 		moveForm.submit();
 	});

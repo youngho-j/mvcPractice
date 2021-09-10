@@ -53,24 +53,23 @@
 	            <input type="hidden" id="curPageNum"  name="curPageNum"   value="${pagingModel.curPageNum}"/>
 	            <input type="hidden" id="viewPerPage" name="viewPerPage"  value="${pagingModel.viewPerPage}"/>
 	            <input type="hidden" id="keyword"     name="keyword"      value="${pagingModel.keyword}">
-	            <input type="hidden" id="type"        name="type"      value="${pagingModel.type}">
+	            <input type="hidden" id="type"        name="type"         value="${pagingModel.type}">
             </form>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function(){        
-	    
-	});
 	
-	var infoForm = $("#infoForm");
+	const infoForm = $("#infoForm");
 	
+	/* 목록 페이지 이동*/
 	function goList() {
 		infoForm.find("#bno").remove();
 		infoForm.attr("action", "/board/list");
 		infoForm.submit();
 	}
 	
+	/* 빈 값 체크 */
 	function nullCheck() {
 		
 		let title = $("#title").val();

@@ -72,13 +72,13 @@ public class BoardMapperTest {
 		BoardVO boardVO = new BoardVO();
 		boardVO.setBno(17);
 		
-		assertThat(1, equalTo(boardMapper.delete(boardVO)));
+		assertThat(0, equalTo(boardMapper.delete(boardVO)));
 	}
 	
 	@Test
 	public void 총_게시글_수() throws Exception {
 		PagingModel pagingModel = new PagingModel();
 		pagingModel.setKeyword(null);
-		assertThat(174, equalTo(boardMapper.getTotalCount(pagingModel)));		
+		assertThat(180, equalTo(boardMapper.getTotalCount(pagingModel)));		
 	}
 }

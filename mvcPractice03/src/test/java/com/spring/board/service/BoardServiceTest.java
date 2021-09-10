@@ -77,6 +77,6 @@ public class BoardServiceTest {
 	public void 게시글_수_출력_테스트() throws Exception {
 		PagingModel pagingModel = new PagingModel();
 		pagingModel.setKeyword(null);
-		assertThat(174, equalTo(boardService.getTotalPost(pagingModel)));
+		assertThat(180, equalTo(boardService.getTotalPost(pagingModel)));
 	}
 }
