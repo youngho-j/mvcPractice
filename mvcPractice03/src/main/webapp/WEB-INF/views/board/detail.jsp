@@ -61,7 +61,7 @@
 </div>
 <script type="text/javascript">
 
-var infoForm = $("#infoForm");
+const infoForm = $("#infoForm");
 
 /*글 목록 페이지 이동*/
 function goList() {

@@ -11,41 +11,6 @@
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous">
 </script>
-<script type="text/javascript">
-	$(document).ready(function(){        
-	    
-	});
-	
-	function goList() {
-		location.href = "/board/list";
-	}
-	
-	function nullCheck() {
-		
-		let title = $("#title").val();
-		let content = $("#content").val();
-		let writer = $("#writer").val();
-		
-		if (title == ""){            
-            alert("제목을 입력해주세요.");
-            $("#title").focus();
-            return false;
-        }
-		
-		if (content == ""){            
-            alert("내용을 입력해주세요.");
-            $("#content").focus();
-            return false;
-        }
-		
-		if (writer == ""){            
-            alert("작성자를 입력해주세요.");
-            $("#writer").focus();
-            return false;
-        }
-	}
-	
-</script>
 </head>
 <body>
 <div id="wrap">
@@ -86,5 +51,38 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	/* 목록으로 이동 */
+	function goList() {
+		location.href = "/board/list";
+	}
+	
+	/* 빈 값 체크 */
+	function nullCheck() {
+		
+		let title = $("#title").val();
+		let content = $("#content").val();
+		let writer = $("#writer").val();
+		
+		if (title == ""){            
+            alert("제목을 입력해주세요.");
+            $("#title").focus();
+            return false;
+        }
+		
+		if (content == ""){            
+            alert("내용을 입력해주세요.");
+            $("#content").focus();
+            return false;
+        }
+		
+		if (writer == ""){            
+            alert("작성자를 입력해주세요.");
+            $("#writer").focus();
+            return false;
+        }
+	}
+	
+</script>
 </body>
 </html>
