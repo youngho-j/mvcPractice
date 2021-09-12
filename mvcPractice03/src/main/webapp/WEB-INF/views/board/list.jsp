@@ -154,37 +154,12 @@ hmtl 파싱 후 script를 실행할 수 있도록 변경 단, 웹이 자바스�
 		moveForm.submit();
 	}
 	
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f7db2e717513f58cddd5b25cc4d63f4328d00c1e
 	/* const searchForm = document.querySelector('#searchForm');
 	   위의 코드는 HTML DOM 객체를 리턴하므로 이벤트 리스너 등록이 가능
 	   jquery를 통해 HTML DOM 객체를 리턴하기 위해서는 jquery 객체의 첫번째 element를 불러와야함
 	   (const searchForm = $('#searchForm'); -> jquery 객체 리턴, 이벤트 리스너 등록 불가)
 	*/
 	const searchForm = $('#searchForm')[0];
-<<<<<<< HEAD
-=======
-	function typeCheck(type) {
-		if(!type) {
-			alert("검색 타입을 선택하세요.");
-			return false;
-		}
-	}
-	
-	function keywordCheck(keyword) {
-		if(!keyword) {
-			alert("키워드를 입력하세요.");
-			return false;
-		}
-	}
-	
-	
-	const searchForm = document.querySelector('#searchForm');
->>>>>>> 6277f0f (검색 기능 수정)
-=======
->>>>>>> f7db2e717513f58cddd5b25cc4d63f4328d00c1e
 	
 	/* 검색시 엔터 or 클릭 모두 사용 가능 */
 	searchForm.addEventListener('submit', function(e){
