@@ -11,7 +11,11 @@
 	<select id="getList" resultType="com.spring.board.vo.BoardVO" parameterType="com.spring.board.model.PagingModel">
 		select * from
 			(
-				select bno, title, writer, regdate, updatedate
+				select bno
+					, title
+					, writer
+					, date_format (regdate, '%Y-%m-%d %H:%i' ) as regdate
+					, date_format (updatedate, '%Y-%m-%d %H:%i' ) as updatedate
 				from Myboard2
 				<if test="keyword != null" >
 					<include refid="classify" />
@@ -19,8 +23,6 @@
 				order by bno desc
 			) as T1
 		limit #{skipOverPost}, #{viewPerPage}
-			 
-		
 	</select>
 	
 	<!-- 게시글 수정 -->
@@ -32,7 +34,12 @@
 	
 	<!-- 게시글 상세 출력 -->
 	<select id="getDetail" resultType="com.spring.board.vo.BoardVO" parameterType="com.spring.board.vo.BoardVO">
-		select * from Myboard2
+		select bno
+			, title
+			, writer
+			, date_format (regdate, '%Y-%m-%d %H:%i' ) as regdate
+			, date_format (updatedate, '%Y-%m-%d %H:%i' ) as updatedate
+		from Myboard2
 		where bno = #{bno}
 	</select>
 	
