@@ -1,12 +1,12 @@
 package com.spring.shop.persistence;
 
-import static org.junit.Assert.*;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,24 @@ public class DataSourceTest {
 	@Autowired
 	DataSource dataSource;
 	
+	@Autowired
+	SqlSessionFactory sqlSessionFactory;
+	
 	@Test
 	public void DataSource_확인() throws Exception {
 		try (Connection con = dataSource.getConnection()){
 			log.info("con : [{}]", con);
 		} catch (Exception e) {
 			log.info("오류 : {}", e.getMessage());
+		}
+	}
+	
+	@Test
+	public void SqlSession_확인() throws Exception {
+		try(SqlSession sqlSession = sqlSessionFactory.openSession()) {
+			log.info("sqlSession : [{}]", sqlSession);
+		} catch (Exception e) {
+			log.info("오류 : {}", e.getMessage());			
 		}
 	}
 }
