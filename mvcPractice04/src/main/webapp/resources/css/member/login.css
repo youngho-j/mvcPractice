@@ -1,0 +1,86 @@
+@charset "UTF-8";
+@charset "UTF-8";
+*{
+	margin: 0;
+	padding:0;
+}
+
+/* 화면 전체 영역 */
+.wrapper{
+	width: 1900px;	
+}
+
+/* content 영역 */
+.wrap{
+	width : 800px;
+	margin: auto;
+}
+
+/* 로고 영역 */
+.logo_area{
+	text-align: center;	
+	margin: 150px 0;	
+}
+
+.logo_area>span{
+	font-size : 50px;
+	font-weight: 900;
+}
+
+
+/* 로그인_아이디 영역 */
+.id_input_box{
+	border: 1px solid black;
+	height:31px;
+	padding: 10px 14px;	
+	display: block;
+	width : 80%;
+	margin : auto;	
+}
+
+.id_input{
+	width:100%;
+	height:100%;
+	border:none;
+	font-size:28px;
+}
+
+/* 로그인_비밀번호 영역 */
+.pw_area{
+	margin-top: 40px;
+}
+.pw_input_box{
+	border: 1px solid black;
+	height:31px;
+	padding: 10px 14px;	
+	display: block;
+	width : 80%;
+	margin : auto;	
+}
+.pw_iput{
+	width:100%;
+	height:100%;
+	border:none;
+	font-size:28px;
+}
+
+/* 로그인 버튼 영역 */
+.login_btn_area{
+	margin-top: 40px;
+	text-align: center;
+}
+
+.login_btn{
+	width: 84%;
+    height: 80px;
+    background-color: #6AAFE6;
+    font-size: 40px;
+    font-weight: 900;
+    color: white;
+    margin : auto;
+}
+
+/* float 속성 해제 */
+.clearfix{
+	clear: both;
+}
