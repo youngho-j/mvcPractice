@@ -1,5 +1,6 @@
 package com.spring.shop.controller;
 
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -43,6 +44,22 @@ public class MemberControllerTest {
 		mock.perform(get("/member/join"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("member/join"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 회원가입후_메인페이지_호출() throws Exception {
+		mock.perform(post("/member/join")
+				.param("memberId", "test5")
+				.param("memberPw", "test5")
+				.param("memberName", "test5")
+				.param("memberMail", "test5")
+				.param("memberAddr1", "test5")
+				.param("memberAddr2", "test5")
+				.param("memberAddr3", "test5")
+				)
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/main"))
 		.andDo(print());
 	}
 }

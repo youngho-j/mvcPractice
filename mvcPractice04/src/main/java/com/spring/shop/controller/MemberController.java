@@ -1,8 +1,12 @@
 package com.spring.shop.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.spring.shop.service.MemberService;
+import com.spring.shop.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,15 +15,31 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/member")
 public class MemberController {
 	
+	@Autowired
+	private MemberService memberService;
+	
 	// 로그인 페이지 이동
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public void loginGET() {
+	public void loginGET() throws Exception {
 		log.info("로그인 페이지 진입");
 	}
 	
 	// 회원가입 페이지 이동
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
-	public void joinGET() {
+	public void joinGET() throws Exception {
 		log.info("회원가입 페이지 진입");
+	}
+	
+	// 회원가입 후 페이지 이동
+	@RequestMapping(value = "/join", method = RequestMethod.POST)
+	public String joinPOST(MemberVO memberVO) throws Exception {
+		
+		log.info("회원가입 데이터 전달");
+		
+		memberService.memberJoin(memberVO);
+		
+		log.info("회원가입 성공");
+		
+		return "redirect:/main";
 	}
 }

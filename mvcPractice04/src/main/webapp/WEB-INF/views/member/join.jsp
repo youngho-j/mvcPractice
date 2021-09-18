@@ -6,10 +6,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>MyShop 회원가입</title>
 <link rel="stylesheet" href="/resources/css/member/join.css">
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+</script>
 </head>
 <body>
 <div class="wrapper">
-	<form action="">
+	<form id="join_form" method="post">
 	<div class="wrap">
 			
 			<div class="title">
@@ -19,14 +23,14 @@
 			<div class="id_area">
 				<div class="id_title">아이디</div>
 				<div class="id_input_box">
-					<input class="id_input">
+					<input class="id_input" name="memberId">
 				</div>
 			</div>
 			
 			<div class="pw_area">
 				<div class="pw_title">비밀번호</div>
 				<div class="pw_input_box">
-					<input class="pw_input">
+					<input class="pw_input" name="memberPw">
 				</div>
 			</div>
 			
@@ -40,13 +44,13 @@
 			<div class="user_area">
 				<div class="user_title">이름</div>
 				<div class="user_input_box">
-					<input class="user_input">
+					<input class="user_input" name="memberName">
 				</div>
 			</div>
 			<div class="mail_area">
 				<div class="mail_title">이메일</div> 
 				<div class="mail_input_box">
-					<input class="mail_input">
+					<input class="mail_input" name="memberMail">
 				</div>
 				
 				<div class="mail_check_area">
@@ -65,7 +69,7 @@
 				
 				<div class="address_input_area1">
 					<div class="address_input_box1">
-						<input class="address_input1">
+						<input class="address_input1" name="memberAddr1">
 					</div>
 					<div class="address_btn">
 						<span>주소 찾기</span>
@@ -75,13 +79,13 @@
 				
 				<div class ="address_input_area2">
 					<div class="address_input_box2">
-						<input class="address_input2">
+						<input class="address_input2" name="memberAddr2">
 					</div>
 				</div>
 				
 				<div class ="address_input_area3">
 					<div class="address_input_box3">
-						<input class="address_input3">
+						<input class="address_input3" name="memberAddr3">
 					</div>
 				</div>
 			</div>
@@ -93,5 +97,16 @@
 		</div>
 	</form>
 </div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		/* 회원가입 */
+		$(".join_btn").click(function(){
+			$("#join_form").attr("action", "/member/join");
+			$("#join_form").submit();
+		});
+	
+	});
+</script>
 </body>
 </html>
