@@ -31,7 +31,6 @@
 		
 		<!-- log4jdbc / sql 로그를 쉽게 확인 가능 -->
 		<log4jdbc-log4j2.version>1.16</log4jdbc-log4j2.version>
-		
 	</properties>
 	<dependencies>
 		

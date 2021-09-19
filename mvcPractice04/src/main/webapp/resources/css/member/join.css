@@ -50,6 +50,16 @@
 	border:none;
 	font-size:28px;
 }
+/*중복된 아이디가 존재하지 않을 경우*/
+.id_input_msg1{
+	color: green;
+	display: none;
+}
+.id_input_msg2{
+	color: red;
+	display: none;
+}
+
 
 /* 비밀번호 영역 */
 .pw_area{

@@ -40,4 +40,8 @@ public class MemberMapperTest {
 		assertThat(1, is(result));
 	}
 
+	@Test
+	public void 아이디중복체크_메서드_테스트() throws Exception {
+		assertThat(0,  is(memberMapper.idCheck("wndqhr1")));
+	}
 }

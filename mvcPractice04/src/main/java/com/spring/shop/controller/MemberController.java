@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.shop.service.MemberService;
 import com.spring.shop.vo.MemberVO;
@@ -41,5 +42,18 @@ public class MemberController {
 		log.info("회원가입 성공");
 		
 		return "redirect:/main";
+	}
+	
+	@RequestMapping(value = "/memberIdChk", method = RequestMethod.POST)
+	@ResponseBody
+	public String memberIdChkPOST(String memberId) throws Exception {
+		log.info("아이디 체크");
+		
+		int result = memberService.idCheck(memberId);
+		
+		if(result != 0) {
+			return "fail";
+		}
+		return "success";
 	}
 }

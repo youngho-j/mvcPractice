@@ -1,6 +1,6 @@
 package com.spring.shop.controller;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matcher.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -60,6 +60,15 @@ public class MemberControllerTest {
 				)
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/main"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 회원가입시_아이디중복체크_테스트() throws Exception {
+		mock.perform(post("/member/memberIdChk")
+				.param("memberId", "test3"))
+		.andExpect(status().isOk())
+		.andExpect(content().string("fail"))
 		.andDo(print());
 	}
 }
