@@ -1,6 +1,7 @@
 package com.spring.shop.controller;
 
 import static org.hamcrest.Matcher.*;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -69,6 +70,14 @@ public class MemberControllerTest {
 				.param("memberId", "test3"))
 		.andExpect(status().isOk())
 		.andExpect(content().string("fail"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 회원가입시_인증메일_테스트() throws Exception {
+		mock.perform(get("/member/mailCheck")
+				.param("email","test45"))
+		.andExpect(status().isOk())
 		.andDo(print());
 	}
 }

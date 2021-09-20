@@ -56,8 +56,8 @@
 				</div>
 				
 				<div class="mail_check_area">
-					<div class="mail_check_input_box">
-						<input class="mail_check_input">
+					<div class="mail_check_input_box" id="mail_check_input_box_false">
+						<input class="mail_check_input" disabled="disabled">
 					</div>
 					<div class="mail_check_btn">
 						<span>인증번호 전송</span>
@@ -129,7 +129,17 @@
 				}
 			});
 		});
-	
+		
+		/* 인증번호 이메일 전송 */
+		$(".mail_check_btn").click(function(){
+			
+			let email = $(".mail_input").val();
+			
+			$.ajax({
+		        type:"GET",
+		        url:"mailCheck?email=" + email
+		    });
+		});
 	});
 </script>
 </body>

@@ -52,8 +52,15 @@ public class MemberController {
 		int result = memberService.idCheck(memberId);
 		
 		if(result != 0) {
+			log.info("중복 아이디 O");
 			return "fail";
 		}
+		log.info("중복 아이디 X");
 		return "success";
+	}
+	@RequestMapping(value = "/mailCheck", method = RequestMethod.GET)
+	@ResponseBody
+	public void mailCheckGET(String email) throws Exception {
+		log.info("이메일 데이터 전송 확인 : " + email);
 	}
 }
