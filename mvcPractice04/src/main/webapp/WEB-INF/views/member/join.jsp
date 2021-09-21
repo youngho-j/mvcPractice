@@ -63,6 +63,7 @@
 						<span>인증번호 전송</span>
 					</div>
 					<div class="clearfix"></div>
+					<span id="mail_check_messageBox"></span>
 				</div>
 			</div>
 			
@@ -102,6 +103,8 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
+		var mailAuthCode = "";
+		
 		/* 회원가입 */
 		$(".join_btn").click(function(){
 			$("#join_form").attr("action", "/member/join");
@@ -135,10 +138,39 @@
 			
 			let email = $(".mail_input").val();
 			
+			/* 인증번호 입력 영역 */
+			let boxArea = $(".mail_check_input_box");
+			
+			/* 인증번호 입력칸 */
+			let authField = $(".mail_check_input");
+			
 			$.ajax({
 		        type:"GET",
-		        url:"mailCheck?email=" + email
+		        url:"mailCheck?email=" + email,
+		        success:function(data) {
+		        	authField.attr("disabled", false);
+		        	boxArea.attr("id", "mail_check_input_box_true");
+		        	mailAuthCode = data;
+		        }
 		    });
+		});
+		
+		/* 인증 번호 비교 */
+		$(".mail_check_input").blur(function(){
+			
+			/* 인증번호 입력칸에 작성된 값 */
+			let authField = $(".mail_check_input").val();
+			
+			/* 인증 번호 비교 결과 */
+			let contrastResult = $("#mail_check_messageBox");
+			
+			if(authField == mailAuthCode) {
+				contrastResult.html("인증번호가 일치합니다.");
+				contrastResult.attr("class", "correct");
+			} else {
+				contrastResult.html("인증번호가 일치하지 않습니다.");
+				contrastResult.attr("class", "incorrect");
+			}
 		});
 	});
 </script>

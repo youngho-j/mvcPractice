@@ -184,6 +184,14 @@
     cursor: pointer;
 }
 
+/* 인증번호 일치 여부 확인 */
+.correct{
+	color: green;
+}
+.incorrect{
+	color: red;
+}
+
 /* 주소 영역 */
 .address_area{
 	width: 100%;
