@@ -1,12 +1,17 @@
 package com.spring.shop.controller;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.shop.service.MemberService;
+import com.spring.shop.util.AuthNumber;
 import com.spring.shop.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +23,9 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	// 로그인 페이지 이동
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -58,9 +66,43 @@ public class MemberController {
 		log.info("중복 아이디 X");
 		return "success";
 	}
+	
 	@RequestMapping(value = "/mailCheck", method = RequestMethod.GET)
 	@ResponseBody
-	public void mailCheckGET(String email) throws Exception {
+	public String mailCheckGET(String email) throws Exception {
+		
+		AuthNumber authNum = new AuthNumber();
+		
 		log.info("이메일 데이터 전송 확인 : " + email);
+		
+		int checkNum = authNum.getAuthNum();
+		
+		String sender = "ihaveneagong@naver.com";
+        String recipient = email;
+        String mailTitle = "회원가입 인증 이메일 입니다.";
+        String mailContent = 
+                "홈페이지를 방문해주셔서 감사합니다." +
+                "<br><br>" + 
+                "인증 번호는 " + checkNum + "입니다." + 
+                "<br>" + 
+                "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
+        
+        
+        try {
+        	MimeMessage message = mailSender.createMimeMessage();
+        	MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+        	
+        	helper.setFrom(sender);
+        	helper.setTo(recipient);
+        	helper.setSubject(mailTitle);
+        	helper.setText(mailContent, true);
+        	
+        	mailSender.send(message);
+        	
+        } catch(Exception e) {
+        	e.printStackTrace();
+        }
+        
+        return Integer.toString(checkNum);
 	}
 }
