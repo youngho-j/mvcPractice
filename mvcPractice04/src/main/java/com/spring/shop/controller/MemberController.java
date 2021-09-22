@@ -87,7 +87,6 @@ public class MemberController {
                 "<br>" + 
                 "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
         
-        
         try {
         	MimeMessage message = mailSender.createMimeMessage();
         	MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
