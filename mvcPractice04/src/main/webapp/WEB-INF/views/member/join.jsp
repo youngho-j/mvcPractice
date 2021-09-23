@@ -62,6 +62,7 @@
 					<input class="mail_input" name="memberMail">
 				</div>
 				<span class="final_mail_check">이메일을 입력해주세요.</span>
+				<span class="mail_format_check"></span>
 				<div class="mail_check_area">
 					<div class="mail_check_input_box" id="mail_check_input_box_false">
 						<input class="mail_check_input" disabled="disabled">
@@ -165,10 +166,41 @@
 				pwDoubleCheck = true;				
 			}
 			
+			/* 이름 유효성 검사 */
+			if(name == "") {
+				$(".final_name_check").css("display","block");
+				nameCheck = false;
+			} else {
+				$(".final_name_check").css("display","none");
+				nameCheck = true;				
+			}
 			
-			//$("#join_form").attr("action", "/member/join");
-			//$("#join_form").submit(); */
+			/* 메일 유효성 검사 */
+			if(name == "") {
+				$(".final_mail_check").css("display","block");
+				mailCheck = false;
+			} else {
+				$(".final_mail_check").css("display","none");
+				mailCheck = true;				
+			}
 			
+			/* 주소 유효성 검사 */
+			if(addr == "") {
+				$(".final_address_check").css("display","block");
+				addressCheck = false;
+			} else {
+				$(".final_address_check").css("display","none");
+				addressCheck = true;				
+			}
+			
+			/* 검사 완료 후 실행 */
+			if(idCheck && idDoubleCheck && pwCheck && pwDoubleCheck && 
+					nameCheck && mailCheck && mailAuthCodeCheck && addressCheck) {
+				$("#join_form").attr("action", "/member/join");
+				$("#join_form").submit();
+			}
+			
+			return false;
 		});		
 	});
 	
@@ -207,7 +239,19 @@
 			
 		/* 인증번호 입력칸 */
 		let authField = $(".mail_check_input");
-			
+		
+		/* 이메일 형식 확인 메세지 */
+		let mailFormatCheckMsg = $(".mail_format_check");
+		
+		if(mailFormatCheck(email)) {
+			mailFormatCheckMsg.html("이메일 전송이 완료되었습니다. 이메일을 확인해주세요.");
+			mailFormatCheckMsg.css("display", "inline-block");
+		} else {
+			mailFormatCheckMsg.html("잘못된 이메일 형식입니다.");
+			mailFormatCheckMsg.css("display", "inline-block");
+			return false;
+		}
+		
 		$.ajax({
 	        type:"GET",
 	        url:"mailCheck?email=" + email,
@@ -215,7 +259,6 @@
 	        	authField.attr("disabled", false);
 	        	boxArea.attr("id", "mail_check_input_box_true");
 	        	mailAuthCode = data;
-	        	console.log(mailAuthCode);
 	        }
 	    });
 	});
@@ -232,9 +275,11 @@
 		if(authField == mailAuthCode) {
 			contrastResult.html("인증번호가 일치합니다.");
 			contrastResult.attr("class", "correct");
+			mailAuthCodeCheck = true;
 		} else {
 			contrastResult.html("인증번호가 일치하지 않습니다.");
 			contrastResult.attr("class", "incorrect");
+			mailAuthCodeCheck = false;
 		}
 	});
 	
@@ -306,6 +351,13 @@
 			pwDoubleCheck = false;			
 		}
 	});
+	
+	/* 이메일 형식 검사 */
+	function mailFormatCheck(email) {
+		var formatExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+	
+		return formatExp.test(email);
+	}
 	
 </script>
 </body>
