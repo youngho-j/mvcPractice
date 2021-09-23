@@ -272,6 +272,36 @@
     color: white;
 }
 
+/* 회원가입 유효성 검사 */
+.final_id_check{
+	display: none;
+}
+.final_pw_check{
+	display: none;
+}
+.final_pw_doubleCheck{
+	display: none;
+}
+.final_name_check{
+	display: none;
+}
+.final_mail_check{
+	display: none;
+}
+.final_address_check{
+	display: none;
+}
+
+/* 비밀번호 일치여부 검사 */
+.pw_doubleCheck_msg1{
+	color: green;
+	display: none;
+}
+.pw_doubleCheck_msg2{
+	color: red;
+	display: none;
+}
+
 /* float 속성 해제 */
 .clearfix{
 	clear: both;

@@ -27,6 +27,7 @@
 				</div>
 				<span class="id_input_msg1">사용 가능한 아이디입니다.</span>
 				<span class="id_input_msg2">아이디가 이미 존재합니다.</span>
+				<span class="final_id_check">아이디를 입력해주세요.</span>
 			</div>
 			
 			<div class="pw_area">
@@ -34,6 +35,7 @@
 				<div class="pw_input_box">
 					<input class="pw_input" name="memberPw">
 				</div>
+				<span class="final_pw_check">비밀번호를 입력해주세요.</span>
 			</div>
 			
 			<div class="pw_check_area">
@@ -41,6 +43,9 @@
 				<div class="pw_check_input_box">
 					<input class="pw_check_input">
 				</div>
+				<span class="final_pw_doubleCheck">입력한 비밀번호를 다시 입력해주세요.</span>
+				<span class="pw_doubleCheck_msg1">비밀번호가 일치합니다.</span>			
+				<span class="pw_doubleCheck_msg2">비밀번호가 일치하지 않습니다.</span>			
 			</div>
 			
 			<div class="user_area">
@@ -48,13 +53,15 @@
 				<div class="user_input_box">
 					<input class="user_input" name="memberName">
 				</div>
+				<span class="final_name_check">이름을 입력해주세요.</span>
 			</div>
+			
 			<div class="mail_area">
 				<div class="mail_title">이메일</div> 
 				<div class="mail_input_box">
 					<input class="mail_input" name="memberMail">
 				</div>
-				
+				<span class="final_mail_check">이메일을 입력해주세요.</span>
 				<div class="mail_check_area">
 					<div class="mail_check_input_box" id="mail_check_input_box_false">
 						<input class="mail_check_input" disabled="disabled">
@@ -91,6 +98,7 @@
 						<input class="address_input3" name="memberAddr3" readonly="readonly">
 					</div>
 				</div>
+				<span class="final_address_check">상세 주소를 입력해주세요.</span>
 			</div>
 			
 			<div class="join_btn_area">
@@ -102,14 +110,65 @@
 </div>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript">
+	/* 회원가입 유효성 검사를 위한 변수 */
+	var idCheck = false;
+	var idDoubleCheck = false;
+	
+	var pwCheck = false;
+	var pwDoubleCheck = false;
+	
+	var nameCheck = false;
+	
+	var mailCheck = false;
+	var mailAuthCodeCheck = false;
+	
+	var addressCheck = false;
+	
 	/* 인증 코드 */
 	var mailAuthCode = "";
 	
 	$(document).ready(function(){
 		/* 회원가입 */
 		$(".join_btn").click(function(){
-			$("#join_form").attr("action", "/member/join");
-			$("#join_form").submit();
+			
+			let id = $(".id_input").val();
+			let pw = $(".pw_input").val();
+			let pwConfirm = $(".pw_check_input").val();
+			let name = $(".user_input").val();
+			let mail = $(".mail_input").val();
+			let addr = $(".address_input3").val();
+			
+			/* 아이디 유효성 검사 */
+			if(id == "") {
+				$(".final_id_check").css("display","block");
+				idCheck = false;
+			} else {
+				$(".final_id_check").css("display","none");
+				idCheck = true;				
+			}
+			
+			/* 비밀번호 유효성 검사 */
+			if(pw == "") {
+				$(".final_pw_check").css("display","block");
+				pwCheck = false;
+			} else {
+				$(".final_pw_check").css("display","none");
+				pwCheck = true;				
+			}
+			
+			/* 비밀번호 확인 유효성 검사 */
+			if(pwConfirm == "") {
+				$(".final_pw_doubleCheck").css("display","block");
+				pwDoubleCheck = false;
+			} else {
+				$(".final_pw_doubleCheck").css("display","none");
+				pwDoubleCheck = true;				
+			}
+			
+			
+			//$("#join_form").attr("action", "/member/join");
+			//$("#join_form").submit(); */
+			
 		});		
 	});
 	
@@ -127,10 +186,12 @@
 			success : function(result) {
 				if(result != 'fail'){
 					$('.id_input_msg1').css("display","inline-block");
-					$('.id_input_msg2').css("display", "none");				
+					$('.id_input_msg2').css("display", "none");
+					idDoubleCheck = true;
 				} else {
 					$('.id_input_msg2').css("display","inline-block");
 					$('.id_input_msg1').css("display", "none");				
+					idDoubleCheck = false;
 				}
 			}
 		});
@@ -226,6 +287,25 @@
 			}
 		}).open();
 	}
+	
+	/* 비밀번호 일치여부 검사 */
+	$(".pw_check_input").on("propertychange change keyup paste input", function(){
+		let pw = $(".pw_input").val();
+		let pwConfirm = $(".pw_check_input").val();
+		
+		/* 비밀번호 입력시 입력이 안되었다는 메세지 지우기 */
+		$(".final_pw_doubleCheck").css("display", "none");
+		
+		if(pw == pwConfirm){
+			$(".pw_doubleCheck_msg1").css("display","block");
+			$(".pw_doubleCheck_msg2").css("display","none");
+			pwDoubleCheck = true;
+		} else {
+			$(".pw_doubleCheck_msg1").css("display","none");
+			$(".pw_doubleCheck_msg2").css("display","block");
+			pwDoubleCheck = false;			
+		}
+	});
 	
 </script>
 </body>
