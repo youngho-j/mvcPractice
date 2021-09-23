@@ -26,7 +26,7 @@
 					<input class="id_input" name="memberId">
 				</div>
 				<span class="id_input_msg1">사용 가능한 아이디입니다.</span>
-				<span class="id_input_msg2">아이디가 이미 존재합니다.</span>
+				<span class="id_input_msg2"></span>
 				<span class="final_id_check">아이디를 입력해주세요.</span>
 			</div>
 			
@@ -210,7 +210,14 @@
 
 		let memberId = $(".id_input").val();
 		let data = {memberId : memberId}
-			
+		
+		if(!idFormatCheck(memberId)) {
+			$('.id_input_msg1').css("display", "none");
+			$('.id_input_msg2').html("아이디가 조건에 맞지 않습니다.");
+			$('.id_input_msg2').css("display","inline-block");
+			return false;
+		}
+		
 		$.ajax({
 			type : "POST",
 			url : "/member/memberIdChk",
@@ -221,6 +228,7 @@
 					$('.id_input_msg2').css("display", "none");
 					idDoubleCheck = true;
 				} else {
+					$('.id_input_msg2').html("아이디가 이미 존재합니다.");
 					$('.id_input_msg2').css("display","inline-block");
 					$('.id_input_msg1').css("display", "none");				
 					idDoubleCheck = false;
@@ -357,6 +365,13 @@
 		var formatExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 	
 		return formatExp.test(email);
+	}
+	
+	/* 아이디 형삭 검사 */
+	function idFormatCheck(id) {
+		var formatExp = /^[A-Za-z0-9+]{4,12}$/;
+		
+		return formatExp.test(id);
 	}
 	
 </script>
