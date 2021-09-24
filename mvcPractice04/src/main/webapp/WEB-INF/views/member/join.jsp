@@ -25,9 +25,7 @@
 				<div class="id_input_box">
 					<input class="id_input" name="memberId">
 				</div>
-				<span class="id_input_msg1">사용 가능한 아이디입니다.</span>
-				<span class="id_input_msg2"></span>
-				<span class="final_id_check">아이디를 입력해주세요.</span>
+				<span class="id_input_msg msg"></span>
 			</div>
 			
 			<div class="pw_area">
@@ -35,7 +33,7 @@
 				<div class="pw_input_box">
 					<input class="pw_input" name="memberPw">
 				</div>
-				<span class="final_pw_check">비밀번호를 입력해주세요.</span>
+				<span class="pw_input_msg msg"></span>
 			</div>
 			
 			<div class="pw_check_area">
@@ -43,9 +41,7 @@
 				<div class="pw_check_input_box">
 					<input class="pw_check_input">
 				</div>
-				<span class="final_pw_doubleCheck">입력한 비밀번호를 다시 입력해주세요.</span>
-				<span class="pw_doubleCheck_msg1">비밀번호가 일치합니다.</span>			
-				<span class="pw_doubleCheck_msg2">비밀번호가 일치하지 않습니다.</span>			
+				<span class="pw_check_msg msg"></span>			
 			</div>
 			
 			<div class="user_area">
@@ -53,7 +49,7 @@
 				<div class="user_input_box">
 					<input class="user_input" name="memberName">
 				</div>
-				<span class="final_name_check">이름을 입력해주세요.</span>
+				<span class="user_input_msg msg"></span>
 			</div>
 			
 			<div class="mail_area">
@@ -61,8 +57,7 @@
 				<div class="mail_input_box">
 					<input class="mail_input" name="memberMail">
 				</div>
-				<span class="final_mail_check">이메일을 입력해주세요.</span>
-				<span class="mail_format_check"></span>
+				<span class="mail_input_msg msg"></span>
 				<div class="mail_check_area">
 					<div class="mail_check_input_box" id="mail_check_input_box_false">
 						<input class="mail_check_input" disabled="disabled">
@@ -71,7 +66,7 @@
 						<span>인증번호 전송</span>
 					</div>
 					<div class="clearfix"></div>
-					<span id="mail_check_messageBox"></span>
+					<span id="mail_check_messageBox" class="msg"></span>
 				</div>
 			</div>
 			
@@ -99,7 +94,7 @@
 						<input class="address_input3" name="memberAddr3" readonly="readonly">
 					</div>
 				</div>
-				<span class="final_address_check">상세 주소를 입력해주세요.</span>
+				<span class="address_input_msg msg"></span>
 			</div>
 			
 			<div class="join_btn_area">
@@ -141,52 +136,64 @@
 			
 			/* 아이디 유효성 검사 */
 			if(id == "") {
-				$(".final_id_check").css("display","block");
+				$(".id_input_msg").html("아이디를 입력해주세요.");
+				$(".id_input_msg").css("color","red");
+				$(".id_input_msg").css("display","block");
 				idCheck = false;
 			} else {
-				$(".final_id_check").css("display","none");
+				$(".id_input_msg").css("display","none");
 				idCheck = true;				
 			}
 			
 			/* 비밀번호 유효성 검사 */
 			if(pw == "") {
-				$(".final_pw_check").css("display","block");
+				$(".pw_input_msg").html("비밀번호를 입력해주세요.");
+				$(".pw_input_msg").css("color","red");
+				$(".pw_input_msg").css("display","block");
 				pwCheck = false;
 			} else {
-				$(".final_pw_check").css("display","none");
+				$(".pw_input_msg").css("display","none");
 				pwCheck = true;				
 			}
 			
 			/* 비밀번호 확인 유효성 검사 */
 			if(pwConfirm == "") {
-				$(".final_pw_doubleCheck").css("display","block");
+				$(".pw_check_msg").html("입력한 비밀번호를 다시 입력해주세요.");
+				$(".pw_check_msg").css("color","red");
+				$(".pw_check_msg").css("display","block");
 				pwDoubleCheck = false;
 			} else {
-				$(".final_pw_doubleCheck").css("display","none");
+				$(".pw_check_msg").css("display","none");
 				pwDoubleCheck = true;				
 			}
 			
 			/* 이름 유효성 검사 */
 			if(name == "") {
-				$(".final_name_check").css("display","block");
+				$(".user_input_msg").html("이름을 입력해주세요.");
+				$(".user_input_msg").css("color","red");
+				$(".user_input_msg").css("display","block");
 				nameCheck = false;
 			} else {
-				$(".final_name_check").css("display","none");
+				$(".user_input_msg").css("display","none");
 				nameCheck = true;				
 			}
 			
 			/* 메일 유효성 검사 */
 			if(name == "") {
-				$(".final_mail_check").css("display","block");
+				$(".mail_input_msg").html("이메일을 입력해주세요.");
+				$(".mail_input_msg").css("color","red");
+				$(".mail_input_msg").css("display","block");
 				mailCheck = false;
 			} else {
-				$(".final_mail_check").css("display","none");
+				$(".mail_input_msg").css("display","none");
 				mailCheck = true;				
 			}
 			
 			/* 주소 유효성 검사 */
 			if(addr == "") {
-				$(".final_address_check").css("display","block");
+				$(".address_input_msg").html("상세주소를 입력해주세요.");
+				$(".address_input_msg").css("color","red");
+				$(".address_input_msg").css("display","block");
 				addressCheck = false;
 			} else {
 				$(".final_address_check").css("display","none");
@@ -211,10 +218,12 @@
 		let memberId = $(".id_input").val();
 		let data = {memberId : memberId}
 		
+		let idInputMsg = $(".id_input_msg");
+		
 		if(!idFormatCheck(memberId)) {
-			$('.id_input_msg1').css("display", "none");
-			$('.id_input_msg2').html("아이디가 조건에 맞지 않습니다.");
-			$('.id_input_msg2').css("display","inline-block");
+			idInputMsg.html("아이디가 조건에 맞지 않습니다.");
+			idInputMsg.css("color","red");
+			idInputMsg.css("display","inline-block");
 			return false;
 		}
 		
@@ -224,13 +233,14 @@
 			data : data,
 			success : function(result) {
 				if(result != 'fail'){
-					$('.id_input_msg1').css("display","inline-block");
-					$('.id_input_msg2').css("display", "none");
+					idInputMsg.html("사용가능한 아이디 입니다.");
+					idInputMsg.css("color","green");
+					idInputMsg.css("display","inline-block");
 					idDoubleCheck = true;
 				} else {
-					$('.id_input_msg2').html("아이디가 이미 존재합니다.");
-					$('.id_input_msg2').css("display","inline-block");
-					$('.id_input_msg1').css("display", "none");				
+					idInputMsg.html("아이디가 이미 존재합니다.");
+					idInputMsg.css("color","red");
+					idInputMsg.css("display","inline-block");
 					idDoubleCheck = false;
 				}
 			}
@@ -248,15 +258,24 @@
 		/* 인증번호 입력칸 */
 		let authField = $(".mail_check_input");
 		
-		/* 이메일 형식 확인 메세지 */
-		let mailFormatCheckMsg = $(".mail_format_check");
+		/* 이메일 메세지 영역*/
+		let mailMsg = $(".mail_input_msg");
+		
+		if(email == "") {
+			mailMsg.html("이메일을 입력해주세요.");
+			mailMsg.css("color","red");
+			mailMsg.css("display","inline-block");
+			return false;
+		}
 		
 		if(mailFormatCheck(email)) {
-			mailFormatCheckMsg.html("이메일 전송이 완료되었습니다. 이메일을 확인해주세요.");
-			mailFormatCheckMsg.css("display", "inline-block");
+			mailMsg.html("이메일 전송이 완료되었습니다. 이메일을 확인해주세요.");
+			mailMsg.css("color","green");
+			mailMsg.css("display", "inline-block");
 		} else {
-			mailFormatCheckMsg.html("잘못된 이메일 형식입니다.");
-			mailFormatCheckMsg.css("display", "inline-block");
+			mailMsg.html("잘못된 이메일 형식입니다.");
+			mailMsg.css("color","red");
+			mailMsg.css("display", "inline-block");
 			return false;
 		}
 		
@@ -346,16 +365,20 @@
 		let pw = $(".pw_input").val();
 		let pwConfirm = $(".pw_check_input").val();
 		
+		let pwCheckMsg = $(".pw_check_msg");
+		
 		/* 비밀번호 입력시 입력이 안되었다는 메세지 지우기 */
-		$(".final_pw_doubleCheck").css("display", "none");
+		pwCheckMsg.css("display", "none");
 		
 		if(pw == pwConfirm){
-			$(".pw_doubleCheck_msg1").css("display","block");
-			$(".pw_doubleCheck_msg2").css("display","none");
+			pwCheckMsg.html("비밀번호가 일치합니다.");
+			pwCheckMsg.css("color","green");
+			pwCheckMsg.css("display","block");
 			pwDoubleCheck = true;
 		} else {
-			$(".pw_doubleCheck_msg1").css("display","none");
-			$(".pw_doubleCheck_msg2").css("display","block");
+			pwCheckMsg.html("비밀번호가 일치하지 않습니다.");
+			pwCheckMsg.css("color","red");
+			pwCheckMsg.css("display","block");
 			pwDoubleCheck = false;			
 		}
 	});
@@ -374,6 +397,10 @@
 		return formatExp.test(id);
 	}
 	
+	/* 입력시 메세지 지우기 */
+	$("input").on("focus", function() {
+		$(".msg").css("display","none");
+	});
 </script>
 </body>
 </html>
