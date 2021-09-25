@@ -14,4 +14,11 @@
  		from book_member
  		where memberId = #{memberId}
  	</select>
+ 	
+ 	<!-- 로그인 -->
+ 	<select id="memberLogin" resultType="com.spring.shop.vo.MemberVO">
+ 		select memberId, memberName, adminck, money, point 
+ 		from book_member 
+ 		where memberId = #{memberId} and memberPw = #{memberPw}
+ 	</select>
  </mapper>

@@ -42,4 +42,14 @@ public class MemberServiceTest {
 	public void 아이디중복체크_테스트() throws Exception {
 		assertThat(0, is(memberService.idCheck("test232")));
 	}
+	
+	@Test
+	public void 로그인_테스트() throws Exception {
+		MemberVO memberVO = new MemberVO();
+		
+		memberVO.setMemberId("testing");
+		memberVO.setMemberPw("testing");
+		
+		assertNull(memberService.memberLogin(memberVO));
+	}
 }

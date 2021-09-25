@@ -44,4 +44,14 @@ public class MemberMapperTest {
 	public void 아이디중복체크_메서드_테스트() throws Exception {
 		assertThat(0,  is(memberMapper.idCheck("wndqhr1")));
 	}
+	
+	@Test
+	public void 로그인_메서드_테스트() throws Exception {
+		MemberVO memberVO = new MemberVO();
+		
+		memberVO.setMemberId("admin");
+		memberVO.setMemberPw("admin");
+		
+		assertNotNull(memberMapper.memberLogin(memberVO));
+	}
 }
