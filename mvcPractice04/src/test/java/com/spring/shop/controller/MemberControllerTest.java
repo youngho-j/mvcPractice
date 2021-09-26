@@ -80,4 +80,14 @@ public class MemberControllerTest {
 		.andExpect(status().isOk())
 		.andDo(print());
 	}
+	
+	@Test
+	public void 로그인_테스트() throws Exception {
+		mock.perform(post("/member/login")
+				.param("memberId", "asdf123")
+				.param("memberPw", "1q2w3e4r"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/member/login"))
+		.andDo(print());
+	}
 }
