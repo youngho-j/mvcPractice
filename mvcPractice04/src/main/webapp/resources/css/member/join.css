@@ -7,7 +7,7 @@
 
 /* 화면 전체 영역 */
 .wrapper{
-	width: 1900px;	
+	width: 100%;	
 }
 
 /* content 영역 */
