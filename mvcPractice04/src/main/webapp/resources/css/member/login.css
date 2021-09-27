@@ -64,6 +64,13 @@
 	font-size:28px;
 }
 
+/* 로그인 실패시 메세지 */
+.login_msg{
+	margin-top: 30px;
+	text-align: center;
+	color: red;
+}
+
 /* 로그인 버튼 영역 */
 .login_btn_area{
 	margin-top: 40px;

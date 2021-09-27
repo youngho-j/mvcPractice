@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -33,6 +34,10 @@
 						<input class="pw_iput" name="memberPw">
 					</div>
 				</div>
+				
+				<c:if test="${result == 0}">
+					<div class="login_msg">ID 또는 비밀번호를 잘못 입력하셨습니다.</div>
+				</c:if>
 				
 				<div class="login_btn_area">
 					<input type="button" class="login_btn" value="로그인">

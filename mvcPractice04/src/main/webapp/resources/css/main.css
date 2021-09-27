@@ -71,6 +71,22 @@
     display: inline-block;
 }
 
+/* 로그인 시 회원 정보 */
+.login_info{
+	height: 62%;
+    width: 80%;
+    border: 2px solid #7474ad;
+    border-radius: 15px;
+    margin: 5% auto;
+    padding-top: 5%;
+}
+
+.login_info>span{
+	display : block;
+    text-align: left;
+    margin-left: 10%;
+}
+
 /* 제품 목록 네비 영역*/
 .navi_area{
 	width: 100%;

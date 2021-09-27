@@ -12,9 +12,15 @@ public class BookController {
 	
 	// 메인 페이지 이동
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String mainPageGET() throws Exception {
+	public String gomainPageGET() throws Exception {
 		log.info("메인 페이지 진입");
 		
 		return "main";
+	}
+	
+	// 메인 페이지 이동
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public void mainPageGET() throws Exception {
+		log.info("메인 페이지 진입");
 	}
 }
