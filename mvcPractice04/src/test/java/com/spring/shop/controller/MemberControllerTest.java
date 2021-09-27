@@ -19,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/security-context.xml"})
 public class MemberControllerTest {
 	
 	@Autowired
@@ -51,7 +51,7 @@ public class MemberControllerTest {
 	@Test
 	public void 회원가입후_메인페이지_호출() throws Exception {
 		mock.perform(post("/member/join")
-				.param("memberId", "test5")
+				.param("memberId", "test6")
 				.param("memberPw", "test5")
 				.param("memberName", "test5")
 				.param("memberMail", "test5")
@@ -84,8 +84,8 @@ public class MemberControllerTest {
 	@Test
 	public void 로그인_테스트() throws Exception {
 		mock.perform(post("/member/login")
-				.param("memberId", "asdf123")
-				.param("memberPw", "1q2w3e4r"))
+				.param("memberId", "admin")
+				.param("memberPw", "test"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/member/login"))
 		.andDo(print());

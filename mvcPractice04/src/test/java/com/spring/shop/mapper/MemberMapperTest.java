@@ -50,8 +50,9 @@ public class MemberMapperTest {
 		MemberVO memberVO = new MemberVO();
 		
 		memberVO.setMemberId("admin");
-		memberVO.setMemberPw("admin");
+		MemberVO result = memberMapper.memberLogin(memberVO);
+		assertNotNull(result);
 		
-		assertNotNull(memberMapper.memberLogin(memberVO));
+		log.info(result.getMemberPw());
 	}
 }

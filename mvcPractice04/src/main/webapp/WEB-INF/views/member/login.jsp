@@ -31,7 +31,7 @@
 				
 				<div class="pw_area">
 					<div class="pw_input_box">
-						<input class="pw_iput" name="memberPw">
+						<input class="pw_iput" name="memberPw" type="password">
 					</div>
 				</div>
 				

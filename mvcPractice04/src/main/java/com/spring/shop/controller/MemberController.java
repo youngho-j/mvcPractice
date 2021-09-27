@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -125,16 +126,29 @@ public class MemberController {
 	public String loginPost(HttpServletRequest request, RedirectAttributes rttr, MemberVO memberVO) throws Exception {
 		
 		HttpSession session = request.getSession();
+		
+		String password = "";
+		String encodePassword = "";
+		
 		MemberVO loginResult = memberService.memberLogin(memberVO);
 		
-		if(loginResult == null) {
-			int result = 0;
-			rttr.addFlashAttribute("result", result);
-			return "redirect:/member/login";
+		if(loginResult != null) {
+			
+			password = memberVO.getMemberPw();
+			encodePassword = loginResult.getMemberPw();
+			
+			if(passwordEncoder.matches(password, encodePassword)) {
+				
+				loginResult.setMemberPw("");
+				
+				session.setAttribute("member", loginResult);
+				log.info(loginResult.getMemberPw() + " <- 비밀번호 삭제 됨");
+				return "redirect:/main";				
+			}
 		}
 		
-		session.setAttribute("member", loginResult);
+		rttr.addFlashAttribute("result", 0);
+		return "redirect:/member/login";
 		
-		return "redirect:/main";
 	}
 }

@@ -31,7 +31,7 @@
 			<div class="pw_area">
 				<div class="pw_title">비밀번호</div>
 				<div class="pw_input_box">
-					<input class="pw_input" name="memberPw">
+					<input class="pw_input" name="memberPw" type="password">
 				</div>
 				<span class="pw_input_msg msg"></span>
 			</div>
@@ -39,7 +39,7 @@
 			<div class="pw_check_area">
 				<div class="pw_check_title">비밀번호 확인</div>
 				<div class="pw_check_input_box">
-					<input class="pw_check_input">
+					<input class="pw_check_input" type="password">
 				</div>
 				<span class="pw_check_msg msg"></span>			
 			</div>
