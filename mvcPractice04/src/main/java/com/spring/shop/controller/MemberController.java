@@ -7,14 +7,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.shop.service.EncodePassword;
 import com.spring.shop.service.MemberService;
 import com.spring.shop.util.AuthNumber;
 import com.spring.shop.vo.MemberVO;
@@ -33,7 +32,7 @@ public class MemberController {
 	private JavaMailSender mailSender;
 	
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	private EncodePassword encodePassword;
 	
 	// 로그인 페이지 이동
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -50,21 +49,10 @@ public class MemberController {
 	// 회원가입 후 페이지 이동
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String joinPOST(MemberVO memberVO) throws Exception {
-		log.info("회원가입 데이터 전달");
-		
-		String password = "";
-		String encodePassword = "";
-		
-		log.info("비밀번호 암호화");
-		password = memberVO.getMemberPw();
-		
-		encodePassword = passwordEncoder.encode(password);
-		
-		memberVO.setMemberPw(encodePassword);
 		
 		memberService.memberJoin(memberVO);
 		
-		log.info("비밀번호 암호화 및 회원가입 성공");
+		log.info("회원가입 성공");
 		
 		return "redirect:/main";
 	}
@@ -127,22 +115,15 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		
-		String password = "";
-		String encodePassword = "";
-		
 		MemberVO loginResult = memberService.memberLogin(memberVO);
 		
 		if(loginResult != null) {
 			
-			password = memberVO.getMemberPw();
-			encodePassword = loginResult.getMemberPw();
-			
-			if(passwordEncoder.matches(password, encodePassword)) {
+			if(encodePassword.comparePassword(memberVO.getMemberPw(), loginResult.getMemberPw())) {
 				
 				loginResult.setMemberPw("");
 				
 				session.setAttribute("member", loginResult);
-				log.info(loginResult.getMemberPw() + " <- 비밀번호 삭제 됨");
 				return "redirect:/main";				
 			}
 		}

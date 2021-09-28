@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/security-context.xml"})
 public class MemberServiceTest {
 
 	@Autowired
@@ -25,7 +25,7 @@ public class MemberServiceTest {
 	public void 회원등록_테스트() throws Exception {
 		MemberVO memberVO = new MemberVO();
 		
-		memberVO.setMemberId("testID2");
+		memberVO.setMemberId("test1");
 		memberVO.setMemberPw("1q2w3e4r");
 		memberVO.setMemberName("test");		
 		memberVO.setMemberMail("test");		
