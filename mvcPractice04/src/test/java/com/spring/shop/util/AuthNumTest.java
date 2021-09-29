@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthNumTest {
 	
-	
 	@Test
 	public void 인증번호_자리수_테스트() throws Exception {
 		AuthNumber authNumber = new AuthNumber();

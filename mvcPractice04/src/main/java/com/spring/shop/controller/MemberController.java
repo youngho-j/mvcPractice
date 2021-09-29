@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.shop.service.EncodePassword;
 import com.spring.shop.service.MemberService;
 import com.spring.shop.util.AuthNumber;
+import com.spring.shop.util.EncodePassword;
 import com.spring.shop.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +31,7 @@ public class MemberController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	@Autowired
-	private EncodePassword encodePassword;
+	private AuthNumber authNum;
 	
 	// 로그인 페이지 이동
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -76,7 +75,7 @@ public class MemberController {
 	@ResponseBody
 	public String mailCheckGET(String email) throws Exception {
 		
-		AuthNumber authNum = new AuthNumber();
+		authNum = new AuthNumber();
 		
 		log.info("이메일 데이터 전송 확인 : " + email);
 		

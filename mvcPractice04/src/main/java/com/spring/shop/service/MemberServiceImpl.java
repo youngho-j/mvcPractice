@@ -1,9 +1,11 @@
 package com.spring.shop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.spring.shop.mapper.MemberMapper;
+import com.spring.shop.util.EncodePassword;
 import com.spring.shop.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,14 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
-	MemberMapper memberMapper;
+	private MemberMapper memberMapper;
 	
-	@Autowired
 	private EncodePassword passwordEncoder;
 	
 	// 회원 가입
 	@Override
 	public int memberJoin(MemberVO memberVO) throws Exception {
+		passwordEncoder = new EncodePassword(new BCryptPasswordEncoder());
 		
 		String encodePassword = "";
 		
@@ -40,6 +42,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberVO memberLogin(MemberVO memberVO) throws Exception {
+		passwordEncoder = new EncodePassword(new BCryptPasswordEncoder());
 		
 		MemberVO memberInfo = memberMapper.memberLogin(memberVO);
 		
