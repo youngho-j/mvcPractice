@@ -40,8 +40,19 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberVO memberLogin(MemberVO memberVO) throws Exception {
-		return memberMapper.memberLogin(memberVO);
+		
+		MemberVO memberInfo = memberMapper.memberLogin(memberVO);
+		
+		if(memberInfo != null) {
+			String inputPassword = memberVO.getMemberPw();
+			String encodingPassword = memberInfo.getMemberPw();
+
+			if(passwordEncoder.comparePassword(inputPassword, encodingPassword)) {
+				log.info("비밀번호 일치 확인");
+				return memberInfo;
+			}
+		}
+		return null;
 	}
-	
 	
 }

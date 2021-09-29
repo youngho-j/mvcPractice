@@ -118,14 +118,9 @@ public class MemberController {
 		MemberVO loginResult = memberService.memberLogin(memberVO);
 		
 		if(loginResult != null) {
-			
-			if(encodePassword.comparePassword(memberVO.getMemberPw(), loginResult.getMemberPw())) {
-				
-				loginResult.setMemberPw("");
-				
-				session.setAttribute("member", loginResult);
-				return "redirect:/main";				
-			}
+			loginResult.setMemberPw("");
+			session.setAttribute("member", loginResult);
+			return "redirect:/main";				
 		}
 		
 		rttr.addFlashAttribute("result", 0);

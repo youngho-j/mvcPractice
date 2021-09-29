@@ -1,6 +1,9 @@
 package com.spring.shop.service;
 
 import static org.junit.Assert.*;
+
+import java.util.Objects;
+
 import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
@@ -47,9 +50,18 @@ public class MemberServiceTest {
 	public void 로그인_테스트() throws Exception {
 		MemberVO memberVO = new MemberVO();
 		
-		memberVO.setMemberId("testing");
-		memberVO.setMemberPw("testing");
+		memberVO.setMemberId("test");
+		memberVO.setMemberPw("test");
 		
-		assertNull(memberService.memberLogin(memberVO));
+		MemberVO memberInfo = memberService.memberLogin(memberVO);
+		
+		if(Objects.isNull(memberInfo)) {
+			log.info("로그인 실패 확인");
+		} else {
+			log.info("로그인 성공 확인");			
+		}
+		
+		assertNull(memberInfo);
+		
 	}
 }
