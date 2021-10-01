@@ -34,12 +34,14 @@ public class MemberServiceImpl implements MemberService{
 		
 		return memberMapper.memberJoin(memberVO);
 	}
-
+	
+	// 회원가입시 아이디 중복 체크
 	@Override
 	public int idCheck(String string) throws Exception {
 		return memberMapper.idCheck(string);
 	}
 
+	// 로그인
 	@Override
 	public MemberVO memberLogin(MemberVO memberVO) throws Exception {
 		passwordEncoder = new EncodePassword(new BCryptPasswordEncoder());
