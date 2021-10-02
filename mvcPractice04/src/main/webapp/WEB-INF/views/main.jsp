@@ -14,6 +14,33 @@
 	<div class="wrap">
 		
 		<div class="top_navi_area">
+			<ul class="list">
+				<c:if test="${member == null}">
+					<li>
+						<a href="/member/login">로그인</a>
+					</li>
+					<li>
+						<a href="/member/join">회원가입</a>
+					</li>
+				</c:if>
+				<c:if test="${member != null}">
+					<c:if test="${member.adminCk == 1 }">
+						<li><a href="/admin/main">관리자 페이지</a></li>
+					</c:if>
+					<li>
+						<a href="">로그아웃</a>
+					</li>
+					<li>
+						<a href="">마이룸</a>
+					</li>
+					<li>
+						<a href="">장바구니</a>
+					</li>
+				</c:if>
+					<li>
+						<a href="">고객센터</a>
+					</li>
+			</ul>
 		</div>
 		
 		<div class="top_area">
@@ -27,17 +54,21 @@
 			</div>
 			
 			<div class="login_area">
+				
 				<c:if test="${member == null}">
 					<div class="login_btn"><a href="/member/login">로그인</a></div>
 					<span><a href="/member/join">회원가입</a></span>
 				</c:if>
+				
 				<c:if test="${member != null }">
 					<div class="login_info">
 						<span>회원 : ${member.memberName }</span>
 						<span>충전금액 : <fmt:formatNumber value="${member.money }" pattern="#,###.## 원"/></span>
 						<span>포인트 : <fmt:formatNumber value="${member.point }" pattern="#,### 원"/></span>
+						<span><a href="/member/logout">로그아웃</a></span>
 					</div>
 				</c:if>
+				
 			</div>
 			
 			<div class="clearfix"></div>
