@@ -8,6 +8,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Wellcome MyShop</title>
 <link rel="stylesheet" href="/resources/css/main.css">
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+</script>
 </head>
 <body>
 <div class="wrapper">
@@ -28,7 +33,7 @@
 						<li><a href="/admin/main">관리자 페이지</a></li>
 					</c:if>
 					<li>
-						<a href="">로그아웃</a>
+						<a id="top_navi_logout_btn">로그아웃</a>
 					</li>
 					<li>
 						<a href="">마이룸</a>
@@ -84,5 +89,16 @@
 	
 	</div>
 </div>
+<script type="text/javascript">
+	$("#top_navi_logout_btn").click(function(){
+		$.ajax({
+			type:"POST",
+			url:"/member/logout",
+			success:function(data){
+				document.location.reload();
+			}
+		});
+	});
+</script>
 </body>
 </html>

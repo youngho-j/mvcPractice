@@ -1,5 +1,6 @@
 package com.spring.shop.controller;
 
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -86,6 +87,22 @@ public class MemberControllerTest {
 				.param("memberPw", "test"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/member/login"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void GET방식_로그아웃_테스트() throws Exception {
+		mock.perform(get("/member/logout"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/main"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 비동기_로그아웃_테스트() throws Exception {
+		mock.perform(post("/member/logout"))
+		.andExpect(status().isOk())
+		.andExpect(request().sessionAttributeDoesNotExist("member"))
 		.andDo(print());
 	}
 }

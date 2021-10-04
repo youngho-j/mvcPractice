@@ -32,8 +32,6 @@ public class MemberController {
 	
 	private MailManager mailManager;
 	
-	private AuthNumber authNum;
-	
 	// 로그인 페이지 이동
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public void loginGET() throws Exception {
@@ -113,5 +111,15 @@ public class MemberController {
 		log.info("세션 전체 삭제");
 		
 		return "redirect:/main";
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	@ResponseBody
+	public void logoutPOST(HttpServletRequest request) throws Exception {
+		log.info("비동기 로그아웃 진행");
+		
+		HttpSession session = request.getSession();
+		
+		session.invalidate();
 	}
 }
