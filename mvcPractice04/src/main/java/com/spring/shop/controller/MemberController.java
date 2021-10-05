@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.shop.service.MemberService;
-import com.spring.shop.util.AuthNumber;
 import com.spring.shop.util.MailManager;
 import com.spring.shop.vo.MemberVO;
 
@@ -33,7 +32,7 @@ public class MemberController {
 	private MailManager mailManager;
 	
 	// 로그인 페이지 이동
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/goLogin", method = RequestMethod.GET)
 	public void loginGET() throws Exception {
 		log.info("로그인 페이지 진입");
 	}

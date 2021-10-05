@@ -1,0 +1,97 @@
+@charset "UTF-8";
+*{
+    margin: 0;
+    padding:0;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+/* 화면 전체 렙 */
+.wrapper{
+    width: 100%;
+}
+/* content 랩 */
+.wrap{
+    width : 1080px;
+    margin: auto;
+}
+/* 최상단 네비 영역 */ 
+.top_navi_area{
+    width: 100%;
+    height: 50px;
+    background-color: #f0f0f1;
+    position:relative;
+}
+.top_navi_area .list{
+    position: absolute;
+    top: 0px;
+    right: 0;
+    
+}
+.top_navi_area .list li{
+    list-style: none;    
+    float : left;
+    padding: 13px 15px 0 10px;
+    font-weight: 900;
+    cursor: pointer;
+}
+ 
+/* 상단 제목 영역 */
+.top_area{
+    height:110px;
+    line-height: 110px;
+    background-color: #5080bd;
+}
+.top_area>span{
+    margin-left: 30px;
+    display:inline-block;
+    color: white;
+    font-size: 50px;
+    font-weight: bolder;
+}
+ 
+/* 콘텐츠 네비 영역 */
+.admin_contents_navi_list{
+    width: 20%;
+    height: 300px;
+    float:left;
+    height: 100%;
+}
+.admin_contents_navi_list li{
+    display: block;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+}
+.admin_contents_navi_list li a{
+    display: block;
+    height: 100%;
+    width: 95%;
+    margin: 0 auto;
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: bolder;
+}
+ 
+/* 관리자페이지 컨텐츠 영역 */
+.admin_contents_area{
+    width: 80%;
+    float:left;
+    height: 100%;
+    height: 700px;
+    
+}
+.admin_contents_area div{
+    margin-top: 280px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bolder;
+}
+  
+/* float 속성 해제 */
+.clearfix{
+    clear: both;
+}

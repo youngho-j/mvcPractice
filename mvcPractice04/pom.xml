@@ -50,6 +50,7 @@
 				 </exclusion>
 			</exclusions>
 		</dependency>
+		<!-- Interceptor 사용 설정을 위해 필요 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>

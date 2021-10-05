@@ -21,8 +21,17 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.spring.shop" />
+	<context:component-scan base-package="com.spring.shop.controller" />
 	
-	
+	<interceptors>
+		<interceptor>
+			<mapping path="/member/login"/>
+			<beans:bean id="loginInterceptor" class="com.spring.shop.interceptor.LoginInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<beans:bean id="adminInterceptor" class="com.spring.shop.interceptor.AdminInterceptor"/>
+		</interceptor>
+	</interceptors>
 	
 </beans:beans>

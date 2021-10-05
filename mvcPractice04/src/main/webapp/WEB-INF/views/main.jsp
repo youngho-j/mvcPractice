@@ -17,12 +17,11 @@
 <body>
 <div class="wrapper">
 	<div class="wrap">
-		
 		<div class="top_navi_area">
 			<ul class="list">
 				<c:if test="${member == null}">
 					<li>
-						<a href="/member/login">로그인</a>
+						<a href="/member/goLogin">로그인</a>
 					</li>
 					<li>
 						<a href="/member/join">회원가입</a>
@@ -61,7 +60,7 @@
 			<div class="login_area">
 				
 				<c:if test="${member == null}">
-					<div class="login_btn"><a href="/member/login">로그인</a></div>
+					<div class="login_btn"><a href="/member/goLogin">로그인</a></div>
 					<span><a href="/member/join">회원가입</a></span>
 				</c:if>
 				
