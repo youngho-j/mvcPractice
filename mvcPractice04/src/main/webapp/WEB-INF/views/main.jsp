@@ -50,7 +50,9 @@
 		<div class="top_area">
 			
 			<div class="logo_area">
-				<h1>logo area</h1>
+				<a href="/main">
+					<img src="/resources/img/book2.png">
+				</a>
 			</div>
 			
 			<div class="search_area">
@@ -85,7 +87,44 @@
 		<div class="content_area">
 			<h1>content area</h1>
 		</div>
-	
+        
+        <div class="footer_navi_area">
+            <div class="footer_navi_list">
+                <ul>
+                    <li>회사소개</li>
+                    <span class="line">|</span>
+                    <li>이용약관</li>
+                    <span class="line">|</span>
+                    <li>고객센터</li>
+                    <span class="line">|</span>
+                    <li>광고문의</li>
+                    <span class="line">|</span>
+                    <li>채용정보</li>
+                    <span class="line">|</span>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer_area">
+            <div class="footer_info">
+                
+                <div class="footer_img_area">
+                    <img src="/resources/img/mbook2.png">
+                </div>
+                <div class="footer_explain">
+                    (주) My Book    대표이사 : OOO
+                    <br>
+                    사업자등록번호 : ooo-oo-ooooo
+                    <br>
+                    대표전화 : oooo-oooo(발신자 부담전화)
+                    <br>
+                    <br>
+                    COPYRIGHT(C) <strong>oooooo.ooooo.ooo</strong>    ALL RIGHTS RESERVED.
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        
 	</div>
 </div>
 <script type="text/javascript">
