@@ -15,4 +15,24 @@ public class AdminController {
 	public void adminMainGET() throws Exception {
 		log.info("관리자 페이지로 이동");
 	}
+	
+	@RequestMapping(value = "/goodsEnroll", method = RequestMethod.GET)
+	public void goodsEnrollGET() throws Exception {
+		log.info("상품 등록 페이지로 이동");
+	}
+	
+	@RequestMapping(value = "/goodsManage", method = RequestMethod.GET)
+	public void goodsManageGET() throws Exception {
+		log.info("상품 관리 페이지로 이동");
+	}
+	
+	@RequestMapping(value = "/authorEnroll", method = RequestMethod.GET)
+	public void authorEnrollGET() throws Exception {
+		log.info("작가 등록 페이지로 이동");
+	}
+	
+	@RequestMapping(value = "/authorManage", method = RequestMethod.GET)
+	public void authorManageGET() throws Exception {
+		log.info("작가 관리 페이지로 이동");
+	}
 }

@@ -81,7 +81,12 @@ ul{
 .admin_navi_wrap li a:visited {color: black;}
 .admin_navi_wrap li a:active {color: black;}
 .admin_navi_wrap li a:hover {color: black;}
- 
+
+/*콘텐츠 네비 현재 위치 표시*/
+.admin_list_01{
+    background-color: #c8c8c8;
+} 
+
 /* 관리자페이지 컨텐츠 영역 */
 .admin_contents_area{
     width: 80%;
@@ -90,11 +95,15 @@ ul{
     height: 700px;
     
 }
-.admin_contents_area div{
-    margin-top: 280px;
-    text-align: center;
-    font-size: 50px;
+/* 관리자페이지 제목 영역 */
+.admin_content_title{            
+    font-size: 40px;
     font-weight: bolder;
+    padding-left: 15px;
+    background-color: #6AAFE6;
+    height: 80px;
+    line-height: 80px;
+    color: white;    
 }
 
 /* footer navai 영역 */
@@ -126,6 +135,7 @@ ul{
 .footer_nav_confooter_navi_list>ul>span{
     margin: 0 4px;
 }
+
 /* footer 영역 */
 .footer_area{
     width:100%;

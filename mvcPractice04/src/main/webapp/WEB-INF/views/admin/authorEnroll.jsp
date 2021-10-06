@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
-<link rel="stylesheet" href="../resources/css/admin/main.css">
+<link rel="stylesheet" href="../resources/css/admin/authorEnroll.css">
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -15,6 +15,7 @@
 <body>
 	<div class="wrapper">
 		<div class="wrap">
+			
 			<!-- 최상단 네비 영역 -->
 			<div class="top_navi_area">
 				<ul class="list">    
@@ -51,7 +52,7 @@
                     </ul>
 				</div>
 				<div class="admin_contents_area">
-                    <div>관리자 페이지 입니다.</div>
+                    <div class="admin_contents_title"><span>작가 등록</span></div>
                 </div>
                 <div class="clearfix"></div>
 			</div>
@@ -61,15 +62,15 @@
 	            <div class="footer_navi_list">
 	                <ul>
 	                    <li>회사소개</li>
-	                    <span class="line">|</span>
+	                    
 	                    <li>이용약관</li>
-	                    <span class="line">|</span>
+	                    
 	                    <li>고객센터</li>
-	                    <span class="line">|</span>
+	                    
 	                    <li>광고문의</li>
-	                    <span class="line">|</span>
+	                    
 	                    <li>채용정보</li>
-	                    <span class="line">|</span>
+	                    
 	                </ul>
 	            </div>
 	        </div>
