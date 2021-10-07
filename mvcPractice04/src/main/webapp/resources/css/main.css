@@ -147,24 +147,22 @@ a{
     background-color:#8EC0E4;
 }
 .footer_navi_list>ul{
-    font-weight : bold;
     float:left;
     list-style:none;
     position:relative;
     padding-top:10px;
-    line-height: 27px;
-    font-family: dotum;
     margin-left: 10px;
 }
 .footer_navi_list>ul>li{
     display:inline;
-    width: 45px;
-    height: 19px;
-    padding: 10px 9px 0 10px;
+    padding: 0px 10px;
+    font: bold 12px Dotum;
+    border-left:1px solid;
 }
-.footer_nav_confooter_navi_list>ul>span{
-    margin: 0 4px;
+.footer_navi_list>ul>li:first-child{
+	border-left: none;
 }
+
 /* footer 영역 */
 .footer_area{
     width:100%;
