@@ -1,9 +1,8 @@
 package com.spring.shop.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -75,11 +74,24 @@ public class AdminControllerTest {
 		.andExpect(view().name("admin/authorEnroll"))
 		.andDo(print());
 	}
+	
 	@Test
 	public void 관리자_작가관리_페이지_호출() throws Exception {
 		mock.perform(get("/admin/authorManage").session(session))
 		.andExpect(status().isOk())
 		.andExpect(view().name("admin/authorManage"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 작가_등록_테스트() throws Exception {
+		mock.perform(post("/admin/authorEnroll").session(session)
+				.param("authorName", "test")
+				.param("nationId", "02")
+				.param("authorProfile", "test")
+				)
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}
 
