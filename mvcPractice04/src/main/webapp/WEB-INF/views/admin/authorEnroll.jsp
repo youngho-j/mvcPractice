@@ -52,9 +52,57 @@
                     </ul>
 				</div>
 				<div class="admin_contents_area">
-                    <div class="admin_contents_title"><span>작가 등록</span></div>
+                    
+                    <div class="admin_contents_title">
+                    	<span>작가 등록</span>
+                    </div>
+                    
+                    <div class="admin_contents_main">
+                    	<form action="/admin/authorEnroll" method="post" id="enrollForm">
+                    		<!-- 작가 이름 입력-->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>작가 이름</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="authorName">
+                    			</div>
+                    		</div>
+                    		
+                    		<!-- 소속 국가 선택-->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>소속 국가</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<select name="nationId">
+                    					<option value="none" selected>=== 선택 ===</option>
+                    					<option value="01">국  내</option>
+                    					<option value="02">국  외</option>
+                    				</select>
+                    			</div>
+                    		</div>
+                    		
+                    		<!-- 작가 소개 입력 -->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>작가 소개</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="authorProfile" type="text">
+                    			</div>
+                    		</div>
+                    	</form>
+                    	<!-- 등록 버튼 -->
+                    	<div class="btn_section">
+                   				<button id="cancelBtn" class="btn">취 소</button>
+	                    		<button id="enrollBtn" class="btn enroll_btn">등 록</button>
+	                    </div>
+	                </div>
                 </div>
-                <div class="clearfix"></div>
+                
+                <div class="clearfix">
+                </div>
 			</div>
 			
 			<!-- footer_navi 영역 -->
@@ -97,5 +145,16 @@
 	        
 		</div>
 	</div>
+<script type="text/javascript">
+	/* 등록 버튼 */
+	$("#enrollBtn").click(function(){    
+	    $("#enrollForm").submit();
+	});
+	 
+	/* 취소 버튼 */
+	$("#cancelBtn").click(function(){
+	    location.href="/admin/authorManage"
+	});
+</script>
 </body>
 </html>
