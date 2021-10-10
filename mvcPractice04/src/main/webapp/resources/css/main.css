@@ -119,7 +119,8 @@ a{
     height: 22px;
     line-height: 22px;
     border-radius: 25px;
-    color: #606267;  
+    color: #606267;
+    padding-left: 22px;  
 }
 
 /* 제품 목록 네비 영역*/
