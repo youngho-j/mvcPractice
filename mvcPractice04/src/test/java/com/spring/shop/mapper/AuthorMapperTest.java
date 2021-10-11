@@ -1,6 +1,9 @@
 package com.spring.shop.mapper;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
+
 import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.spring.shop.util.PagingManager;
 import com.spring.shop.vo.AuthorVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,4 +40,13 @@ public class AuthorMapperTest {
 		assertThat(1, is(result));
 	}
 
+	@Test
+	public void 작가목록_출력_메서드_테스트() throws Exception {
+		PagingManager paging = new PagingManager(2, 5);
+		
+		List<AuthorVO> list = authorMapper.authorGetList(paging);
+		
+		assertNotNull(list);
+		
+	}
 }
