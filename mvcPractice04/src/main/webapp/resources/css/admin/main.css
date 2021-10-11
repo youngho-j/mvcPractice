@@ -86,9 +86,7 @@ ul{
 .admin_contents_area{
     width: 80%;
     float:left;
-    height: 100%;
-    height: 700px;
-    
+    min-height: 700px;
 }
 .admin_contents_area div{
     margin-top: 280px;

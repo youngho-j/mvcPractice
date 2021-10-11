@@ -91,7 +91,7 @@ ul{
 .admin_contents_area{
     width: 80%;
     float:left;
-    height: 100%;
+	min-height: 700px;
 }
 /* 관리자페이지 제목 영역 */
 .admin_contents_title{            
