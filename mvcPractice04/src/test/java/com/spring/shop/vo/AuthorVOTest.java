@@ -1,6 +1,7 @@
 package com.spring.shop.vo;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
 
@@ -15,8 +16,10 @@ public class AuthorVOTest {
 		
 		authorVO.setAuthorId(1);
 		authorVO.setAuthorName("라이언");
+		authorVO.setNationId("01");
 		
 		assertNotNull(authorVO);
+		assertThat("국내", is(authorVO.getNationName()));
 		
 		log.info(authorVO.toString());
 	}

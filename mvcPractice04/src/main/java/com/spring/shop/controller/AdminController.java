@@ -1,12 +1,16 @@
 package com.spring.shop.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.shop.service.AuthorService;
+import com.spring.shop.util.PagingManager;
 import com.spring.shop.vo.AuthorVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +57,12 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/authorManage", method = RequestMethod.GET)
-	public void authorManageGET() throws Exception {
+	public void authorManageGET(PagingManager paging, Model model) throws Exception {
 		log.info("작가 관리 페이지로 이동");
+		
+		// 작가 목록 데이터
+		List<AuthorVO> list = authorService.authorGetList(paging);
+		
+		model.addAttribute("list", list);
 	}
 }

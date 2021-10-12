@@ -1,5 +1,6 @@
 package com.spring.shop.util;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,12 +11,15 @@ import lombok.ToString;
 public class PagingManager {
 	
 	// 현재 페이지 번호
+	@Setter(AccessLevel.NONE)
 	private int pageNum;
 	
-	// 한 페이지 당 표시되는 글의 수 
+	// 한 페이지 당 표시되는 글의 수
+	@Setter(AccessLevel.NONE)
 	private int amount;
 	
 	// 목록 이동시 넘어가는 글의 수
+	@Setter(AccessLevel.NONE)
 	private int skip;
 	
 	// 검색 타입

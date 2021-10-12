@@ -79,6 +79,7 @@ public class AdminControllerTest {
 	public void 관리자_작가관리_페이지_호출() throws Exception {
 		mock.perform(get("/admin/authorManage").session(session))
 		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("list"))
 		.andExpect(view().name("admin/authorManage"))
 		.andDo(print());
 	}
