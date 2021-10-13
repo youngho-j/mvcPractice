@@ -93,7 +93,7 @@ ul{
     float:left;
     min-height: 700px;
 }
-/* 관리자페이지 제목 영역 */
+/* 관리자페이지 컨텐츠 제목 영역 */
 .admin_contents_title{            
     font-size: 40px;
     font-weight: bolder;
@@ -104,6 +104,34 @@ ul{
     color: white;    
 }
 
+/* 관리자페이지 컨텐츠 내용 영역 */
+.admin_contents_body{
+	padding: 20px 35px
+}
+.author_table{
+	width: 100%;
+    border: 1px solid #d3d8e1;
+    text-align: center;
+    border-collapse: collapse;
+}
+.author_table td{
+	padding: 10px 5px;
+	border : 1px solid #e9ebf0;
+}
+.author_table thead{
+	background-color: #f8f9fd;	
+	font-weight: 600;
+}
+.th_column_1{
+	width:120px;
+}
+.th_column_2{
+	width:110px;
+}
+.th_column_3{
+	width:140px;
+}
+	
 /* footer navai 영역 */
 .footer_navi_area{
     width:100%;
