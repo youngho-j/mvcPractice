@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.shop.mapper.AuthorMapper;
-import com.spring.shop.util.PagingManager;
+import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.AuthorVO;
 
 @Service
@@ -21,7 +21,7 @@ public class AuthorServiceImpl implements AuthorService{
 	}
 
 	@Override
-	public List<AuthorVO> authorGetList(PagingManager paging) throws Exception {
+	public List<AuthorVO> authorGetList(PageInfo paging) throws Exception {
 		return authorMapper.authorGetList(paging);
 	}
 	

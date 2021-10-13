@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.shop.service.AuthorService;
-import com.spring.shop.util.PagingManager;
+import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.AuthorVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +57,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/authorManage", method = RequestMethod.GET)
-	public void authorManageGET(PagingManager paging, Model model) throws Exception {
+	public void authorManageGET(PageInfo paging, Model model) throws Exception {
 		log.info("작가 관리 페이지로 이동");
 		
 		// 작가 목록 데이터

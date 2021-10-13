@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PagingManager {
+public class PageInfo {
 	
 	// 현재 페이지 번호
 	@Setter(AccessLevel.NONE)
@@ -16,7 +16,7 @@ public class PagingManager {
 	
 	// 한 페이지 당 표시되는 글의 수
 	@Setter(AccessLevel.NONE)
-	private int amount;
+	private int viewPerPage;
 	
 	// 목록 이동시 넘어가는 글의 수
 	@Setter(AccessLevel.NONE)
@@ -28,13 +28,13 @@ public class PagingManager {
 	// 검색어
 	private String keyword;
 	
-	public PagingManager(int pageNum, int amount) {
+	public PageInfo(int pageNum, int amount) {
 		this.pageNum = pageNum;
-		this.amount = amount;
+		this.viewPerPage = amount;
 		this.skip = (pageNum - 1) * amount;
 	}
 	
-	public PagingManager () {
+	public PageInfo () {
 		this(1, 10);
 	}
 	

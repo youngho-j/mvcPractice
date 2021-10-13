@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.spring.shop.util.PagingManager;
+import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.AuthorVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,7 +37,7 @@ public class AuthorServiceTest {
 	
 	@Test
 	public void 작가목록_테스트() throws Exception {
-		PagingManager paging = new PagingManager(2, 5);
+		PageInfo paging = new PageInfo(2, 5);
 		
 		List<AuthorVO> list = authorService.authorGetList(paging);
 		

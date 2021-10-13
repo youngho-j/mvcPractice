@@ -2,7 +2,7 @@ package com.spring.shop.service;
 
 import java.util.List;
 
-import com.spring.shop.util.PagingManager;
+import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.AuthorVO;
 
 public interface AuthorService {
@@ -11,5 +11,5 @@ public interface AuthorService {
 	public int authorEnroll(AuthorVO authorVO) throws Exception;
 	
 	// 작가 목록
-	public List<AuthorVO> authorGetList(PagingManager paging) throws Exception;
+	public List<AuthorVO> authorGetList(PageInfo paging) throws Exception;
 }

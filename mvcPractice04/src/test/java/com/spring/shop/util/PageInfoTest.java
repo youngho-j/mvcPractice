@@ -8,12 +8,12 @@ import org.junit.Test;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class PagingManagerTest {
+public class PageInfoTest {
 
 	@Test
-	public void 페이징처리_테스트() throws Exception{
+	public void 페이징정보_테스트() throws Exception{
 		
-		PagingManager paging = new PagingManager(4, 5);
+		PageInfo paging = new PageInfo(4, 5);
 		
 		log.info(paging.toString());
 		
