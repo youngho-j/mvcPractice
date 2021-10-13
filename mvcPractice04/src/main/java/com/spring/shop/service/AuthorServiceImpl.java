@@ -24,6 +24,9 @@ public class AuthorServiceImpl implements AuthorService{
 	public List<AuthorVO> authorGetList(PageInfo paging) throws Exception {
 		return authorMapper.authorGetList(paging);
 	}
-	
-	
+
+	@Override
+	public int authorGetTotal(PageInfo paging) throws Exception {
+		return authorMapper.authorGetTotal(paging);
+	}
 }

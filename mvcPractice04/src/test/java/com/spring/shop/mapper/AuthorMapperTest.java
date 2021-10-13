@@ -1,10 +1,9 @@
 package com.spring.shop.mapper;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.*;
 
 import java.util.List;
-
-import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,5 +47,14 @@ public class AuthorMapperTest {
 		
 		assertNotNull(list);
 		
+	}
+	
+	@Test
+	public void 등록된_작가수_카운팅_메서드_테스트() throws Exception {
+		PageInfo paging = new PageInfo();
+		
+		int total = authorMapper.authorGetTotal(paging);
+		
+		assertThat(6, is(total));
 	}
 }

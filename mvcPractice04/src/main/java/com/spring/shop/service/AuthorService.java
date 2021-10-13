@@ -12,4 +12,7 @@ public interface AuthorService {
 	
 	// 작가 목록
 	public List<AuthorVO> authorGetList(PageInfo paging) throws Exception;
+	
+	// 등록된 작가 수
+	public int authorGetTotal(PageInfo paging) throws Exception;
 }
