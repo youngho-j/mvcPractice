@@ -131,6 +131,42 @@ ul{
 .th_column_3{
 	width:140px;
 }
+
+/* 페이지 이동 인터페이스 영역*/
+.pagingManger_area{
+	text-align: center;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+/* 페이지 번호 기본 색상 */
+.pagingManger_area a{
+	color : black;
+}
+.pagingManger_body{
+    list-style: none;
+    display: inline-block;
+}	
+.pagingManager_btn {
+    float: left;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 20px;
+}
+.next, .prev {
+    border: 1px solid #ccc;
+    padding: 0 10px;
+}
+.next a, .prev a {
+    color: #ccc;
+}
+
+/* 현재 페이지 활성화 */
+.active{							
+	border : 2px solid black;
+	font-weight:400;
+}
 	
 /* footer navai 영역 */
 .footer_navi_area{

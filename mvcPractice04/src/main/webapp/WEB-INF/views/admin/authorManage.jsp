@@ -52,6 +52,42 @@
                     		</c:forEach>
                     	</table>          
                     </div>
+                    
+                    <!-- 페이지 이동 인터페이스 영역 -->
+                    <div class="pagingManger_area">
+                    	<ul class="pagingManger_body">
+                    		
+                    		<!-- 이전 버튼 -->
+                    		<c:if test="${pagingManager.prev}">
+                    			<li class="pagingManager_btn prev">
+                    				<a href="${pagingManager.pageStartNum - 1}">이전</a>
+                    			</li>
+                    		</c:if>
+                    		
+                    		<!-- 페이지 번호 -->
+                    		<c:forEach begin="${pagingManager.pageStartNum}" end="${pagingManager.pageEndNum}" var="num">
+                    			<li class="pagingManager_btn ${pagingManager.pageInfo.pageNum == num ? 'active':''}">
+                    				<a href="${num}">${num}</a>
+                    			</li>
+                    		</c:forEach>
+                    		
+                    		<!-- 다음 버튼 -->
+                    		<c:if test="${pagingManager.next}">
+                    			<li class="pagingManger_btn next">
+                    				<a href="${pagingManager.pageEndNum + 1}">다음</a>
+                    			</li>
+                    		</c:if>
+                    		
+                    	</ul>
+                    </div>
+                    
+                    <!-- 페이지 이동 form -->
+                    <form id="moveForm" action="/admin/authorManage" method="get">
+						<input type="hidden" name="pageNum" value="${pagingManager.pageInfo.pageNum}">
+						<input type="hidden" name="viewPerPage" value="${pagingManager.pageInfo.viewPerPage}">
+						<input type="hidden" name="keyword" value="${pagingManager.pageInfo.keyword}">
+					</form>
+                    
                 </div>
                 <div class="clearfix"></div>
 			</div>
@@ -69,12 +105,26 @@ $(document).ready(function(){
     checkResult(result);
     
 });
+
 function checkResult(result){
 	if(result === ''){
     	return;
     }
-    alert("작가'${enroll_result}' 을 등록하였습니다.");
+    alert("작가 '${enroll_result}' 을 등록하였습니다.");
 }
+
+let moveForm = $("#moveForm");
+
+/* 페이지 이동 */
+$(".pagingManager_btn a").on("click", function(e){
+    
+    e.preventDefault();
+    
+    moveForm.find("input[name='pageNum']").val($(this).attr("href"));
+    
+    moveForm.submit();
+});
+
 </script>
 </body>
 </html>

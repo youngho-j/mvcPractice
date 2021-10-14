@@ -28,14 +28,24 @@ public class PageInfo {
 	// 검색어
 	private String keyword;
 	
-	public PageInfo(int pageNum, int amount) {
+	public PageInfo(int pageNum, int viewPerPage) {
 		this.pageNum = pageNum;
-		this.viewPerPage = amount;
-		this.skip = (pageNum - 1) * amount;
+		this.viewPerPage = viewPerPage;
+		this.skip = (pageNum - 1) * viewPerPage;
 	}
 	
 	public PageInfo () {
 		this(1, 10);
+	}
+	
+	public void setViewPerPage(int viewPerPage) {
+		this.viewPerPage = viewPerPage;
+		this.skip = (this.pageNum - 1) * viewPerPage;
+	}
+	
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+		this.skip = (pageNum - 1) * this.viewPerPage;
 	}
 	
 	// 검색 타입 삼항 연산

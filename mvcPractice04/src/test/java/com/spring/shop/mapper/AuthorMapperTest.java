@@ -41,11 +41,13 @@ public class AuthorMapperTest {
 
 	@Test
 	public void 작가목록_출력_메서드_테스트() throws Exception {
-		PageInfo paging = new PageInfo(2, 5);
+		PageInfo paging = new PageInfo(2, 10);
 		
 		List<AuthorVO> list = authorMapper.authorGetList(paging);
 		
 		assertNotNull(list);
+		
+		log.info(list.toString());
 		
 	}
 	

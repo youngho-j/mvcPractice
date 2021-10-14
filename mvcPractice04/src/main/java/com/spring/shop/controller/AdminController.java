@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.shop.service.AuthorService;
 import com.spring.shop.util.PageInfo;
+import com.spring.shop.util.PagingManager;
 import com.spring.shop.vo.AuthorVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -64,5 +65,8 @@ public class AdminController {
 		List<AuthorVO> list = authorService.authorGetList(paging);
 		
 		model.addAttribute("list", list);
+		
+		// 페이징 관련 정보	
+		model.addAttribute("pagingManager", new PagingManager(paging, authorService.authorGetTotal(paging)));
 	}
 }

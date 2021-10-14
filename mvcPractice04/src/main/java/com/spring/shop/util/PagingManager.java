@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class PagingManger {
+public class PagingManager {
 	
 	// 전체 행 개수
 	private int totalCount;
@@ -23,7 +23,7 @@ public class PagingManger {
 	// 페이지에 대한 정보가 담긴 객체(현재 페이지 번호, 페이지당 표시되는 수, 검색 키워드 및 타입
 	private PageInfo pageInfo;
 	
-	public PagingManger(PageInfo pageInfo, int totalCount) {
+	public PagingManager(PageInfo pageInfo, int totalCount) {
 		
 		this.totalCount = totalCount;
 		

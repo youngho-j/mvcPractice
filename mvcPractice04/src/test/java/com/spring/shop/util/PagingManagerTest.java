@@ -19,12 +19,12 @@ public class PagingManagerTest {
 	
 	@Test
 	public void 페이징처리_테스트() throws Exception {
-		int totalCount = 200; 
+		int totalCount = 11; 
 		
-		PagingManger pagingManager = new PagingManger(pageInfo, totalCount);
+		PagingManager pagingManager = new PagingManager(pageInfo, totalCount);
 		
 		assertThat(false, is(pagingManager.isPrev()));
-		assertThat(10, is(pagingManager.getPageEndNum()));
+		assertThat(1, is(pagingManager.getPageStartNum()));
 	}
 
 }
