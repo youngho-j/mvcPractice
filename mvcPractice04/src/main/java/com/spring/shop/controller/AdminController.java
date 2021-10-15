@@ -64,7 +64,12 @@ public class AdminController {
 		// 작가 목록 데이터
 		List<AuthorVO> list = authorService.authorGetList(paging);
 		
-		model.addAttribute("list", list);
+		// 작가 존재 여부 체크
+		if(!list.isEmpty()) {
+			model.addAttribute("list", list);			
+		} else {
+			model.addAttribute("checkResult", "empty");
+		}
 		
 		// 페이징 관련 정보	
 		model.addAttribute("pagingManager", new PagingManager(paging, authorService.authorGetTotal(paging)));

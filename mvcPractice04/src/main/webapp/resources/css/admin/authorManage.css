@@ -131,6 +131,13 @@ ul{
 .th_column_3{
 	width:140px;
 }
+.author_table_empty{
+	height: 50px;
+    text-align: center;
+    margin: 200px 0 215px 0px;
+    font-size: 25px;
+}
+
 
 /* 검색 인터페이스영역 */
 .search_area{
