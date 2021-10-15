@@ -77,10 +77,7 @@ public class AdminControllerTest {
 	
 	@Test
 	public void 관리자_작가관리_페이지_호출() throws Exception {
-		mock.perform(get("/admin/authorManage").session(session)
-				.param("pageNum", "2")
-				.param("viewPerPage", "10")
-				.param("keyword", ""))
+		mock.perform(get("/admin/authorManage").session(session))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("list"))
 		.andExpect(model().attributeExists("pagingManager"))

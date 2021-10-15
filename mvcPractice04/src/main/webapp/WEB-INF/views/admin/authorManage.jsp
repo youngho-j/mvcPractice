@@ -53,6 +53,18 @@
                     	</table>          
                     </div>
                     
+                    <!-- 검색 인터페이스 영역 -->
+                    <div class="search_area">
+                    	<form id="searchForm" action="/admin/authorManage" method="get">
+                    		<div class="search_input_area">
+                    			<input type="text" name="keyword" value='<c:out value="${pagingManager.pageInfo.keyword}"></c:out>'>
+                    			<input type="hidden" name="pageNum" value='<c:out value="${pagingManager.pageInfo.pageNum}"></c:out>'>
+                    			<input type="hidden" name="viewPerPage" value='${pagingManager.pageInfo.viewPerPage}'>
+                    			<button class="btn search_btn">검 색</button>
+                    		</div>
+                    	</form>
+                    </div>  
+                    
                     <!-- 페이지 이동 인터페이스 영역 -->
                     <div class="pagingManger_area">
                     	<ul class="pagingManger_body">
@@ -125,6 +137,24 @@ $(".pagingManager_btn a").on("click", function(e){
     moveForm.submit();
 });
 
+/* 검색 기능 */
+let searchForm = $("#searchForm");
+
+$("#searchForm button").on("click", function(e){
+	
+	e.preventDefault();
+	
+	/* 검색 키워드 유효성 검사 */
+	if(!searchForm.find("input[name='keyword']").val()){
+		alert("키워드를 입력하십시오");
+		return false;
+	}
+	/* 검색시 해당 페이지 상태에서 검색이 되기 때문에 페이지 번호 1로 초기화 */
+	searchForm.find("input[name='pageNum']").val("1");
+	
+	searchForm.submit();
+	
+});
 </script>
 </body>
 </html>
