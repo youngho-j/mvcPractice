@@ -21,10 +21,18 @@
         limit #{skip}, #{viewPerPage}
  	</select>
  	
+ 	<!-- 등록된 작가 수 -->
  	<select id="authorGetTotal" resultType="int">
  		select count(*) from book_author
  		<if test="keyword != null">
  			where authorName like concat('%',#{keyword}, '%')
  		</if>
+ 	</select>
+ 	
+ 	<!-- 작가 상세 정보 -->
+ 	<select id="authorGetDetail" resultType="com.spring.shop.vo.AuthorVO">
+ 		select * 
+ 		from book_author 
+ 		where authorId = #{authorId}
  	</select>
  </mapper>

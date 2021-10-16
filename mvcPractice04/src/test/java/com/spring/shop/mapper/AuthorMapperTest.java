@@ -59,4 +59,13 @@ public class AuthorMapperTest {
 		
 		assertThat(6, is(total));
 	}
+	
+	@Test
+	public void 작가_상세_정보_메서드_테스트() throws Exception {
+		int authorId = 1;
+		
+		AuthorVO authorDetail = authorMapper.authorGetDetail(authorId);
+		
+		assertThat("무지", is(authorDetail.getAuthorName()));
+	}
 }

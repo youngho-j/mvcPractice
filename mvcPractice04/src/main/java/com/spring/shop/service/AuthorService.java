@@ -15,4 +15,7 @@ public interface AuthorService {
 	
 	// 등록된 작가 수
 	public int authorGetTotal(PageInfo paging) throws Exception;
+	
+	// 작가 상세정보
+	public AuthorVO authorGetDetail(int authorId) throws Exception;
 }

@@ -50,4 +50,12 @@ public class AuthorServiceTest {
 		
 		assertThat(2, is(authorService.authorGetTotal(paging)));
 	}
+	
+	@Test
+	public void 작가_상세정보_테스트() throws Exception {
+		int authorId = 1;
+		AuthorVO authorDetail = authorService.authorGetDetail(authorId);
+		
+		assertThat("국내", is(authorDetail.getNationName()));
+	}
 }
