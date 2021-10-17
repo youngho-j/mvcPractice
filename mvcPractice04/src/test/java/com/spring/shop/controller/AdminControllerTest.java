@@ -100,5 +100,14 @@ public class AdminControllerTest {
 		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}
-
+	
+	@Test
+	public void 작가_상세보기_테스트() throws Exception {
+		mock.perform(get("/admin/authorDetail").session(session)
+				.param("authorId", "1"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("admin/authorDetail"))
+		.andDo(print());
+	}
+	
 }

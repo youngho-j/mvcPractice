@@ -74,4 +74,14 @@ public class AdminController {
 		// 페이징 관련 정보	
 		model.addAttribute("pagingManager", new PagingManager(paging, authorService.authorGetTotal(paging)));
 	}
+	
+	@RequestMapping(value = "/authorDetail", method = RequestMethod.GET)
+	public void authorGetInfoGET(int authorId, PageInfo pageInfo, Model model) throws Exception {
+		log.info("작가 상세 페이지로 이동");
+		
+		// 상세 페이지 넘어가기전 작기 관리 페이지 정보
+		model.addAttribute("pageInfo", pageInfo);
+		
+		model.addAttribute("authorInfo", authorService.authorGetDetail(authorId));
+	}
 }
