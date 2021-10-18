@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
-<link rel="stylesheet" href="../resources/css/admin/authorDetail.css">
+<link rel="stylesheet" href="../resources/css/admin/authorModify.css">
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -31,6 +31,7 @@
 				<div class="admin_contents_area">
                     <div class="admin_contents_title"><span>작가 상세</span></div>
                     <div class="admin_contents_body">
+                    	<form action="/admin/authorModify" method="post">
                     	<!-- 작가 번호 영역 -->
                     	<div class="form_section">
                    			<div class="form_section_title">
@@ -47,7 +48,8 @@
                    				<label>작가 이름</label>
                    			</div>
                    			<div class="form_section_content">
-                   				<input class="input_block" name="authorName" readonly="readonly" value="<c:out value='${authorInfo.authorName}'/>">
+                   				<input class="input_block" name="authorName" value="<c:out value='${authorInfo.authorName}'/>">
+                   				<span id="authorName_msg"></span>
                    			</div>
                    		</div>
                    		
@@ -72,6 +74,7 @@
                    			</div>
                    			<div class="form_section_content">
                    				<textarea class="input_block" name="authorProfile" readonly="readonly"><c:out value='${authorInfo.authorProfile}'/></textarea>
+                   				<span id="authorProfile_msg"></span>
                    			</div>
                    		</div>
                    		
@@ -97,9 +100,10 @@
                    		
                    		<!-- 버튼 영역 -->
                    		<div class="btn_section">
-                   			<button id="cancelBtn" class="btn">작가 목록</button>
-	                    	<button id="modifyBtn" class="btn modify_btn">수정 페이지</button>
-	                    </div> 
+                   			<button id="cancelBtn" class="btn">취 소</button>
+	                    	<button id="modifyBtn" class="btn modify_btn">수 정</button>
+	                    </div>
+	                    </form>
                 	</div>
                 </div>
                 <div class="clearfix"></div>
@@ -120,26 +124,61 @@
 	</div>
 <script type="text/javascript">
 let moveForm = $("#moveForm");
+let modifyForm = $("#modifyForm");
 
-/* 작가 관리 페이지로 이동 */
+/* 작가 상세 페이지로 이동 */
 $("#cancelBtn").on("click", function(e){
 	
 	e.preventDefault();
 	
-	/* 작가 목록 페이지에선 사용하지 않음 */
-	$("input[name=authorId]").remove();
-	
-	moveForm.attr("action", "/admin/authorManage")
+	moveForm.attr("action", "/admin/authorDetail")
 	moveForm.submit();
 });
 
-/* 작가 수정 페이지 이동 버튼 */
+/* 작가 수정 적용 */
 $("#modifyBtn").on("click", function(e){
+	
+	let authorName = $(".form_section_content input[name='authorName']").val();
+	let authorProfile = $(".form_section_content textarea").val();		
+
+	let	nameCk = false;
+	let profileCk = false;
 	
 	e.preventDefault();
 	
-	moveForm.attr("action", "/admin/authorModify");
-	moveForm.submit();
+	/* 작가 이름 유효성 검사 */
+	if(!authorName) {
+		$("#authorName_msg").html("작가 이름을 입력해주세요.");
+		$("#authorName_msg").css("display", "block");
+	} else {
+		$("#authorName_msg").html("");
+		$("#authorName_msg").css("display", "none");
+		nameCk = true;
+	}
+	
+	/*작가 소개 유효성 검사 */
+	if(!authorProfile) {
+		$("#authorProfile_msg").html("작가 소개를 입력해주세요.");
+		$("#authorProfile_msg").css("display", "block");
+	} else {
+		$("#authorProfile_msg").html("");
+		$("#authorProfile_msg").css("display", "none");
+		authorProfile = true;
+	}
+	
+	if(nameCk && introCk){
+		modifyForm.submit();	
+	} else {
+		return false;
+	}
+});
+
+/* 입력시 메세지 지우기 */
+$("input[name='authorName']").on("focus", function() {
+	$("#authorName_msg").css("display","none");
+});
+$("textarea").on("focus", function() {
+	$("#authorProfile_msg").css("display","none");
 });
 </script>
 </body>
