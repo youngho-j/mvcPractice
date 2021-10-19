@@ -35,4 +35,10 @@
  		from book_author 
  		where authorId = #{authorId}
  	</select>
+ 	
+ 	<!-- 작가 정보 수정 -->
+ 	<update id="authorModify" parameterType="com.spring.shop.vo.AuthorVO">
+ 		update book_author set authorName = #{authorName}, nationId=#{nationId}, authorProfile = #{authorProfile}, updateDate = now()
+ 		where authorId = #{authorId}
+ 	</update>
  </mapper>

@@ -132,8 +132,11 @@
 $(document).ready(function(){
     
     let result = '<c:out value="${enroll_result}"/>';
+    let modifyResult = '<c:out value="${modifyResult}"/>';
     
     checkResult(result);
+    
+    checkModifyResult(modifyResult);
     
 });
 
@@ -142,6 +145,14 @@ function checkResult(result){
     	return;
     }
     alert("작가 '${enroll_result}' 을 등록하였습니다.");
+}
+
+function checkModifyResult(modifyResult) {
+	if(modifyResult === '1'){
+		alert("작가 정보 수정을 완료하였습니다.");
+	} else if(mresult === '0') {
+		alert("작가 정부 수정을 하지 못하였습니다.")	
+	}
 }
 
 let moveForm = $("#moveForm");

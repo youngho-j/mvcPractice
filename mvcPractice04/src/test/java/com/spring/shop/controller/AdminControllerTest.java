@@ -102,11 +102,33 @@ public class AdminControllerTest {
 	}
 	
 	@Test
-	public void 작가_상세보기_테스트() throws Exception {
+	public void 작가_상세페이지_테스트() throws Exception {
 		mock.perform(get("/admin/authorDetail").session(session)
 				.param("authorId", "1"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("admin/authorDetail"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 작가_수정페이지_테스트() throws Exception {
+		mock.perform(get("/admin/authorModify").session(session)
+				.param("authorId", "1"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("admin/authorModify"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 작가_정보_수정_테스트() throws Exception {
+		mock.perform(post("/admin/authorModify").session(session)
+				.param("authorId", "2")
+				.param("authorName", "test")
+				.param("nationId", "02")
+				.param("authorProfile", "test"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attributeExists("modifyResult"))
+		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}
 	

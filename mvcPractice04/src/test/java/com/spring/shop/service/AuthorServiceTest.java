@@ -58,4 +58,17 @@ public class AuthorServiceTest {
 		
 		assertThat("국내", is(authorDetail.getNationName()));
 	}
+	
+	@Test
+	public void 작가_정보_수정_테스트() throws Exception {
+		AuthorVO modify = new AuthorVO();
+		
+		modify.setAuthorId(2);
+		modify.setAuthorName("정기사");
+		modify.setAuthorProfile("정기사입니다.");
+		
+		int result = authorService.authorModify(modify);
+		
+		assertThat(1, is(result));
+	}
 }

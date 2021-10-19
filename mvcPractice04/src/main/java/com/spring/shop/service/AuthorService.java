@@ -18,4 +18,7 @@ public interface AuthorService {
 	
 	// 작가 상세정보
 	public AuthorVO authorGetDetail(int authorId) throws Exception;
+	
+	// 작가 정보 수정
+	public int authorModify(AuthorVO authorVO) throws Exception;
 }

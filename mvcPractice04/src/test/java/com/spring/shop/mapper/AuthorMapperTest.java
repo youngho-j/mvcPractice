@@ -68,4 +68,18 @@ public class AuthorMapperTest {
 		
 		assertThat("무지", is(authorDetail.getAuthorName()));
 	}
+	
+	@Test
+	public void 작가_정보_수정_메서드_테스트() throws Exception {
+		AuthorVO modify = new AuthorVO();
+		
+		modify.setAuthorId(2);
+		modify.setAuthorName("피카츄");
+		modify.setNationId("02");
+		modify.setAuthorProfile("수정된 내용입니다.");
+		
+		int result = authorMapper.authorModify(modify);
+		
+		assertThat(1, is(result));
+	}
 }
