@@ -132,4 +132,24 @@ public class AdminControllerTest {
 		.andDo(print());
 	}
 	
+	@Test
+	public void 책_등록_테스트() throws Exception {
+		mock.perform(post("/admin/goodsEnroll").session(session)
+				.param("bookName", "controllerTest")
+				.param("authorId", "031")
+				.param("nationId", "02")
+				.param("publicationDate", "2021-10-21")
+				.param("publisher", "테스트")
+				.param("categoryCode", "0231")
+				.param("bookPrice", "12000")
+				.param("bookStock", "10")
+				.param("bookDiscount", "0.2")
+				.param("bookIntro", "test")
+				.param("bookContents", "test"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attributeExists("enrollResult"))
+		.andExpect(redirectedUrl("/admin/goodsManage"))
+		.andDo(print());
+	}
+	
 }
