@@ -27,8 +27,119 @@
 				
 				<!-- contents 영역 내용 -->
 				<div class="admin_contents_area">
-                    <div class="admin_contents_title"><span>상품 등록</span></div>
+                    <div class="admin_contents_title">
+                    	<span>상품 등록</span>
+                    </div>
+                    <div class="admin_content_main">
+                    	<form action="/admin/goodsEnroll" method="post" id="enrollForm">
+                    		<!-- 책 제목 입력 영역 -->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>책 제목</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="bookName">
+                    			</div>
+                    		</div>
+                    		
+                    		<!-- 작가 아이디 입력 영역 -->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>작가</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="authorId" value="0">
+                    			</div>
+                    		</div>
+                    		
+                    		<!-- 출판년도 입력 영역 -->            
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>출판일</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="publicationDate">
+                    			</div>
+                    		</div>
+                    		
+                    		<!-- 출판사 입력 영역 -->            
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>출판사</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="publisher">
+                    			</div>
+                    		</div>             
+                    		
+                    		<!-- 책 카테고리 입력 영역 -->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>책 카테고리</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="categoryCode">
+                    			</div>
+                    		</div>
+                    		
+                    		<!-- 가격 입력 영역 -->          
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>상품 가격</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="bookPrice" value="0">
+                    			</div>
+                    		</div>
+                    		
+                    		<!-- 재고 입력 영역 -->       
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>상품 재고</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="bookStock" value="0">
+                    			</div>
+                    		</div>          
+                    		
+                    		<!-- 할인률 입력 영역 -->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>상품 할인율</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="bookDiscount" value="0">
+                    			</div>
+                    		</div>          		
+                    		
+                    		<!-- 책 소개 입력 영역 -->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>책 소개</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="bookIntro">
+                    			</div>
+                    		</div>        		
+                    		
+                    		<!-- 책 목자 입력 영역 -->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>책 목차</label>
+                    			</div>
+                    			<div class="form_section_content">
+                    				<input name="bookContents">
+                    			</div>
+                    		</div>
+                   		</form>
+                   		<!-- 버튼 영역 -->
+                   		<div class="btn_section">
+                   			<button id="cancelBtn" class="btn">취 소</button>
+	                    	<button id="enrollBtn" class="btn enroll_btn">등 록</button>
+	                    </div> 
+                    </div>  
                 </div>
+                
                 <div class="clearfix"></div>
 			</div>
 			
@@ -37,5 +148,23 @@
 	        
 		</div>
 	</div>
+<script type="text/javascript">
+	let enrollForm = $("#enrollForm");
+	
+	/* 취소 버튼 */
+	$("#cancelBtn").click(function(){
+	    location.href="/admin/goodsManage"
+	});
+	
+	/* 상품 등록 버튼 */
+	$("#enrollBtn").on("click",function(e){
+		
+		e.preventDefault();
+		
+		enrollForm.submit();
+		
+	});
+	
+</script>
 </body>
 </html>

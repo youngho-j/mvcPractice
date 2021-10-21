@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.shop.service.AdminService;
 import com.spring.shop.service.AuthorService;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.util.PagingManager;
 import com.spring.shop.vo.AuthorVO;
+import com.spring.shop.vo.BookVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +27,9 @@ public class AdminController {
 	
 	@Autowired
 	private AuthorService authorService;
+	
+	@Autowired
+	private AdminService adminService;
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public void adminMainGET() throws Exception {
@@ -97,5 +102,17 @@ public class AdminController {
 		redirect.addFlashAttribute("modifyResult", result);
 		
 		return "redirect:/admin/authorManage";
+	}
+	@PostMapping("/goodsEnroll")
+	public String goodsEnrollPOST(BookVO bookVO, RedirectAttributes redirect) throws Exception {
+		log.info("상품 등록");
+		
+		int result = adminService.bookEnroll(bookVO);
+		
+		if(result == 1) {
+			redirect.addFlashAttribute("enrollResult", bookVO.getBookName());
+		}
+		
+		return "redirect:/admin/goodsManage";
 	}
 }
