@@ -11,6 +11,8 @@
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous">
 </script>
+<!-- WYSYWYG_CKEditor5 -->
+<script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -118,7 +120,7 @@
                     				<label>책 소개</label>
                     			</div>
                     			<div class="form_section_content">
-                    				<input name="bookIntro">
+									<textarea name="bookIntro" id="bookIntro_textarea"></textarea>
                     			</div>
                     		</div>        		
                     		
@@ -128,7 +130,7 @@
                     				<label>책 목차</label>
                     			</div>
                     			<div class="form_section_content">
-                    				<input name="bookContents">
+									<textarea name="bookContents" id="bookContents_textarea"></textarea>
                     			</div>
                     		</div>
                    		</form>
@@ -164,6 +166,20 @@
 		enrollForm.submit();
 		
 	});
+	
+	/* WYSYWYG_CKEditor5 적용 */
+	
+	ClassicEditor
+		.create(document.querySelector('#bookIntro_textarea'))
+		.catch(error => {
+			console.error(error);
+		});
+	
+	ClassicEditor
+		.create(document.querySelector('#bookContents_textarea'))
+		.catch(error => {
+			console.error(error);
+		});
 	
 </script>
 </body>

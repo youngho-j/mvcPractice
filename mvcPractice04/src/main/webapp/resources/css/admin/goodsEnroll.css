@@ -135,7 +135,12 @@ ul{
     font-size: 20px;
     text-align-last: center;
 }
- 
+
+/* ckeditor 높이 설정 */
+.ck-content{
+	height: 170px;
+}
+
 /* 관리자 페이지 메인 버튼 영역 */
 .btn_section{
     text-align: center;
