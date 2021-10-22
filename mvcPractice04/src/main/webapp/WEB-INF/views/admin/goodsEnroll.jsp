@@ -5,7 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
+<!-- 물품 등록 페이지 css -->
 <link rel="stylesheet" href="../resources/css/admin/goodsEnroll.css">
+<!-- Datepicker css -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" />
+<!-- jquery CDN -->
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -13,6 +17,9 @@
 </script>
 <!-- WYSYWYG_CKEditor5 -->
 <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+<!-- Datepicker -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -60,7 +67,7 @@
                     				<label>출판일</label>
                     			</div>
                     			<div class="form_section_content">
-                    				<input name="publicationDate">
+                    				<input name="publicationDate" autocomplete="off" readonly="readonly">
                     			</div>
                     		</div>
                     		
@@ -180,6 +187,35 @@
 		.catch(error => {
 			console.error(error);
 		});
+	
+	/* 캘린더 위젯 설정 */
+	const config = {
+			/* 출력 형식 */
+			dateFormat : 'yy-mm-dd',
+			
+			/* 버튼 클릭 형식으로 변경 */
+			showOn : 'button',
+			buttonText : '날짜 선택',
+			
+			/* 캘린더 내부 오늘 날짜 및 닫기 패널 추가 */
+			showButtonPanel : true,
+			currentText: '오늘 날짜', 
+	        closeText: '완료', 
+			
+			/* 캘린더 내부 한글 출력 변경 */
+			prevText : '이전 달',
+			nextText : '다음 달',
+			changeMonth : true,
+			changeYear : true,
+			monthNames : ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+			monthNamesShort : ['1','2','3','4','5','6','7','8','9','10','11','12'],
+			dayNames : ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'],
+			dayNamesMin : ['일','월','화','수','목','금','토']
+	}
+	/* 캘린더 위젯 */
+	$(function() {
+		$("input[name='publicationDate']").datepicker(config);
+	});
 	
 </script>
 </body>
