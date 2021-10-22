@@ -103,6 +103,7 @@ public class AdminController {
 		
 		return "redirect:/admin/authorManage";
 	}
+	
 	@PostMapping("/goodsEnroll")
 	public String goodsEnrollPOST(BookVO bookVO, RedirectAttributes redirect) throws Exception {
 		log.info("상품 등록");
@@ -114,5 +115,10 @@ public class AdminController {
 		}
 		
 		return "redirect:/admin/goodsManage";
+	}
+	
+	@GetMapping("/authorSearch")
+	public void authorSearchGET() throws Exception {
+		log.info("작가 검색 팝업창 실행");
 	}
 }

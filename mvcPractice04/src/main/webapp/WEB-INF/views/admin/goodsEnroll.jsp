@@ -57,7 +57,9 @@
                     				<label>작가</label>
                     			</div>
                     			<div class="form_section_content">
-                    				<input name="authorId" value="0">
+                    				<input id="input_authorName" readonly="readonly">
+                    				<input id="input_authorId" name="authorId" type="hidden">
+                    				<button class="authorSelect">작가 선택</button>
                     			</div>
                     		</div>
                     		
@@ -212,9 +214,21 @@
 			dayNames : ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'],
 			dayNamesMin : ['일','월','화','수','목','금','토']
 	}
+	
 	/* 캘린더 위젯 */
 	$(function() {
 		$("input[name='publicationDate']").datepicker(config);
+	});
+	
+	/* 작가 선택 팝업창 */
+	$('.authorSelect').on("click",function(e){
+		
+		e.preventDefault();
+		
+		let url = "/admin/authorSearch";
+		let option = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+		
+		window.open(url, "작가 검색", option);
 	});
 	
 </script>
