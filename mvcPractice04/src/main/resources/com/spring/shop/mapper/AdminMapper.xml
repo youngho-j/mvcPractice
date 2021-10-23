@@ -6,8 +6,15 @@
  	
  <!-- 작가 등록 -->
 <insert id="bookEnroll">
-  		insert into book_list(bookName, authorId, publicationDate, publisher, categoryCode, bookPrice, bookStock, bookDiscount, bookIntro, bookContents)
-		values(#{bookName},#{authorId}, #{publicationDate},#{publisher},#{categoryCode},#{bookPrice},#{bookStock},#{bookDiscount},#{bookIntro},#{bookContents})
+	insert into book_list(bookName, authorId, publicationDate, publisher, categoryCode, bookPrice, bookStock, bookDiscount, bookIntro, bookContents)
+	values(#{bookName},#{authorId}, #{publicationDate},#{publisher},#{categoryCode},#{bookPrice},#{bookStock},#{bookDiscount},#{bookIntro},#{bookContents})
 </insert>
+ 
+ <!-- 카테고리 목록 -->
+<select id="categoryList" resultType="com.spring.shop.vo.CategoryVO">
+	select * 
+	from book_category
+	order by categoryCode
+</select> 
  
  </mapper>

@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.shop.service.AdminService;
 import com.spring.shop.service.AuthorService;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.util.PagingManager;
 import com.spring.shop.vo.AuthorVO;
 import com.spring.shop.vo.BookVO;
+import com.spring.shop.vo.CategoryVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,8 +49,16 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/authorEnroll", method = RequestMethod.GET)
-	public void authorEnrollGET() throws Exception {
+	public void authorEnrollGET(Model model) throws Exception {
 		log.info("작가 등록 페이지로 이동");
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		List<CategoryVO> list = adminService.categoryList();
+		
+		String categoryList = objectMapper.writeValueAsString(list);
+		
+		model.addAttribute(categoryList);
 	}
 	
 	@RequestMapping(value = "/authorEnroll", method = RequestMethod.POST)

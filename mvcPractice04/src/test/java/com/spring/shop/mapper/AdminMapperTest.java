@@ -1,6 +1,9 @@
 package com.spring.shop.mapper;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
+
 import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
@@ -10,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.spring.shop.vo.BookVO;
+import com.spring.shop.vo.CategoryVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,5 +46,14 @@ public class AdminMapperTest {
 		
 		assertThat(1, is(result));
 	}
-
+	
+	@Test
+	public void 카테코리목록_출력_테스트() throws Exception {
+		List<CategoryVO> list = adminMapper.categoryList();
+		
+		assertNotNull(list);
+		
+		log.info(list.toString());
+	} 
+	
 }

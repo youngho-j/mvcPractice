@@ -1,6 +1,9 @@
 package com.spring.shop.service;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
+
 import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
@@ -10,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.spring.shop.vo.BookVO;
+import com.spring.shop.vo.CategoryVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/security-context.xml"})
@@ -37,5 +41,11 @@ public class AdminServiceTest {
 		
 		assertThat(1, is(result));
 	}
-
+	
+	@Test
+	public void 카테고리목록_테스트() throws Exception {
+		List<CategoryVO> list = AdminService.categoryList();
+		
+		assertNotNull(list);
+	}
 }

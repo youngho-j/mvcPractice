@@ -34,6 +34,15 @@
 		
 		<!-- log4jdbc / sql 로그를 쉽게 확인 가능 -->
 		<log4jdbc-log4j2.version>1.16</log4jdbc-log4j2.version>
+		
+		<!-- javax.mail 라이브러리 -->
+		<mail.version>1.4.7</mail.version>
+		
+		<!-- jackson-databind 라이브러리 / json 사용을 위해 필요 -->
+		<jackson.version>2.12.1</jackson.version>
+		
+		<!-- json 데이터 비교 라이브러리-->
+		<json-assert.version>2.4.0</json-assert.version>
 	</properties>
 	<dependencies>
 		
@@ -179,8 +188,24 @@
 		<dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
-            <version>1.4.7</version>
+            <version>${mail.version}</version>
         </dependency> 
+		
+		<!-- json -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+		
+		<!-- json 데이터 비교 라이브러리-->
+		<dependency>
+		    <groupId>com.jayway.jsonpath</groupId>
+		    <artifactId>json-path-assert</artifactId>
+		    <version>${json-assert.version}</version>
+		    <scope>test</scope>
+		</dependency>
+		
 		
 		<!-- @Inject -->
 		<dependency>
