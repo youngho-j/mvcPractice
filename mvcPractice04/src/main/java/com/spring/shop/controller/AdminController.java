@@ -118,7 +118,20 @@ public class AdminController {
 	}
 	
 	@GetMapping("/authorSearch")
-	public void authorSearchGET() throws Exception {
+	public void authorSearchGET(PageInfo pageInfo, Model model) throws Exception {
 		log.info("작가 검색 팝업창 실행");
+		
+		pageInfo.setViewPerPage(5);
+
+		List<AuthorVO> list = authorService.authorGetList(pageInfo);
+		
+		if(list.isEmpty()) {
+			model.addAttribute("checkResult", "empty");
+		} else {
+			model.addAttribute("list", list);
+		}
+		
+		// 페이징 관련 정보	
+		model.addAttribute("pagingManager", new PagingManager(pageInfo, authorService.authorGetTotal(pageInfo)));
 	}
 }

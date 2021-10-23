@@ -1,6 +1,5 @@
 package com.spring.shop.controller;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -157,6 +156,7 @@ public class AdminControllerTest {
 	public void 팝업창_테스트() throws Exception {
 		mock.perform(get("/admin/authorSearch").session(session))
 				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("list"))
 				.andExpect(view().name("admin/authorSearch"))
 				.andDo(print());
 	}

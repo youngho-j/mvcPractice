@@ -108,7 +108,6 @@
                     				<a href="${pagingManager.pageEndNum + 1}">다음</a>
                     			</li>
                     		</c:if>
-                    		
                     	</ul>
                     </div>
                     
