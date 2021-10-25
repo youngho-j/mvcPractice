@@ -58,6 +58,7 @@ public class AdminControllerTest {
 		mock.perform(get("/admin/goodsEnroll").session(session))
 		.andExpect(status().isOk())
 		.andExpect(view().name("admin/goodsEnroll"))
+		.andExpect(model().attributeExists("categoryList"))
 		.andDo(print());
 	}
 	@Test
@@ -72,7 +73,6 @@ public class AdminControllerTest {
 		mock.perform(get("/admin/authorEnroll").session(session))
 		.andExpect(status().isOk())
 		.andExpect(view().name("admin/authorEnroll"))
-		.andExpect(model().attributeExists("string"))
 		.andDo(print());
 	}
 	

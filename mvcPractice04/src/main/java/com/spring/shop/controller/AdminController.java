@@ -39,8 +39,16 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/goodsEnroll", method = RequestMethod.GET)
-	public void goodsEnrollGET() throws Exception {
+	public void goodsEnrollGET(Model model) throws Exception {
 		log.info("상품 등록 페이지로 이동");
+	
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		List<CategoryVO> list = adminService.categoryList();
+		
+		String categoryList = objectMapper.writeValueAsString(list);
+		
+		model.addAttribute("categoryList", categoryList);
 	}
 	
 	@RequestMapping(value = "/goodsManage", method = RequestMethod.GET)
@@ -49,16 +57,8 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/authorEnroll", method = RequestMethod.GET)
-	public void authorEnrollGET(Model model) throws Exception {
+	public void authorEnrollGET() throws Exception {
 		log.info("작가 등록 페이지로 이동");
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		
-		List<CategoryVO> list = adminService.categoryList();
-		
-		String categoryList = objectMapper.writeValueAsString(list);
-		
-		model.addAttribute(categoryList);
 	}
 	
 	@RequestMapping(value = "/authorEnroll", method = RequestMethod.POST)

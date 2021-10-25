@@ -89,7 +89,24 @@
                     				<label>책 카테고리</label>
                     			</div>
                     			<div class="form_section_content">
-                    				<input name="categoryCode">
+                    				<div class="category_area">
+                    					<span>대분류</span>
+                    					<select class="main_category">
+                    						<option selected value="none">선택</option>
+                    					</select>
+                    				</div>
+                    				<div class="category_area">
+                    					<span>중분류</span>
+                    					<select class="middle_category">
+                    						<option selected value="none">선택</option>
+                    					</select>
+                    				</div>
+                    				<div class="category_area">
+                    					<span>소분류</span>
+                    					<select class="sub_category" name="categoryCode">
+                    						<option selected value="none">선택</option>
+                    					</select>
+                    				</div>
                     			</div>
                     		</div>
                     		
@@ -230,6 +247,93 @@
 		
 		window.open(url, "작가 검색", option);
 	});
+	
+	/* 카테고리 목록 */
+	let categoryList = JSON.parse('${categoryList}');
+	
+	/* 카테고리 정보를 담을 객체 변수 */
+	let categoryObject = new Object(); 
+	
+	/* 카테고리 정보 객체 저장 배열 */
+	let categoryArray1 = new Array();
+	let categoryArray2 = new Array();
+	let categoryArray3 = new Array();
+	
+	/* select 태그 접근 변수 */
+	let mainSelected = $(".main_category");
+	let middleSelected = $(".middle_category");
+	let subSelected = $(".sub_category");
+	
+	/* 배열에 객체 주입 */
+	function makeArray(object, array, name, code, parent) {
+		object.categoryName = name;
+		object.categoryCode = code;
+		object.parentCategory = parent;
+		
+		array.push(object);
+	}
+	
+	/* 카테고리 배열 초기화 */
+	function returnCategoryArray(categoryList, object, array1, array2, array3) {
+		for(let i = 0 ; i < categoryList.length ; i++) {
+			object = new Object();
+			switch(categoryList[i].tier) {
+				case 1 :
+					makeArray(object, array1, categoryList[i].categoryName, categoryList[i].categoryCode, categoryList[i].parentCategory);
+					break;
+				case 2 :
+					makeArray(object, array2, categoryList[i].categoryName, categoryList[i].categoryCode, categoryList[i].parentCategory);
+					break;
+				case 3 :
+					makeArray(object, array3, categoryList[i].categoryName, categoryList[i].categoryCode, categoryList[i].parentCategory);
+					break;
+			}
+		}
+	}
+	
+	returnCategoryArray(categoryList, categoryObject, categoryArray1, categoryArray2, categoryArray3);
+	
+	/* 대분류 */
+	for(let i = 0 ; i < categoryArray1.length ; i++) {
+		mainSelected.append("<option value='" + categoryArray1[i].categoryCode + "'>" + categoryArray1[i].categoryName + "</option>");
+	}
+	
+	/* 중분류 */
+	$(mainSelected).on("change", function(){
+		/* 대분류에서 선택된 값 */
+		let mainSelectedValue = $(this).find("option:selected").val();
+		
+		/* 대분류 재선택시 기존 출력되는 중, 소분류 option 태그 지우기 */
+		middleSelected.children().remove();
+		subSelected.children().remove();
+		
+		middleSelected.append("<option value='none'>선택</option>");
+		subSelected.append("<option value='none'>선택</option>");
+		
+		for(let i = 0 ; i < categoryArray2.length ; i++) {
+			if(mainSelectedValue === categoryArray2[i].parentCategory) {
+				middleSelected.append("<option value='" + categoryArray2[i].categoryCode + "'>" + categoryArray2[i].categoryName + "</option>");
+			}
+		}
+	});
+	
+	/* 소분류 */
+	$(middleSelected).on("change", function(){
+		/* 대분류에서 선택된 값 */
+		let middleSelectedValue = $(this).find("option:selected").val();
+		
+		/* 중분류 재선택시 기존 출력되는 소분류 option 태그 지우기 */
+		subSelected.children().remove();
+		
+		subSelected.append("<option value='none'>선택</option>");
+		
+		for(let i = 0 ; i < categoryArray3.length ; i++) {
+			if(middleSelectedValue === categoryArray3[i].parentCategory) {
+				subSelected.append("<option value='" + categoryArray3[i].categoryCode + "'>" + categoryArray3[i].categoryName + "</option>");
+			}
+		}
+	});
+	
 	
 </script>
 </body>

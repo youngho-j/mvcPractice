@@ -171,6 +171,21 @@ input[name='publicationDate'] {
     text-align: center;
 }
 
+/* 카테고리 선택 영역 */
+.form_section_content select {
+	width: 92%;
+    height: 35px;
+    font-size: 20px;
+    text-align-last: center;
+    margin-left: 5px;
+}
+.category_area {
+	font-weight: 600;
+}
+.category_area:not(:first-child) {
+	margin-top: 20px;
+}
+
 /* 관리자 페이지 메인 버튼 영역 */
 .btn_section{
     text-align: center;
