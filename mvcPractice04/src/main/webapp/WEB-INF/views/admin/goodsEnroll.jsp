@@ -143,7 +143,9 @@
                     				<label>상품 할인율</label>
                     			</div>
                     			<div class="form_section_content">
-                    				<input name="bookDiscount" value="0">
+                    				<input id="discount_viewer" maxlength="2" value="0">
+                    				<input name="bookDiscount" type="hidden" value="0">
+                    				<span class="discountValue_area">할인 가격 : <span class="convertPrice"></span></span>
                     				<span class="msg bookDiscount_msg"></span>
                     			</div>
                     		</div>          		
@@ -219,13 +221,14 @@
 		let publisher = $("input[name='publisher']").val();
 		let categoryCode = $("select[name='categoryCode']").val();
 		let bookPrice = $("input[name='bookPrice']").val();
-		let bookDiscount = $("input[name='bookDiscount']").val();
+		let bookDiscount = $("#discount_viewer").val();
 		let stock = $("input[name='bookStock']").val();
 			/* .html() 해당 요소 안의 내용을 가져옴 */
 		let bookIntro = $(".bi p").html();
 		let bookContents = $(".bc p").html();
 		
-
+		console.log(bookDiscount);
+		
 		/* 공백 검사 */
 		if(!bookName) {
 			$(".bookName_msg").html('책 이름을 입력해주세요.');
@@ -297,12 +300,12 @@
 			bookStorkCk = false;
 		}
 		
-		if(bookDiscount >= 0 && bookDiscount < 1 && bookDiscount != ''){
+		if(!isNaN(bookDiscount)){
 			$(".bookDiscount_msg").html('');
 			$(".bookDiscount_msg").css('display','none');
 			bookDiscountCk = true;
 		} else {
-			$(".bookDiscount_msg").html('상품 할인률을 입력해주세요. [소수점 단위]');
+			$(".bookDiscount_msg").html('상품 할인율을 입력해주세요.');
 			$(".bookDiscount_msg").css('display','block');
 			bookDiscountCk = false;
 		}	
@@ -479,6 +482,50 @@
 		}
 	});
 	
+	/* 할인율 변환 및 가격 출력 */
+	$("#discount_viewer").on("propertychange change keyup paste input", function(){
+		/* 상품 원가 */
+		let price = $("input[name='bookPrice']").val();
+		
+		/* 사용자 입력 값 */
+		let userInput = $("#discount_viewer").val();
+		
+		/* 할인율 변환 값 */
+		let convertDiscount = userInput / 100;
+		
+		/* 변환되는 할인율을 담을 태그 */
+		let saveDiscount = $("input[name='bookDiscount']");
+		
+		let discountPrice = Math.floor(price * (1 - convertDiscount) / 10) * 10;
+		
+		$(".convertPrice").html("");
+		
+		if(!isNaN(userInput)) {
+			$(".convertPrice").html(discountPrice);
+			saveDiscount.val(convertDiscount);
+		}
+	});
+	
+	/* 상품 가격 변동 되는 경우 가격 출력 */
+	$("input[name='bookPrice']").on("change", function(){
+		
+		let userInput = $("input[name='bookPrice']").val();
+		
+		let saveDiscount = $("input[name='bookDiscount']");
+		
+		$(".convertPrice").html("");
+		
+		/* 할인율 변환 값 */
+		if(!isNaN(userInput)) {
+			let convertDiscount = userInput / 100;
+			
+			let price = $(this).val();
+			
+			let discountPrice = Math.floor(price * (1 - convertDiscount) / 10) * 10;
+			
+			$(".convertPrice").html(discountPrice);			
+		}
+	});
 </script>
 </body>
 </html>
