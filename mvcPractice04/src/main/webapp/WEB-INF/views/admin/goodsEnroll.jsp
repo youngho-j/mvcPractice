@@ -48,6 +48,7 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="bookName">
+                    				<span class="msg bookName_msg"></span>
                     			</div>
                     		</div>
                     		
@@ -60,6 +61,7 @@
                     				<input id="input_authorName" readonly="readonly">
                     				<input id="input_authorId" name="authorId" type="hidden">
                     				<button class="authorSelect">작가 선택</button>
+                    				<span class="msg authorId_msg"></span>
                     			</div>
                     		</div>
                     		
@@ -70,6 +72,7 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="publicationDate" autocomplete="off" readonly="readonly">
+                    				<span class="msg publicationDate_msg"></span>
                     			</div>
                     		</div>
                     		
@@ -80,6 +83,7 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="publisher">
+                    				<span class="msg publisher_msg"></span>
                     			</div>
                     		</div>             
                     		
@@ -107,6 +111,7 @@
                     						<option selected value="none">선택</option>
                     					</select>
                     				</div>
+ 	                   				<span class="msg categoryCode_msg"></span>
                     			</div>
                     		</div>
                     		
@@ -117,6 +122,7 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="bookPrice" value="0">
+                    				<span class="msg bookPrice_msg"></span>
                     			</div>
                     		</div>
                     		
@@ -127,6 +133,7 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="bookStock" value="0">
+                    				<span class="msg bookStock_msg"></span>
                     			</div>
                     		</div>          
                     		
@@ -137,6 +144,7 @@
                     			</div>
                     			<div class="form_section_content">
                     				<input name="bookDiscount" value="0">
+                    				<span class="msg bookDiscount_msg"></span>
                     			</div>
                     		</div>          		
                     		
@@ -145,8 +153,10 @@
                     			<div class="form_section_title">
                     				<label>책 소개</label>
                     			</div>
-                    			<div class="form_section_content">
+                    			<!-- 공란 검사를 위해 class 추가 -->
+                    			<div class="form_section_content bi">
 									<textarea name="bookIntro" id="bookIntro_textarea"></textarea>
+									<span class="msg bookIntro_msg"></span>
                     			</div>
                     		</div>        		
                     		
@@ -155,8 +165,9 @@
                     			<div class="form_section_title">
                     				<label>책 목차</label>
                     			</div>
-                    			<div class="form_section_content">
+                    			<div class="form_section_content bc">
 									<textarea name="bookContents" id="bookContents_textarea"></textarea>
+									<span class="msg bookContents_msg"></span>
                     			</div>
                     		</div>
                    		</form>
@@ -189,7 +200,141 @@
 		
 		e.preventDefault();
 		
-		enrollForm.submit();
+		/* 유효성 검사를 위한 변수 */
+		let bookNameCk = false;
+		let authorIdCk = false;
+		let publicationDateCk = false;
+		let publisherCk = false;
+		let categoryCodeCk = false;
+		let bookPriceCk = false;
+		let bookStockCk = false;
+		let bookDiscountCk = false;
+		let bookIntroCk = false;
+		let bookContentsCk = false;
+		
+		/* 입력란 변수*/
+		let bookName = $("input[name='bookName']").val();
+		let authorId = $("input[name='authorId']").val();
+		let publicationDate = $("input[name='publicationDate']").val();
+		let publisher = $("input[name='publisher']").val();
+		let categoryCode = $("select[name='categoryCode']").val();
+		let bookPrice = $("input[name='bookPrice']").val();
+		let bookDiscount = $("input[name='bookDiscount']").val();
+		let stock = $("input[name='bookStock']").val();
+			/* .html() 해당 요소 안의 내용을 가져옴 */
+		let bookIntro = $(".bi p").html();
+		let bookContents = $(".bc p").html();
+		
+
+		/* 공백 검사 */
+		if(!bookName) {
+			$(".bookName_msg").html('책 이름을 입력해주세요.');
+			$(".bookName_msg").css('display','block');
+			bookNameCk = false;
+		} else {
+			$(".bookName_msg").html('');
+			$(".bookName_msg").css('display','none');
+			bookNameCk = true;
+		}
+		
+		if(!authorId) {
+			$(".authorId_msg").html('작가를 선택해주세요.');
+			$(".authorId_msg").css('display','block');
+			authorIdCk = false;
+		} else {
+			$(".authorId_msg").html('');
+			$(".authorId_msg").css('display','none');
+			authorIdCk = true;
+		}
+		
+		if(!publicationDate) {
+			$(".publicationDate_msg").html('출판일을 선택해 주세요.');
+			$(".publicationDate_msg").css('display', 'block');
+			publicationDateCk = false;
+		} else {
+			$(".publicationDate_msg").html('');
+			$(".publicationDate_msg").css('display', 'none');
+			publicationDateCk = true;
+		}
+		
+		if(!publisher){
+			$(".publisher_msg").html('출판사를 입력해주세요.');
+			$(".publisher_msg").css('display','block');
+			publisherCk = false;
+		} else {
+			$(".publisher_msg").html('');
+			$(".publisher_msg").css('display','none');
+			publisherCk = true;
+		}
+		
+		if(categoryCode == 'none'){
+			$(".categoryCode_msg").html('카테고리를 선택해주세요.');
+			$(".categoryCode_msg").css('display','block');
+			categoryCodeCk = false;
+		} else {
+			$(".categoryCode_msg").html('');
+			$(".categoryCode_msg").css('display','none');
+			categoryCodeCk = true;
+		}
+		
+		if(bookPrice > 0 && bookPrice != '' && bookPrice.charAt(0) != '-' && bookPrice.indexOf('.') == -1) {
+			$(".bookPrice_msg").html('');
+			$(".bookPrice_msg").css('display','none');
+			bookPriceCk = true;
+		} else {
+			$(".bookPrice_msg").html('상품 가격을 입력해주세요.');
+			$(".bookPrice_msg").css('display','block');
+			bookPriceCk = false;
+		}
+
+		if(stock >= 0 && stock != '' && stock.charAt(0) != '-' && stock.indexOf('.') == -1){
+			$(".bookStock_msg").html('');
+			$(".bookStock_msg").css('display','none');
+			bookStorkCk = true;
+		} else {
+			$(".bookStock_msg").html('상품 재고를 입력해주세요.');
+			$(".bookStock_msg").css('display','block');
+			bookStorkCk = false;
+		}
+		
+		if(bookDiscount >= 0 && bookDiscount < 1 && bookDiscount != ''){
+			$(".bookDiscount_msg").html('');
+			$(".bookDiscount_msg").css('display','none');
+			bookDiscountCk = true;
+		} else {
+			$(".bookDiscount_msg").html('상품 할인률을 입력해주세요. [소수점 단위]');
+			$(".bookDiscount_msg").css('display','block');
+			bookDiscountCk = false;
+		}	
+		
+		if(bookIntro == '<br data-cke-filler="true">'){
+			$(".bookIntro_msg").html('책 소개를 입력해주세요.');
+			$(".bookIntro_msg").css('display','block');
+			bookIntroCk = false;
+		} else {
+			$(".bookIntro_msg").html('');
+			$(".bookIntro_msg").css('display','none');
+			bookIntroCk = true;
+		}
+		
+		if(bookContents == '<br data-cke-filler="true">'){
+			$(".bookContents_msg").html('책 목차를 입력해주세요.');
+			$(".bookContents_msg").css('display','block');
+			bookContentsCk = false;
+		} else {
+			$(".bookContents_msg").html('');
+			$(".bookContents_msg").css('display','none');
+			bookContentsCk = true;
+		}
+		
+		/* 최종 확인 */
+		if(bookNameCk && authorIdCk && publicationDateCk && publisherCk 
+				&& categoryCodeCk && bookPriceCk && bookStockCk && bookDiscountCk 
+				&& bookIntroCk && bookContentsCk) {
+			enrollForm.submit();			
+		} else {
+			return false;
+		}
 		
 	});
 	
@@ -293,12 +438,12 @@
 	
 	returnCategoryArray(categoryList, categoryObject, categoryArray1, categoryArray2, categoryArray3);
 	
-	/* 대분류 */
+	/* 카테고리 대분류 */
 	for(let i = 0 ; i < categoryArray1.length ; i++) {
 		mainSelected.append("<option value='" + categoryArray1[i].categoryCode + "'>" + categoryArray1[i].categoryName + "</option>");
 	}
 	
-	/* 중분류 */
+	/* 카테고리 중분류 */
 	$(mainSelected).on("change", function(){
 		/* 대분류에서 선택된 값 */
 		let mainSelectedValue = $(this).find("option:selected").val();
@@ -317,7 +462,7 @@
 		}
 	});
 	
-	/* 소분류 */
+	/* 카테고리 소분류 */
 	$(middleSelected).on("change", function(){
 		/* 대분류에서 선택된 값 */
 		let middleSelectedValue = $(this).find("option:selected").val();
@@ -333,7 +478,6 @@
 			}
 		}
 	});
-	
 	
 </script>
 </body>
