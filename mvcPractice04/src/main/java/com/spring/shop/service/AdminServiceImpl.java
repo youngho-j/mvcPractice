@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.shop.mapper.AdminMapper;
+import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.CategoryVO;
 
@@ -28,6 +29,16 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<CategoryVO> categoryList() throws Exception {
 		return adminMapper.categoryList();
+	}
+
+	@Override
+	public List<BookVO> goodsList(PageInfo pageInfo) throws Exception {
+		return adminMapper.goodsList(pageInfo);
+	}
+
+	@Override
+	public int goodsTotal(PageInfo pageInfo) throws Exception {
+		return adminMapper.goodsTotal(pageInfo);
 	}
 	
 	

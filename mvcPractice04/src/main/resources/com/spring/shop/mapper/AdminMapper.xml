@@ -4,17 +4,42 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.spring.shop.mapper.AdminMapper">
  	
- <!-- 작가 등록 -->
+<!-- 작가 등록 -->
 <insert id="bookEnroll">
 	insert into book_list(bookName, authorId, publicationDate, publisher, categoryCode, bookPrice, bookStock, bookDiscount, bookIntro, bookContents)
 	values(#{bookName},#{authorId}, #{publicationDate},#{publisher},#{categoryCode},#{bookPrice},#{bookStock},#{bookDiscount},#{bookIntro},#{bookContents})
 </insert>
  
- <!-- 카테고리 목록 -->
+<!-- 카테고리 목록 -->
 <select id="categoryList" resultType="com.spring.shop.vo.CategoryVO">
 	select * 
 	from book_category
 	order by categoryCode
 </select> 
+
+<!-- 상품 리스트 --> 
+<select id="goodsList" resultType="com.spring.shop.vo.BookVO">
+	
+	select  bookId, bookName, author.authorName, cate.categoryName, bookStock, list.regDate
+	from book_list list 
+
+	left outer join book_author author on list.authorId = author.authorId
+	left outer join book_category cate on list.categoryCode = cate.categoryCode
+	<if test="keyword != null">
+		where (bookName like concat ('%', #{keyword}, '%'))
+	</if>
+	order by bookId desc 
+	limit #{skip}, #{viewPerPage}		
+	
+</select>
+
+<!-- 상품 총 개수 -->
+<select  id="goodsTotal" resultType="int">
+	select count(*) 
+	from book_list
+	<if test="keyword != null">
+		where bookName like concat('%', #{keyword}, '%')
+	</if>
+</select>
  
  </mapper>

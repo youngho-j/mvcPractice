@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.CategoryVO;
 
@@ -56,4 +57,21 @@ public class AdminMapperTest {
 		log.info(list.toString());
 	} 
 	
+	@Test
+	public void 상품리스트_출력_테스트() throws Exception {
+		PageInfo pageInfo = new PageInfo(1, 10);
+		
+		List<BookVO> list = adminMapper.goodsList(pageInfo);
+		
+		assertThat(0, is(list.size()));
+	}
+	
+	@Test
+	public void 상품총개수_출력_테스트() throws Exception {
+		PageInfo pageInfo = new PageInfo(1, 10);
+		
+		int result = adminMapper.goodsTotal(pageInfo);
+		
+		assertThat(0, is(result));
+	}
 }

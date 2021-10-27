@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.CategoryVO;
 
@@ -20,7 +21,7 @@ import com.spring.shop.vo.CategoryVO;
 public class AdminServiceTest {
 	
 	@Autowired
-	private AdminService AdminService;
+	private AdminService adminService;
 	
 	@Test
 	public void 책등록_테스트() throws Exception {
@@ -37,15 +38,33 @@ public class AdminServiceTest {
 		book.setBookIntro("소개");
 		book.setBookContents("목차");
 		
-		int result = AdminService.bookEnroll(book);
+		int result = adminService.bookEnroll(book);
 		
 		assertThat(1, is(result));
 	}
 	
 	@Test
 	public void 카테고리목록_테스트() throws Exception {
-		List<CategoryVO> list = AdminService.categoryList();
+		List<CategoryVO> list = adminService.categoryList();
 		
 		assertNotNull(list);
+	}
+	
+	@Test
+	public void 상품리스트_테스트() throws Exception {
+		PageInfo pageInfo = new PageInfo(1, 10);
+		
+		List<BookVO> list = adminService.goodsList(pageInfo);
+		
+		assertThat(0, is(list.size()));
+	}
+	
+	@Test
+	public void 상품총개수_테스트() throws Exception {
+		PageInfo pageInfo = new PageInfo(1, 10);
+		
+		int result = adminService.goodsTotal(pageInfo);
+		
+		assertThat(0, is(result));
 	}
 }
