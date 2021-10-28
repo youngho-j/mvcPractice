@@ -21,7 +21,7 @@ public class BookVO {
 	private int authorId;
 	
 	// 작가 이름
-	private int authorName;
+	private String authorName;
 	
 	// 출판일
 	private String publicationDate;

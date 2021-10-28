@@ -52,8 +52,21 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/goodsManage", method = RequestMethod.GET)
-	public void goodsManageGET() throws Exception {
+	public void goodsManageGET(PageInfo pageInfo, Model model) throws Exception {
 		log.info("상품 관리 페이지로 이동");
+		
+		// 상품 목록 데이터
+		List<BookVO> list = adminService.goodsList(pageInfo);
+		
+		if(!list.isEmpty()) {
+			model.addAttribute("list", list);
+		} else {
+			model.addAttribute("checkResult", "empty");
+			return;
+		}
+		
+		// 페이징 관련 정보	
+		model.addAttribute("pagingManager", new PagingManager(pageInfo, adminService.goodsTotal(pageInfo)));
 	}
 	
 	@RequestMapping(value = "/authorEnroll", method = RequestMethod.GET)

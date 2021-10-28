@@ -66,6 +66,7 @@ public class AdminControllerTest {
 		mock.perform(get("/admin/goodsManage").session(session))
 		.andExpect(status().isOk())
 		.andExpect(view().name("admin/goodsManage"))
+		.andExpect(model().attributeExists("list"))
 		.andDo(print());
 	}
 	@Test

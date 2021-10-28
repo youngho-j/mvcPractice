@@ -20,7 +20,7 @@
 <!-- 상품 리스트 --> 
 <select id="goodsList" resultType="com.spring.shop.vo.BookVO">
 	
-	select  bookId, bookName, author.authorName, cate.categoryName, bookStock, list.regDate
+	select bookId, bookName, author.authorName, cate.categoryName, bookStock, list.regDate
 	from book_list list 
 
 	left outer join book_author author on list.authorId = author.authorId

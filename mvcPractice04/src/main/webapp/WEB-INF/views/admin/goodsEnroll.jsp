@@ -227,8 +227,6 @@
 		let bookIntro = $(".bi p").html();
 		let bookContents = $(".bc p").html();
 		
-		console.log(bookDiscount);
-		
 		/* 공백 검사 */
 		if(!bookName) {
 			$(".bookName_msg").html('책 이름을 입력해주세요.');
@@ -293,11 +291,11 @@
 		if(stock >= 0 && stock != '' && stock.charAt(0) != '-' && stock.indexOf('.') == -1){
 			$(".bookStock_msg").html('');
 			$(".bookStock_msg").css('display','none');
-			bookStorkCk = true;
+			bookStockCk = true;
 		} else {
 			$(".bookStock_msg").html('상품 재고를 입력해주세요.');
 			$(".bookStock_msg").css('display','block');
-			bookStorkCk = false;
+			bookStockCk = false;
 		}
 		
 		if(!isNaN(bookDiscount)){
@@ -329,6 +327,9 @@
 			$(".bookContents_msg").css('display','none');
 			bookContentsCk = true;
 		}
+		
+		console.log("재고 : " + bookStockCk);
+		console.log("재고 입력 값 : " + stock);
 		
 		/* 최종 확인 */
 		if(bookNameCk && authorIdCk && publicationDateCk && publisherCk 
@@ -511,17 +512,14 @@
 		
 		let userInput = $("input[name='bookPrice']").val();
 		
-		let saveDiscount = $("input[name='bookDiscount']");
+		let saveDiscount = $("input[name='bookDiscount']").val();
 		
 		$(".convertPrice").html("");
 		
 		/* 할인율 변환 값 */
 		if(!isNaN(userInput)) {
-			let convertDiscount = userInput / 100;
 			
-			let price = $(this).val();
-			
-			let discountPrice = Math.floor(price * (1 - convertDiscount) / 10) * 10;
+			let discountPrice = Math.floor(userInput * (1 - saveDiscount) / 10) * 10;
 			
 			$(".convertPrice").html(discountPrice);			
 		}

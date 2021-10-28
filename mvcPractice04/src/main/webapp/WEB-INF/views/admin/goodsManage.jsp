@@ -30,6 +30,89 @@
 				<!-- contents 영역 내용 -->
 				<div class="admin_contents_area">
                     <div class="admin_contents_title"><span>상품 관리</span></div>
+                    <div class="admin_contents_body">
+                    	<div class="goods_table_area">
+	                    	<c:choose>
+	                    		<c:when test="${checkResult ne 'empty'}">
+	                    			<table class="goods_table">
+	                    				<thead>
+	                    					<tr>
+		                    					<td class="th_column_2">상품번호</td>
+			                    				<td class="th_column_3">상품이름</td>
+			                    				<td class="th_column_3">작가이름</td>
+			                    				<td class="th_column_1">카테고리</td>
+			                    				<td class="th_column_2">재   고</td>
+			                    				<td class="th_column_3">등록일자</td>
+	                    					</tr>
+	                    				</thead>
+	                    				<c:forEach items="${list}" var="list">
+	                    					<tr>
+	                    						<td><c:out value="${list.bookId}"></c:out></td>
+				                    			<td><c:out value="${list.bookName}"></c:out></td>
+				                    			<td><c:out value="${list.authorName}"></c:out></td>
+				                    			<td><c:out value="${list.categoryName}"></c:out></td>
+				                    			<td><c:out value="${list.bookStock}"></c:out></td>
+				                    			<td><fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/></td>
+	                    					</tr>
+	                    				</c:forEach>
+	                    			</table>
+	                    		</c:when>
+	                    		<c:otherwise>
+	                    			<div class="empty_table">
+	                					등록된 작가가 없습니다.
+	                				</div>
+	                    		</c:otherwise>
+	                    	</c:choose>
+                    	</div>
+                    	
+                    	<!-- 검색 영역 -->
+	                	<div class="search_area">
+	                		<form id="searchForm" action="/admin/goodsManage" method="get">
+	                			<div class="search_input">
+	                    			<input type="text" name="keyword" value='<c:out value="${pagingManager.pageInfo.keyword}"></c:out>'>
+	                    			<input type="hidden" name="pageNum" value='<c:out value="${pagingManager.pageInfo.pageNum }"></c:out>'>
+	                    			<input type="hidden" name="viewPerPage" value='${pagingManager.pageInfo.viewPerPage}'>
+	                    			<input type="hidden" name="type" value="G">
+	                    			<button class='btn search_btn'>검 색</button>                				
+	                			</div>
+	                		</form>
+	                	</div>
+	                	
+	                	<!-- 페이지 이동 인터페이스 영역 -->
+	                    <div class="pagingManger_area">
+	                    	<ul class="pagingManger_body">
+	                    		
+	                    		<!-- 이전 버튼 -->
+	                    		<c:if test="${pagingManager.prev}">
+	                    			<li class="pagingManager_btn prev">
+	                    				<a href="${pagingManager.pageStartNum - 1}">이전</a>
+	                    			</li>
+	                    		</c:if>
+	                    		
+	                    		<!-- 페이지 번호 -->
+	                    		<c:forEach begin="${pagingManager.pageStartNum}" end="${pagingManager.pageEndNum}" var="num">
+	                    			<li class="pagingManager_btn ${pagingManager.pageInfo.pageNum == num ? 'active':''}">
+	                    				<a href="${num}">${num}</a>
+	                    			</li>
+	                    		</c:forEach>
+	                    		
+	                    		<!-- 다음 버튼 -->
+	                    		<c:if test="${pagingManager.next}">
+	                    			<li class="pagingManger_btn next">
+	                    				<a href="${pagingManager.pageEndNum + 1}">다음</a>
+	                    			</li>
+	                    		</c:if>
+	                    	</ul>
+	                    </div>
+	                	
+	                	<!-- 페이지 이동 form -->
+	                    <form id="moveForm" action="/admin/goodsManage" method="get">
+							<input type="hidden" name="pageNum" value="${pagingManager.pageInfo.pageNum}">
+							<input type="hidden" name="viewPerPage" value="${pagingManager.pageInfo.viewPerPage}">
+							<input type="hidden" name="keyword" value="${pagingManager.pageInfo.keyword}">
+						</form>
+	                	
+                    </div>
                 </div>
                 <div class="clearfix"></div>
 			</div>
@@ -53,6 +136,37 @@
 		
 		alert("상품 '" + result + "' 이 등록되었습니다.");
 	}
+	
+	let searchForm = $("#searchForm");
+	let moveForm = $("#moveForm");
+	
+	/* 상품 검색 */
+	$("#searchForm button").on("click", function(e){
+	
+		e.preventDefault();
+		
+		/* 검색 키워드 유효성 검사 */
+		if(!searchForm.find("input[name='keyword']").val()){
+			alert("키워드를 입력하세요.");
+			return false;
+		}
+		
+		searchForm.find("input[name='pageNum']").val("1");
+		
+		searchForm.submit();
+	
+	});
+	
+	/* 페이지 이동 */
+	$(".pagingManager_btn a").on("click", function(e){
+	
+		e.preventDefault();
+		
+		moveForm.find("input[name='pageNum']").val($(this).attr("href"));
+		
+		moveForm.submit();
+	
+	});
 </script>
 </body>
 </html>
