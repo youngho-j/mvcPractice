@@ -67,4 +67,11 @@ public class AdminServiceTest {
 		
 		assertThat(0, is(result));
 	}
+	
+	@Test
+	public void 상품_상세조회_테스트() throws Exception {
+		BookVO detail = adminService.goodsDetail(8);
+		
+		assertThat(detail.getAuthorName(), is("신형만"));
+	}
 }

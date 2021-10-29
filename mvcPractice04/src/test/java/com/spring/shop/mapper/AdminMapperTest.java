@@ -74,4 +74,13 @@ public class AdminMapperTest {
 		
 		assertThat(0, is(result));
 	}
+	
+	@Test
+	public void 상품_상세조회_출력_테스트() throws Exception {
+		BookVO detail = adminMapper.goodsDetail(8);
+		
+		log.info(detail.toString());
+		
+		assertThat(detail.getAuthorName(), is("신형만"));
+	}
 }

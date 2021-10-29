@@ -19,4 +19,7 @@ public interface AdminMapper {
 	
 	// 상품 총 개수
 	public int goodsTotal(PageInfo pageInfo) throws Exception;
+	
+	// 상품 상세 조회
+	public BookVO goodsDetail(int bookId) throws Exception;
 }

@@ -40,6 +40,10 @@ public class AdminServiceImpl implements AdminService{
 	public int goodsTotal(PageInfo pageInfo) throws Exception {
 		return adminMapper.goodsTotal(pageInfo);
 	}
-	
+
+	@Override
+	public BookVO goodsDetail(int bookId) throws Exception {
+		return adminMapper.goodsDetail(bookId);
+	}
 	
 }

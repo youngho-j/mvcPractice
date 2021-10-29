@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <mapper namespace="com.spring.shop.mapper.AdminMapper">
+<mapper namespace="com.spring.shop.mapper.AdminMapper">
  	
 <!-- 작가 등록 -->
 <insert id="bookEnroll">
@@ -41,5 +41,15 @@
 		where bookName like concat('%', #{keyword}, '%')
 	</if>
 </select>
- 
- </mapper>
+
+<!-- 상품 상세 조회 -->
+<select id="goodsDetail" resultType="com.spring.shop.vo.BookVO">
+	select bookId, bookName, a.authorName, l.authorId, publicationDate, publisher, categoryCode, bookPrice, bookStock, bookDiscount, bookIntro, bookContents
+	from book_list l
+	
+	left outer join book_author a on l.authorId = a.authorId
+	
+	where bookId = #{bookId}
+</select>
+
+</mapper>
