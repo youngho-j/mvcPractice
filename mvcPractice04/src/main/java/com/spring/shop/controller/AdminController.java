@@ -51,6 +51,19 @@ public class AdminController {
 		model.addAttribute("categoryList", categoryList);
 	}
 	
+	@PostMapping("/goodsEnroll")
+	public String goodsEnrollPOST(BookVO bookVO, RedirectAttributes redirect) throws Exception {
+		log.info("상품 등록");
+		
+		int result = adminService.bookEnroll(bookVO);
+		
+		if(result == 1) {
+			redirect.addFlashAttribute("enrollResult", bookVO.getBookName());
+		}
+		
+		return "redirect:/admin/goodsManage";
+	}
+	
 	@RequestMapping(value = "/goodsManage", method = RequestMethod.GET)
 	public void goodsManageGET(PageInfo pageInfo, Model model) throws Exception {
 		log.info("상품 관리 페이지로 이동");
@@ -67,6 +80,20 @@ public class AdminController {
 		
 		// 페이징 관련 정보	
 		model.addAttribute("pagingManager", new PagingManager(pageInfo, adminService.goodsTotal(pageInfo)));
+	}
+	
+	@GetMapping("/goodsDetail")
+	public void goodsDetailGET(int bookId, PageInfo pageInfo, Model model) throws Exception {
+		log.info("상품 상세 페이지로 이동");
+		
+		// 카테고리 데이터 
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		model.addAttribute("categoryList", objectMapper.writeValueAsString(adminService.categoryList()));
+		
+		model.addAttribute("PreviousPageInfo", pageInfo);
+		
+		model.addAttribute("goodsDetail", adminService.goodsDetail(bookId));
 	}
 	
 	@RequestMapping(value = "/authorEnroll", method = RequestMethod.GET)
@@ -125,19 +152,6 @@ public class AdminController {
 		redirect.addFlashAttribute("modifyResult", result);
 		
 		return "redirect:/admin/authorManage";
-	}
-	
-	@PostMapping("/goodsEnroll")
-	public String goodsEnrollPOST(BookVO bookVO, RedirectAttributes redirect) throws Exception {
-		log.info("상품 등록");
-		
-		int result = adminService.bookEnroll(bookVO);
-		
-		if(result == 1) {
-			redirect.addFlashAttribute("enrollResult", bookVO.getBookName());
-		}
-		
-		return "redirect:/admin/goodsManage";
 	}
 	
 	@GetMapping("/authorSearch")

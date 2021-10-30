@@ -1,5 +1,6 @@
 package com.spring.shop.controller;
 
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -157,9 +158,20 @@ public class AdminControllerTest {
 	@Test
 	public void 팝업창_테스트() throws Exception {
 		mock.perform(get("/admin/authorSearch").session(session))
-				.andExpect(status().isOk())
-				.andExpect(model().attributeExists("list"))
-				.andExpect(view().name("admin/authorSearch"))
-				.andDo(print());
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("list"))
+		.andExpect(view().name("admin/authorSearch"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 상품_상세페이지_이동_테스트() throws Exception {
+		mock.perform(get("/admin/goodsDetail").session(session)
+				.param("bookId", "8"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("categoryList"))
+		.andExpect(model().attributeExists("goodsDetail"))
+		.andExpect(view().name("admin/goodsDetail"))
+		.andDo(print());
 	}
 }
