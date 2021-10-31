@@ -53,7 +53,7 @@
                     				<label>등록 일자</label>
                     			</div>
                     			<div class="form_section_content">
-                    				<input value="<fmt:formatDate value='${goodsDetail.regDate}' pattern='yyyy-MM-dd'/>" disabled="disabled"> 
+                    				<input value="<fmt:formatDate value="${goodsDetail.regDate}" pattern="yyyy-MM-dd" />" disabled="disabled"> 
                     			</div>
                     		</div>
                     		
@@ -63,7 +63,7 @@
                     				<label>최근 수정 일자</label>
                     			</div>
                     			<div class="form_section_content">
-                    				<input value="<fmt:formatDate value='${goodsDetail.updateDate}' pattern='yyyy-MM-dd'/>" disabled="disabled"> 
+                    				<input value="<fmt:formatDate value="${goodsDetail.updateDate}" pattern='yyyy-MM-dd'/>" disabled="disabled"> 
                     			</div>
                     		</div>
                     		
@@ -176,14 +176,14 @@
                    		<!-- 버튼 영역 -->
                    		<div class="btn_section">
                    			<button id="cancelBtn" class="btn">상품 목록</button>
-	                    	<button id="enrollBtn" class="btn enroll_btn">수 정</button>
+	                    	<button id="modifyBtn" class="btn modify_btn">수 정</button>
 	                    </div>
 	                    
 	                    <!-- 페이지 이동 form -->
 	                    <form id="moveForm" action="/admin/goodsManage" method="get">
-							<input type="hidden" name="pageNum" value="${pagingManager.pageInfo.pageNum}">
-							<input type="hidden" name="viewPerPage" value="${pagingManager.pageInfo.viewPerPage}">
-							<input type="hidden" name="keyword" value="${pagingManager.pageInfo.keyword}">
+							<input type="hidden" name="pageNum" value="${PreviousPageInfo.pageNum}">
+							<input type="hidden" name="viewPerPage" value="${PreviousPageInfo.viewPerPage}">
+							<input type="hidden" name="keyword" value="${PreviousPageInfo.keyword}">
 						</form>
 						 
                     </div>  
@@ -298,6 +298,24 @@
 		returnCategoryObject(categoryArray1, middleSelectedValue.parentCategory, mainSelectedValue);
 		
 		appendCategory(categoryArray1, mainSelectedValue, mainSelected);
+	});
+	
+	/* 상품 목록 페이지 이동 버튼 */
+	$("#cancelBtn").on("click", function(e){
+		
+		e.preventDefault();
+		
+		$("#moveForm").submit();	
+	});	
+	
+	/* 상품 수정 페이지 이동 */
+	$("#modifyBtn").on("click", function(e){
+		
+		e.preventDefault();
+		
+		$("#moveForm").append('<input type="hidden" name="bookId" value="${goodsDetail.bookId}">');
+		$("#moveForm").attr("action", "/admin/goodsModify");
+		$("#moveForm").submit();
 	});
 	
 	/* WYSYWYG_CKEditor5 적용 */

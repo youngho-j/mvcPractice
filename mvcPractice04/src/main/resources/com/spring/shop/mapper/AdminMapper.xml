@@ -44,7 +44,7 @@
 
 <!-- 상품 상세 조회 -->
 <select id="goodsDetail" resultType="com.spring.shop.vo.BookVO">
-	select bookId, bookName, a.authorName, l.authorId, publicationDate, publisher, categoryCode, bookPrice, bookStock, bookDiscount, bookIntro, bookContents
+	select bookId, bookName, a.authorName, l.authorId, publicationDate, publisher, categoryCode, bookPrice, bookStock, bookDiscount, bookIntro, bookContents, l.regDate, l.updateDate
 	from book_list l
 	
 	left outer join book_author a on l.authorId = a.authorId

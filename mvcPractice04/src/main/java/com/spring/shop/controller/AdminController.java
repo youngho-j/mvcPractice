@@ -81,8 +81,20 @@ public class AdminController {
 		// 페이징 관련 정보	
 		model.addAttribute("pagingManager", new PagingManager(pageInfo, adminService.goodsTotal(pageInfo)));
 	}
+	@PostMapping("/goodsModify")
+	public String goodsModifyPOST(BookVO bookVO, RedirectAttributes redirect) throws Exception {
+		log.info("상품 정보 수정");
+		
+		int result = adminService.goodsModify(bookVO);
+		
+		if(result == 1) {
+			redirect.addFlashAttribute("modifyResult", bookVO.getBookId());
+		}
+		
+		return "redirect:/admin/goodsManage";
+	}
 	
-	@GetMapping("/goodsDetail")
+	@GetMapping({"/goodsDetail", "/goodsModify"})
 	public void goodsDetailGET(int bookId, PageInfo pageInfo, Model model) throws Exception {
 		log.info("상품 상세 페이지로 이동");
 		

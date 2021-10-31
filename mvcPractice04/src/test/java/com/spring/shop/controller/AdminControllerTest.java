@@ -174,4 +174,36 @@ public class AdminControllerTest {
 		.andExpect(view().name("admin/goodsDetail"))
 		.andDo(print());
 	}
+	
+	@Test
+	public void 상품_수정페이지_이동_테스트() throws Exception {
+		mock.perform(get("/admin/goodsModify").session(session)
+				.param("bookId", "8"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("categoryList"))
+		.andExpect(model().attributeExists("goodsDetail"))
+		.andExpect(view().name("admin/goodsModify"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 책_정보수정_테스트() throws Exception {
+		mock.perform(post("/admin/goodsModify").session(session)
+				.param("bookId", "8")
+				.param("bookName", "한눈에쏙한국사")
+				.param("authorId", "22")
+				.param("nationId", "02")
+				.param("publicationDate", "2021-10-14")
+				.param("publisher", "한빛")
+				.param("categoryCode", "106003")
+				.param("bookPrice", "30000")
+				.param("bookStock", "15")
+				.param("bookDiscount", "0.2")
+				.param("bookIntro", "<p>테스트</p>")
+				.param("bookContents", "<p>테스트</p>"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attributeExists("modifyResult"))
+		.andExpect(redirectedUrl("/admin/goodsManage"))
+		.andDo(print());
+	}
 }
