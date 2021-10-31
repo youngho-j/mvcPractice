@@ -22,4 +22,8 @@ public interface AdminService {
 	
 	// 상품 상세정보 조회
 	public BookVO goodsDetail(int bookId) throws Exception;
+	
+	// 상품 정보 수정
+	public int goodsModify(BookVO bookVO) throws Exception;
+	
 }

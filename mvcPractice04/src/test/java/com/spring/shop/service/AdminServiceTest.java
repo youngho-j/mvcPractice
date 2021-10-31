@@ -74,4 +74,25 @@ public class AdminServiceTest {
 		
 		assertThat(detail.getAuthorName(), is("신형만"));
 	}
+	
+	@Test
+	public void 상품정보_수정_테스트() throws Exception {
+		BookVO modify = new BookVO();
+		
+		modify.setBookId(8);
+		modify.setBookName("찍먹한국사");
+		modify.setAuthorId(22);
+		modify.setPublicationDate("2021-10-14");
+		modify.setPublisher("한빛");
+		modify.setCategoryCode("106003");
+		modify.setBookPrice(30000);
+		modify.setBookStock(15);
+		modify.setBookDiscount(0.2);
+		modify.setBookIntro("<p>테스트</p>");
+		modify.setBookContents("<p>테스트</p>");
+		
+		int result = adminService.goodsModify(modify);
+		
+		assertThat(1, is(result));
+	}
 }
