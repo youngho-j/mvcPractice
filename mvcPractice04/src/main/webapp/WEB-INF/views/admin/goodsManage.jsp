@@ -128,9 +128,17 @@
 	</div>
 <script type="text/javascript">
 	$(document).ready(function(){
+		/* 등록 성공시 */
 		let enrollResult = '<c:out value="${enrollResult}"/>';
 		
 		checkResult(enrollResult);
+		
+		/* 수정 성공시 */
+		let modifyResult = '<c:out value="${modifyResult}"/>';
+		
+		if(modifyResult == 1) {
+			alert("상품 정보 수정 성공!");
+		}
 	});
 	
 	function checkResult(result) {

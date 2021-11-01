@@ -178,9 +178,16 @@
                    		<!-- 버튼 영역 -->
                    		<div class="btn_section">
                    			<button id="cancelBtn" class="btn">취 소</button>
-	                    	<button id="enrollBtn" class="btn enroll_btn">등 록</button>
+	                    	<button id="modifyBtn" class="btn modify_btn">수 정</button>
 	                    </div> 
-                    </div>  
+                    </div>
+                    <!-- 이전 페이지 정보 -->
+                    <form id="moveForm" action="/admin/goodsDetail" method="get" >
+ 						<input type="hidden" name="pageNum" value="${PreviousPageInfo.pageNum}">
+						<input type="hidden" name="viewPerPage" value="${PreviousPageInfo.viewPerPage}">
+						<input type="hidden" name="keyword" value="${PreviousPageInfo.keyword}">
+						<input type="hidden" name='bookId' value="${goodsDetail.bookId}">
+                	</form>  
                 </div>
                 
                 <div class="clearfix"></div>
@@ -357,15 +364,16 @@
 		
 	});
 
-	let enrollForm = $("#enrollForm");
-	
 	/* 취소 버튼 */
-	$("#cancelBtn").click(function(){
-	    location.href="/admin/goodsManage"
+	$("#cancelBtn").on("click", function(e){
+	    
+		e.preventDefault();
+		
+		$("#moveForm").submit();
 	});
 	
 	/* 상품 등록 버튼 */
-	$("#enrollBtn").on("click",function(e){
+	$("#modifyBtn").on("click",function(e){
 		
 		e.preventDefault();
 		
@@ -502,7 +510,7 @@
 		if(bookNameCk && authorIdCk && publicationDateCk && publisherCk 
 				&& categoryCodeCk && bookPriceCk && bookStockCk && bookDiscountCk 
 				&& bookIntroCk && bookContentsCk) {
-			enrollForm.submit();			
+			$("#modifyForm").submit();			
 		} else {
 			return false;
 		}
