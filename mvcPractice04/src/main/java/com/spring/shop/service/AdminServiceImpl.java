@@ -51,4 +51,8 @@ public class AdminServiceImpl implements AdminService{
 		return adminMapper.goodsModify(bookVO);
 	}
 	
+	@Override
+	public int goodsDelete(int bookId) throws Exception {
+		return adminMapper.goodsDelete(bookId);
+	}
 }

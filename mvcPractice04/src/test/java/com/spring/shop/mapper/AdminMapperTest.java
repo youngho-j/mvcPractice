@@ -104,4 +104,11 @@ public class AdminMapperTest {
 		
 		assertThat(1, is(result));
 	}
+	
+	@Test
+	public void 상품_정보삭제_테스트() throws Exception {
+		int result = adminMapper.goodsDelete(11);
+		
+		assertThat(1, is(result));
+	}
 }

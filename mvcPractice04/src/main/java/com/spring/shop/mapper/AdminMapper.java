@@ -25,4 +25,7 @@ public interface AdminMapper {
 	
 	// 상품 정보 수정
 	public int goodsModify(BookVO bookVO) throws Exception;
+	
+	// 상품 정보 삭제
+	public int goodsDelete(int bookId) throws Exception;
 }

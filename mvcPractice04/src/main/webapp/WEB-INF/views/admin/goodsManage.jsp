@@ -139,6 +139,13 @@
 		if(modifyResult == 1) {
 			alert("상품 정보 수정 성공!");
 		}
+		
+		/* 삭제 성공시 */
+		let deleteResult = '<c:out value="${deleteResult}"/>';
+		
+		if(deleteResult == 1) {
+			alert("상품 정보 삭제 성공!");
+		}
 	});
 	
 	function checkResult(result) {

@@ -82,17 +82,6 @@ public class AdminController {
 		model.addAttribute("pagingManager", new PagingManager(pageInfo, adminService.goodsTotal(pageInfo)));
 	}
 	
-	@PostMapping("/goodsModify")
-	public String goodsModifyPOST(BookVO bookVO, RedirectAttributes redirect) throws Exception {
-		log.info("상품 정보 수정");
-		
-		int result = adminService.goodsModify(bookVO);
-		
-		redirect.addFlashAttribute("modifyResult", result);
-		
-		return "redirect:/admin/goodsManage";
-	}
-	
 	@GetMapping({"/goodsDetail", "/goodsModify"})
 	public void goodsDetailGET(int bookId, PageInfo pageInfo, Model model) throws Exception {
 		log.info("상품 상세 페이지로 이동");
@@ -105,6 +94,28 @@ public class AdminController {
 		model.addAttribute("PreviousPageInfo", pageInfo);
 		
 		model.addAttribute("goodsDetail", adminService.goodsDetail(bookId));
+	}
+	
+	@PostMapping("/goodsModify")
+	public String goodsModifyPOST(BookVO bookVO, RedirectAttributes redirect) throws Exception {
+		log.info("상품 정보 수정");
+		
+		int result = adminService.goodsModify(bookVO);
+		
+		redirect.addFlashAttribute("modifyResult", result);
+		
+		return "redirect:/admin/goodsManage";
+	}
+	
+	@PostMapping("/goodsDelete")
+	public String goodsDeletePOST(int bookId, RedirectAttributes redirect) throws Exception {
+		log.info("상품 정보 삭제");
+		
+		int result = adminService.goodsDelete(bookId);
+		
+		redirect.addFlashAttribute("deleteResult", result);
+		
+		return "redirect:/admin/goodsManage";
 	}
 	
 	@RequestMapping(value = "/authorEnroll", method = RequestMethod.GET)

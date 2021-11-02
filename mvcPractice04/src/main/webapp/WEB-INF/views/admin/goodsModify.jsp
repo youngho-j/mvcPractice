@@ -179,6 +179,7 @@
                    		<div class="btn_section">
                    			<button id="cancelBtn" class="btn">취 소</button>
 	                    	<button id="modifyBtn" class="btn modify_btn">수 정</button>
+	                    	<button id="deleteBtn" class="btn delete_btn">삭 제</button>
 	                    </div> 
                     </div>
                     <!-- 이전 페이지 정보 -->
@@ -372,7 +373,7 @@
 		$("#moveForm").submit();
 	});
 	
-	/* 상품 등록 버튼 */
+	/* 상품 수정 버튼 */
 	$("#modifyBtn").on("click",function(e){
 		
 		e.preventDefault();
@@ -503,9 +504,6 @@
 			bookContentsCk = true;
 		}
 		
-		console.log("재고 : " + bookStockCk);
-		console.log("재고 입력 값 : " + stock);
-		
 		/* 최종 확인 */
 		if(bookNameCk && authorIdCk && publicationDateCk && publisherCk 
 				&& categoryCodeCk && bookPriceCk && bookStockCk && bookDiscountCk 
@@ -515,6 +513,21 @@
 			return false;
 		}
 		
+	});
+	
+	$("#deleteBtn").on("click",function(e){
+		
+		e.preventDefault();
+		
+		let moveForm = $("#moveForm");
+		/* 기존 input tag 삭제 */
+		moveForm.find("input").remove();
+		
+		moveForm.append('<input type="hidden" name="bookId" value="${goodsDetail.bookId}">');
+		moveForm.attr("action", "/admin/goodsDelete");
+		moveForm.attr("method", "post");
+		
+		moveForm.submit();
 	});
 	
 	/* 작가 선택 팝업창 */

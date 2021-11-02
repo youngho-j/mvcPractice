@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.shop.mapper.AdminMapper">
  	
-<!-- 작가 등록 -->
+<!-- 상품 등록 -->
 <insert id="bookEnroll">
 	insert into book_list(bookName, authorId, publicationDate, publisher, categoryCode, bookPrice, bookStock, bookDiscount, bookIntro, bookContents)
 	values(#{bookName},#{authorId}, #{publicationDate},#{publisher},#{categoryCode},#{bookPrice},#{bookStock},#{bookDiscount},#{bookIntro},#{bookContents})
@@ -56,10 +56,17 @@
 <update id="goodsModify">
 	update book_list
 	set bookName = #{bookName}, authorId = #{authorId}, publicationDate = #{publicationDate}, 
-		publisher = #{publisher}, categoryCode = ${categoryCode}, bookPrice = #{bookPrice}, 
+		publisher = #{publisher}, categoryCode = #{categoryCode}, bookPrice = #{bookPrice}, 
 		bookStock = #{bookStock}, bookDiscount = #{bookDiscount}, bookIntro = #{bookIntro}, 
 		bookContents = #{bookContents}, updateDate = now()
-	where bookId = ${bookId}
+	where bookId = #{bookId}
 </update>
+
+<!-- 상품 정보 삭제 -->
+<delete id="goodsDelete">
+	delete from 
+	book_list
+	where bookId = #{bookId}
+</delete>
 
 </mapper>

@@ -135,6 +135,15 @@ public class AdminControllerTest {
 	}
 	
 	@Test
+	public void 팝업창_테스트() throws Exception {
+		mock.perform(get("/admin/authorSearch").session(session))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("list"))
+		.andExpect(view().name("admin/authorSearch"))
+		.andDo(print());
+	}
+	
+	@Test
 	public void 책_등록_테스트() throws Exception {
 		mock.perform(post("/admin/goodsEnroll").session(session)
 				.param("bookName", "controllerTest")
@@ -151,15 +160,6 @@ public class AdminControllerTest {
 		.andExpect(status().is3xxRedirection())
 		.andExpect(flash().attributeExists("enrollResult"))
 		.andExpect(redirectedUrl("/admin/goodsManage"))
-		.andDo(print());
-	}
-	
-	@Test
-	public void 팝업창_테스트() throws Exception {
-		mock.perform(get("/admin/authorSearch").session(session))
-		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("list"))
-		.andExpect(view().name("admin/authorSearch"))
 		.andDo(print());
 	}
 	
@@ -202,6 +202,16 @@ public class AdminControllerTest {
 				.param("bookContents", "<p>테스트</p>"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(flash().attributeExists("modifyResult"))
+		.andExpect(redirectedUrl("/admin/goodsManage"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 책_정보삭제_테스트() throws Exception {
+		mock.perform(post("/admin/goodsDelete").session(session)
+				.param("bookId", "9"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attributeExists("deleteResult"))
 		.andExpect(redirectedUrl("/admin/goodsManage"))
 		.andDo(print());
 	}

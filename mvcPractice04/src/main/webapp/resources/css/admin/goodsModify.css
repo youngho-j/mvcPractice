@@ -207,9 +207,15 @@ input[name='publicationDate'] {
     font-weight: 600;
     line-height: 40px;
 }
-.enroll_btn {
+.modify_btn {
     background-color: #dbdde2;
     margin-left:15px;
+}
+.delete_btn{
+	background-color: #efcdcd;
+}
+.delete_btn:hover{
+	background-color : #e4a7a7;
 }
 
 /* footer navai 영역 */

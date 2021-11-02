@@ -95,4 +95,11 @@ public class AdminServiceTest {
 		
 		assertThat(1, is(result));
 	}
+	
+	@Test
+	public void 상품정보_삭제_테스트() throws Exception {
+		int result = adminService.goodsDelete(10);
+		
+		assertThat(1, is(result));
+	}
 }
