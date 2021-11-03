@@ -193,4 +193,16 @@ public class AdminController {
 		// 페이징 관련 정보	
 		model.addAttribute("pagingManager", new PagingManager(pageInfo, authorService.authorGetTotal(pageInfo)));
 	}
+	
+	@PostMapping("/authorDelete")
+	public String authorDeletePOST(int authorId, RedirectAttributes redirect) throws Exception {
+		log.info("작가 정보 삭제 여부 판단");
+		
+		int result = authorService.authorDelete(authorId);
+		
+		redirect.addFlashAttribute("deleteResult", result);
+		
+		return "redirect:/admin/authorManage";
+		
+	}
 }

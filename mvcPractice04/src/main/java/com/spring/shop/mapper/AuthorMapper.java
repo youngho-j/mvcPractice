@@ -22,4 +22,9 @@ public interface AuthorMapper {
 	// 작가 정보 수정
 	public int authorModify(AuthorVO authorVO) throws Exception;
 	
+	// 작가 정보 삭제
+	public int authorDelete(int authorId) throws Exception;
+	
+	// 작가의 ID로 등록된 책의 수
+	public int authorWrittenBook(int authorId) throws Exception;
 }

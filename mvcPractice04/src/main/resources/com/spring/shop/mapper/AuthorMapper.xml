@@ -41,4 +41,16 @@
  		update book_author set authorName = #{authorName}, nationId=#{nationId}, authorProfile = #{authorProfile}, updateDate = now()
  		where authorId = #{authorId}
  	</update>
+ 	
+ 	<!-- 작가 정보 삭제 -->
+ 	<delete id="authorDelete">
+ 		delete from book_author
+ 		where authorId = #{authorId}
+ 	</delete>
+ 	
+ 	<!-- 작가의 ID로 등록된 책의 수 -->
+ 	<select id="authorWrittenBook" resultType="int">
+ 		select count(*) from book_list
+ 		where authorId = #{authorId}
+ 	</select>
  </mapper>

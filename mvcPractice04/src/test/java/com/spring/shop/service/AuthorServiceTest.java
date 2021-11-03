@@ -71,4 +71,11 @@ public class AuthorServiceTest {
 		
 		assertThat(1, is(result));
 	}
+	
+	@Test
+	public void 작가정보_삭제_테스트() throws Exception {
+		int result = authorService.authorDelete(28);
+		
+		assertThat(1, is(result));
+	}
 }

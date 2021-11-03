@@ -82,4 +82,20 @@ public class AuthorMapperTest {
 		
 		assertThat(1, is(result));
 	}
+	
+	@Test
+	public void 작가_정보_삭제_메서드_테스트() throws Exception {
+		int result = authorMapper.authorDelete(26);
+		
+		assertThat(1, is(result));
+	}
+	
+	@Test
+	public void 작가_등록책수_출력_메서드_테스트() throws Exception {
+		int result = authorMapper.authorWrittenBook(27);
+		
+		assertThat(0, is(result));
+	}
+	
+	
 }

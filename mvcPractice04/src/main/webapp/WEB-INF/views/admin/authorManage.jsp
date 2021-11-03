@@ -132,10 +132,13 @@ $(document).ready(function(){
     
     let result = '<c:out value="${enroll_result}"/>';
     let modifyResult = '<c:out value="${modifyResult}"/>';
+    let deleteResult = '<c:out value="${deleteResult}"/>';
     
     checkResult(result);
     
     checkModifyResult(modifyResult);
+    
+    checkDeleteResult(deleteResult);
     
 });
 
@@ -149,9 +152,17 @@ function checkResult(result){
 function checkModifyResult(modifyResult) {
 	if(modifyResult === '1'){
 		alert("작가 정보 수정을 완료하였습니다.");
-	} else if(mresult === '0') {
+	} else if(modifyResult === '0') {
 		alert("작가 정부 수정을 하지 못하였습니다.")	
 	}
+}
+
+function checkDeleteResult(deleteResult) {
+	if(deleteResult == 1){
+		alert("작가 정보 삭제 완료!");
+	} else if(deleteResult == 2){
+		alert("해당 작가의 이름으로 등록된 책이 존재하므로 정보를 삭제할 수 없습니다.");
+	}	
 }
 
 let moveForm = $("#moveForm");
