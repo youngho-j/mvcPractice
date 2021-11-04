@@ -1,20 +1,26 @@
 package com.spring.shop.controller;
 
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.shop.vo.MemberVO;
 
@@ -214,5 +220,18 @@ public class AdminControllerTest {
 		.andExpect(flash().attributeExists("deleteResult"))
 		.andExpect(redirectedUrl("/admin/goodsManage"))
 		.andDo(print());
+	}
+	
+	@Test
+	public void 파일_서버전달_테스트() throws Exception {
+		String fileName = "book2.png";
+		String filePath = "C:/Users/admin/Desktop/book2.png";
+		
+		MockMultipartFile mockMultipartFile = new MockMultipartFile(fileName, new FileInputStream(new File(filePath)));
+		
+		mock.perform(multipart("/admin/ajaxUpload").file(mockMultipartFile).session(session))
+		.andExpect(status().isOk())
+		.andDo(print());
+		
 	}
 }

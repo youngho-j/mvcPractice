@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -204,5 +205,16 @@ public class AdminController {
 		
 		return "redirect:/admin/authorManage";
 		
+	}
+	@PostMapping("/ajaxUpload")
+	public void ajaxUploadPOST(MultipartFile[] uploadFile) throws Exception {
+		log.info("이미지 전달");
+		
+		for(MultipartFile files : uploadFile) {
+			log.info("------");
+			log.info("파일 이름 : " + files.getOriginalFilename());
+			log.info("파일 타입: " + files.getContentType());
+			log.info("파일 크기 : " + files.getSize());
+		}
 	}
 }

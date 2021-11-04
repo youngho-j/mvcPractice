@@ -537,6 +537,10 @@
 	
 	/* 이미지 업로드 */
 	$("input[type='file']").on("change", function(e){
+		
+		/* 이미지 정보를 보내기 위해 객체 선언*/
+		let formData = new FormData();
+		
 		let uploadFile = $('input[name="uploadFile"]');
 		let fileList = uploadFile[0].files;
 		let fileObj = fileList[0];
@@ -545,11 +549,22 @@
 			return false;
 		}
 		
-		alert("업로드 가능한 파일입니다.");
+		formData.append("uploadFile", fileObj);
+		
+		$.ajax({
+			url : '/admin/ajaxUpload',
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			data : formData,
+			dataType : 'json'
+			
+		});
 	});
 	
 	/* 이미지 업로드 규칙 설정 */	
 	function fileCheck(fileName, fileSize) {
+		
 		/* jpg, png 파일만 허용 */
 		let regex = new RegExp("(.*?)\.(jpg|png)$");
 		/* 업로드 파일 크기 최대 1MB */
