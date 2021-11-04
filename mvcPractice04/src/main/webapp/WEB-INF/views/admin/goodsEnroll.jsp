@@ -172,6 +172,16 @@
 									<span class="msg bookContents_msg"></span>
                     			</div>
                     		</div>
+                    		
+                    		<!-- 이미지 추가 영역 -->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>상품 이미지</label>
+                    			</div>
+                    			<div class="form_section_content">
+									<input type="file" id ="fileItem" name="uploadFile">
+                    			</div>
+                    		</div>  
                    		</form>
                    		<!-- 버튼 영역 -->
                    		<div class="btn_section">
@@ -524,6 +534,42 @@
 			$(".convertPrice").html(discountPrice);			
 		}
 	});
+	
+	/* 이미지 업로드 */
+	$("input[type='file']").on("change", function(e){
+		let uploadFile = $('input[name="uploadFile"]');
+		let fileList = uploadFile[0].files;
+		let fileObj = fileList[0];
+		
+		if(!fileCheck(fileObj.name, fileObj.size)) {
+			return false;
+		}
+		
+		alert("업로드 가능한 파일입니다.");
+	});
+	
+	/* 이미지 업로드 규칙 설정 */	
+	function fileCheck(fileName, fileSize) {
+		/* jpg, png 파일만 허용 */
+		let regex = new RegExp("(.*?)\.(jpg|png)$");
+		/* 업로드 파일 크기 최대 1MB */
+		let maxFileSize = 1048567;
+		
+		if(fileSize >= maxFileSize){
+			alert(`업로드가 가능한 파일크기가 아닙니다.
+[최대 1MB까지 업로드 가능합니다.]`);
+			return false;
+		}
+			  
+		if(!regex.test(fileName)){
+			alert(`업로드 가능한 파일확장자가 아닙니다.
+[jpg, png 파일만 업로드 가능합니다.]`);
+			return false;
+		}
+		
+		return true;
+		
+	}
 </script>
 </body>
 </html>

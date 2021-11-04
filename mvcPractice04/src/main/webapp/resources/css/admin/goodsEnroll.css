@@ -135,6 +135,9 @@ ul {
     font-size: 20px;
     text-align-last: center;
 }
+input[type=file] {
+	height: 30px;
+}
 
 /* ckeditor 높이 설정 */
 .ck-content {
