@@ -1,5 +1,8 @@
 package com.spring.shop.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -206,9 +209,25 @@ public class AdminController {
 		return "redirect:/admin/authorManage";
 		
 	}
+	
 	@PostMapping("/ajaxUpload")
 	public void ajaxUploadPOST(MultipartFile[] uploadFile) throws Exception {
 		log.info("이미지 전달");
+		
+		String uploadRoot = "H:\\mvcPractice04upload";
+		
+		/* 현재 날짜 기준 폴더 생성 */
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String stringDate = dateFormat.format(new Date());
+		
+		String detailRoot = stringDate.replaceAll("-", File.separator);
+		
+		File uploadFolder = new File(uploadRoot, detailRoot);
+		
+		if(!uploadFolder.exists()) {
+			uploadFolder.mkdirs();
+		}
 		
 		for(MultipartFile files : uploadFile) {
 			log.info("------");
