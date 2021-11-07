@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.shop.service.AdminService;
 import com.spring.shop.service.AuthorService;
-import com.spring.shop.util.FolderManager;
+import com.spring.shop.util.FileManager;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.util.PagingManager;
 import com.spring.shop.vo.AuthorVO;
@@ -214,7 +214,7 @@ public class AdminController {
 		
 		String uploadRoot = "H:\\mvcPractice04upload";
 		
-		FolderManager folderManager = new FolderManager(uploadRoot);
+		FileManager folderManager = new FileManager(uploadRoot);
 		
 		folderManager.createFolder();
 		
