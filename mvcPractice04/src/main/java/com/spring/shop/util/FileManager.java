@@ -44,7 +44,10 @@ public class FileManager {
 	}
 	
 	public List<String> transferToFolder(MultipartFile[] multipartFile, String uploadRoot) throws Exception {
+		
 		List<String> fileNameList = new ArrayList<String>();
+		
+		StringBuilder sb = new StringBuilder();
 		
 		for(MultipartFile file : multipartFile) {
 			String uploadFileName = file.getOriginalFilename();
@@ -52,14 +55,25 @@ public class FileManager {
 			// 파일 이름 중복을 막기위해 UUID 사용
 			String uuid = UUID.randomUUID().toString();
 			
-			uploadFileName = uuid + "_" + uploadFileName;
+			sb.append(uuid);
+			sb.append("_");
+			sb.append(uploadFileName);
 			
+			uploadFileName = sb.toString();
+			
+			// 변경된 파일 이름과 해당년월일자 폴더 경로를 갖는 file 객체 생성
 			File saveFile = new File(uploadRoot, uploadFileName);
 			
+			// 수신 파일 객체(file)를 목적지 파일 객체(savefile)로 전달하여 저장
 			file.transferTo(saveFile);
 			
 			fileNameList.add(uploadFileName);
+			
 			log.info("파일 저장 완료!");
+			
+			// 길이를 0으로 설정하여 StringBuilder 초기화 
+			sb.setLength(0);
+			
 		}
 		
 		return fileNameList;

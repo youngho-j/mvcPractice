@@ -214,15 +214,12 @@ public class AdminController {
 		
 		String uploadRoot = "H:\\mvcPractice04upload";
 		
-		FileManager folderManager = new FileManager(uploadRoot);
+		FileManager fileManager = new FileManager(uploadRoot);
 		
-		folderManager.createFolder();
+		// 파일 저장 폴더 생성
+		fileManager.createFolder();
 		
-		for(MultipartFile files : uploadFile) {
-			log.info("------");
-			log.info("파일 이름 : " + files.getOriginalFilename());
-			log.info("파일 타입: " + files.getContentType());
-			log.info("파일 크기 : " + files.getSize());
-		}
+		// 파일 저장
+		fileManager.transferToFolder(uploadFile, fileManager.getAbsolutepath());
 	}
 }

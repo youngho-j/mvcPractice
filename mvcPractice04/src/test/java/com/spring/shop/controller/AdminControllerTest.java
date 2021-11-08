@@ -221,13 +221,17 @@ public class AdminControllerTest {
 	}
 	
 	@Test
-	public void 파일_서버전달_테스트() throws Exception {
+	public void 파일_업로드_테스트() throws Exception {
+		// 테스트 파일 이름 및 경로 
 		String fileName = "book2.png";
-		String filePath = "C:/Users/admin/Desktop/book2.png";
+		String filePath = "C:\\Users\\admin\\Desktop";
+				
+		// MockMultipartFile 생성
+		MockMultipartFile mockMultipartFile = new MockMultipartFile(fileName, fileName, "image/png", new FileInputStream(new File(filePath, fileName)));
 		
-		MockMultipartFile mockMultipartFile = new MockMultipartFile(fileName, new FileInputStream(new File(filePath)));
-		
-		mock.perform(multipart("/admin/ajaxUpload").file(mockMultipartFile).session(session))
+		mock.perform(multipart("/admin/ajaxUpload")
+				.file(mockMultipartFile)
+				.session(session))
 		.andExpect(status().isOk())
 		.andDo(print());
 		
