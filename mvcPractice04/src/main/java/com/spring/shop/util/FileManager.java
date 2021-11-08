@@ -1,5 +1,7 @@
 package com.spring.shop.util;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,6 +71,9 @@ public class FileManager {
 			// 수신 파일 객체(file)를 목적지 파일 객체(savefile)로 전달하여 저장
 			file.transferTo(saveFile);
 			
+			// 썸네일 생성 및 저장
+			saveThumbnail(sb, uploadRoot, saveFile);
+			
 			fileNameList.add(uploadFileName);
 			
 			log.info("파일 저장 완료!");
@@ -77,5 +84,29 @@ public class FileManager {
 		}
 		
 		return fileNameList;
+	}
+	
+	public void saveThumbnail(StringBuilder sb, String uploadRoot, File saveFile) throws Exception {
+		// 기존 작성된 파일명 앞에 추가 
+		sb.insert(0, "t_");
+		
+		String thumbnailSaveFileName = sb.toString();
+		
+		File thumbnailFile = new File(uploadRoot, thumbnailSaveFileName);
+		
+		// 기존 파일 객체를 BufferedImage 객체로 변환 (썸네일로 만들기 위한 전 작업)
+		BufferedImage originImage = ImageIO.read(saveFile);
+		
+		// 썸네일 이미지 너비, 높이, 이미지 타입 설정된 객체 생성
+		BufferedImage thumbImage = new BufferedImage(300, 500, BufferedImage.TYPE_3BYTE_BGR);
+		
+		// BufferedImage 객체에 그림을 그리기 위해 객체 생성
+		Graphics2D graphic = thumbImage.createGraphics();
+		
+		// 설정된 크기의 영역에 첫번째 인자로 받은 이미지를 그림
+		graphic.drawImage(originImage, 0, 0, 300, 500, null);
+		
+		ImageIO.write(thumbImage, "jpg", thumbnailFile);
+		log.info("썸네일 파일 저장 완료!");
 	}
 }
