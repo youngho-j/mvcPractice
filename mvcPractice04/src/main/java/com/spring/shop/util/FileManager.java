@@ -90,6 +90,8 @@ public class FileManager {
 		// 기존 작성된 파일명 앞에 추가 
 		sb.insert(0, "t_");
 		
+		double scaleDown = 3;
+		
 		String thumbnailSaveFileName = sb.toString();
 		
 		File thumbnailFile = new File(uploadRoot, thumbnailSaveFileName);
@@ -97,16 +99,24 @@ public class FileManager {
 		// 기존 파일 객체를 BufferedImage 객체로 변환 (썸네일로 만들기 위한 전 작업)
 		BufferedImage originImage = ImageIO.read(saveFile);
 		
+		// 원본 사진의 높이와 너비 길이 축소 
+		int width = convertSize(originImage.getWidth(), scaleDown);
+		int height = convertSize(originImage.getHeight(), scaleDown);
+		
 		// 썸네일 이미지 너비, 높이, 이미지 타입 설정된 객체 생성
-		BufferedImage thumbImage = new BufferedImage(300, 500, BufferedImage.TYPE_3BYTE_BGR);
+		BufferedImage thumbImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
 		
 		// BufferedImage 객체에 그림을 그리기 위해 객체 생성
 		Graphics2D graphic = thumbImage.createGraphics();
 		
 		// 설정된 크기의 영역에 첫번째 인자로 받은 이미지를 그림
-		graphic.drawImage(originImage, 0, 0, 300, 500, null);
+		graphic.drawImage(originImage, 0, 0, width, height, null);
 		
 		ImageIO.write(thumbImage, "jpg", thumbnailFile);
 		log.info("썸네일 파일 저장 완료!");
+	}
+	
+	private int convertSize(int size, double scaleDown) throws Exception {
+		return (int) (size / scaleDown);
 	}
 }
