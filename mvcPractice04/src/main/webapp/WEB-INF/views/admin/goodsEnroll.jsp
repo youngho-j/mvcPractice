@@ -557,8 +557,10 @@
 			contentType : false,
 			type : 'POST',
 			data : formData,
-			dataType : 'json'
-			
+			dataType : 'json',
+			success : function(result) {
+				console.log(result);
+			}
 		});
 	});
 	

@@ -17,6 +17,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.shop.vo.ImageInfoVO;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -50,10 +52,12 @@ public class FileManagerTest {
 		
 		MultipartFile[] multipartFiles = {mockMultipartFile};
 		
-		List<String> list = fileManager.transferToFolder(multipartFiles, fileManager.getAbsolutepath());
+		List<ImageInfoVO> list = fileManager.transferToFolder(multipartFiles, fileManager.getAbsolutepath());
+		
+		String getfileName = list.get(0).getFileName();
 		
 		// 해당 문자와 일치하는 값이 있는지 확인
-		int result = list.get(0).indexOf("png");
+		int result = getfileName.indexOf("png");
 		
 		assertNotEquals(-1, is(result));;
 	}

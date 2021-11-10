@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.shop.vo.ImageInfoVO;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,9 +49,9 @@ public class FileManager {
 		return false;
 	}
 	
-	public List<String> transferToFolder(MultipartFile[] multipartFile, String uploadRoot) throws Exception {
+	public List<ImageInfoVO> transferToFolder(MultipartFile[] multipartFile, String uploadRoot) throws Exception {
 		
-		List<String> fileNameList = new ArrayList<String>();
+		List<ImageInfoVO> imageList = new ArrayList<ImageInfoVO>();
 		
 		StringBuilder sb = new StringBuilder();
 		
@@ -58,6 +60,13 @@ public class FileManager {
 			
 			// 파일 이름 중복을 막기위해 UUID 사용
 			String uuid = UUID.randomUUID().toString();
+			
+			// 이미지 정보를 담은 객체
+			ImageInfoVO imageInfo = new ImageInfoVO.Builder(1)
+					.uploadPath(uploadRoot)
+					.uuid(uuid)
+					.fileName(uploadFileName)
+					.build();
 			
 			sb.append(uuid);
 			sb.append("_");
@@ -74,7 +83,7 @@ public class FileManager {
 			// 썸네일 생성 및 저장
 			saveThumbnail(sb, uploadRoot, saveFile);
 			
-			fileNameList.add(uploadFileName);
+			imageList.add(imageInfo);
 			
 			log.info("파일 저장 완료!");
 			
@@ -82,8 +91,7 @@ public class FileManager {
 			sb.setLength(0);
 			
 		}
-		
-		return fileNameList;
+		return imageList;
 	}
 	
 	public void saveThumbnail(StringBuilder sb, String uploadRoot, File saveFile) throws Exception {

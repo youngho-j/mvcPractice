@@ -3,6 +3,9 @@ package com.spring.shop.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ import com.spring.shop.util.PagingManager;
 import com.spring.shop.vo.AuthorVO;
 import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.CategoryVO;
+import com.spring.shop.vo.ImageInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -208,8 +212,8 @@ public class AdminController {
 		
 	}
 	
-	@PostMapping("/ajaxUpload")
-	public void ajaxUploadPOST(MultipartFile[] uploadFile) throws Exception {
+	@PostMapping(value = "/ajaxUpload", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ImageInfoVO>> ajaxUploadPOST(MultipartFile[] uploadFile) throws Exception {
 		log.info("이미지 전달");
 		
 		String uploadRoot = "H:\\mvcPractice04upload";
@@ -220,6 +224,12 @@ public class AdminController {
 		fileManager.createFolder();
 		
 		// 파일 저장
-		fileManager.transferToFolder(uploadFile, fileManager.getAbsolutepath());
+		List<ImageInfoVO> list = fileManager.transferToFolder(uploadFile, fileManager.getAbsolutepath());
+		
+		// http body에 추가
+		ResponseEntity<List<ImageInfoVO>> result =
+				new ResponseEntity<List<ImageInfoVO>>(list, HttpStatus.OK);
+		
+		return result;
 	}
 }
