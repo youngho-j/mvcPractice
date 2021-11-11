@@ -560,6 +560,9 @@
 			dataType : 'json',
 			success : function(result) {
 				console.log(result);
+			},
+			error : function(result) {
+				alert("해당 파일은 이미지 파일형식이 아닙니다.");				
 			}
 		});
 	});

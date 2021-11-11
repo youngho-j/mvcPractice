@@ -3,6 +3,8 @@ package com.spring.shop.util;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -122,6 +124,24 @@ public class FileManager {
 		
 		ImageIO.write(thumbImage, "jpg", thumbnailFile);
 		log.info("썸네일 파일 저장 완료!");
+	}
+	
+	public boolean imageCheck(MultipartFile[] multipartFile) throws Exception {
+		for(MultipartFile file : multipartFile) {
+			
+			Path filePath = new File(file.getOriginalFilename()).toPath();
+			
+			String getType = null;
+			
+			getType = Files.probeContentType(filePath);
+			log.info("파일 MIME TYPE : " + getType);
+			
+			if(!getType.startsWith("image")) {
+				return false;
+			}
+			
+ 		}
+		return true;
 	}
 	
 	private int convertSize(int size, double scaleDown) throws Exception {

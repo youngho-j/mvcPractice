@@ -92,6 +92,21 @@ public class FileManagerTest {
 		log.info("썸네일 파일 이름 : " + sb.toString());
 		
 		assertNotEquals(uploadFileName, sb.toString());
+	}
+	
+	@Test
+	public void 이미지_파일_확인_테스트() throws Exception {
+		// 테스트 파일 이름 및 경로 
+		String fileName = "book2.png";
+		String filePath = "C:\\Users\\admin\\Desktop";
+				
+		// MockMultipartFile 생성
+		MultipartFile mockMultipartFile = new MockMultipartFile(fileName, fileName, "image/png", new FileInputStream(new File(filePath, fileName)));
+				
+		MultipartFile[] multipartFiles = {mockMultipartFile};
 		
+		boolean result = fileManager.imageCheck(multipartFiles);
+		
+		assertTrue(result);
 	}
 }

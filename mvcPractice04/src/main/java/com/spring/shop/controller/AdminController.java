@@ -216,20 +216,25 @@ public class AdminController {
 	public ResponseEntity<List<ImageInfoVO>> ajaxUploadPOST(MultipartFile[] uploadFile) throws Exception {
 		log.info("이미지 전달");
 		
+		List<ImageInfoVO> list = null;
+		
 		String uploadRoot = "H:\\mvcPractice04upload";
 		
 		FileManager fileManager = new FileManager(uploadRoot);
 		
-		// 파일 저장 폴더 생성
-		fileManager.createFolder();
+		boolean fileCheck = fileManager.imageCheck(uploadFile);
 		
-		// 파일 저장
-		List<ImageInfoVO> list = fileManager.transferToFolder(uploadFile, fileManager.getAbsolutepath());
+		// 이미지 파일 타입 체크 
+		if(fileCheck) {
+			// 파일 저장 폴더 생성
+			fileManager.createFolder();
+			
+			// 파일 저장
+			list = fileManager.transferToFolder(uploadFile, fileManager.getAbsolutepath());
+			
+			return new ResponseEntity<List<ImageInfoVO>>(list, HttpStatus.OK);
+		}
 		
-		// http body에 추가
-		ResponseEntity<List<ImageInfoVO>> result =
-				new ResponseEntity<List<ImageInfoVO>>(list, HttpStatus.OK);
-		
-		return result;
+		return new ResponseEntity<List<ImageInfoVO>>(list, HttpStatus.BAD_REQUEST);
 	}
 }
