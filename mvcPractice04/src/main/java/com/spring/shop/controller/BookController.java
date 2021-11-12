@@ -40,7 +40,9 @@ public class BookController {
 		HttpHeaders header = new HttpHeaders();
 		
 		// 파일 객체 생성
-		File file = new File("H:\\mvcPractice04upload\\" + fileName);
+		// goodsEnroll 페이지에서 파일 루트 생성 및 파일 복사 후 전체 이름을 가져옴
+		// 기존 테스트를 위해 fileName 앞에 고정 폴더 경로를 입력함으로 인해 고정경로가 두번 출력됨
+		File file = new File(fileName);
 		
 		// 파일 MIME TYPE 추가
 		header.add("Content-type", Files.probeContentType(file.toPath()));

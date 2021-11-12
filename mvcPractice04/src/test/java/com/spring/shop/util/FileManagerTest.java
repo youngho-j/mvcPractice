@@ -60,6 +60,8 @@ public class FileManagerTest {
 		int result = getfileName.indexOf("png");
 		
 		assertNotEquals(-1, is(result));;
+		
+		log.info("업로드 경로 : " + list.get(0).getUploadPath());
 	}
 	
 	@Test

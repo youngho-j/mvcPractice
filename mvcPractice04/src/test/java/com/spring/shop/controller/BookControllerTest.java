@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -41,8 +42,9 @@ public class BookControllerTest {
 	@Test
 	public void 이미지_출력_테스트() throws Exception {
 		mock.perform(get("/display")
-				.param("fileName", "디아템.jpg"))
+				.param("fileName", "H:/mvcPractice04upload/디아템.jpg"))
 		.andExpect(status().isOk())
+		.andExpect(content().contentType(MediaType.IMAGE_JPEG))
 		.andDo(print());
 	}
 }

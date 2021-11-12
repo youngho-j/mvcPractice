@@ -180,6 +180,12 @@
                     			</div>
                     			<div class="form_section_content">
 									<input type="file" id ="fileItem" name="uploadFile">
+									<div id="uploadImg">
+										<!-- <div id="img_area">
+											<div class="imgDeleteBtn">×</div>
+											<img src="">
+										</div> -->
+									</div>
                     			</div>
                     		</div>  
                    		</form>
@@ -560,6 +566,7 @@
 			dataType : 'json',
 			success : function(result) {
 				console.log(result);
+				showImage(result);
 			},
 			error : function(result) {
 				alert("해당 파일은 이미지 파일형식이 아닙니다.");				
@@ -589,6 +596,28 @@
 		
 		return true;
 		
+	}
+	
+	function showImage(uploadResult) {
+		/* 데이터 검증 */
+		if(!uploadResult || uploadResult.length == 0) {return}
+		
+		let uploadImg = $("#uploadImg");
+		
+		let fileObj = uploadResult[0];
+		
+		let filePath = 
+			encodeURIComponent(fileObj.uploadPath + "/t_" + fileObj.uuid + "_" + fileObj.fileName);
+		
+		/* 이미지 영역 */
+		let imgArea = "";
+		
+		imgArea += "<div id='img_area'>";
+		imgArea += "<img src='/display?fileName=" + filePath +"'>";
+		imgArea += "<div class='imgDeleteBtn'>×</div>";
+		imgArea += "</div>";
+		
+		uploadImg.append(imgArea);
 	}
 </script>
 </body>
