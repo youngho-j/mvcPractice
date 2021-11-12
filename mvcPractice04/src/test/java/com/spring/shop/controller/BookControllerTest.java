@@ -37,5 +37,12 @@ public class BookControllerTest {
 		.andExpect(view().name("main"))
 		.andDo(print());
 	}
-
+	
+	@Test
+	public void 이미지_출력_테스트() throws Exception {
+		mock.perform(get("/display")
+				.param("fileName", "디아템.jpg"))
+		.andExpect(status().isOk())
+		.andDo(print());
+	}
 }

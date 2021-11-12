@@ -222,6 +222,7 @@ public class AdminController {
 		
 		FileManager fileManager = new FileManager(uploadRoot);
 		
+		// 이미지 파일 체크 변수
 		boolean fileCheck = fileManager.imageCheck(uploadFile);
 		
 		// 이미지 파일 타입 체크 
