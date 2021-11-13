@@ -598,6 +598,7 @@
 		
 	}
 	
+	/* 썸네일 출력 영역 생성 및 썸네일 미리보기 */
 	function showImage(uploadResult) {
 		/* 데이터 검증 */
 		if(!uploadResult || uploadResult.length == 0) {return}
@@ -606,14 +607,18 @@
 		
 		let fileObj = uploadResult[0];
 		
-		let filePath = 
-			encodeURIComponent("t_" + fileObj.uuid + "_" + fileObj.fileName);
+		/*  현재 파일 객체의 uploadPath 변수에는 
+			고정경로와 변동 경로가 합쳐져 있으므로 substr 함수를 통해 문자열 분리 */
+		let variationRoot = fileObj.uploadPath.substr(22);
+		
+		let fileName = 
+			encodeURIComponent(variationRoot + "\\t_" + fileObj.uuid + "_" + fileObj.fileName);
 		
 		/* 이미지 영역 */
 		let imgArea = "";
 		
 		imgArea += "<div id='img_area'>";
-		imgArea += "<img src='/display?fileName=" + filePath +"'>";
+		imgArea += "<img src='/display?fileName=" + fileName +"'>";
 		imgArea += "<div class='imgDeleteBtn'>×</div>";
 		imgArea += "</div>";
 		
