@@ -607,7 +607,7 @@
 		let fileObj = uploadResult[0];
 		
 		let filePath = 
-			encodeURIComponent(fileObj.uploadPath + "/t_" + fileObj.uuid + "_" + fileObj.fileName);
+			encodeURIComponent("t_" + fileObj.uuid + "_" + fileObj.fileName);
 		
 		/* 이미지 영역 */
 		let imgArea = "";

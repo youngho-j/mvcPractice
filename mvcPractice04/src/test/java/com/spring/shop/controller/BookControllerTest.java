@@ -42,7 +42,7 @@ public class BookControllerTest {
 	@Test
 	public void 이미지_출력_테스트() throws Exception {
 		mock.perform(get("/display")
-				.param("fileName", "H:/mvcPractice04upload/디아템.jpg"))
+				.param("fileName", "디아템.jpg"))
 		.andExpect(status().isOk())
 		.andExpect(content().contentType(MediaType.IMAGE_JPEG))
 		.andDo(print());
