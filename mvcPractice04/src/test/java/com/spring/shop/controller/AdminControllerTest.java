@@ -236,4 +236,17 @@ public class AdminControllerTest {
 		.andDo(print());
 		
 	}
+	
+	@Test
+	public void 업로드_이미지_삭제_테스트() throws Exception {
+		// 테스트 파일 이름 및 경로 
+		String fileName = "\\2021\\11\\12\\t_51afd3c0-2b08-4eda-a61a-faffb7681128_book2.png";
+		
+		mock.perform(post("/admin/delUploadImg")
+				.param("fileName", fileName)
+				.session(session))
+		.andExpect(status().isOk())
+		.andDo(print());
+		
+	}
 }

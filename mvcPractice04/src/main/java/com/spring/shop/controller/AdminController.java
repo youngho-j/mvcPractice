@@ -1,5 +1,7 @@
 package com.spring.shop.controller;
 
+import java.io.File;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -237,5 +239,39 @@ public class AdminController {
 		}
 		
 		return new ResponseEntity<List<ImageInfoVO>>(list, HttpStatus.BAD_REQUEST);
+	}
+	
+	@PostMapping("/delUploadImg")
+	public ResponseEntity<String> deleteFilePOST(String fileName) {
+		log.info("이미지 파일 삭제");
+		
+		String fileRoot = "H:\\mvcPractice04upload";
+		
+		File file = null;
+		
+		try {
+			
+			// 썸네일 객체 생성 / fileName -> 유동경로 + UUID + 파일 이름
+			file = new File(fileRoot + URLDecoder.decode(fileName, "UTF-8"));
+			
+			// 원본 파일 경로
+			String originFilePath = file.getAbsolutePath().replace("t_", "");
+			
+			// 썸네일 삭제 
+			file.delete();
+			
+			// 원본 파일 객체 생성
+			file = new File(originFilePath);
+			
+			// 원본 파일 삭제
+			file.delete();
+			
+			return new ResponseEntity<String>("success", HttpStatus.OK);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+		}
 	}
 }
