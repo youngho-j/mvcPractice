@@ -30,14 +30,17 @@ public class FileManagerTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		fileManager = new FileManager("H:\\mvcPractice04upload");
+		fileManager = new FileManager.Builder("H:\\mvcPractice04upload")
+				.build();
 	}
 	
 	@Test
 	public void 폴더_생성_테스트() throws Exception {
-		boolean result = fileManager.createFolder();
+		File image = new File(fileManager.getFixedPath());
 		
-		assertThat(true, is(result));
+		boolean result = fileManager.createFolder(image);
+		
+		assertThat(false, is(result));
 	}
 	
 	@Test
@@ -52,7 +55,7 @@ public class FileManagerTest {
 		
 		MultipartFile[] multipartFiles = {mockMultipartFile};
 		
-		List<ImageInfoVO> list = fileManager.transferToFolder(multipartFiles, fileManager.getAbsolutepath());
+		List<ImageInfoVO> list = fileManager.transferToFolder(multipartFiles, fileManager.getFixedPath());
 		
 		String getfileName = list.get(0).getFileName();
 		
@@ -84,11 +87,11 @@ public class FileManagerTest {
 		
 		String uploadFileName = sb.toString();
 		
-		File saveFile = new File(fileManager.getAbsolutepath(), uploadFileName);
+		File saveFile = new File(fileManager.getFixedPath(), uploadFileName);
 		
 		mockMultipartFile.transferTo(saveFile);
 		
-		fileManager.saveThumbnail(sb, fileManager.getAbsolutepath(), saveFile);
+		fileManager.saveThumbnail(sb, fileManager.getFixedPath(), saveFile);
 		
 		log.info("UUID 적용 파일 이름 : " + uploadFileName);
 		log.info("썸네일 파일 이름 : " + sb.toString());

@@ -2,7 +2,10 @@ package com.spring.shop.controller;
 
 import java.io.File;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -222,7 +225,13 @@ public class AdminController {
 		
 		String uploadRoot = "H:\\mvcPractice04upload";
 		
-		FileManager fileManager = new FileManager(uploadRoot);
+		String variationRoot = getVariationPath();
+		
+		FileManager fileManager = 
+				new FileManager.Builder(uploadRoot)
+				.variationPath(variationRoot).build();
+		
+		File image = new File(fileManager.getFixedPath(), fileManager.getVariationPath());
 		
 		// 이미지 파일 체크 변수
 		boolean fileCheck = fileManager.imageCheck(uploadFile);
@@ -230,10 +239,10 @@ public class AdminController {
 		// 이미지 파일 타입 체크 
 		if(fileCheck) {
 			// 파일 저장 폴더 생성
-			fileManager.createFolder();
+			fileManager.createFolder(image);
 			
 			// 파일 저장
-			list = fileManager.transferToFolder(uploadFile, fileManager.getAbsolutepath());
+			list = fileManager.transferToFolder(uploadFile, image.getAbsolutePath());
 			
 			return new ResponseEntity<List<ImageInfoVO>>(list, HttpStatus.OK);
 		}
@@ -273,5 +282,14 @@ public class AdminController {
 			
 			return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
 		}
+	}
+	
+	private String getVariationPath() throws Exception {
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	 	
+		String stringDate = dateFormat.format(new Date());
+		
+		return  stringDate.replaceAll("-", Matcher.quoteReplacement(File.separator));
 	}
 }
