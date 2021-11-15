@@ -114,4 +114,17 @@ public class FileManagerTest {
 		
 		assertTrue(result);
 	}
+	
+	@Test
+	public void 이미지_삭제_테스트() throws Exception {
+		fileManager = new FileManager
+				.Builder("H:\\mvcPractice04upload")
+				.fileName("t_a250c959-f4b0-4c3c-9144-7a5e0f109739_book2.png")
+				.build();
+		
+		boolean result = fileManager.deleteImg();
+		
+		assertTrue(result);
+		
+	}
 }
