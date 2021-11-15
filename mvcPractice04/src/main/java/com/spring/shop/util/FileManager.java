@@ -180,17 +180,24 @@ public class FileManager {
 			
 			// 원본 파일 경로
 			String originFilePath = file.getAbsolutePath().replace("t_", "");
-						
-			// 썸네일 삭제 
-			file.delete();
-						
-			// 원본 파일 객체 생성
-			file = new File(originFilePath);
-						
-			// 원본 파일 삭제
-			file.delete();
+
+			if(file.exists()) {
+				
+				// 썸네일 삭제
+				file.delete();
+				
+				// 원본 파일 객체 생성
+				file = new File(originFilePath);
+				
+				// 원본 파일 삭제
+				file.delete();
+
+				return true;
+			}
 			
-			return true;
+			// 파일 또는 디렉토리가 존재하지 않을 경우
+			return false;		
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 			return false;

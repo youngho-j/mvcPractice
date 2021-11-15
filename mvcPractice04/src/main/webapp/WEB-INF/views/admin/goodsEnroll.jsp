@@ -181,10 +181,6 @@
                     			<div class="form_section_content">
 									<input type="file" id ="fileItem" name="uploadFile">
 									<div id="uploadImg">
-										<!-- <div id="img_area">
-											<div class="imgDeleteBtn">×</div>
-											<img src="">
-										</div> -->
 									</div>
                     			</div>
                     		</div>  
@@ -544,6 +540,13 @@
 	/* 이미지 업로드 */
 	$("input[type='file']").on("change", function(e){
 		
+		let imgDeleteBtn = $(".imgDeleteBtn").length;
+		
+		/* 기존 업로드 된 이미지가 있을 경우 삭제 */
+		if(imgDeleteBtn > 0) {
+			deleteImageFile();
+		}
+		
 		/* 이미지 정보를 보내기 위해 객체 선언*/
 		let formData = new FormData();
 		
@@ -613,7 +616,6 @@
 		*/
 		let variationRoot = fileObj.uploadPath.substr(23);
 		
-		
 		let fileName = 
 			encodeURIComponent(variationRoot + "\\t_" + fileObj.uuid + "_" + fileObj.fileName);
 		
@@ -622,10 +624,36 @@
 		
 		imgArea += "<div id='img_area'>";
 		imgArea += "<img src='/display?fileName=" + fileName +"'>";
-		imgArea += "<div class='imgDeleteBtn'>×</div>";
+		imgArea += "<div class='imgDeleteBtn' data-file='" + fileName + "'>×</div>";
 		imgArea += "</div>";
 		
 		uploadImg.append(imgArea);
+	}
+	
+	/* 버튼 클릭시 이미지 파일 삭제 콜백 */
+	$("#uploadImg").on("click", ".imgDeleteBtn", function(e){
+		deleteImageFile();
+	});
+	
+	/* 이미지 파일 삭제 메서드 */
+	function deleteImageFile() {
+		let file = $(".imgDeleteBtn").data("file");
+		
+		let imgArea = $("#img_area");
+		
+		$.ajax({
+			url : '/admin/delUploadImg',
+			data : {fileName : file},
+			dataType : 'text',
+			type : 'POST',
+			success : function(result) {
+				imgArea.remove();
+				$("input[type='file']").val("");
+			},
+			error : function(result) {
+				alert("해당 파일을 삭제하지 못했습니다.")
+			}
+		});
 	}
 </script>
 </body>
