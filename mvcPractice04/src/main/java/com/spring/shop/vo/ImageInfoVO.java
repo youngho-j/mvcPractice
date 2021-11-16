@@ -22,6 +22,13 @@ public class ImageInfoVO {
 	// 기본 생성자
 	public ImageInfoVO() {}
 	
+	private ImageInfoVO(Builder builder) {
+		this.bookId = builder.bookId;
+		this.uploadPath = builder.uploadPath;
+		this.uuid = builder.uuid;
+		this.fileName = builder.fileName;
+	}
+
 	public static class Builder {
 		// 업로드 경로 
 		private String uploadPath;
@@ -32,11 +39,16 @@ public class ImageInfoVO {
 		// 파일 이름 
 		private String fileName;
 		
-		// 상품 id (필수)
+		// 상품 id
 		private int bookId;
 		
-		public Builder(int bookId) {
+		public Builder builder() {
+			return this;
+		}
+		
+		public Builder bookId(int bookId) {
 			this.bookId = bookId;
+			return this;
 		}
 		
 		public Builder uploadPath(String uploadPath) {
@@ -55,14 +67,7 @@ public class ImageInfoVO {
 		}
 		
 		public ImageInfoVO build() {
-			ImageInfoVO imageInfo = new ImageInfoVO();
-			
-			imageInfo.bookId = bookId;
-			imageInfo.uploadPath = uploadPath;
-			imageInfo.uuid = uuid;
-			imageInfo.fileName = fileName;
-			
-			return imageInfo;
+			return new ImageInfoVO(this);
 		}
 		
 	}

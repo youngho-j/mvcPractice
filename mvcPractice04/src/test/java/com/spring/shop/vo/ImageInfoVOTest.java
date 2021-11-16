@@ -12,7 +12,7 @@ public class ImageInfoVOTest {
 		
 		ImageInfoVO imageInfo = 
 				new ImageInfoVO
-				.Builder(9)
+				.Builder()
 				.uploadPath("C;\\work")
 				.uuid("121kfd-g43")
 				.fileName("book2.jsg")

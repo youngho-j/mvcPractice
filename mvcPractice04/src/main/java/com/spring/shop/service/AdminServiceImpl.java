@@ -9,6 +9,7 @@ import com.spring.shop.mapper.AdminMapper;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.CategoryVO;
+import com.spring.shop.vo.ImageInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +24,30 @@ public class AdminServiceImpl implements AdminService{
 	public int bookEnroll(BookVO bookVO) throws Exception {
 		log.info("책 등록 service 실행");
 		
-		return adminMapper.bookEnroll(bookVO);
+		ImageInfoVO imageInfo = null;
+		
+		int result = adminMapper.bookEnroll(bookVO);
+		
+		if(bookVO.getImagesList() == null || bookVO.getImagesList().size() <= 0) {
+			return 0;
+		}
+		
+		for(int i = 0 ; i < bookVO.getImagesList().size() ; i++) {
+			imageInfo = new ImageInfoVO.Builder()
+					.bookId(bookVO.getBookId())
+					.uploadPath(bookVO.getImagesList().get(i).getUploadPath())
+					.uuid(bookVO.getImagesList().get(i).getUuid())
+					.fileName(bookVO.getImagesList().get(i).getFileName())
+					.build();
+			
+			adminMapper.imageEnroll(imageInfo);
+		}
+		
+		if(result != 1) {
+			return 0;
+		}
+		
+		return result;
 	}
 
 	@Override

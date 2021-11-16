@@ -92,7 +92,7 @@ public class FileManager {
 
 			// 이미지 정보를 담은 객체
 			ImageInfoVO imageInfo = 
-					new ImageInfoVO.Builder(0)
+					new ImageInfoVO.Builder()
 					.uploadPath(uploadRoot).uuid(uuid)
 					.fileName(uploadFileName)
 					.build();
