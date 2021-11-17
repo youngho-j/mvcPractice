@@ -4,8 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.shop.mapper.AdminMapper">
  	
-<!-- 상품 등록 -->
-<insert id="bookEnroll">
+<!-- 상품 등록 [등록 후 해당 bookId 값 가져옴]-->
+<insert id="bookEnroll" parameterType="com.spring.shop.vo.BookVO">
+
+	<selectKey resultType="int" keyProperty="bookId" order="AFTER">
+		select last_insert_id()
+	</selectKey>
+	
 	insert into book_list(bookName, authorId, publicationDate, publisher, categoryCode, bookPrice, bookStock, bookDiscount, bookIntro, bookContents)
 	values(#{bookName},#{authorId}, #{publicationDate},#{publisher},#{categoryCode},#{bookPrice},#{bookStock},#{bookDiscount},#{bookIntro},#{bookContents})
 </insert>
@@ -68,5 +73,11 @@
 	book_list
 	where bookId = #{bookId}
 </delete>
+
+<!-- 이미지 정보 삽입 -->
+<insert id="imageEnroll">
+	insert into book_images(bookId, fileName, uploadPath, uuid)	values
+	 (#{bookId}, #{fileName}, #{uploadPath}, #{uuid})
+</insert>
 
 </mapper>

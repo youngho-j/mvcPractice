@@ -40,7 +40,7 @@ public class BookController {
 		HttpHeaders header = new HttpHeaders();
 		
 		File file = new File("H:\\mvcPractice04upload", fileName);
-		log.info("파일 경로 : " + file.getAbsolutePath());
+		
 		// 파일 MIME TYPE 추가
 		header.add("Content-type", Files.probeContentType(file.toPath()));
 		

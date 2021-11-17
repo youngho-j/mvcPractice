@@ -568,7 +568,6 @@
 			data : formData,
 			dataType : 'json',
 			success : function(result) {
-				console.log(result);
 				showImage(result);
 			},
 			error : function(result) {
@@ -625,6 +624,9 @@
 		imgArea += "<div id='img_area'>";
 		imgArea += "<img src='/display?fileName=" + fileName +"'>";
 		imgArea += "<div class='imgDeleteBtn' data-file='" + fileName + "'>×</div>";
+		imgArea += "<input type='hidden' name='imagesList[0].fileName' value='" + fileObj.fileName + "'>";
+		imgArea += "<input type='hidden' name='imagesList[0].uuid' value='" + fileObj.uuid + "'>";
+		imgArea += "<input type='hidden' name='imagesList[0].uploadPath' value='" + fileObj.uploadPath + "'>";
 		imgArea += "</div>";
 		
 		uploadImg.append(imgArea);

@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.CategoryVO;
+import com.spring.shop.vo.ImageInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -109,6 +110,20 @@ public class AdminMapperTest {
 	public void 상품_정보삭제_테스트() throws Exception {
 		int result = adminMapper.goodsDelete(11);
 		
+		assertThat(1, is(result));
+	}
+	
+	@Test
+	public void 이미지_쩡보_등록_테스트() throws Exception {
+		ImageInfoVO imageInfo = new ImageInfoVO
+				.Builder()
+				.bookId(8)
+				.uploadPath("test")
+				.uuid("test")
+				.fileName("test")
+				.build();
+		
+		int result = adminMapper.imageEnroll(imageInfo);
 		assertThat(1, is(result));
 	}
 }

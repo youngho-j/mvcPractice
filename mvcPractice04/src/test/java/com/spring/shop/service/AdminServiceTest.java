@@ -2,6 +2,7 @@ package com.spring.shop.service;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.*;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.CategoryVO;
+import com.spring.shop.vo.ImageInfoVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/security-context.xml"})
@@ -28,15 +30,28 @@ public class AdminServiceTest {
 		BookVO book = new BookVO();
 		
 		book.setBookName("service 테스트");
-		book.setAuthorId(77);
+		book.setAuthorId(22);
 		book.setPublicationDate("2021-10-20");
 		book.setPublisher("해냄");
-		book.setCategoryCode("0231");
+		book.setCategoryCode("104002");
 		book.setBookPrice(30000);
 		book.setBookStock(100);
 		book.setBookDiscount(0.15);
-		book.setBookIntro("소개");
-		book.setBookContents("목차");
+		book.setBookIntro("<p>소개</p>");
+		book.setBookContents("<p>목차</p>");
+		
+		List<ImageInfoVO> imageList = new ArrayList<ImageInfoVO>();
+		
+		ImageInfoVO imageInfo = new ImageInfoVO.Builder()
+				.uploadPath("H:\\mvcPractice04upload\\2021\\11\\17")
+				.uuid("e63cb514-24d5-4f0c-9bdd-ba7969sda95c0")
+				.fileName("mbook2.png")
+				.build();
+		
+		
+		imageList.add(imageInfo);
+		
+		book.setImagesList(imageList);
 		
 		int result = adminService.bookEnroll(book);
 		

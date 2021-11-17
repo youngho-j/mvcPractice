@@ -5,6 +5,7 @@ import java.util.List;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.CategoryVO;
+import com.spring.shop.vo.ImageInfoVO;
 
 public interface AdminMapper {
 	
@@ -28,4 +29,7 @@ public interface AdminMapper {
 	
 	// 상품 정보 삭제
 	public int goodsDelete(int bookId) throws Exception;
+	
+	// 상품 이미지 등록
+	public int imageEnroll(ImageInfoVO imageInfo) throws Exception;
 }

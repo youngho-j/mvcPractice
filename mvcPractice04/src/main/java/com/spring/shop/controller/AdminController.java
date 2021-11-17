@@ -64,7 +64,7 @@ public class AdminController {
 	@PostMapping("/goodsEnroll")
 	public String goodsEnrollPOST(BookVO bookVO, RedirectAttributes redirect) throws Exception {
 		log.info("상품 등록");
-		
+		log.info(bookVO.toString());
 		int result = adminService.bookEnroll(bookVO);
 		
 		if(result == 1) {
@@ -218,7 +218,7 @@ public class AdminController {
 	
 	@PostMapping(value = "/ajaxUpload", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ImageInfoVO>> ajaxUploadPOST(MultipartFile[] uploadFile) throws Exception {
-		log.info("이미지 전달");
+		log.info("이미지 폴더에 이미지 전달");
 		
 		List<ImageInfoVO> list = null;
 		
