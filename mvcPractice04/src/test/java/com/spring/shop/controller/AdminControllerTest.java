@@ -149,18 +149,22 @@ public class AdminControllerTest {
 	
 	@Test
 	public void 책_등록_테스트() throws Exception {
+		
 		mock.perform(post("/admin/goodsEnroll").session(session)
 				.param("bookName", "controllerTest")
-				.param("authorId", "031")
-				.param("nationId", "02")
+				.param("authorId", "22")
+				.param("nationId", "01")
 				.param("publicationDate", "2021-10-21")
 				.param("publisher", "테스트")
-				.param("categoryCode", "0231")
+				.param("categoryCode", "104002")
 				.param("bookPrice", "12000")
 				.param("bookStock", "10")
 				.param("bookDiscount", "0.2")
 				.param("bookIntro", "test")
-				.param("bookContents", "test"))
+				.param("bookContents", "test")
+				.param("imagesList[0].uploadPath", "H:\\mvcPractice04upload\\2021\\11\\17")
+				.param("imagesList[0].uuid", "e63cb514-24d5-4f0c-9bdd-ba7969sda95c0")
+				.param("imagesList[0].fileName", "mbook2.png"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(flash().attributeExists("enrollResult"))
 		.andExpect(redirectedUrl("/admin/goodsManage"))

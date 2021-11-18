@@ -64,10 +64,13 @@ public class AdminController {
 	@PostMapping("/goodsEnroll")
 	public String goodsEnrollPOST(BookVO bookVO, RedirectAttributes redirect) throws Exception {
 		log.info("상품 등록");
-		log.info(bookVO.toString());
+		log.info("상품 정보 : " + bookVO.toString());
+		
 		int result = adminService.bookEnroll(bookVO);
 		
-		if(result == 1) {
+		log.info("등록 결과 : " + result);
+		
+		if(result >= 1) {
 			redirect.addFlashAttribute("enrollResult", bookVO.getBookName());
 		}
 		

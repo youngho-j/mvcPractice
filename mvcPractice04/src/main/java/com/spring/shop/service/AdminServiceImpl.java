@@ -28,10 +28,15 @@ public class AdminServiceImpl implements AdminService{
 		
 		ImageInfoVO imageInfo = null;
 		
-		int result = adminMapper.bookEnroll(bookVO);
+		// 이미지 정보 등록 변수
+		int imageResult = 0;
 		
+		// 상품 정보 등록 변수
+		int bookResult = adminMapper.bookEnroll(bookVO);
+		
+		// 이미지 정보가 들어있지 않은 경우 
 		if(bookVO.getImagesList() == null || bookVO.getImagesList().size() <= 0) {
-			return 0;
+			return bookResult;
 		}
 		
 		for(int i = 0 ; i < bookVO.getImagesList().size() ; i++) {
@@ -42,14 +47,15 @@ public class AdminServiceImpl implements AdminService{
 					.fileName(bookVO.getImagesList().get(i).getFileName())
 					.build();
 			
-			adminMapper.imageEnroll(imageInfo);
+			imageResult += adminMapper.imageEnroll(imageInfo);
 		}
 		
-		if(result != 1) {
+		// 상품 정보 등록이 되지 않았거나 이미지 등록이 되지 않은 경우
+		if(bookResult < 1 || imageResult <= 0) {
 			return 0;
 		}
 		
-		return result;
+		return bookResult + imageResult;
 	}
 
 	@Override

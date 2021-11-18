@@ -48,7 +48,6 @@ public class AdminServiceTest {
 				.fileName("mbook2.png")
 				.build();
 		
-		
 		imageList.add(imageInfo);
 		
 		book.setImagesList(imageList);
