@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.shop.mapper.AdminMapper;
 import com.spring.shop.util.PageInfo;
@@ -20,6 +21,7 @@ public class AdminServiceImpl implements AdminService{
 	@Autowired
 	private AdminMapper adminMapper;
 	
+	@Transactional
 	@Override
 	public int bookEnroll(BookVO bookVO) throws Exception {
 		log.info("책 등록 service 실행");
