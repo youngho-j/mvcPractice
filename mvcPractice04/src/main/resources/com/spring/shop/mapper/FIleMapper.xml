@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.shop.mapper.FileMapper">
+	
+	<!-- 이미지 파일 정보 출력 -->
+	<select id="getImageList" resultType="com.spring.shop.vo.ImageInfoVO">
+		
+		select * 
+		from book_images
+		where bookId = #{bookId}
+			
+	</select>
+</mapper>
