@@ -610,8 +610,8 @@
 		let fileObj = uploadResult[0];
 		
 		/*  현재 파일 객체의 uploadPath 변수에는 
-			고정경로와 변동 경로가 합쳐져 있으므로 substr 함수를 통해 문자열 분리 
-			형식 - 년\월\일\t_UUID_파일이름.파일확장자
+			고정경로와 변동 경로가 합쳐져 있으므로 substr 함수를 통해 고정경로 문자열 분리 
+			fileName 형식 - 년\월\일\t_UUID_파일이름.파일확장자
 		*/
 		let variationRoot = fileObj.uploadPath.substr(23);
 		

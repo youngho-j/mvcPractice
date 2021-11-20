@@ -162,6 +162,16 @@ ul {
 	margin-top: 20px;
 }
 
+/* 이미지 영역 */
+#img_area img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	padding: 5px;
+	margin-top: 10px;
+	margin: auto;	
+}
+
 /* 관리자 페이지 메인 버튼 영역 */
 .btn_section {
     text-align: center;

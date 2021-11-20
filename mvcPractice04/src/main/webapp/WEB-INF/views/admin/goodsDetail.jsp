@@ -164,7 +164,7 @@
                     			</div>
                     		</div>        		
                     		
-                    		<!-- 책 목자 입력 영역 -->
+                    		<!-- 책 목자 영역 -->
                     		<div class="form_section">
                     			<div class="form_section_title">
                     				<label>책 목차</label>
@@ -173,6 +173,18 @@
 									<textarea name="bookContents" id="bookContents_textarea" disabled="disabled">${goodsDetail.bookContents}</textarea>
                     			</div>
                     		</div>
+                    		
+                    		<!-- 이미지 영역 -->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>상품 이미지</label>
+                    			</div>
+                    			<div class="form_section_content">
+									<div id="uploadImg">
+									</div>
+                    			</div>
+                    		</div>  
+                    		
                    		<!-- 버튼 영역 -->
                    		<div class="btn_section">
                    			<button id="cancelBtn" class="btn">상품 목록</button>
@@ -298,6 +310,45 @@
 		returnCategoryObject(categoryArray1, middleSelectedValue.parentCategory, mainSelectedValue);
 		
 		appendCategory(categoryArray1, mainSelectedValue, mainSelected);
+		
+		/* 이미지 출력을 위한 변수 (상품 번호, 이미지 출력 div 영역)*/
+		let bookId = '<c:out value="${goodsDetail.bookId}"/>';
+		let uploadImg = $("#uploadImg");
+		
+		/* 이미지 출력 JSON 메서드 (url, data, success)*/
+		$.getJSON("/getImageInfo", {bookId : bookId}, function(list){
+			
+			/* 이미지가 없는 상품의 경우 */
+			if(list.length == 0) {
+				
+				let imgArea = "";
+				imgArea += "<div id='img_area'>";
+				imgArea += "<img src='/resources/img/NoImage.png'>";
+				imgArea += "</div>";
+				
+				uploadImg.html(imgArea);
+				
+				return;
+			}
+			
+			let imgArea = "";
+			let imageInfo = list[0];
+			
+			let variationRoot = imageInfo.uploadPath.substr(23);
+			
+			let fileRoot = 
+				encodeURIComponent(variationRoot + "\\t_" + imageInfo.uuid + "_" + imageInfo.fileName);
+			
+			imgArea += "<div id='img_area'";
+			imgArea += "data-path='" + variationRoot + "'";
+			imgArea += "data-uuid='" + imageInfo.uuid + "'";
+			imgArea += "data-fileName='" + imageInfo.fileName + "'";
+			imgArea += ">";
+			imgArea += "<img src='/display?fileName=" + fileRoot +"'>";
+			imgArea += "</div>";
+			
+			uploadImg.html(imgArea);
+		});
 	});
 	
 	/* 상품 목록 페이지 이동 버튼 */
