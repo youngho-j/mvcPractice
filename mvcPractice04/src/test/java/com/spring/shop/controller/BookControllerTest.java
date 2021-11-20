@@ -47,4 +47,13 @@ public class BookControllerTest {
 		.andExpect(content().contentType(MediaType.IMAGE_JPEG))
 		.andDo(print());
 	}
+	
+	@Test
+	public void 이미지_정보_JSON_리턴_테스트() throws Exception {
+		mock.perform(get("/getImageInfo")
+				.param("bookId", "16"))
+		.andExpect(status().isOk())
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+		.andDo(print());
+	}
 }
