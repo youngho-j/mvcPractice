@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -172,6 +174,19 @@
 									<span class="msg bookContents_msg"></span>
                     			</div>
                     		</div>
+                    		
+                    		<!-- 이미지 추가 영역 -->
+                    		<div class="form_section">
+                    			<div class="form_section_title">
+                    				<label>상품 이미지</label>
+                    			</div>
+                    			<div class="form_section_content">
+									<input type="file" id ="fileItem" name="uploadFile">
+									<div id="uploadImg">
+									</div>
+                    			</div>
+                    		</div> 
+                    		
                     		<!-- 해당 상품의 정보 수정을 위한 bookId -->
                     		<input type="hidden" name="bookId" value="${goodsDetail.bookId}">
                    		</form>
@@ -362,6 +377,49 @@
 			$("#discount_viewer").val(bookDiscount * 100);
 			$(".convertPrice").html(discountPrice);			
 		}
+		
+		/* 이미지 출력을 위한 변수 (상품 번호, 이미지 출력 div 영역) */
+		let bookId = '<c:out value="${goodsDetail.bookId}"/>';
+		let uploadImg = $("#uploadImg");
+		
+		/* 이미지 출력 JSON 메서드 (url, data, success)*/
+		$.getJSON("/getImageInfo", {bookId : bookId}, function(list){
+			
+			/* 이미지가 없는 상품의 경우 */
+			if(list.length == 0) {
+				
+				let imgArea = "";
+				imgArea += "<div id='img_area'>";
+				imgArea += "<img src='/resources/img/NoImage.png'>";
+				imgArea += "</div>";
+				
+				uploadImg.html(imgArea);
+				
+				return;
+			}
+			
+			let imgArea = "";
+			let imageInfo = list[0];
+			
+			let variationRoot = imageInfo.uploadPath.substr(23);
+			
+			let fileRoot = 
+				encodeURIComponent(variationRoot + "\\t_" + imageInfo.uuid + "_" + imageInfo.fileName);
+			
+			imgArea += "<div id='img_area'";
+			imgArea += "data-path='" + variationRoot + "'";
+			imgArea += "data-uuid='" + imageInfo.uuid + "'";
+			imgArea += "data-fileName='" + imageInfo.fileName + "'";
+			imgArea += ">";
+			imgArea += "<img src='/display?fileName=" + fileRoot +"'>";
+			imgArea += "<div class='imgDeleteBtn' data-file='" + fileRoot + "'>x</div>";
+			imgArea += "<input type='hidden' name='imageList[0].fileName' value='"+ imageInfo.fileName +"'>";
+			imgArea += "<input type='hidden' name='imageList[0].uuid' value='"+ imageInfo.uuid +"'>";
+			imgArea += "<input type='hidden' name='imageList[0].uploadPath' value='"+ imageInfo.uploadPath +"'>";
+			imgArea += "</div>";
+			
+			uploadImg.html(imgArea);
+		});
 		
 	});
 

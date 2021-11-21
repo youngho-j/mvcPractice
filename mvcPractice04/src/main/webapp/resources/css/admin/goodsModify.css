@@ -195,6 +195,35 @@ input[name='publicationDate'] {
     font-weight: 300;    
 }
 
+/* 이미지 추가 영역 */
+#img_area {
+	position: relative;
+}
+#img_area img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	padding: 5px;
+	margin-top: 10px;
+	margin: auto;	
+}
+.imgDeleteBtn {
+	position: absolute;
+	top: 0;
+	right: 5%;
+	background-color: #ef7d7d;
+	color: wheat;
+	font-weight: 900;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	line-height: 26px;
+	text-align: center;
+	border: none;
+	display: block;
+	cursor: pointer;	
+}
+
 /* 관리자 페이지 메인 버튼 영역 */
 .btn_section {
     text-align: center;
