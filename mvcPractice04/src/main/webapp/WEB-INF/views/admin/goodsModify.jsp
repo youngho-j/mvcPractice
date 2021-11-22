@@ -426,10 +426,10 @@
 	/* 이미지 업로드 */
 	$("input[type='file']").on("change", function(e){
 		
-		let imgDeleteBtn = $(".imgDeleteBtn").length;
+		let imgDivCount = $("#img_area").length;
 		
 		/* 기존 업로드 된 이미지가 있을 경우 삭제 */
-		if(imgDeleteBtn > 0) {
+		if(imgDivCount > 0) {
 			deleteImageFile();
 		}
 		
