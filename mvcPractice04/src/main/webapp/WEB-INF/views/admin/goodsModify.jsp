@@ -422,7 +422,112 @@
 		});
 		
 	});
-
+	
+	/* 이미지 업로드 */
+	$("input[type='file']").on("change", function(e){
+		
+		let imgDeleteBtn = $(".imgDeleteBtn").length;
+		
+		/* 기존 업로드 된 이미지가 있을 경우 삭제 */
+		if(imgDeleteBtn > 0) {
+			deleteImageFile();
+		}
+		
+		/* 이미지 정보를 보내기 위해 객체 선언*/
+		let formData = new FormData();
+		
+		let uploadFile = $('input[name="uploadFile"]');
+		let fileList = uploadFile[0].files;
+		let fileObj = fileList[0];
+		
+		if(!fileCheck(fileObj.name, fileObj.size)) {
+			return false;
+		}
+		
+		formData.append("uploadFile", fileObj);
+		
+		$.ajax({
+			url : '/admin/ajaxUpload',
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			data : formData,
+			dataType : 'json',
+			success : function(result) {
+				showImage(result);
+			},
+			error : function(result) {
+				alert("해당 파일은 이미지 파일형식이 아닙니다.");				
+			}
+		});
+	});
+	
+	/* 이미지 업로드 규칙 설정 */	
+	function fileCheck(fileName, fileSize) {
+		
+		/* jpg, png 파일만 허용 */
+		let regex = new RegExp("(.*?)\.(jpg|png)$");
+		/* 업로드 파일 크기 최대 1MB */
+		let maxFileSize = 1048567;
+		
+		if(fileSize >= maxFileSize){
+			alert(`업로드가 가능한 파일크기가 아닙니다.
+[최대 1MB까지 업로드 가능합니다.]`);
+			return false;
+		}
+			  
+		if(!regex.test(fileName)){
+			alert(`업로드 가능한 파일확장자가 아닙니다.
+[jpg, png 파일만 업로드 가능합니다.]`);
+			return false;
+		}
+		
+		return true;
+		
+	}
+	
+	/* 썸네일 출력 영역 생성 및 썸네일 미리보기 */
+	function showImage(uploadResult) {
+		/* 데이터 검증 */
+		if(!uploadResult || uploadResult.length == 0) {return}
+		
+		let uploadImg = $("#uploadImg");
+		
+		let fileObj = uploadResult[0];
+		
+		/*  현재 파일 객체의 uploadPath 변수에는 
+			고정경로와 변동 경로가 합쳐져 있으므로 substr 함수를 통해 고정경로 문자열 분리 
+			fileName 형식 - 년\월\일\t_UUID_파일이름.파일확장자
+		*/
+		let variationRoot = fileObj.uploadPath.substr(23);
+		
+		let fileName = 
+			encodeURIComponent(variationRoot + "\\t_" + fileObj.uuid + "_" + fileObj.fileName);
+		
+		/* 이미지 영역 */
+		let imgArea = "";
+		
+		imgArea += "<div id='img_area'>";
+		imgArea += "<img src='/display?fileName=" + fileName +"'>";
+		imgArea += "<div class='imgDeleteBtn' data-file='" + fileName + "'>×</div>";
+		imgArea += "<input type='hidden' name='imagesList[0].fileName' value='" + fileObj.fileName + "'>";
+		imgArea += "<input type='hidden' name='imagesList[0].uuid' value='" + fileObj.uuid + "'>";
+		imgArea += "<input type='hidden' name='imagesList[0].uploadPath' value='" + fileObj.uploadPath + "'>";
+		imgArea += "</div>";
+		
+		uploadImg.append(imgArea);
+	}
+	
+	/* 버튼 클릭시 이미지 파일 삭제 콜백 */
+	$("#uploadImg").on("click", ".imgDeleteBtn", function(e){
+		deleteImageFile();
+	});
+	
+	/* 이미지 파일 삭제 메서드 - 이미지 영역 제거 */
+	function deleteImageFile() {
+		$("#img_area").remove();
+	}
+	
 	/* 취소 버튼 */
 	$("#cancelBtn").on("click", function(e){
 	    
