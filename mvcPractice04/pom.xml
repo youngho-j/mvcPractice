@@ -43,6 +43,9 @@
 		
 		<!-- json 데이터 비교 라이브러리-->
 		<json-assert.version>2.4.0</json-assert.version>
+		
+		<!-- 비동기 작업 동기화를 위한 Java DSL 라이브러리(지연시간 테스트 위해) -->
+		<awaitility.version>4.0.3</awaitility.version>
 	</properties>
 	<dependencies>
 		
@@ -248,7 +251,16 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		        
+		
+		<!-- 비동기 작업 동기화를 위한 Java DSL 라이브러리(지연시간 테스트 위해) -->
+		<dependency>
+		    <groupId>org.awaitility</groupId>
+		    <artifactId>awaitility</artifactId>
+		    <version>${awaitility.version}</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		
 	</dependencies>
     <build>
         <plugins>
