@@ -123,7 +123,14 @@ public class AdminMapperTest {
 				.fileName("test")
 				.build();
 		
-		int result = adminMapper.imageEnroll(imageInfo);
+		int result = adminMapper.goodsImgEnroll(imageInfo);
 		assertThat(1, is(result));
+	}
+	
+	@Test
+	public void 상품_이미지정보_삭제_테스트() throws Exception {
+		int result = adminMapper.goodsImgDelete(8);
+		
+		assertThat(0, is(result));
 	}
 }

@@ -75,9 +75,16 @@
 </delete>
 
 <!-- 이미지 정보 삽입 -->
-<insert id="imageEnroll">
+<insert id="goodsImgEnroll">
 	insert into book_images(bookId, fileName, uploadPath, uuid)	values
 	 (#{bookId}, #{fileName}, #{uploadPath}, #{uuid})
 </insert>
+
+<!-- 상품 이미지 정보 삭제 -->
+<delete id="goodsImgDelete">
+	delete from 
+	book_images
+	where bookId = #{bookId}
+</delete>
 
 </mapper>

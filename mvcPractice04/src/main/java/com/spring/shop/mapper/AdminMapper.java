@@ -31,5 +31,8 @@ public interface AdminMapper {
 	public int goodsDelete(int bookId) throws Exception;
 	
 	// 상품 이미지 등록
-	public int imageEnroll(ImageInfoVO imageInfo) throws Exception;
+	public int goodsImgEnroll(ImageInfoVO imageInfo) throws Exception;
+	
+	// 상품 이미지 정보 삭제
+	public int goodsImgDelete(int bookId) throws Exception;
 }

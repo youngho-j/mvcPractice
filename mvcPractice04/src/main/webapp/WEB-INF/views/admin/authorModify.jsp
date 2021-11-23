@@ -100,9 +100,9 @@
                    		
                    		<!-- 버튼 영역 -->
                    		<div class="btn_section">
-                   			<button id="cancelBtn" class="btn">취 소</button>
-	                    	<button id="modifyBtn" class="btn modify_btn">수 정</button>
-	                    	<button id="deleteBtn" class="btn delete_btn">삭 제</button>
+                   			<button id="cancelBtn" class="btn">상세 페이지</button>
+	                    	<button id="modifyBtn" class="btn modify_btn">상품 수정</button>
+	                    	<button id="deleteBtn" class="btn delete_btn">상품 삭제</button>
 	                    </div>
 	                    </form>
                 	</div>

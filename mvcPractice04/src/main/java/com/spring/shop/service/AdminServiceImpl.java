@@ -47,7 +47,7 @@ public class AdminServiceImpl implements AdminService{
 					.fileName(bookVO.getImagesList().get(i).getFileName())
 					.build();
 			
-			imageResult += adminMapper.imageEnroll(imageInfo);
+			imageResult += adminMapper.goodsImgEnroll(imageInfo);
 		}
 		
 		// 상품 정보 등록이 되지 않았거나 이미지 등록이 되지 않은 경우
@@ -77,10 +77,42 @@ public class AdminServiceImpl implements AdminService{
 	public BookVO goodsDetail(int bookId) throws Exception {
 		return adminMapper.goodsDetail(bookId);
 	}
-
+	
+	@Transactional
 	@Override
 	public int goodsModify(BookVO bookVO) throws Exception {
-		return adminMapper.goodsModify(bookVO);
+		log.info("책 정보 수정 Service 실행");
+		int updateCount = 0;
+		
+		log.info("책 정보 수정");
+		int InfoModifyResult = adminMapper.goodsModify(bookVO);
+		updateCount += InfoModifyResult;
+		
+		// 상품 정보 수정후 이미지 정보가 존재할 경우 이미지 정보 저장
+		if(InfoModifyResult == 1 && bookVO.getImagesList() != null && bookVO.getImagesList().size() > 0) {
+			
+			int imageModifyResult = 0;
+			log.info("새로운 이미지 정보 확인");
+			
+			log.info("기존 이미지 삭제");
+			adminMapper.goodsImgDelete(bookVO.getBookId());
+			
+			log.info("새로운 이미지 등록");
+			for(int i = 0 ; i < bookVO.getImagesList().size() ; i++) {
+				ImageInfoVO imageInfo = new ImageInfoVO.Builder()
+						.bookId(bookVO.getBookId())
+						.uploadPath(bookVO.getImagesList().get(i).getUploadPath())
+						.uuid(bookVO.getImagesList().get(i).getUuid())
+						.fileName(bookVO.getImagesList().get(i).getFileName())
+						.build();
+				
+				imageModifyResult += adminMapper.goodsImgEnroll(imageInfo);
+			}
+			
+			updateCount += imageModifyResult;
+		}
+		
+		return updateCount;
 	}
 	
 	@Override

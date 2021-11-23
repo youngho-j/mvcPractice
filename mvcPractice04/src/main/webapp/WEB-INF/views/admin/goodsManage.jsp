@@ -136,7 +136,7 @@
 		/* 수정 성공시 */
 		let modifyResult = '<c:out value="${modifyResult}"/>';
 		
-		if(modifyResult == 1) {
+		if(modifyResult > 0) {
 			alert("상품 정보 수정 성공!");
 		}
 		

@@ -187,8 +187,8 @@
                     		
                    		<!-- 버튼 영역 -->
                    		<div class="btn_section">
-                   			<button id="cancelBtn" class="btn">상품 목록</button>
-	                    	<button id="modifyBtn" class="btn modify_btn">수 정</button>
+                   			<button id="cancelBtn" class="btn">목록 페이지</button>
+	                    	<button id="modifyBtn" class="btn modify_btn">수정 페이지</button>
 	                    </div>
 	                    
 	                    <!-- 페이지 이동 form -->
