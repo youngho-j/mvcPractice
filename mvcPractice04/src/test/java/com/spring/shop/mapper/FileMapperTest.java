@@ -12,6 +12,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.spring.shop.vo.ImageInfoVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
 public class FileMapperTest {
@@ -25,5 +28,15 @@ public class FileMapperTest {
 		
 		assertTrue(list.isEmpty());
 	}
-
+	
+	@Test
+	public void 하루전_이미지_목록_출력_테스트() throws Exception {
+		List<ImageInfoVO> list = fileMapper.getImageListCheck();
+		
+		log.info(list.toString());
+		
+		assertNotNull(list.get(0));
+	}
+	
+	
 }
