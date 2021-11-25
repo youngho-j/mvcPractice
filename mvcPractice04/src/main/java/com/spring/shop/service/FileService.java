@@ -14,5 +14,9 @@ public interface FileService {
 	// 이미지 파일 경로 출력
 	public List<Path> getImageFilePathList() throws Exception;
 	
-	public File[] getImageFileListInFolder() throws Exception;
+	// 폴더 저장 이미지 파일 목록 출력
+	public List<File> getImageFileListInFolder() throws Exception;
+	
+	// 파일 비교 후 삭제
+	public boolean thinOutFilesInFolder(List<Path> dbImageList, List<File> folderImageList);
 }

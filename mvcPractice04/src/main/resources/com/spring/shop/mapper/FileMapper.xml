@@ -17,6 +17,6 @@
 	<select id="getImageListCheck" resultType="com.spring.shop.vo.ImageInfoVO">
 		select * 
 		from book_images
-		where uploadPath regexp concat('[', date_format(DATE_SUB(NOW(), INTERVAL 1 DAY), '%Y\%m\%d'), ']');
+		where right(uploadPath, 10) = date_format(DATE_SUB(NOW(), INTERVAL 1 DAY), '%Y\%m\%d')
 	</select>
 </mapper>

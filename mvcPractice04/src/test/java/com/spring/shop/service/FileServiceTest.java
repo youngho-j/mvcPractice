@@ -41,23 +41,15 @@ public class FileServiceTest {
 	public void 이미지_경로_목록_출력_테스트() throws Exception {
 		List<Path> list = fileService.getImageFilePathList();
 		
-		log.info(list.toString());
-		
-		assertNotNull(list);
+		assertNull(list);
 	}
 	
 	@Test
 	public void 이미지폴더_내부_파일_목록_출력_테스트() throws Exception {
-		File[] list = fileService.getImageFileListInFolder();
+		List<File> list = fileService.getImageFileListInFolder();
 		
-		for(File file : list) {
-			log.info("파일 경로 : " + file.toString());
-		}
-		
-		assertNotNull(list);
+		assertNull(list);
 	}
-	
-	
 	
 	@Test
 	public void 폴더_날자_경로_문자열_값_테스트() throws Exception {
@@ -71,5 +63,15 @@ public class FileServiceTest {
 		String datePath = dateFormat.format(calendar.getTime()).replace("-", File.separator);
 		
 		assertThat(datePath, is("2021\\11\\23"));
+	}
+	
+	@Test
+	public void 이미지_비교후_파일삭제_테스트() throws Exception {
+		List<Path> dbImageList = null;
+		List<File> folderImageList = null;
+		
+		boolean result = fileService.thinOutFilesInFolder(dbImageList, folderImageList);
+		
+		assertTrue(result);
 	}
 }

@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -36,27 +37,90 @@ public class FIleServiceImpl implements FileService{
 		
 		List<ImageInfoVO> imageInfoList = fileMapper.getImageListCheck();
 		
-		imageInfoList.forEach(imageInfo -> {
-			Path imagePath = Paths.get(imageInfo.getUploadPath(), imageInfo.getUuid() + "_" + imageInfo.getFileName());
-			Path thumbPath = Paths.get(imageInfo.getUploadPath(), "t_" + imageInfo.getUuid() + "_" + imageInfo.getFileName());
+		if(!imageInfoList.isEmpty()) {
 			
-			ImageFilePathList.add(imagePath);
-			ImageFilePathList.add(thumbPath);
+			imageInfoList.forEach(imageInfo -> {
+				Path imagePath = Paths.get(imageInfo.getUploadPath(), imageInfo.getUuid() + "_" + imageInfo.getFileName());
+				Path thumbPath = Paths.get(imageInfo.getUploadPath(), "t_" + imageInfo.getUuid() + "_" + imageInfo.getFileName());
+				
+				ImageFilePathList.add(imagePath);
+				ImageFilePathList.add(thumbPath);
+				
+				imagePath = null;
+				thumbPath = null;
+			});
 			
-			imagePath = null;
-			thumbPath = null;
-		});
-		
-		return ImageFilePathList;
+			return ImageFilePathList;
+		}
+		return null;
 	}
 	
 	@Override
-	public File[] getImageFileListInFolder() throws Exception {
+	public List<File> getImageFileListInFolder() throws Exception {
 		// 폴더 경로를 가진 파일 객체 생성
 		File folderPath = Paths.get("H:\\mvcPractice04upload", getFolderDatePath()).toFile();
 		
 		// 경로 안에 있는 모든 파일 정보를 배열에 담아 리턴
-		return folderPath.listFiles();
+		File[] fileList = folderPath.listFiles();
+		
+		// 경로내 파일이 존재하는 경우  
+		if(fileList.length != 0) {
+			// 배열 리스트로 변환
+			List<File> removeFileList = new ArrayList<>(Arrays.asList(fileList));
+			
+			return removeFileList;						
+		}
+		
+		return null;
+		
+	}
+	
+	@Override
+	public boolean thinOutFilesInFolder(List<Path> dbImageList, List<File> folderImageList) {
+		try {
+			if(dbImageList == null && folderImageList == null) {
+				log.info("DB, Folder 저장된 이미지 없음");
+				return true;
+			}
+			
+			if(dbImageList == null && folderImageList != null) {
+				log.info("Folder 저장된 이미지 삭제");
+				
+				for(File file : folderImageList) {
+					file.delete();
+				}
+				
+				return true;
+			}
+			
+			if(dbImageList != null && folderImageList != null) {
+				log.info("DB와 비교 후 Folder 저장된 이미지 삭제");
+				
+				File[] checkList = (File[]) folderImageList.toArray();
+				
+				for(File folderImageFile : checkList) {
+					for(Path dbImagePath : dbImageList) {
+						if(folderImageFile.toPath().equals(dbImagePath)) {
+							folderImageList.remove(folderImageFile);
+						}
+					}
+				}
+				
+				// 파일 삭제
+				for(File file : folderImageList) {
+					file.delete();
+				}
+				
+				return true;
+			}
+			
+		} catch (Exception e) {
+			log.info("오류");
+			e.printStackTrace();
+			return false;		
+		} 
+		
+		return false;
 	}
 
 	// 폴더 날자 경로 문자열 값 리턴 
