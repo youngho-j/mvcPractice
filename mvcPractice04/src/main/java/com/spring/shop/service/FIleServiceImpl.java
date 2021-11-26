@@ -96,7 +96,7 @@ public class FIleServiceImpl implements FileService{
 			if(dbImageList != null && folderImageList != null) {
 				log.info("DB와 비교 후 Folder 저장된 이미지 삭제");
 				
-				File[] checkList = (File[]) folderImageList.toArray();
+				File[] checkList = folderImageList.toArray(new File[folderImageList.size()]);
 				
 				for(File folderImageFile : checkList) {
 					for(Path dbImagePath : dbImageList) {
