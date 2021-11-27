@@ -27,7 +27,7 @@ public interface AdminMapper {
 	// 상품 정보 수정
 	public int goodsModify(BookVO bookVO) throws Exception;
 	
-	// 상품 정보 삭제
+	// 상품 정보 삭제 (실행 순서 - 이미지 정보 조회 -> 이미지 정보 삭제 -> 상품 정보 삭제)
 	public int goodsDelete(int bookId) throws Exception;
 	
 	// 상품 이미지 등록
@@ -35,4 +35,7 @@ public interface AdminMapper {
 	
 	// 상품 이미지 정보 삭제
 	public int goodsImgDelete(int bookId) throws Exception;
+	
+	// 상품 이미지 정보 목록 조회
+	public List<ImageInfoVO> getImageInfoList(int bookId) throws Exception;
 }

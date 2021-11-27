@@ -116,4 +116,11 @@ public class AdminServiceTest {
 		
 		assertThat(1, is(result));
 	}
+	
+	@Test
+	public void 상품_이미지정보_조회_테스트() throws Exception {
+		List<ImageInfoVO> list = adminService.getImageInfoList(8);
+		
+		assertNotNull(list.get(0).getFileName());
+	}
 }

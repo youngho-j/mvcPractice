@@ -119,4 +119,11 @@ public class AdminServiceImpl implements AdminService{
 	public int goodsDelete(int bookId) throws Exception {
 		return adminMapper.goodsDelete(bookId);
 	}
+
+	@Override
+	public List<ImageInfoVO> getImageInfoList(int bookId) throws Exception {
+		return adminMapper.getImageInfoList(bookId);
+	}
+	
+	
 }

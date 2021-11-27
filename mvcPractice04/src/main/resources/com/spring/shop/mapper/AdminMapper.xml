@@ -87,4 +87,11 @@
 	where bookId = #{bookId}
 </delete>
 
+<!-- 상품 이미지 정보 조회 -->
+<select id="getImageInfoList" resultType="com.spring.shop.vo.ImageInfoVO">
+	select * 
+	from book_images
+	where bookId = #{bookId}
+</select>
+
 </mapper>

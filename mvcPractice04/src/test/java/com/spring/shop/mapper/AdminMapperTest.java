@@ -133,4 +133,12 @@ public class AdminMapperTest {
 		
 		assertThat(0, is(result));
 	}
+	
+	@Test
+	public void 상품_이미지정보_조회_테스트() throws Exception {
+		List<ImageInfoVO> list = adminMapper.getImageInfoList(8);
+		
+		assertNotNull(list);
+		log.info(list.toString());
+	}
 }
