@@ -217,7 +217,7 @@ public class AdminControllerTest {
 	@Test
 	public void 책_정보삭제_테스트() throws Exception {
 		mock.perform(post("/admin/goodsDelete").session(session)
-				.param("bookId", "9"))
+				.param("bookId", "16"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(flash().attributeExists("deleteResult"))
 		.andExpect(redirectedUrl("/admin/goodsManage"))

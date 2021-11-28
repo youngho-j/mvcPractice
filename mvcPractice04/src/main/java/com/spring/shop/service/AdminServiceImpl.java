@@ -115,8 +115,12 @@ public class AdminServiceImpl implements AdminService{
 		return updateCount;
 	}
 	
+	@Transactional
 	@Override
 	public int goodsDelete(int bookId) throws Exception {
+		// 이미지 정보 삭제 후 상품 정보 삭제 
+		adminMapper.goodsImgDelete(bookId);
+		
 		return adminMapper.goodsDelete(bookId);
 	}
 

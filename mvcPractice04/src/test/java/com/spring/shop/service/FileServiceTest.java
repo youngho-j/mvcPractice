@@ -6,6 +6,7 @@ import static org.hamcrest.core.Is.*;
 import java.io.File;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -71,6 +72,28 @@ public class FileServiceTest {
 		List<File> folderImageList = null;
 		
 		boolean result = fileService.thinOutFilesInFolder(dbImageList, folderImageList);
+		
+		assertTrue(result);
+	}
+	
+	@Test
+	public void 이미지_파일_삭제() throws Exception {
+		List<ImageInfoVO> infoList = new ArrayList<ImageInfoVO>();
+		
+		ImageInfoVO vo = new ImageInfoVO();
+		vo.setUploadPath("H:\\mvcPractice04upload\\2021\\11\\28");
+		vo.setUuid("aeea1b9f-fdb7-48d1-9fe1-e2a73beff993");
+		vo.setFileName("book2.png");
+		
+		ImageInfoVO vo2 = new ImageInfoVO();
+		vo2.setUploadPath("H:\\mvcPractice04upload\\2021\\11\\28");
+		vo2.setUuid("fded4899-571d-4be1-98c2-9a5ffafcc327");
+		vo2.setFileName("book2.png");
+		
+		infoList.add(vo);
+		infoList.add(vo2);
+		
+		boolean result = fileService.deleteImageFiles(infoList);
 		
 		assertTrue(result);
 	}

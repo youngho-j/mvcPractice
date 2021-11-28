@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.shop.service.AdminService;
 import com.spring.shop.service.AuthorService;
+import com.spring.shop.service.FileService;
 import com.spring.shop.util.FileManager;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.util.PagingManager;
@@ -42,6 +43,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private FileService fileService;
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public void adminMainGET() throws Exception {
@@ -122,7 +126,11 @@ public class AdminController {
 	
 	@PostMapping("/goodsDelete")
 	public String goodsDeletePOST(int bookId, RedirectAttributes redirect) throws Exception {
-		log.info("상품 정보 삭제");
+		log.info("이미지 삭제후 상품 정보 삭제");
+		
+		List<ImageInfoVO> imageList = adminService.getImageInfoList(bookId);
+		
+		fileService.deleteImageFiles(imageList);
 		
 		int result = adminService.goodsDelete(bookId);
 		
