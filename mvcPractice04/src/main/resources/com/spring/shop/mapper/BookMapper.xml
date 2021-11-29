@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.shop.mapper.BookMapper">
+ 	
+ 	<!-- 상품 목록 -->
+ 	<select id="goodsGetList" resultType="com.spring.shop.vo.AuthorVO" parameterType="com.spring.shop.util.PageInfo">
+        select 
+        	bookId, bookName, ba.authorName, ba.authorId, bc.categoryName, bc.categoryCode, publisher, publicationDate, bookPrice 
+ 		from 
+ 			book_list bl left outer join book_author ba on bl.authorId = ba.authorId
+ 			left outer join book_category bc on bl.categoryCode = bc.categoryCode
+        <if test="keyword != null">
+            where bookName like concat('%',#{keyword}, '%')
+        </if>
+        order by authorId desc 
+        limit #{skip}, #{viewPerPage}
+ 	</select>
+ 	
+ 	<!-- 등록된 상품 수 -->
+ 	<select id="goodsGetTotal" resultType="int">
+ 		select count(*) from book_list
+ 		<if test="keyword != null">
+ 			where bookName like concat('%',#{keyword}, '%')
+ 		</if>
+ 	</select>
+ 	
+</mapper>
