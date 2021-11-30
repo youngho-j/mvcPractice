@@ -1,7 +1,6 @@
 package com.spring.shop.mapper;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.core.Is.*;
 
 import java.util.List;
 
