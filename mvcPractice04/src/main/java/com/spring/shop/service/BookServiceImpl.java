@@ -19,15 +19,15 @@ public class BookServiceImpl implements BookService{
 	private BookMapper bookMapper;
 	
 	@Override
-	public List<BookVO> goodsGetList(PageInfo pageInfo) {
+	public List<BookVO> getGoodsList(PageInfo pageInfo) {
 		log.info("상품 목록 출력");
 		return bookMapper.goodsGetList(pageInfo);
 	}
 
 	@Override
-	public int goodsGetTotal(PageInfo pageInfo) {
+	public int getGoodsTotal(PageInfo pageInfo) {
 		log.info("상품 총 개수 출력");
-		return bookMapper.goodsGetTotal(pageInfo);
+		return bookMapper.getGoodsTotal(pageInfo);
 	}
 	
 }

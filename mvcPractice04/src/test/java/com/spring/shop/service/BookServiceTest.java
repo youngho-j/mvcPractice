@@ -22,14 +22,14 @@ public class BookServiceTest {
 	
 	@Test
 	public void 상품목록_출력_테스트() throws Exception {
-		List<BookVO> list = bookService.goodsGetList(new PageInfo(1, 10));
+		List<BookVO> list = bookService.getGoodsList(new PageInfo(1, 10));
 		
 		assertFalse(list.isEmpty());
 	}
 	
 	@Test
 	public void 상품_개수_출력_테스트() throws Exception {
-		int result = bookService.goodsGetTotal(new PageInfo(1, 10));
+		int result = bookService.getGoodsTotal(new PageInfo(1, 10));
 		
 		assertTrue(result > 0);
 	}

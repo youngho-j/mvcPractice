@@ -26,4 +26,14 @@
  		</if>
  	</select>
  	
+ 	
+ 	<!-- 작가 id 목록 -->
+ 	<select id="getAuthorIdList" resultType="String">
+ 		select 
+ 			authorId
+ 		from
+ 			book_author
+ 		where
+ 			authorName like concat('%', #{keyword}, '%');
+ 	</select>
 </mapper>

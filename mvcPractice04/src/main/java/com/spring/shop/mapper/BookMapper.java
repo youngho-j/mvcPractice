@@ -11,5 +11,8 @@ public interface BookMapper {
 	public List<BookVO> goodsGetList(PageInfo pageInfo);
 	
 	// 상품 전체 갯수
-	public int goodsGetTotal(PageInfo pageInfo);
+	public int getGoodsTotal(PageInfo pageInfo);
+	
+	// 작가 id 목록
+	public String[] getAuthorIdList(String keyword);
 }

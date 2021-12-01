@@ -34,9 +34,16 @@ public class BookMapperTest {
 	
 	@Test
 	public void 상품_전체_갯수_리턴_테스트() throws Exception {
-		int result = bookMapper.goodsGetTotal(new PageInfo(1, 10));
+		int result = bookMapper.getGoodsTotal(new PageInfo(1, 10));
 		
 		assertTrue(result > 0);
+	}
+	
+	@Test
+	public void 작가_아이디_목록_리턴_테스트() throws Exception {
+		String[] list = bookMapper.getAuthorIdList("봉");
+		
+		assertTrue(list.length > 0);
 	}
 	
 }

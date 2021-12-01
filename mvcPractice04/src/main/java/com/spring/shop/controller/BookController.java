@@ -78,7 +78,7 @@ public class BookController {
 	@GetMapping("search")
 	public String SearchGoodsListGET(PageInfo pageInfo, Model model) throws Exception {
 		
-		List<BookVO> goodsList = bookService.goodsGetList(pageInfo);
+		List<BookVO> goodsList = bookService.getGoodsList(pageInfo);
 		
 		// 목록이 없을 경우
 		if(goodsList.isEmpty()) {
@@ -87,7 +87,7 @@ public class BookController {
 		}
 		
 		model.addAttribute("goodsList", goodsList);
-		model.addAttribute("pagingManager", new PagingManager(pageInfo, bookService.goodsGetTotal(pageInfo)));
+		model.addAttribute("pagingManager", new PagingManager(pageInfo, bookService.getGoodsTotal(pageInfo)));
 		return "search";
 
 	}

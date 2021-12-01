@@ -19,7 +19,7 @@ public class FileCheckScheduler {
 	@Autowired
 	FileService fileService;
 	
-	@Scheduled(cron = "0 0 1 * * *")
+	@Scheduled(cron = "0 0 1 1/1 * ?")
 	public void checkFiles() throws Exception {
 		log.warn("불필요 이미지 파일 제거 스케쥴러 실행");
 		
