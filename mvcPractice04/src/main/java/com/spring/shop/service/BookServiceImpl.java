@@ -21,6 +21,17 @@ public class BookServiceImpl implements BookService{
 	@Override
 	public List<BookVO> getGoodsList(PageInfo pageInfo) {
 		log.info("상품 목록 출력");
+		// 검색 조건 확인
+		String[] typeArr = pageInfo.getTypeArr();
+		
+		for(String str : typeArr) {
+			// 검색 조건 확인 후 작가 검색일 경우 
+			if(str.equals("A")) {
+				String[] authorList = bookMapper.getAuthorIdList(pageInfo.getKeyword());
+				pageInfo.setAuthorList(authorList);
+			}
+		}
+		
 		return bookMapper.goodsGetList(pageInfo);
 	}
 

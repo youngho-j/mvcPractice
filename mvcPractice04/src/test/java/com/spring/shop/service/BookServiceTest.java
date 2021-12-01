@@ -1,6 +1,7 @@
 package com.spring.shop.service;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.*;
 
 import java.util.List;
 
@@ -13,6 +14,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/security-context.xml"})
 public class BookServiceTest {
@@ -22,9 +26,17 @@ public class BookServiceTest {
 	
 	@Test
 	public void 상품목록_출력_테스트() throws Exception {
-		List<BookVO> list = bookService.getGoodsList(new PageInfo(1, 10));
 		
-		assertFalse(list.isEmpty());
+		PageInfo pageInfo = new PageInfo(1, 10);
+		pageInfo.setType("A");
+		pageInfo.setKeyword("봉");
+		
+		List<BookVO> list = bookService.getGoodsList(pageInfo);
+		
+		assertTrue(list.isEmpty());
+		assertThat("23", is(pageInfo.getAuthorList()[0]));
+		
+		log.info(pageInfo.toString());
 	}
 	
 	@Test
