@@ -56,4 +56,13 @@ public class BookControllerTest {
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 		.andDo(print());
 	}
+	
+	@Test
+	public void 상품_검색_정보_리턴_테스트() throws Exception {
+		mock.perform(get("/search"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("goodsList"))		
+		.andExpect(view().name("search"))
+		.andDo(print());
+	}
 }
