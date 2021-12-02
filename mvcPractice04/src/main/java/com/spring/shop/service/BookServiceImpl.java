@@ -32,7 +32,7 @@ public class BookServiceImpl implements BookService{
 			}
 		}
 		
-		return bookMapper.goodsGetList(pageInfo);
+		return bookMapper.getGoodsList(pageInfo);
 	}
 
 	@Override

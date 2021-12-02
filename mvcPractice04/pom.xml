@@ -13,7 +13,10 @@
 		
 		<!-- spring security -->
 		<spring.security.version>5.2.6.RELEASE</spring.security.version>
+		
+		<!-- AOP 관련 -->
 		<org.aspectj-version>1.6.10</org.aspectj-version>
+		
 		<lombok.version>1.18.12</lombok.version>
 		
 		<!-- logging 관련 -->

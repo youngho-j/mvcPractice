@@ -1,6 +1,7 @@
 package com.spring.shop.mapper;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.*;
 
 import java.util.List;
 
@@ -25,16 +26,27 @@ public class BookMapperTest {
 	
 	@Test
 	public void 상품목록_리턴_테스트() throws Exception {
-		List<BookVO> list = bookMapper.goodsGetList(new PageInfo(1, 10));
+		PageInfo info = new PageInfo(1, 10);
+		info.setType("AT");
+		info.setKeyword("한");
+		info.setAuthorList(new String[] {"22"});
+		
+		List<BookVO> list = bookMapper.getGoodsList(info);
 		
 		log.info(list.toString());
 		
-		assertFalse(list.isEmpty());
+		assertThat(2, is(list.size()));
 	}
 	
 	@Test
 	public void 상품_전체_갯수_리턴_테스트() throws Exception {
-		int result = bookMapper.getGoodsTotal(new PageInfo(1, 10));
+		PageInfo info = new PageInfo(1, 10);
+		info.setType("T");
+		info.setKeyword("한");
+		
+		int result = bookMapper.getGoodsTotal(info);
+		
+		log.info("검색된 책 개수 : " + result);
 		
 		assertTrue(result > 0);
 	}

@@ -4,26 +4,54 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.shop.mapper.BookMapper">
  	
+ 	<!-- 검색 조건 적용 공통 쿼리 -->
+ 	<sql id="searchCondition">
+ 		<trim prefix="where (" prefixOverrides="AND" suffix=")">
+ 			<foreach collection="typeArr" item="type">
+ 				<trim prefix="AND">
+	 				<choose>
+						<when test="type == 'A'.toString">
+							<trim prefixOverrides="OR">
+								<foreach collection="authorList" item="authorId">
+									<trim prefix="OR">
+										bl.authorId = #{authorId}
+									</trim>
+								</foreach>
+							</trim>
+						</when>
+						<when test="type == 'T'.toString">
+							bookName like concat ('%', #{keyword}, '%')
+						</when>
+						<when test="type == 'C'.toString">
+							bl.categoryCode like concat ('%', #{categoryCode}, '%')
+						</when>
+	 				</choose>
+ 				</trim>
+ 			</foreach>
+ 		</trim>
+ 	</sql>
+ 	
  	<!-- 상품 목록 -->
- 	<select id="goodsGetList" resultType="com.spring.shop.vo.AuthorVO" parameterType="com.spring.shop.util.PageInfo">
+ 	<select id="getGoodsList" resultType="com.spring.shop.vo.AuthorVO">
         select 
-        	bookId, bookName, ba.authorName, ba.authorId, bc.categoryName, bc.categoryCode, publisher, publicationDate, bookPrice 
+        	bookId, bookName, ba.authorName, bl.authorId, bc.categoryName, bl.categoryCode, publisher, publicationDate, bookPrice 
  		from 
- 			book_list bl left outer join book_author ba on bl.authorId = ba.authorId
- 			left outer join book_category bc on bl.categoryCode = bc.categoryCode
-        <if test="keyword != null">
-            where bookName like concat('%',#{keyword}, '%')
-        </if>
+ 			book_list bl 
+	 			left outer join book_author ba 
+	 				on bl.authorId = ba.authorId
+	 			left outer join book_category bc 
+	 				on bl.categoryCode = bc.categoryCode
+		
+		<include refid="searchCondition"/>        
+        
         order by authorId desc 
         limit #{skip}, #{viewPerPage}
  	</select>
  	
  	<!-- 등록된 상품 수 -->
- 	<select id="goodsGetTotal" resultType="int">
- 		select count(*) from book_list
- 		<if test="keyword != null">
- 			where bookName like concat('%',#{keyword}, '%')
- 		</if>
+ 	<select id="getGoodsTotal" resultType="int">
+ 		select count(*) from book_list bl
+		<include refid="searchCondition"/>        
  	</select>
  	
  	
