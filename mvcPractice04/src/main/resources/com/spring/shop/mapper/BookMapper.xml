@@ -12,11 +12,18 @@
 	 				<choose>
 						<when test="type == 'A'.toString">
 							<trim prefixOverrides="OR">
-								<foreach collection="authorList" item="authorId">
-									<trim prefix="OR">
-										bl.authorId = #{authorId}
-									</trim>
-								</foreach>
+							<choose>
+								<when test="authorIdList != null and authorIdList.size != 0">
+									<foreach collection="authorIdList" item="authorId">
+										<trim prefix="OR">
+											bl.authorId = #{authorId}
+										</trim>
+									</foreach>
+								</when>
+								<otherwise>
+									bl.authorId = ''
+								</otherwise>
+							</choose>
 							</trim>
 						</when>
 						<when test="type == 'T'.toString">

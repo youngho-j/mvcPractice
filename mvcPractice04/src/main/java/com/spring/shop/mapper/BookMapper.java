@@ -14,5 +14,5 @@ public interface BookMapper {
 	public int getGoodsTotal(PageInfo pageInfo);
 	
 	// 작가 id 목록
-	public String[] getAuthorIdList(String keyword);
+	public List<String> getAuthorIdList(String keyword);
 }

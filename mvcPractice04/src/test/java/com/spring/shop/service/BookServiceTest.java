@@ -1,7 +1,6 @@
 package com.spring.shop.service;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.core.Is.*;
 
 import java.util.List;
 
@@ -28,13 +27,12 @@ public class BookServiceTest {
 	public void 상품목록_출력_테스트() throws Exception {
 		
 		PageInfo pageInfo = new PageInfo(1, 10);
-		pageInfo.setType("A");
-		pageInfo.setKeyword("봉");
+		pageInfo.setType("AT");
+		pageInfo.setKeyword("확");
 		
 		List<BookVO> list = bookService.getGoodsList(pageInfo);
 		
 		assertTrue(list.isEmpty());
-		assertThat("23", is(pageInfo.getAuthorList()[0]));
 		
 		log.info(pageInfo.toString());
 	}

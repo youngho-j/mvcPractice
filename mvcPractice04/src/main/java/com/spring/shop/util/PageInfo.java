@@ -1,5 +1,7 @@
 package com.spring.shop.util;
 
+import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +31,7 @@ public class PageInfo {
 	private String keyword;
 	
 	// 작가 목록 - 검색시 비슷한 작가 아이디 존재 할 수 있으므로
-	private String[] authorList;
+	private List<String> authorIdList;
 	
 	// 카테고리 코드
 	private String categoryCode;

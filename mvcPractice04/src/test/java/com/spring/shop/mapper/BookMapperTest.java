@@ -3,6 +3,7 @@ package com.spring.shop.mapper;
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -25,17 +26,30 @@ public class BookMapperTest {
 	private BookMapper bookMapper;
 	
 	@Test
-	public void 상품목록_리턴_테스트() throws Exception {
+	public void 작가_제목_검색_목록_리턴_테스트() throws Exception {
 		PageInfo info = new PageInfo(1, 10);
-		info.setType("AT");
-		info.setKeyword("한");
-		info.setAuthorList(new String[] {"22"});
+		info.setType("T");
+		info.setKeyword("비");
 		
 		List<BookVO> list = bookMapper.getGoodsList(info);
 		
 		log.info(list.toString());
 		
-		assertThat(2, is(list.size()));
+		assertThat(0, is(list.size()));
+	}
+	
+	@Test
+	public void 작가_잘못된_검색_목록_리턴_테스트() throws Exception {
+		PageInfo info = new PageInfo(1, 10);
+		info.setType("A");
+		info.setKeyword("활");
+		info.setAuthorIdList(new ArrayList<String>());
+		
+		List<BookVO> list = bookMapper.getGoodsList(info);
+		
+		log.info(list.toString());
+		
+		assertThat(0, is(list.size()));
 	}
 	
 	@Test
@@ -53,9 +67,9 @@ public class BookMapperTest {
 	
 	@Test
 	public void 작가_아이디_목록_리턴_테스트() throws Exception {
-		String[] list = bookMapper.getAuthorIdList("봉");
+		List<String> list = bookMapper.getAuthorIdList("천");
 		
-		assertTrue(list.length > 0);
+		assertThat(0, is(list.size()));
 	}
 	
 }

@@ -27,8 +27,8 @@ public class BookServiceImpl implements BookService{
 		for(String str : typeArr) {
 			// 검색 조건 확인 후 작가 검색일 경우 
 			if(str.equals("A")) {
-				String[] authorList = bookMapper.getAuthorIdList(pageInfo.getKeyword());
-				pageInfo.setAuthorList(authorList);
+				List<String> authorIdList = bookMapper.getAuthorIdList(pageInfo.getKeyword());
+				pageInfo.setAuthorIdList(authorIdList);
 			}
 		}
 		
