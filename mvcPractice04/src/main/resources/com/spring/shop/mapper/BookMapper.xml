@@ -39,9 +39,9 @@
  	</sql>
  	
  	<!-- 상품 목록 -->
- 	<select id="getGoodsList" resultType="com.spring.shop.vo.AuthorVO">
+ 	<select id="getGoodsList" resultType="com.spring.shop.vo.BookVO">
         select 
-        	bookId, bookName, ba.authorName, bl.authorId, bc.categoryName, bl.categoryCode, publisher, publicationDate, bookPrice 
+        	bookId, bookName, ba.authorName, bl.authorId, bc.categoryName, bl.categoryCode, publisher, publicationDate, bookPrice, bookDiscount 
  		from 
  			book_list bl 
 	 			left outer join book_author ba 

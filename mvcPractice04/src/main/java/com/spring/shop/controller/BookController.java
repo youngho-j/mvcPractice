@@ -86,7 +86,7 @@ public class BookController {
 			return "search";
 		}
 		
-		model.addAttribute("goodsList", goodsList);
+		model.addAttribute("goodsListResult", goodsList);
 		model.addAttribute("pagingManager", new PagingManager(pageInfo, bookService.getGoodsTotal(pageInfo)));
 		return "search";
 
