@@ -218,6 +218,40 @@ a{
 	font-size: 18px;
 }
 
+* 페이지 이동 인터페이스 영역 */
+.pagingManger_area {
+	text-align: center;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+.pagingManger_body {
+    list-style: none;
+    display: inline-block;
+}	
+.pagingManager_btn {
+    float: left;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 20px;
+}
+.active {
+	border : 2px solid black;
+	font-weight:400;
+}
+.next, .prev {
+    border: 1px solid #ccc;
+    padding: 0 10px;
+}
+
+/* 클릭시 색변경이 이뤄지지 않도록 통일 */
+.pagingManager_btn a:link {color: black;}
+.pagingManager_btn a:visited {color: black;}
+.pagingManager_btn a:active {color: black;}
+.pagingManager_btn a:hover {color: black;}
+.next a, .prev a {
+    color: #ccc;
+}
 
 /* footer navai 영역 */
 .footer_navi_area{

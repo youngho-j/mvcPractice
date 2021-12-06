@@ -64,7 +64,7 @@
                 				<option value="A">작가명</option>
                 				<option value="C">카테고리 코드</option>
                 			</select>
-                			<input type="text" name="keyword">
+                			<input type="text" name="keyword" value='<c:out value="${pagingManager.pageInfo.keyword}"/>'>
                     		<button class='btn search_btn'>검 색</button>                				
                 		</div>
                 	</form>
@@ -135,12 +135,12 @@
 										<td class="price">
 											<div class="origin_price">
 												<del>
-													${list.bookPrice}
+													<fmt:formatNumber value="${list.bookPrice}" pattern="#,### 원" />
 												</del>
 											</div>
 											<div class="discount_price">
 												<strong>
-													<c:out value="${list.bookPrice * (1 - list.bookDiscount)}"/>
+													<fmt:formatNumber value="${list.bookPrice * (1 - list.bookDiscount)}" pattern="#,### 원" />
 												</strong>
 											</div>
 										</td>
@@ -150,7 +150,41 @@
 							</tbody>
 						</table>
 					</div>
-					<!-- 페이징 추가 필요 -->
+					
+					<!-- 페이지 이동 인터페이스 영역 -->
+	                <div class="pagingManger_area">
+	                	<ul class="pagingManger_body">
+		                	<!-- 이전 버튼 -->
+		                	<c:if test="${pagingManager.prev}">
+		                		<li class="pagingManager_btn prev">
+		                    		<a href="${pagingManager.pageStartNum - 1}">이전</a>
+		                    	</li>
+		                    </c:if>
+		                    		
+		                	<!-- 페이지 번호 -->
+		                	<c:forEach begin="${pagingManager.pageStartNum}" end="${pagingManager.pageEndNum}" var="num">
+		                    	<li class="pagingManager_btn ${pagingManager.pageInfo.pageNum == num ? 'active':''}">
+		                    		<a href="${num}">${num}</a>
+		                    	</li>
+		                    </c:forEach>
+		                    		
+		                    <!-- 다음 버튼 -->
+		                    <c:if test="${pagingManager.next}">
+		                    	<li class="pagingManger_btn next">
+		                    		<a href="${pagingManager.pageEndNum + 1}">다음</a>
+		                    	</li>
+		                    </c:if>
+	                   	</ul>
+	                </div>
+					
+					<!-- 페이지 이동 form -->
+	            	<form id="moveForm" action="/search" method="get">
+						<input type="hidden" name="pageNum" value="${pagingManager.pageInfo.pageNum}">
+						<input type="hidden" name="viewPerPage" value="${pagingManager.pageInfo.viewPerPage}">
+						<input type="hidden" name="keyword" value="${pagingManager.pageInfo.keyword}">
+						<input type="hidden" name="type" value="${pagingManager.pageInfo.type}">
+					</form>
+					
 				</c:when>
 				<c:otherwise>
 					<div class="empty_table">
@@ -201,6 +235,18 @@
 	</div>
 </div>
 <script type="text/javascript">
+	
+	$(document).ready(function(){
+		let pickedType = '<c:out value="${pagingManager.pageInfo.type}"/>';
+		
+		/* 검색 타입 속성 부여 */
+		if(pickedType != "") {
+			$("select[name='type']").val(pickedType).attr("selected", "selected");
+		}
+	});
+
+
+	/* 로그아웃 */
 	$("#top_navi_logout_btn").click(function(){
 		$.ajax({
 			type:"POST",
@@ -210,6 +256,20 @@
 			}
 		});
 	});
+	
+	let moveForm = $("#moveForm");
+	
+	/* 페이지 이동 */
+	$(".pagingManager_btn a").on("click", function(e){
+	
+		e.preventDefault();
+		
+		moveForm.find("input[name='pageNum']").val($(this).attr("href"));
+		
+		moveForm.submit();
+	
+	});
+	
 </script>
 </body>
 </html>
