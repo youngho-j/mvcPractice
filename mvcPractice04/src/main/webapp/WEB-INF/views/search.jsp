@@ -111,8 +111,15 @@
 							<tbody>
 								<c:forEach items="${goodsListResult}" var="list">
 									<tr>
-										<!-- 이미지 -->
+										<!-- 이미지, data 속성 대문자 입력 불가 -->
 										<td class="image">
+											<div class="image_area" 
+												data-bookid="${list.imagesList[0].bookId}" 
+												data-path="${list.imagesList[0].uploadPath}" 
+												data-uuid="${list.imagesList[0].uuid}" 
+												data-filename="${list.imagesList[0].fileName}">
+												<img>
+											</div>
 										</td>
 										<!-- 책 정보 -->
 										<td class="book_info">
@@ -243,6 +250,28 @@
 		if(pickedType != "") {
 			$("select[name='type']").val(pickedType).attr("selected", "selected");
 		}
+		
+		/* 이미지 호출 */
+		$(".image_area").each(function(i, obj){
+			let imageArea = $(obj);
+			
+			if(imageArea.data("bookid")) {
+				
+				let uploadPath = imageArea.data("path").substr(23);
+				let uuid = imageArea.data("uuid");
+				let fileName = imageArea.data("filename");
+				
+				let imageFile = 
+					encodeURIComponent(uploadPath + "\\t_" + uuid + "_" + fileName);
+				
+				$(this).find("img").attr('src', '/display?fileName=' + imageFile);
+			
+			} else {
+			
+				$(this).find("img").attr('src', '/resources/img/NoImage.png');
+			}
+			
+		});
 	});
 
 

@@ -29,13 +29,13 @@ public class BookMapperTest {
 	public void 작가_제목_검색_목록_리턴_테스트() throws Exception {
 		PageInfo info = new PageInfo(1, 10);
 		info.setType("T");
-		info.setKeyword("비");
+		info.setKeyword("한");
 		
 		List<BookVO> list = bookMapper.getGoodsList(info);
 		
 		log.info(list.toString());
 		
-		assertThat(0, is(list.size()));
+		assertThat(2, is(list.size()));
 	}
 	
 	@Test

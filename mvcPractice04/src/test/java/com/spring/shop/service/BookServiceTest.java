@@ -27,14 +27,15 @@ public class BookServiceTest {
 	public void 상품목록_출력_테스트() throws Exception {
 		
 		PageInfo pageInfo = new PageInfo(1, 10);
-		pageInfo.setType("AT");
-		pageInfo.setKeyword("확");
+		pageInfo.setType("A");
+		pageInfo.setKeyword("신");
 		
 		List<BookVO> list = bookService.getGoodsList(pageInfo);
 		
-		assertTrue(list.isEmpty());
+		assertTrue(!list.isEmpty());
 		
 		log.info(pageInfo.toString());
+		log.info(list.toString());
 	}
 	
 	@Test

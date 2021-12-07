@@ -8,8 +8,8 @@ import com.spring.shop.vo.BookVO;
 public interface BookService {
 	
 	// 상품 목록
-	public List<BookVO> getGoodsList(PageInfo pageInfo);
+	public List<BookVO> getGoodsList(PageInfo pageInfo) throws Exception;
 	
 	// 상품 전체 갯수
-	public int getGoodsTotal(PageInfo pageInfo);
+	public int getGoodsTotal(PageInfo pageInfo) throws Exception;
 }
