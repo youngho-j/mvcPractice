@@ -190,6 +190,7 @@
 						<input type="hidden" name="viewPerPage" value="${pagingManager.pageInfo.viewPerPage}">
 						<input type="hidden" name="keyword" value="${pagingManager.pageInfo.keyword}">
 						<input type="hidden" name="type" value="${pagingManager.pageInfo.type}">
+						<input type="hidden" name="categoryCode" value="${pagingManager.pageInfo.categoryCode}">
 					</form>
 					
 				</c:when>

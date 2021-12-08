@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
+import com.spring.shop.vo.CategoryVO;
 
 public interface BookMapper {
 	
@@ -15,4 +16,10 @@ public interface BookMapper {
 	
 	// 작가 id 목록
 	public List<String> getAuthorIdList(String keyword);
+	
+	// 국내 카테고리 목록
+	public List<CategoryVO> getDomesticCategoryCode() throws Exception;
+	
+	// 국외 카테고리 목록
+	public List<CategoryVO> getInternationalCategoryCode() throws Exception;
 }

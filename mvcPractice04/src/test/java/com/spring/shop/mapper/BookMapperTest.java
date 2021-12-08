@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
+import com.spring.shop.vo.CategoryVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -70,6 +71,24 @@ public class BookMapperTest {
 		List<String> list = bookMapper.getAuthorIdList("천");
 		
 		assertThat(0, is(list.size()));
+	}
+	
+	@Test
+	public void 국내_카테고리_목록_리턴_테스트() throws Exception {
+		List<CategoryVO> list = bookMapper.getDomesticCategoryCode();
+		
+		log.info("카테고리 목록 : " + list.toString());
+		
+		assertTrue(!list.isEmpty());
+	}
+	
+	@Test
+	public void 국외_카테고리_목록_리턴_테스트() throws Exception {
+		List<CategoryVO> list = bookMapper.getInternationalCategoryCode();
+		
+		log.info("카테고리 목록 : " + list.toString());
+		
+		assertTrue(!list.isEmpty());
 	}
 	
 }

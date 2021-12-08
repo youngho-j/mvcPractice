@@ -37,16 +37,24 @@ public class BookController {
 	
 	// 메인 페이지 이동
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String gomainPageGET() throws Exception {
+	public String gomainPageGET(Model model) throws Exception {
 		log.info("메인 페이지 진입");
+		
+		// 국내, 외 카테고리 목록
+		model.addAttribute("domestic", bookService.getDomesticCategoryCode());
+		model.addAttribute("international", bookService.getInternationalCategoryCode());
 		
 		return "main";
 	}
 	
 	// 메인 페이지 이동
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public void mainPageGET() throws Exception {
+	public void mainPageGET(Model model) throws Exception {
 		log.info("메인 페이지 진입");
+		
+		// 국내, 외 카테고리 목록
+		model.addAttribute("domestic", bookService.getDomesticCategoryCode());
+		model.addAttribute("international", bookService.getInternationalCategoryCode());
 	}
 	
 	// 이미지 호출

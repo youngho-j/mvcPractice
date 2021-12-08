@@ -9,6 +9,7 @@ import com.spring.shop.mapper.BookMapper;
 import com.spring.shop.mapper.FileMapper;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
+import com.spring.shop.vo.CategoryVO;
 import com.spring.shop.vo.ImageInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,18 @@ public class BookServiceImpl implements BookService{
 	public int getGoodsTotal(PageInfo pageInfo) throws Exception {
 		log.info("상품 총 개수 출력");
 		return bookMapper.getGoodsTotal(pageInfo);
+	}
+
+	@Override
+	public List<CategoryVO> getDomesticCategoryCode() throws Exception {
+		log.info("국내 카테고리 목록");
+		return bookMapper.getDomesticCategoryCode();
+	}
+
+	@Override
+	public List<CategoryVO> getInternationalCategoryCode() throws Exception {
+		log.info("국외 카테고리 목록");
+		return bookMapper.getInternationalCategoryCode();
 	}
 	
 }

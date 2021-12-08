@@ -35,6 +35,8 @@ public class BookControllerTest {
 	public void 메인페이지_호출_테스트() throws Exception {
 		mock.perform(get("/main"))
 		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("domestic"))
+		.andExpect(model().attributeExists("international"))
 		.andExpect(view().name("main"))
 		.andDo(print());
 	}

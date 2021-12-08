@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
+import com.spring.shop.vo.CategoryVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,6 +44,20 @@ public class BookServiceTest {
 		int result = bookService.getGoodsTotal(new PageInfo(1, 10));
 		
 		assertTrue(result > 0);
+	}
+	
+	@Test
+	public void 국내_카테고리목록_테스트() throws Exception {
+		List<CategoryVO> list = bookService.getDomesticCategoryCode();
+		
+		assertTrue(!list.isEmpty());
+	}
+	
+	@Test
+	public void 국외_카테고리목록_테스트() throws Exception {
+		List<CategoryVO> list = bookService.getInternationalCategoryCode();
+		
+		assertTrue(!list.isEmpty());
 	}
 	
 	

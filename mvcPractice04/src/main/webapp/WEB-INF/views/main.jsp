@@ -8,6 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Wellcome MyShop</title>
 <link rel="stylesheet" href="/resources/css/main.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -91,9 +92,28 @@
 			
 			<div class="clearfix"></div>
 		</div>
-		
+		<!-- navi 영역 -->
 		<div class="navi_area">
-			<h1>navi area</h1>
+			<div class="dropdown">
+				<button class="dropdown_btn">국내 
+			      <i class="fa fa-caret-down"></i>
+			    </button>
+			    <div class="dropdown_content">
+			    	<c:forEach items="${domestic}" var="category"> 
+		    			<a href="search?type=C&categoryCode=${category.categoryCode}">${category.categoryName}</a>
+		    		</c:forEach>
+			    </div>
+			</div>
+			<div class="dropdown">
+				<button class="dropdown_btn">국외
+			      <i class="fa fa-caret-down"></i>
+			    </button>
+			    <div class="dropdown_content">
+			    	<c:forEach items="${international}" var="category"> 
+		    			<a href="search?type=C&categoryCode=${category.categoryCode}">${category.categoryName}</a>
+		    		</c:forEach>
+			    </div>
+			</div>
 		</div>
 		
 		<div class="content_area">

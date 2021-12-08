@@ -71,4 +71,22 @@
  		where
  			authorName like concat('%', #{keyword}, '%');
  	</select>
+ 	
+ 	<!-- 국내 카테고리 목록 -->
+ 	<select id="getDomesticCategoryCode" resultType="com.spring.shop.vo.CategoryVO">
+ 		<![CDATA[
+			select * 
+			from book_category
+			where categoryCode > 100000 and categoryCode < 200000
+		]]>
+ 	</select>
+ 	
+ 	<!-- 국외 카테고리 목록 -->
+ 	<select id="getInternationalCategoryCode" resultType="com.spring.shop.vo.CategoryVO">
+ 		<![CDATA[
+			select * 
+			from book_category
+			where categoryCode > 200000 and categoryCode < 300000
+		]]>
+ 	</select>
 </mapper>
