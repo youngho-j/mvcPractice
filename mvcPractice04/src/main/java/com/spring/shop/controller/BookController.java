@@ -13,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.spring.shop.service.BookService;
 import com.spring.shop.service.FileService;
@@ -36,19 +34,7 @@ public class BookController {
 	private BookService bookService;
 	
 	// 메인 페이지 이동
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String gomainPageGET(Model model) throws Exception {
-		log.info("메인 페이지 진입");
-		
-		// 국내, 외 카테고리 목록
-		model.addAttribute("domestic", bookService.getDomesticCategoryCode());
-		model.addAttribute("international", bookService.getInternationalCategoryCode());
-		
-		return "main";
-	}
-	
-	// 메인 페이지 이동
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	@GetMapping({"/main", "/"})
 	public void mainPageGET(Model model) throws Exception {
 		log.info("메인 페이지 진입");
 		
@@ -93,6 +79,10 @@ public class BookController {
 			model.addAttribute("goodsListResult", "empty");
 			return "search";
 		}
+		
+		// 국내, 외 카테고리 목록
+		model.addAttribute("domestic", bookService.getDomesticCategoryCode());
+		model.addAttribute("international", bookService.getInternationalCategoryCode());
 		
 		model.addAttribute("goodsListResult", goodsList);
 		model.addAttribute("pagingManager", new PagingManager(pageInfo, bookService.getGoodsTotal(pageInfo)));
