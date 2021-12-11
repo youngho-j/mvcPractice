@@ -35,12 +35,14 @@ public class BookController {
 	
 	// 메인 페이지 이동
 	@GetMapping({"/main", "/"})
-	public void mainPageGET(Model model) throws Exception {
+	public String mainPageGET(Model model) throws Exception {
 		log.info("메인 페이지 진입");
 		
 		// 국내, 외 카테고리 목록
 		model.addAttribute("domestic", bookService.getDomesticCategoryCode());
 		model.addAttribute("international", bookService.getInternationalCategoryCode());
+		
+		return "main";
 	}
 	
 	// 이미지 호출
