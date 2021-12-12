@@ -12,4 +12,10 @@ public interface MemberMapper {
 	
 	// 로그인
 	public MemberVO memberLogin(MemberVO memberVO) throws Exception;
+	
+	// 테이블 전체 삭제(테스트용)
+	public void deleteAll() throws Exception;
+	
+	// 테이블 전체 삭제 검증(테스트용) 
+	public int getCount() throws Exception;
 }

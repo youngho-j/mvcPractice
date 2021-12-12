@@ -21,4 +21,15 @@
  		from book_member 
  		where memberId = #{memberId}
  	</select>
+ 	
+ 	<!-- 테이블 전체 삭제(테스트용) -->
+ 	<delete id="deleteAll">
+ 		delete from book_member
+ 	</delete>
+ 	
+ 	<!-- 테이블 전체 삭제 검증(테스트용) -->
+ 	<select id="getCount" resultType="int">
+ 		select count(*) 
+ 		from book_member
+ 	</select>
  </mapper>
