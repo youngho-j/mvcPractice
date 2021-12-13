@@ -14,9 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.spring.shop.vo.MemberVO;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/test-root-context.xml")
 public class MemberMapperTest {
@@ -26,6 +23,7 @@ public class MemberMapperTest {
 	
 	private MemberVO testInfo1;
 	private MemberVO testInfo2;
+	private MemberVO testInfo3;
 	
 	@Before
 	public void setUp() {
@@ -33,7 +31,9 @@ public class MemberMapperTest {
 		
 		testInfo2 = new MemberVO();
 		
-		testInfo1.setMemberId("testID");
+		testInfo3 = new MemberVO();
+		
+		testInfo1.setMemberId("testID1");
 		testInfo1.setMemberPw("1q2w3e4r");
 		testInfo1.setMemberName("test");		
 		testInfo1.setMemberMail("test");		
@@ -48,6 +48,14 @@ public class MemberMapperTest {
 		testInfo2.setMemberAddr1("test1");	
 		testInfo2.setMemberAddr2("test1");	
 		testInfo2.setMemberAddr3("test1");
+		
+		testInfo3.setMemberId("testID3");
+		testInfo3.setMemberPw("1q2w3e4r");
+		testInfo3.setMemberName("test2");		
+		testInfo3.setMemberMail("test2");		
+		testInfo3.setMemberAddr1("test2");	
+		testInfo3.setMemberAddr2("test2");	
+		testInfo3.setMemberAddr3("test2");
 	}
 	
 	@Test
@@ -75,7 +83,7 @@ public class MemberMapperTest {
 	
 	@Test
 	public void getCount_메서드_테스트() throws Exception {
-		// getCount 쿼리문 동작 테스트 
+		
 		// 조건1. 테이블에 회원정보가 없을 경우, 예샹결과 0 
 		memberMapper.deleteAll();
 		assertThat(memberMapper.getCount(), is(0));
@@ -87,24 +95,57 @@ public class MemberMapperTest {
 		// 조건3. 테이블에 회원정보가 2명 존재시, 예상결과 2
 		memberMapper.memberJoin(testInfo2);
 		assertThat(memberMapper.getCount(), is(2));
-		
-		// 테이블 데이터 초기화
-		memberMapper.deleteAll();
 	}
 
 	@Test
 	public void 아이디중복체크_메서드_테스트() throws Exception {
-		assertThat(0,  is(memberMapper.idCheck("wndqhr1")));
+		memberMapper.deleteAll();
+		
+		// 조건1. 아이디 검색을 위해 회원 등록
+		memberMapper.memberJoin(testInfo1);
+		
+		// 결과1. 회원 정보가 존재하는 경우, 예상결과 1
+		assertThat(1,  is(memberMapper.idCheck(testInfo1.getMemberId())));
+		
+		// 결과2. 회원 정보가 존재하지 않는 경우, 예상결과 0
+		assertThat(0,  is(memberMapper.idCheck(testInfo2.getMemberId())));
+		
 	}
 	
 	@Test
-	public void 로그인_메서드_테스트() throws Exception {
-		MemberVO memberVO = new MemberVO();
+	public void 회원정보확인_메서드_테스트() throws Exception {
+		memberMapper.deleteAll();
 		
-		memberVO.setMemberId("admin");
-		MemberVO result = memberMapper.memberLogin(memberVO);
-		assertNotNull(result);
+		// 조건1. 로그인을 위해 회원 등록
+		memberMapper.memberJoin(testInfo1);
+		memberMapper.memberJoin(testInfo2);
 		
-		log.info(result.getMemberPw());
+		// 결과1. 회원 정보가 일치하는 경우
+		MemberVO result1 = memberMapper.memberLogin(testInfo1);
+		
+		// 예상결과 - true
+		assertEquals(result1.getMemberId(), testInfo1.getMemberId());
+		
+		// 결과2. 회원 정보가 일치하지 않는 경우 - 잘못된 정보(testID2의 정보로 로그인하려고 했으나 잘못된 정보(testID1)를 입력한 경우)
+		MemberVO result2 = memberMapper.memberLogin(testInfo1);
+		
+		// 예상결과 - false
+		assertNotEquals(result2.getMemberId(), testInfo2.getMemberId());
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void 회원정보확인_메서드_실패_테스트() throws Exception {
+		memberMapper.deleteAll();
+		
+		// 조건1. 로그인을 위해 회원 등록
+		memberMapper.memberJoin(testInfo1);
+		memberMapper.memberJoin(testInfo2);
+		
+		// 결과1. 회원 정보가 일치하지 않는 경우 - 없는 정보
+		MemberVO result3 = memberMapper.memberLogin(testInfo3);
+		
+		// 예상결과 - NullPointerException
+		assertNotEquals(result3.getMemberId(), testInfo3.getMemberId());
+		
 	}
 }

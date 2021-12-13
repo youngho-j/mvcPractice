@@ -10,7 +10,7 @@ public interface MemberMapper {
 	// 아이디 중복 체크
 	public int idCheck(String memberId) throws Exception;
 	
-	// 로그인
+	// 회원 정보 확인
 	public MemberVO memberLogin(MemberVO memberVO) throws Exception;
 	
 	// 테이블 전체 삭제(테스트용)
