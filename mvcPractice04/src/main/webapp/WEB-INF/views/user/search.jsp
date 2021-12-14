@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Wellcome MyShop</title>
-<link rel="stylesheet" href="/resources/css/search.css">
+<link rel="stylesheet" href="/resources/css/user/search.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
@@ -19,20 +19,20 @@
 <div class="wrapper">
 	<div class="wrap">
 	
-		<%@include file="../views/includes/user/topNavi.jsp" %>
+		<%@include file="../user/includes/topNavi.jsp" %>
 		
 		<div class="top_area">
 			
-			<%@include file="../views/includes/user/logo.jsp" %>
+			<%@include file="../user/includes/logo.jsp" %>
 			
-			<%@include file="../views/includes/user/searchBar.jsp" %>
+			<%@include file="../user/includes/searchBar.jsp" %>
 			
-			<%@include file="../views/includes/user/loginArea.jsp" %>
+			<%@include file="../user/includes/loginArea.jsp" %>
 			
 			<div class="clearfix"></div>
 		</div>
 		
-		<%@include file="../views/includes/user/naviBar.jsp" %>
+		<%@include file="../user/includes/naviBar.jsp" %>
 		
 		<div class="content_area">
 			<c:choose>
@@ -140,7 +140,7 @@
 			</c:choose>
 		</div>
         
-        <%@include file="../views/includes/user/footer.jsp" %>
+        <%@include file="../user/includes/footer.jsp" %>
         
 	</div>
 </div>

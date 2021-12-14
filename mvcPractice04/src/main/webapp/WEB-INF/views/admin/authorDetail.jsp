@@ -19,13 +19,13 @@
 		<div class="wrap">
 			
 			<!-- 최상단 네비, 상단 제목 영역 -->
-			<%@include file="../includes/admin/header.jsp" %>
+			<%@include file="../admin/includes/header.jsp" %>
 			
 			<!-- 콘텐츠 네비 영역 -->
 			<div class="admin_contents_navi_area">
 			
 				<!-- contents 영역 네비 -->
-				<%@include file="../includes/admin/contentsNavi.jsp" %>
+				<%@include file="../admin/includes/contentsNavi.jsp" %>
 				
 				<!-- contents 영역 내용 -->
 				<div class="admin_contents_area">
@@ -114,7 +114,7 @@
 			</form>
 			
 			<!-- 최하단 네비, footer 영역 -->
-			<%@include file="../includes/admin/footer.jsp" %>
+			<%@include file="../admin/includes/footer.jsp" %>
 	        
 		</div>
 	</div>

@@ -42,7 +42,7 @@ public class BookController {
 		model.addAttribute("domestic", bookService.getDomesticCategoryCode());
 		model.addAttribute("international", bookService.getInternationalCategoryCode());
 		
-		return "main";
+		return "/user/main";
 	}
 	
 	// 이미지 호출
@@ -71,7 +71,7 @@ public class BookController {
 	}
 	
 	// 상품 검색
-	@GetMapping("search")
+	@GetMapping("/search")
 	public String SearchGoodsListGET(PageInfo pageInfo, Model model) throws Exception {
 		
 		List<BookVO> goodsList = bookService.getGoodsList(pageInfo);
@@ -79,7 +79,7 @@ public class BookController {
 		// 목록이 없을 경우
 		if(goodsList.isEmpty()) {
 			model.addAttribute("goodsListResult", "empty");
-			return "search";
+			return "/user/search";
 		}
 		
 		// 국내, 외 카테고리 목록
@@ -88,7 +88,7 @@ public class BookController {
 		
 		model.addAttribute("goodsListResult", goodsList);
 		model.addAttribute("pagingManager", new PagingManager(pageInfo, bookService.getGoodsTotal(pageInfo)));
-		return "search";
-
+		
+		return "/user/search";
 	}
 }

@@ -7,5 +7,12 @@
 <!-- spring security 와 관련된 빈 설정을 따로 관리 위해 추가 -->
 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 </bean>
+<!-- 
+<security:http>
+	<security:form-login/>
+</security:http>
 
+spring security 시작 지점
+<security:authentication-manager>
+</security:authentication-manager> -->
 </beans>
