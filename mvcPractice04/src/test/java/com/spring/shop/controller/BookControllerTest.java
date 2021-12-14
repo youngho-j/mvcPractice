@@ -18,7 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/security-context.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/security-context.xml"})
 public class BookControllerTest {
 	
 	@Autowired
@@ -41,11 +41,11 @@ public class BookControllerTest {
 	}
 	
 	@Test
-	public void 상품_검색_정보_리턴_테스트() throws Exception {
-		mock.perform(get("/search"))
+	public void 이미지파일_호출_테스트() throws Exception {
+		mock.perform(get("/display")
+				.param("fileName", "\\2021\\11\\23\\dff7417f-743c-40c0-90ed-8503c385461d_book2.png"))
 		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("goodsList"))		
-		.andExpect(view().name("search"))
+		.andExpect(content().contentType(MediaType.IMAGE_PNG_VALUE))
 		.andDo(print());
 	}
 }
