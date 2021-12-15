@@ -8,9 +8,9 @@
 	
 	<!-- 로그인 X -->
 	<c:if test="${member == null}">
-		<div class="login_btn"><a href="/member/goLogin">로그인</a></div>
+		<div class="login_btn"><a href="/goLogin">로그인</a></div>
 		<span>
-			<a href="/member/join">회원가입</a>
+			<a href="/join">회원가입</a>
 		</span>
 	</c:if>
 				
@@ -20,7 +20,7 @@
 			<span>회원 : ${member.memberName }</span>
 			<span>충전금액 : <fmt:formatNumber value="${member.money }" pattern="#,###.## 원"/></span>
 			<span>포인트 : <fmt:formatNumber value="${member.point }" pattern="#,### 원"/></span>
-			<span><a href="/member/logout">로그아웃</a></span>
+			<span><a href="/logout">로그아웃</a></span>
 		</div>
 	</c:if>
 					

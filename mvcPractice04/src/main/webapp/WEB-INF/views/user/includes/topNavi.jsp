@@ -7,10 +7,10 @@
 	<ul class="list">
 		<c:if test="${member == null}">
 			<li>
-				<a href="/member/goLogin">로그인</a>
+				<a href="/goLogin">로그인</a>
 			</li>
 			<li>
-				<a href="/member/join">회원가입</a>
+				<a href="/join">회원가입</a>
 			</li>
 		</c:if>
 		<c:if test="${member != null}">

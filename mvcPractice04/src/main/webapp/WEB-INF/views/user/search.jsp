@@ -182,7 +182,7 @@
 	$("#top_navi_logout_btn").click(function(){
 		$.ajax({
 			type:"POST",
-			url:"/member/logout",
+			url:"/logout",
 			success:function(data){
 				document.location.reload();
 			}

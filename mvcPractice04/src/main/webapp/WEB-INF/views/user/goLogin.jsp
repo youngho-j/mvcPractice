@@ -11,7 +11,7 @@
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous">
 </script>
-<link rel="stylesheet" href="/resources/css/member/login.css">
+<link rel="stylesheet" href="/resources/css/user/login.css">
 </head>
 <body>
 <div class="wrapper">
@@ -50,7 +50,7 @@
 	/* 로그인 버튼 */
 	$(".login_btn").click(function(){
 		
-		$("#login_form").attr("action", "/member/login");
+		$("#login_form").attr("action", "/login");
         $("#login_form").submit();
 	
 	});

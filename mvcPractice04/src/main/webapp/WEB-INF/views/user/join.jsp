@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>MyShop 회원가입</title>
-<link rel="stylesheet" href="/resources/css/member/join.css">
+<link rel="stylesheet" href="/resources/css/user/join.css">
 <script src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous">
@@ -203,7 +203,7 @@
 			/* 검사 완료 후 실행 */
 			if(idCheck && idDoubleCheck && pwCheck && pwDoubleCheck && 
 					nameCheck && mailCheck && mailAuthCodeCheck && addressCheck) {
-				$("#join_form").attr("action", "/member/join");
+				$("#join_form").attr("action", "/join");
 				$("#join_form").submit();
 			}
 			
@@ -229,7 +229,7 @@
 		
 		$.ajax({
 			type : "POST",
-			url : "/member/memberIdChk",
+			url : "/memberIdChk",
 			data : data,
 			success : function(result) {
 				if(result != 'fail'){
@@ -281,7 +281,7 @@
 		
 		$.ajax({
 	        type:"GET",
-	        url:"mailCheck?email=" + email,
+	        url:"/mailCheck?email=" + email,
 	        success:function(data) {
 	        	authField.attr("disabled", false);
 	        	boxArea.attr("id", "mail_check_input_box_true");

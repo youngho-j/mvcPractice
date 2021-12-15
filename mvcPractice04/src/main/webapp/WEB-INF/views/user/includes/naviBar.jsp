@@ -11,7 +11,7 @@
 		</button>
 		<div class="dropdown_content">
 			<c:forEach items="${domestic}" var="category"> 
-		    	<a href="search?type=C&categoryCode=${category.categoryCode}">${category.categoryName}</a>
+		    	<a href="/search?type=C&categoryCode=${category.categoryCode}">${category.categoryName}</a>
 		    </c:forEach>
 		</div>
 	</div>
@@ -22,7 +22,7 @@
 		</button>
 		<div class="dropdown_content">
 			<c:forEach items="${international}" var="category"> 
-		    	<a href="search?type=C&categoryCode=${category.categoryCode}">${category.categoryName}</a>
+		    	<a href="/search?type=C&categoryCode=${category.categoryCode}">${category.categoryName}</a>
 		    </c:forEach>
 		</div>
 	</div>
