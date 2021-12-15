@@ -22,7 +22,7 @@
 		<!-- logging 관련 -->
 		<jcl-over-slf4j.version>1.7.25</jcl-over-slf4j.version>
 		<slf4j-api.version>1.7.25</slf4j-api.version>
-		<log4j.version>2.9.0</log4j.version>
+		<log4j.version>2.15.0</log4j.version>
 		<log4j-slf4j-impl.version>2.12.1</log4j-slf4j-impl.version>
 		
 		<!-- jdbc 연동 -->
