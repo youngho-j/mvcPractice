@@ -8,20 +8,10 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/spring/root-context.xml
+			/WEB-INF/spring/security-context.xml
 		</param-value>
 	</context-param>
 	
-	<!-- spring security 필터 
-	<filter>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	
-	<filter-mapping>
-		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	-->
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -35,7 +25,6 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
 				/WEB-INF/spring/appServlet/servlet-context.xml
-				/WEB-INF/spring/appServlet/security-context.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
@@ -60,6 +49,7 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	
 	<!-- UTF-8 인코딩 필터 -->
 	<filter> 
 	    <filter-name>encodingFilter</filter-name>
@@ -79,4 +69,14 @@
 	    <url-pattern>/*</url-pattern> 
 	</filter-mapping>
 	
+	<!-- spring security 필터, 배치 위치는 인코딩 필터 뒤로(한글 깨짐현상 발생) -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>

@@ -115,7 +115,12 @@
 	        <artifactId>spring-security-config</artifactId>
 	        <version>${spring.security.version}</version>
 	    </dependency>
-
+	    <!-- JSP에 편리하게 적용을 위해 사용(선택사항) -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
