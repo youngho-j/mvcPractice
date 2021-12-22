@@ -97,6 +97,9 @@
 				<span class="address_input_msg msg"></span>
 			</div>
 			
+			<!-- csrf 토큰 -->
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
+			
 			<div class="join_btn_area">
 				<input type="button" class="join_btn" value="가입하기">
 			</div>
@@ -214,7 +217,7 @@
 		
 	/* 아이디 중복 검사 */
 	$(".id_input").on("propertychange change keyup paste input", function(){
-
+		
 		let memberId = $(".id_input").val();
 		let data = {memberId : memberId}
 		
@@ -226,11 +229,19 @@
 			idInputMsg.css("display","inline-block");
 			return false;
 		}
-		
+		/* 
+			spring security
+			적용하여 데이터 전송 전 헤더에 csrf.token 값 먼저 보낸뒤 보내야함
+			보내지 않을 경우 403 발생
+		*/
 		$.ajax({
 			type : "POST",
 			url : "/memberIdChk",
 			data : data,
+			beforeSend : function(xhr)
+			{
+				xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+			},
 			success : function(result) {
 				if(result != 'fail'){
 					idInputMsg.html("사용가능한 아이디 입니다.");
@@ -302,10 +313,12 @@
 		if(authField == mailAuthCode) {
 			contrastResult.html("인증번호가 일치합니다.");
 			contrastResult.attr("class", "correct");
+			contrastResult.css("display", "inline-block");
 			mailAuthCodeCheck = true;
 		} else {
 			contrastResult.html("인증번호가 일치하지 않습니다.");
 			contrastResult.attr("class", "incorrect");
+			contrastResult.css("display", "inline-block");
 			mailAuthCodeCheck = false;
 		}
 	});
