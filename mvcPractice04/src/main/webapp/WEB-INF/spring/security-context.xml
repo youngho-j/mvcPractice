@@ -6,14 +6,59 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
-<!-- spring security 와 관련된 빈 설정을 따로 관리 위해 추가 -->
+<!-- spring security 와 관련된 빈 설정을 따로 관리 위해 추가, 비밀번호 암호화 -->
 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 </bean>
 
-<s:http>
-	<s:form-login/>
+<s:http use-expressions="true">
+	<!-- 접근 권한 설정 -->
+	<s:intercept-url pattern="/admin/*" access="hasRole('ADMIN')"/>
+	
+	<s:intercept-url pattern="/goLogin" access="isAnonymous()"/>
+	<s:intercept-url pattern="/login" access="isAnonymous()"/>
+	<s:intercept-url pattern="/join" access="isAnonymous()"/>
+	<s:intercept-url pattern="/memberIdChk" access="isAnonymous()"/>
+	<s:intercept-url pattern="/mailCheck" access="isAnonymous()"/>
+	
+	<s:intercept-url pattern="/" access="permitAll"/>
+	<s:intercept-url pattern="/main" access="permitAll"/>
+	<s:intercept-url pattern="/search" access="permitAll"/>
+	
+	
+	<s:form-login 
+		login-page="/goLogin"
+		username-parameter="memberId"
+		password-parameter="memberPw"
+		login-processing-url="/login"
+		always-use-default-target="true"
+		default-target-url="/main"
+		/>
+	
+	<!-- 세선 생성 설정 -->	
+	<s:session-management invalid-session-url="/main">
+		<s:concurrency-control 
+			max-sessions="1" 
+			expired-url="/goLogin"
+			error-if-maximum-exceeded="true"/>
+	</s:session-management>
 </s:http>
 
+<!-- 
+	Referenced bean 'datasource' not found warning 해결
+	서로 다른 context에 있는 bean을 참조시 발생함
+	해결 방법 
+		1) Project 마우스 우클릭 > Properties 클릭
+ 		2) Spring > Bean Support > Config Sets 탭 클릭 > New 클릭 
+ 		   기존에 있던 web-context에서 추가시 적용이 되지 않음
+  		3) 기존 set과 다른 Name 지정 후 서로 자원을 공유하고자 하는 xml 파일 체크 > OK 클릭
+ -->
 <s:authentication-manager>
+	<s:authentication-provider>
+		<s:password-encoder ref="bcryptPasswordEncoder"/>
+		<s:jdbc-user-service 
+			data-source-ref="dataSource"
+			users-by-username-query="SELECT memberId AS userName, memberPw AS password, enabled FROM book_member WHERE memberId = ?"
+			authorities-by-username-query="select memberId AS username, auth as authority FROM book_member WHERE memberId = ?"/>
+	</s:authentication-provider>
 </s:authentication-manager>
 </beans>
