@@ -28,9 +28,6 @@ public class MemberVO {
 		
 	// 회원 상세주소
 	private String memberAddr3;
-		
-	// 관리자 구분(0:일반사용자, 1:관리자)
-	private int adminCk;
 		 
 	// 등록일자
 	private int regDate;
@@ -40,4 +37,10 @@ public class MemberVO {
 		
 	// 회원 포인트
 	private int point;
+	
+	// 인증
+	private String auth;
+	
+	// 계정 활성화
+	private int enabled;
 }
