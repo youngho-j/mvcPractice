@@ -55,7 +55,7 @@
 <s:authentication-manager>
 	<s:authentication-provider>
 		<s:password-encoder ref="bcryptPasswordEncoder"/>
-		<s:jdbc-user-service 
+		<s:jdbc-user-service role-prefix="ROLE_"
 			data-source-ref="dataSource"
 			users-by-username-query="SELECT memberId AS userName, memberPw AS password, enabled FROM book_member WHERE memberId = ?"
 			authorities-by-username-query="select memberId AS username, auth as authority FROM book_member WHERE memberId = ?"/>

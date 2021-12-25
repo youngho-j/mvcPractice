@@ -39,6 +39,8 @@
 					<div class="login_msg">ID 또는 비밀번호를 잘못 입력하셨습니다.</div>
 				</c:if>
 				
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
+				
 				<div class="login_btn_area">
 					<input type="button" class="login_btn" value="로그인">
 				</div>			
