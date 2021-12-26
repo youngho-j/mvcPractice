@@ -41,17 +41,6 @@
         
 	</div>
 </div>
-<script type="text/javascript">
-<!-- top_Navi 로그아웃 -->
-$("#top_navi_logout_btn").click(function(){
-	$.ajax({
-		type:"POST",
-		url:"/logout",
-		success:function(data){
-			document.location.reload();
-		}
-	});
-});
-</script>
+
 </body>
 </html>

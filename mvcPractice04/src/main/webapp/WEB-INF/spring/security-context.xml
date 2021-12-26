@@ -24,7 +24,7 @@
 	<s:intercept-url pattern="/main" access="permitAll"/>
 	<s:intercept-url pattern="/search" access="permitAll"/>
 	
-	
+	<!-- 로그인 설정 -->
 	<s:form-login 
 		login-page="/goLogin"
 		username-parameter="memberId"
@@ -32,14 +32,23 @@
 		login-processing-url="/login"
 		always-use-default-target="true"
 		default-target-url="/main"
-		/>
+	/>
+	
+	<!-- 로그아웃 설정 -->
+	<s:logout
+		logout-url="/logout"
+		logout-success-url="/main"
+		invalidate-session="true"
+		delete-cookies="JSESSIONID"
+	/>
 	
 	<!-- 세선 생성 설정 -->	
-	<s:session-management invalid-session-url="/main">
+	<s:session-management>
 		<s:concurrency-control 
 			max-sessions="1" 
 			expired-url="/goLogin"
-			error-if-maximum-exceeded="true"/>
+			error-if-maximum-exceeded="true"
+		/>
 	</s:session-management>
 </s:http>
 

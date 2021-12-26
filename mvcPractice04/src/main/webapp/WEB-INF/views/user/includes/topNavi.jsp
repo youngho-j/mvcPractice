@@ -14,6 +14,11 @@
 				<a href="/join">회원가입</a>
 			</li>
 		</s:authorize>
+		<s:authorize access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')">
+			<li>
+				<a href="#" onclick="document.getElementById('logout-form').submit();">로그아웃</a>
+			</li>
+		</s:authorize>
 		<s:authorize access="hasRole('ROLE_ADMIN')">
 			<li>
 				<a href="/admin/main">관리자 페이지</a>
@@ -21,17 +26,17 @@
 		</s:authorize>	
 		<s:authorize access="hasRole('ROLE_MEMBER')">
 			<li>
-				<a id="top_navi_logout_btn">로그아웃</a>
+				<a href="#">마이룸</a>
 			</li>
 			<li>
-				<a href="">마이룸</a>
-			</li>
-			<li>
-				<a href="">장바구니</a>
+				<a href="#">장바구니</a>
 			</li>
 		</s:authorize>
 		<li>
-			<a href="">고객센터</a>
+			<a href="#">고객센터</a>
 		</li>
 	</ul>
+	<form id="logout-form" action="/logout" method="POST">
+		<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+	</form>
 </div>

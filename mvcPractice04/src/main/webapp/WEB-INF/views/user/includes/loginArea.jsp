@@ -20,7 +20,10 @@
 			<span>회원 : ${member.memberName }</span>
 			<span>충전금액 : <fmt:formatNumber value="${member.money }" pattern="#,###.## 원"/></span>
 			<span>포인트 : <fmt:formatNumber value="${member.point }" pattern="#,### 원"/></span>
-			<span><a href="/logout">로그아웃</a></span>
+			<span><a href="#" onclick="document.getElementById('logout-form').submit();">로그아웃</a></span>
+			<form id="logout-form" action="/logout" method="POST">
+   				<input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+			</form>
 		</div>
 	</s:authorize>					
 </div>
