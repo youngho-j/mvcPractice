@@ -10,6 +10,9 @@
 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 </bean>
 
+<bean id="userService" class="com.spring.shop.service.CustomUserDetailsService">
+</bean>
+
 <s:http use-expressions="true">
 	<!-- 접근 권한 설정 -->
 	<s:intercept-url pattern="/admin/*" access="hasRole('ADMIN')"/>
@@ -62,12 +65,8 @@
   		3) 기존 set과 다른 Name 지정 후 서로 자원을 공유하고자 하는 xml 파일 체크 > OK 클릭
  -->
 <s:authentication-manager>
-	<s:authentication-provider>
-		<s:password-encoder ref="bcryptPasswordEncoder"/>
-		<s:jdbc-user-service role-prefix="ROLE_"
-			data-source-ref="dataSource"
-			users-by-username-query="SELECT memberId AS userName, memberPw AS password, enabled FROM book_member WHERE memberId = ?"
-			authorities-by-username-query="select memberId AS username, auth as authority FROM book_member WHERE memberId = ?"/>
+	<s:authentication-provider user-service-ref="userService">
+		<s:password-encoder hash="bcrypt" ref="bcryptPasswordEncoder"/>
 	</s:authentication-provider>
 </s:authentication-manager>
 </beans>
