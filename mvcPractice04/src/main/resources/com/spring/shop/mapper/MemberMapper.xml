@@ -15,8 +15,8 @@
  	</insert> 
  	
  	<!-- 아이디 중복 체크 -->
- 	<select id="idCheck" resultType="int">
- 		select count(*) 
+ 	<select id="idCheck" resultType="boolean">
+ 		select IF(count(*) = 1, 1, 0) 
  		from book_member
  		where memberId = #{memberId}
  	</select>

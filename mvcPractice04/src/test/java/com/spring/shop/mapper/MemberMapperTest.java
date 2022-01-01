@@ -104,48 +104,11 @@ public class MemberMapperTest {
 		// 조건1. 아이디 검색을 위해 회원 등록
 		memberMapper.memberJoin(testInfo1);
 		
-		// 결과1. 회원 정보가 존재하는 경우, 예상결과 1
-		assertThat(1,  is(memberMapper.idCheck(testInfo1.getMemberId())));
+		// 결과1. 회원 정보가 존재하는 경우
+		assertTrue(memberMapper.idCheck(testInfo1.getMemberId()));
 		
-		// 결과2. 회원 정보가 존재하지 않는 경우, 예상결과 0
-		assertThat(0,  is(memberMapper.idCheck(testInfo2.getMemberId())));
-		
-	}
-	
-	@Test
-	public void 회원정보확인_메서드_테스트() throws Exception {
-		memberMapper.deleteAll();
-		
-		// 조건1. 로그인을 위해 회원 등록
-		memberMapper.memberJoin(testInfo1);
-		memberMapper.memberJoin(testInfo2);
-		
-		// 결과1. 회원 정보가 일치하는 경우
-		MemberVO result1 = memberMapper.memberLogin(testInfo1);
-		
-		// 예상결과 - true
-		assertEquals(result1.getMemberId(), testInfo1.getMemberId());
-		
-		// 결과2. 회원 정보가 일치하지 않는 경우 - 잘못된 정보(testID2의 정보로 로그인하려고 했으나 잘못된 정보(testID1)를 입력한 경우)
-		MemberVO result2 = memberMapper.memberLogin(testInfo1);
-		
-		// 예상결과 - false
-		assertNotEquals(result2.getMemberId(), testInfo2.getMemberId());
-	}
-	
-	@Test(expected = NullPointerException.class)
-	public void 회원정보확인_메서드_실패_테스트() throws Exception {
-		memberMapper.deleteAll();
-		
-		// 조건1. 로그인을 위해 회원 등록
-		memberMapper.memberJoin(testInfo1);
-		memberMapper.memberJoin(testInfo2);
-		
-		// 결과1. 회원 정보가 일치하지 않는 경우 - 없는 정보
-		MemberVO result3 = memberMapper.memberLogin(testInfo3);
-		
-		// 예상결과 - NullPointerException
-		assertNotEquals(result3.getMemberId(), testInfo3.getMemberId());
+		// 결과2. 회원 정보가 존재하지 않는 경우
+		assertFalse(memberMapper.idCheck(testInfo2.getMemberId()));
 		
 	}
 }
