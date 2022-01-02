@@ -2,66 +2,71 @@ package com.spring.shop.service;
 
 import static org.junit.Assert.*;
 
-import java.util.Objects;
+import org.junit.Before;
 
 import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.spring.shop.util.EncodePassword;
 import com.spring.shop.vo.MemberVO;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/security-context.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class MemberServiceTest {
 
 	@Autowired
 	private MemberService memberService;
 	
+	private MemberVO testInfo1;
+	
+	private EncodePassword passwordEncoder;
+	
+	@Before
+	public void setUp() {
+		passwordEncoder = new EncodePassword(new BCryptPasswordEncoder());
+		
+		testInfo1 = new MemberVO();
+		
+		testInfo1.setMemberId("test1");
+		testInfo1.setMemberPw("1q2w3e4r");
+		testInfo1.setMemberName("test");		
+		testInfo1.setMemberMail("test");		
+		testInfo1.setMemberAddr1("test");	
+		testInfo1.setMemberAddr2("test");	
+		testInfo1.setMemberAddr3("test");
+	}
+	
 	@Test
 	public void 회원등록_테스트() throws Exception {
-		MemberVO memberVO = new MemberVO();
 		
-		memberVO.setMemberId("test1");
-		memberVO.setMemberPw("1q2w3e4r");
-		memberVO.setMemberName("test");		
-		memberVO.setMemberMail("test");		
-		memberVO.setMemberAddr1("test");	
-		memberVO.setMemberAddr2("test");	
-		memberVO.setMemberAddr3("test");
+		memberService.deleteAll();
 		
-		log.info(memberVO.toString());
+		assertThat(memberService.getCount(), is(0));
 		
-		assertThat(1, is(memberService.memberJoin(memberVO)));
+		String encoding = passwordEncoder.EncodingPassword(testInfo1.getMemberPw());
+		
+		assertTrue(passwordEncoder.comparePassword(testInfo1.getMemberPw(), encoding));
+		
+		assertThat(1, is(memberService.memberJoin(testInfo1)));
+		
 	}
 	
 	@Test
 	public void 아이디중복체크_테스트() throws Exception {
-		assertThat(0, is(memberService.idCheck("test232")));
-	}
-	
-	@Test
-	public void 로그인_테스트() throws Exception {
-		MemberVO memberVO = new MemberVO();
 		
-		memberVO.setMemberId("test");
-		memberVO.setMemberPw("test");
+		memberService.deleteAll();
 		
-		MemberVO memberInfo = memberService.memberLogin(memberVO);
+		assertThat(memberService.getCount(), is(0));
 		
-		if(Objects.isNull(memberInfo)) {
-			log.info("로그인 실패 확인");
-		} else {
-			log.info("로그인 성공 확인");			
-		}
+		memberService.memberJoin(testInfo1);
 		
-		assertNull(memberInfo);
-		
+		assertFalse(memberService.idCheck("test232"));
+		assertTrue(memberService.idCheck(testInfo1.getMemberId()));
 	}
 }

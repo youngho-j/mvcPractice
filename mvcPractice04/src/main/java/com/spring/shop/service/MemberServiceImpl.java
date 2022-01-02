@@ -37,27 +37,19 @@ public class MemberServiceImpl implements MemberService{
 	
 	// 회원가입시 아이디 중복 체크
 	@Override
-	public int idCheck(String string) throws Exception {
+	public boolean idCheck(String string) throws Exception {
 		return memberMapper.idCheck(string);
 	}
 
-	// 로그인
 	@Override
-	public MemberVO memberLogin(MemberVO memberVO) throws Exception {
-		passwordEncoder = new EncodePassword(new BCryptPasswordEncoder());
-		
-		MemberVO memberInfo = memberMapper.memberLogin(memberVO);
-		
-		if(memberInfo != null) {
-			String inputPassword = memberVO.getMemberPw();
-			String encodingPassword = memberInfo.getMemberPw();
-
-			if(passwordEncoder.comparePassword(inputPassword, encodingPassword)) {
-				log.info("비밀번호 일치 확인");
-				return memberInfo;
-			}
-		}
-		return null;
+	public void deleteAll() throws Exception {
+		memberMapper.deleteAll();
 	}
+
+	@Override
+	public int getCount() throws Exception {
+		return memberMapper.getCount();
+	}
+	
 	
 }

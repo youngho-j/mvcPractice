@@ -8,9 +8,11 @@ public interface MemberService {
 	public int memberJoin(MemberVO memberVO) throws Exception;
 	
 	// 아이디 중복 체크
-	public int idCheck(String string) throws Exception;
+	public boolean idCheck(String string) throws Exception;
 	
-	// 로그인
-	public MemberVO memberLogin(MemberVO memberVO) throws Exception;
+	// 테이블 내 정보 삭제(테스트 용)
+	public void deleteAll() throws Exception;
 	
+	// 테이블 내 정보 삭제 검증(테스트 용)
+	public int getCount() throws Exception;
 }
