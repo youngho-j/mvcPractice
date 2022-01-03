@@ -3,12 +3,16 @@ package com.spring.shop.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -18,7 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/security-context.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class UserControllerTest {
 	
 	@Autowired
@@ -28,20 +32,25 @@ public class UserControllerTest {
 	
 	@Before
 	public void setUp() {
-		this.mock = MockMvcBuilders.webAppContextSetup(wac).build();
+		this.mock = MockMvcBuilders
+				.webAppContextSetup(wac)
+				.apply(SecurityMockMvcConfigurers.springSecurity())
+				.build();
 	}
 	
 	@Test
+	@WithMockUser(username = "testUser", roles = {"MEMBER"})
 	public void 메인페이지_호출_테스트() throws Exception {
 		mock.perform(get("/main"))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("domestic"))
 		.andExpect(model().attributeExists("international"))
-		.andExpect(view().name("/user/main"))
+		.andExpect(view().name("user/main"))
 		.andDo(print());
 	}
 	
 	@Test
+	@WithAnonymousUser
 	public void 로그인페이지_호출_테스트() throws Exception {
 		mock.perform(get("/goLogin"))
 		.andExpect(status().isOk())
@@ -50,6 +59,7 @@ public class UserControllerTest {
 	}
 	
 	@Test
+	@WithAnonymousUser
 	public void 회원가입페이지_호출_테스트() throws Exception {
 		mock.perform(get("/join"))
 		.andExpect(status().isOk())
@@ -58,9 +68,10 @@ public class UserControllerTest {
 	}
 	
 	@Test
+	@WithAnonymousUser
 	public void 회원가입후_메인페이지_호출() throws Exception {
-		mock.perform(post("/join")
-				.param("memberId", "test6")
+		mock.perform(post("/join").with(csrf())
+				.param("memberId", "test7")
 				.param("memberPw", "test5")
 				.param("memberName", "test5")
 				.param("memberMail", "test5")
@@ -69,16 +80,17 @@ public class UserControllerTest {
 				.param("memberAddr3", "test5")
 				)
 		.andExpect(status().is3xxRedirection())
-		.andExpect(redirectedUrl("user/main"))
+		.andExpect(redirectedUrl("/main"))
 		.andDo(print());
 	}
 	
 	@Test
+	@WithAnonymousUser
 	public void 회원가입시_아이디중복체크_테스트() throws Exception {
 		mock.perform(post("/memberIdChk")
-				.param("memberId", "test6"))
+				.param("memberId", "test6").with(csrf()))
 		.andExpect(status().isOk())
-		.andExpect(content().string("fail"))
+		.andExpect(content().string("success"))
 		.andDo(print());
 	}
 	
@@ -91,28 +103,21 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void 로그인_테스트() throws Exception {
+	@WithMockUser(username = "testUser", password = "password",roles = {"MEMBER"})
+	public void 로그인_실패_테스트() throws Exception {
 		mock.perform(post("/login")
-				.param("memberId", "admin")
-				.param("memberPw", "test"))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(redirectedUrl("/goLogin"))
+				.with(csrf()))
+		.andExpect(status().isOk())
+		.andExpect(forwardedUrl("/"))
 		.andDo(print());
 	}
 	
 	@Test
-	public void GET방식_로그아웃_테스트() throws Exception {
-		mock.perform(get("/logout"))
+	public void 로그아웃_테스트() throws Exception {
+		mock.perform(post("/logout")
+				.with(csrf()))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/main"))
-		.andDo(print());
-	}
-	
-	@Test
-	public void 비동기_로그아웃_테스트() throws Exception {
-		mock.perform(post("/logout"))
-		.andExpect(status().isOk())
-		.andExpect(request().sessionAttributeDoesNotExist("member"))
 		.andDo(print());
 	}
 	

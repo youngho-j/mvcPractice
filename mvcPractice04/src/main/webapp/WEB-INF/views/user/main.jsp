@@ -37,7 +37,7 @@
 			<h1>content area</h1>
 		</div>
         
-		<%@include file="../user/includes//footer.jsp" %>
+		<%@include file="../user/includes/footer.jsp" %>
         
 	</div>
 </div>
