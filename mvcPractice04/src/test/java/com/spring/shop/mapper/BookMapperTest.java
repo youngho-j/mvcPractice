@@ -16,9 +16,6 @@ import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.CategoryVO;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/test-root-context.xml")
 public class BookMapperTest {
@@ -54,10 +51,7 @@ public class BookMapperTest {
 		PageInfo info = new PageInfo(1, 10);
 		info.setType("T");
 		info.setKeyword("한");
-		
 		int result = bookMapper.getGoodsTotal(info);
-		
-		log.info("검색된 책 개수 : " + result);
 		
 		assertTrue(result > 0);
 	}
@@ -65,12 +59,14 @@ public class BookMapperTest {
 	@Test
 	public void 작가목록에_존재하지_않는_작가_아이디_목록_리턴_테스트() throws Exception {
 		List<String> list = bookMapper.getAuthorIdList("1 or 1=1");
+		
 		assertThat(0, is(list.size()));
 	}
 	
 	@Test
 	public void 작가목록에_존재하는_작가_아이디_목록_리턴_테스트() throws Exception {
 		List<String> list = bookMapper.getAuthorIdList("식");
+		
 		assertThat(2, is(list.size()));
 	}
 	
