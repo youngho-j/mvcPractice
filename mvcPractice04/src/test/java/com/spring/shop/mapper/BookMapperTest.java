@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@ContextConfiguration("file:src/main/webapp/WEB-INF/spring/test-root-context.xml")
 public class BookMapperTest {
 	
 	@Autowired
@@ -34,8 +34,6 @@ public class BookMapperTest {
 		
 		List<BookVO> list = bookMapper.getGoodsList(info);
 		
-		log.info(list.toString());
-		
 		assertThat(2, is(list.size()));
 	}
 	
@@ -48,13 +46,11 @@ public class BookMapperTest {
 		
 		List<BookVO> list = bookMapper.getGoodsList(info);
 		
-		log.info(list.toString());
-		
 		assertThat(0, is(list.size()));
 	}
 	
 	@Test
-	public void 상품_전체_갯수_리턴_테스트() throws Exception {
+	public void 제목검색_상품_전체_갯수_리턴_테스트() throws Exception {
 		PageInfo info = new PageInfo(1, 10);
 		info.setType("T");
 		info.setKeyword("한");
@@ -67,28 +63,29 @@ public class BookMapperTest {
 	}
 	
 	@Test
-	public void 작가_아이디_목록_리턴_테스트() throws Exception {
-		List<String> list = bookMapper.getAuthorIdList("천");
-		
+	public void 작가목록에_존재하지_않는_작가_아이디_목록_리턴_테스트() throws Exception {
+		List<String> list = bookMapper.getAuthorIdList("1 or 1=1");
 		assertThat(0, is(list.size()));
+	}
+	
+	@Test
+	public void 작가목록에_존재하는_작가_아이디_목록_리턴_테스트() throws Exception {
+		List<String> list = bookMapper.getAuthorIdList("식");
+		assertThat(2, is(list.size()));
 	}
 	
 	@Test
 	public void 국내_카테고리_목록_리턴_테스트() throws Exception {
 		List<CategoryVO> list = bookMapper.getDomesticCategoryCode();
 		
-		log.info("카테고리 목록 : " + list.toString());
-		
-		assertTrue(!list.isEmpty());
+		assertFalse(list.isEmpty());
 	}
 	
 	@Test
 	public void 국외_카테고리_목록_리턴_테스트() throws Exception {
 		List<CategoryVO> list = bookMapper.getInternationalCategoryCode();
 		
-		log.info("카테고리 목록 : " + list.toString());
-		
-		assertTrue(!list.isEmpty());
+		assertFalse(list.isEmpty());
 	}
 	
 }
