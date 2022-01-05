@@ -6,22 +6,22 @@
  	
  	<!-- 검색 조건 적용 공통 쿼리 -->
  	<sql id="searchCondition">
- 		<trim prefix="where (" prefixOverrides="AND" suffix=")">
+ 		<trim prefix="where (" prefixOverrides="or" suffix=")">
  			<foreach collection="typeArr" item="type">
- 				<trim prefix="AND">
+ 				<trim prefix="or">
 	 				<choose>
 						<when test="type == 'A'.toString">
-							<trim prefixOverrides="OR">
+							<trim prefixOverrides="or">
 							<choose>
 								<when test="authorIdList != null and authorIdList.size != 0">
 									<foreach collection="authorIdList" item="authorId">
-										<trim prefix="OR">
+										<trim prefix="or">
 											bl.authorId = #{authorId}
 										</trim>
 									</foreach>
 								</when>
 								<otherwise>
-									bl.authorId = ''
+									nullif(bl.authorId, '') is null
 								</otherwise>
 							</choose>
 							</trim>
