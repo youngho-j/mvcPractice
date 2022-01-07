@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.shop.service.BookService;
+import com.spring.shop.service.CategoryService;
 import com.spring.shop.service.MemberService;
 import com.spring.shop.util.MailManager;
 import com.spring.shop.util.PageInfo;
@@ -29,17 +30,25 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class UserController {
 	
-	@Autowired
 	private BookService bookService;
 	
-	@Autowired
+	private CategoryService categoryService;
+	
 	private MemberService memberService;
 	
-	@Autowired
+	// 메일관련 다시 만들기
 	private JavaMailSender mailSender;
 	
 	private MailManager mailManager;
 	
+	// 불필요한 코드 이관 필요
+	@Autowired
+	public UserController(BookService bookService, CategoryService categoryService, MemberService memberService) {
+		this.bookService = bookService;
+		this.categoryService = categoryService;
+		this.memberService = memberService;
+	}
+
 	// 메인 페이지 이동
 	@GetMapping({"/main", "/"})
 	public String mainPageGET(Model model, Authentication authentication) throws Exception {
@@ -53,8 +62,8 @@ public class UserController {
 		}
 		
 		// 국내, 외 카테고리 목록
-		model.addAttribute("domestic", bookService.getDomesticCategoryCode());
-		model.addAttribute("international", bookService.getInternationalCategoryCode());
+		model.addAttribute("domestic", categoryService.getDomesticCategoryCode());
+		model.addAttribute("international", categoryService.getInternationalCategoryCode());
 			
 		return "user/main";
 	}
@@ -140,8 +149,8 @@ public class UserController {
 		}
 		
 		// 국내, 외 카테고리 목록
-		model.addAttribute("domestic", bookService.getDomesticCategoryCode());
-		model.addAttribute("international", bookService.getInternationalCategoryCode());
+		model.addAttribute("domestic", categoryService.getDomesticCategoryCode());
+		model.addAttribute("international", categoryService.getInternationalCategoryCode());
 		
 		model.addAttribute("goodsListResult", goodsList);
 		model.addAttribute("pagingManager", new PagingManager(pageInfo, bookService.getGoodsTotal(pageInfo)));
