@@ -53,4 +53,23 @@
  		select count(*) from book_list
  		where authorId = #{authorId}
  	</select>
+ 	
+ 	 <!-- 테이블 전체 삭제(테스트용) -->
+ 	<delete id="deleteAll">
+ 		delete from book_author
+ 	</delete>
+ 	
+ 	<!-- 테이블 전체 삭제 검증(테스트용) -->
+ 	<select id="getCount" resultType="int">
+ 		select count(*) 
+ 		from book_author
+ 	</select>
+ 	
+ 	<!-- 테이블 전체 삭제 검증(테스트용) -->
+ 	<select id="getLastPK" resultType="int">
+ 		select authorId 
+ 		from book_author
+ 		order by authorId desc 
+ 		limit 1
+ 	</select>
  </mapper>
