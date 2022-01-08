@@ -104,6 +104,9 @@
 	                    	<button id="modifyBtn" class="btn modify_btn">상품 수정</button>
 	                    	<button id="deleteBtn" class="btn delete_btn">상품 삭제</button>
 	                    </div>
+	                    
+	                    <!-- csrf 토큰 -->
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	                    </form>
                 	</div>
                 </div>

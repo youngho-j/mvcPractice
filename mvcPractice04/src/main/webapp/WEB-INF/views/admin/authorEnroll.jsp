@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>관리자 페이지</title>
 <link rel="stylesheet" href="../resources/css/admin/authorEnroll.css">
 <script
@@ -70,7 +70,13 @@
                     				<span id="authorProfile_msg"></span>
                     			</div>
                     		</div>
+                    		
+                    		<!-- csrf 토큰 -->
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
+			
                     	</form>
+                    	
+                    	
                     	<!-- 등록 버튼 -->
                     	<div class="btn_section">
                    				<button id="cancelBtn" class="btn">취 소</button>
