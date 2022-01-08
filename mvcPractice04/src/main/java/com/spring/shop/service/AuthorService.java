@@ -24,4 +24,13 @@ public interface AuthorService {
 	
 	// 작가 정보 삭제
 	public int authorDelete(int authorId) throws Exception;
+	
+	// 테이블 전체 삭제(테스트용)
+	public void deleteAll();
+		
+	// 테이블 전체 삭제 검증(테스트용)
+	public int getCount();
+		
+	// 마지막으로 등록한 작가 정보(테스트용)
+	public int getLastPK();
 }
