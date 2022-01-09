@@ -106,7 +106,7 @@
 	                    </div>
 	                    
 	                    <!-- csrf 토큰 -->
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	                    </form>
                 	</div>
                 </div>
@@ -184,6 +184,7 @@ $("#deleteBtn").on("click", function(e) {
 	moveForm.find("input").remove();
 	
 	moveForm.append('<input type="hidden" name="authorId" value="${authorInfo.authorId}">');
+	moveForm.append('<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>');
 	
 	moveForm.attr("action", "/admin/authorDelete");
 	moveForm.attr("method", "post");

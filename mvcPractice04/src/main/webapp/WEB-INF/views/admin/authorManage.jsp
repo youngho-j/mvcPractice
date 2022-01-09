@@ -158,9 +158,11 @@ function checkModifyResult(modifyResult) {
 }
 
 function checkDeleteResult(deleteResult) {
-	if(deleteResult == 1){
-		alert("작가 정보 삭제 완료!");
-	} else if(deleteResult == 2){
+	if(deleteResult == 0) {
+		alert("작가 정보가 존재하지 않습니다.");
+	} else if(deleteResult == 1) {
+		alert("작가 정보 삭제 완료!");	
+	} else if(deleteResult == 2) {
 		alert("해당 작가의 이름으로 등록된 책이 존재하므로 정보를 삭제할 수 없습니다.");
 	}	
 }
