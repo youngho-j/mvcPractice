@@ -1,12 +1,10 @@
 package com.spring.shop.service;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.shop.mapper.AuthorMapper;
-import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.AuthorVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,18 +24,6 @@ public class AuthorServiceImpl implements AuthorService{
 	public int authorEnroll(AuthorVO authorVO) throws Exception {
 		log.info("작가 정보 등록");
 		return authorMapper.authorEnroll(authorVO);
-	}
-
-	@Override
-	public List<AuthorVO> authorGetList(PageInfo paging) throws Exception {
-		log.info("작가 목록");
-		return authorMapper.authorGetList(paging);
-	}
-
-	@Override
-	public int authorGetTotal(PageInfo paging) throws Exception {
-		log.info("등록된 작가 수");
-		return authorMapper.authorGetTotal(paging);
 	}
 
 	@Override
