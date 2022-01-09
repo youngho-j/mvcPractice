@@ -10,25 +10,6 @@
  		values(#{authorName},#{nationId},#{authorProfile})
  	</insert>
  	
- 	<!-- 작가 목록 -->
- 	<select id="authorGetList" resultType="com.spring.shop.vo.AuthorVO" parameterType="com.spring.shop.util.PageInfo">
- 		select  authorId, authorName, nationId, regDate, updateDate
-        from book_author 
-        <if test="keyword != null">
-            where authorName like concat('%',#{keyword}, '%')
-        </if>
-        order by authorId desc 
-        limit #{skip}, #{viewPerPage}
- 	</select>
- 	
- 	<!-- 등록된 작가 수 -->
- 	<select id="authorGetTotal" resultType="int">
- 		select count(*) from book_author
- 		<if test="keyword != null">
- 			where authorName like concat('%',#{keyword}, '%')
- 		</if>
- 	</select>
- 	
  	<!-- 작가 상세 정보 -->
  	<select id="authorGetDetail" resultType="com.spring.shop.vo.AuthorVO">
  		select * 
@@ -54,7 +35,7 @@
  		where authorId = #{authorId}
  	</select>
  	
- 	 <!-- 테이블 전체 삭제(테스트용) -->
+ 	<!-- 테이블 전체 삭제(테스트용) -->
  	<delete id="deleteAll">
  		delete from book_author
  	</delete>
@@ -65,7 +46,7 @@
  		from book_author
  	</select>
  	
- 	<!-- 테이블 전체 삭제 검증(테스트용) -->
+ 	<!-- 마지막으로 등록한 작가 정보(테스트용) -->
  	<select id="getLastPK" resultType="int">
  		select authorId 
  		from book_author

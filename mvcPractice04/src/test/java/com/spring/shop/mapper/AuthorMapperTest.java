@@ -3,8 +3,6 @@ package com.spring.shop.mapper;
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.*;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +11,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.AuthorVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -82,41 +79,6 @@ public class AuthorMapperTest {
 		authorMapper.authorEnroll(author3);
 	}
 
-	@Test
-	public void 작가목록_출력_메서드_테스트() throws Exception {
-		PageInfo paging = new PageInfo(1, 10);
-		
-		authorMapper.deleteAll();
-		
-		assertThat(authorMapper.getCount(), is(0));
-		
-		authorMapper.authorEnroll(author1);
-		authorMapper.authorEnroll(author2);
-		
-		assertThat(authorMapper.getCount(), is(2));
-		
-		List<AuthorVO> list = authorMapper.authorGetList(paging);		
-		
-		assertFalse(list.isEmpty());
-		assertThat(list.size(), is(2));
-	}
-	
-	@Test
-	public void 등록된_작가수_카운팅_메서드_테스트() throws Exception {
-		PageInfo paging = new PageInfo();
-		
-		authorMapper.deleteAll();
-		
-		assertThat(authorMapper.getCount(), is(0));
-		
-		authorMapper.authorEnroll(author1);
-		authorMapper.authorEnroll(author2);
-		
-		int total = authorMapper.authorGetTotal(paging);
-		
-		assertThat(total, is(2));;
-	}
-	
 	@Test
 	public void 작가_상세_정보_메서드_테스트() throws Exception {
 		authorMapper.deleteAll();
