@@ -47,16 +47,6 @@ public class AuthorControllerTest {
 		.andDo(print());
 	}
 	
-	@Test
-	public void 관리자_작가관리_페이지_호출_테스트() throws Exception {
-		mock.perform(get("/admin/authorManage"))
-		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("list"))
-		.andExpect(model().attributeExists("pagingManager"))
-		.andExpect(view().name("admin/authorManage"))
-		.andDo(print());
-	}
-	
 	@Test(expected = NestedServletException.class)
 	public void 작가_등록시_작가이름초과_예외_테스트() throws Exception {
 		mock.perform(post("/admin/authorEnroll").with(csrf())
@@ -118,16 +108,6 @@ public class AuthorControllerTest {
 		.andExpect(status().is3xxRedirection())
 		.andExpect(flash().attributeExists("deleteResult"))
 		.andExpect(redirectedUrl("/admin/authorManage"))
-		.andDo(print());
-	}
-	
-	@Test
-	public void 작가목록_팝업창_호출_테스트() throws Exception {
-		// 상품 등록 페이지에서 실행됨
-		mock.perform(get("/admin/authorSearch"))
-		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("list"))
-		.andExpect(view().name("admin/authorSearch"))
 		.andDo(print());
 	}
 }
