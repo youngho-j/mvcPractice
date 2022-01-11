@@ -1,25 +1,27 @@
 package com.spring.shop.mapper;
 
-import java.util.List;
-
-import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
-import com.spring.shop.vo.CategoryVO;
 
 public interface BookMapper {
 	
-	// 상품 목록
-	public List<BookVO> getGoodsList(PageInfo pageInfo);
+	// 상품 등록
+	public int bookEnroll(BookVO bookVO) throws Exception;
+		
+	// 상품 상세 조회
+	public BookVO goodsDetail(int bookId) throws Exception;
+		
+	// 상품 정보 수정
+	public int goodsModify(BookVO bookVO) throws Exception;
+		
+	// 상품 정보 삭제 (실행 순서 - 이미지 정보 조회 -> 이미지 정보 삭제 -> 상품 정보 삭제)
+	public int goodsDelete(int bookId) throws Exception;
 	
-	// 상품 전체 갯수
-	public int getGoodsTotal(PageInfo pageInfo);
+	// 테이블 전체 삭제(테스트용)
+	public void deleteAll();
+		
+	// 테이블 전체 삭제 검증(테스트용)
+	public int getCount();
 	
-	// 작가 id 목록
-	public List<String> getAuthorIdList(String keyword);
-	
-	// 국내 카테고리 목록
-	public List<CategoryVO> getDomesticCategoryCode() throws Exception;
-	
-	// 국외 카테고리 목록
-	public List<CategoryVO> getInternationalCategoryCode() throws Exception;
+	// 마지막으로 등록한 상품 정보(테스트용)
+	public int getLastPK();
 }

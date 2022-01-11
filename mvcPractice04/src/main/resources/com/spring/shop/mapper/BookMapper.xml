@@ -3,90 +3,60 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.shop.mapper.BookMapper">
- 	
- 	<!-- 검색 조건 적용 공통 쿼리 -->
- 	<sql id="searchCondition">
- 		<trim prefix="where (" prefixOverrides="or" suffix=")">
- 			<foreach collection="typeArr" item="type">
- 				<trim prefix="or">
-	 				<choose>
-						<when test="type == 'A'.toString">
-							<trim prefixOverrides="or">
-							<choose>
-								<when test="authorIdList != null and authorIdList.size != 0">
-									<foreach collection="authorIdList" item="authorId">
-										<trim prefix="or">
-											bl.authorId = #{authorId}
-										</trim>
-									</foreach>
-								</when>
-								<otherwise>
-									nullif(bl.authorId, '') is null
-								</otherwise>
-							</choose>
-							</trim>
-						</when>
-						<when test="type == 'T'.toString">
-							bookName like concat ('%', #{keyword}, '%')
-						</when>
-						<when test="type == 'C'.toString">
-							bl.categoryCode like concat ('%', #{categoryCode}, '%')
-						</when>
-	 				</choose>
- 				</trim>
- 			</foreach>
- 		</trim>
- 	</sql>
- 	
- 	<!-- 상품 목록 -->
- 	<select id="getGoodsList" resultType="com.spring.shop.vo.BookVO">
-        select 
-        	bookId, bookName, ba.authorName, bl.authorId, bc.categoryName, bl.categoryCode, publisher, publicationDate, bookPrice, bookDiscount 
- 		from 
- 			book_list bl 
-	 			left outer join book_author ba 
-	 				on bl.authorId = ba.authorId
-	 			left outer join book_category bc 
-	 				on bl.categoryCode = bc.categoryCode
+ <!-- 상품 등록 [등록 후 해당 bookId 값 가져옴]-->
+<insert id="bookEnroll" parameterType="com.spring.shop.vo.BookVO">
+	
+	<selectKey resultType="int" keyProperty="bookId" order="AFTER">
+		select last_insert_id()
+	</selectKey>
 		
-		<include refid="searchCondition"/>        
-        
-        order by authorId desc 
-        limit #{skip}, #{viewPerPage}
- 	</select>
+	insert into book_list(bookName, authorId, publicationDate, publisher, categoryCode, bookPrice, bookStock, bookDiscount, bookIntro, bookContents)
+	values(#{bookName},#{authorId}, #{publicationDate},#{publisher},#{categoryCode},#{bookPrice},#{bookStock},#{bookDiscount},#{bookIntro},#{bookContents})
+</insert>
+	
+<!-- 상품 상세 조회 -->
+<select id="goodsDetail" resultType="com.spring.shop.vo.BookVO">
+	select bookId, bookName, a.authorName, l.authorId, publicationDate, publisher, categoryCode, bookPrice, bookStock, bookDiscount, bookIntro, bookContents, l.regDate, l.updateDate
+	from book_list l
+		
+	left outer join book_author a on l.authorId = a.authorId
+		
+	where bookId = #{bookId}
+</select>
+	
+<!-- 상품 정보 수정 -->
+<update id="goodsModify">
+	update book_list
+	set bookName = #{bookName}, authorId = #{authorId}, publicationDate = #{publicationDate}, 
+		publisher = #{publisher}, categoryCode = #{categoryCode}, bookPrice = #{bookPrice}, 
+		bookStock = #{bookStock}, bookDiscount = #{bookDiscount}, bookIntro = #{bookIntro}, 
+		bookContents = #{bookContents}, updateDate = now()
+	where bookId = #{bookId}
+</update>
+	
+<!-- 상품 정보 삭제 -->
+<delete id="goodsDelete">
+	delete from 
+	book_list
+	where bookId = #{bookId}
+</delete>
+
+<!-- 테이블 전체 삭제(테스트용) -->
+<delete id="deleteAll">
+	delete from book_list
+</delete>
  	
- 	<!-- 등록된 상품 수 -->
- 	<select id="getGoodsTotal" resultType="int">
- 		select count(*) from book_list bl
-		<include refid="searchCondition"/>        
- 	</select>
+<!-- 테이블 전체 삭제 검증(테스트용) -->
+<select id="getCount" resultType="int">
+	select count(*) 
+	from book_list
+</select>
  	
- 	
- 	<!-- 작가 id 목록 -->
- 	<select id="getAuthorIdList" resultType="String">
- 		select 
- 			authorId
- 		from
- 			book_author
- 		where
- 			authorName like concat('%', #{keyword}, '%');
- 	</select>
- 	
- 	<!-- 국내 카테고리 목록 -->
- 	<select id="getDomesticCategoryCode" resultType="com.spring.shop.vo.CategoryVO">
- 		<![CDATA[
-			select * 
-			from book_category
-			where categoryCode > 100000 and categoryCode < 200000
-		]]>
- 	</select>
- 	
- 	<!-- 국외 카테고리 목록 -->
- 	<select id="getInternationalCategoryCode" resultType="com.spring.shop.vo.CategoryVO">
- 		<![CDATA[
-			select * 
-			from book_category
-			where categoryCode > 200000 and categoryCode < 300000
-		]]>
- 	</select>
+<!-- 마지막으로 등록한 상품 정보(테스트용) -->
+<select id="getLastPK" resultType="int">
+	select bookId 
+	from book_list
+	order by bookId desc 
+	limit 1
+</select>
 </mapper>
