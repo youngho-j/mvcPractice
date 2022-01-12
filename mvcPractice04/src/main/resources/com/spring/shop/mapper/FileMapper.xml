@@ -4,19 +4,49 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.shop.mapper.FileMapper">
 	
-	<!-- 이미지 파일 정보 출력 -->
+	<!-- 이미지 정보 삽입 -->
+	<insert id="goodsImgEnroll">
+		insert into book_images(bookId, fileName, uploadPath, uuid)	values
+		 (#{bookId}, #{fileName}, #{uploadPath}, #{uuid})
+	</insert>
+	
+	<!-- 상품 이미지 정보 삭제 -->
+	<delete id="goodsImgDelete">
+		delete from 
+		book_images
+		where bookId = #{bookId}
+	</delete>
+	
+	<!-- 상품 이미지 정보 목록 조회 -->
 	<select id="getImageList" resultType="com.spring.shop.vo.ImageInfoVO">
-		
 		select * 
 		from book_images
 		where bookId = #{bookId}
-			
 	</select>
 	
 	<!-- 하루 전 이미지 정보 목록 출력 -->
-	<select id="getImageListCheck" resultType="com.spring.shop.vo.ImageInfoVO">
+	<select id="getPreviousImageList" resultType="com.spring.shop.vo.ImageInfoVO">
 		select * 
 		from book_images
 		where right(uploadPath, 10) = date_format(DATE_SUB(NOW(), INTERVAL 1 DAY), '%Y\%m\%d')
 	</select>
+	
+	<!-- 테이블 전체 삭제(테스트용) -->
+	<delete id="deleteAll">
+		delete from book_images
+	</delete>
+	 	
+	<!-- 테이블 전체 삭제 검증(테스트용) -->
+	<select id="getCount" resultType="int">
+		select count(*) 
+		from book_images
+	</select>
+	<!-- 마지막으로 등록한 상품 정보(테스트용) -->
+	<select id="getLastPK" resultType="int">
+		select bookId 
+		from book_images
+		order by bookId desc 
+		limit 1
+	</select>
+	
 </mapper>
