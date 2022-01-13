@@ -21,13 +21,6 @@
  		where memberId = #{memberId}
  	</select>
  	
- 	<!-- 회원정보 확인 -->
- 	<select id="memberLogin" resultType="com.spring.shop.vo.MemberVO">
- 		select memberId, memberPw, memberName, adminck, money, point 
- 		from book_member 
- 		where memberId = #{memberId}
- 	</select>
- 	
  	<!-- 테이블 전체 삭제(테스트용) -->
  	<delete id="deleteAll">
  		delete from book_member

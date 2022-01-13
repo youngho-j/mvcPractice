@@ -64,7 +64,7 @@ public class AuthorMapperTest {
 		
 		int result = authorMapper.authorEnroll(author1);
 		
-		assertThat(1, is(result));
+		assertThat(result, is(1));
 		
 		assertThat(authorMapper.getCount(), is(1));
 	}
@@ -131,6 +131,8 @@ public class AuthorMapperTest {
 		AuthorVO authorDetail = authorMapper.authorGetDetail(primaryKey);
 		
 		assertNull(authorDetail);
+		
+		assertThat(authorMapper.getCount(), is(0));
 	}
 	
 	@Test

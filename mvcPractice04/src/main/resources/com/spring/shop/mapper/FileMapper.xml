@@ -41,6 +41,7 @@
 		select count(*) 
 		from book_images
 	</select>
+	
 	<!-- 마지막으로 등록한 상품 정보(테스트용) -->
 	<select id="getLastPK" resultType="int">
 		select bookId 
