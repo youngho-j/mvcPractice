@@ -14,7 +14,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.spring.shop.vo.AuthorVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/security-context.xml"})
+@ContextConfiguration(
+		{"file:src/main/webapp/WEB-INF/spring/test-root-context.xml",
+			"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
+			"file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class AuthorServiceTest {
 	
 	@Autowired

@@ -17,7 +17,10 @@ import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.AuthorVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/security-context.xml"})
+@ContextConfiguration(
+		{"file:src/main/webapp/WEB-INF/spring/test-root-context.xml",
+			"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
+			"file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class AuthorSearchServiceTest {
 	
 	@Autowired

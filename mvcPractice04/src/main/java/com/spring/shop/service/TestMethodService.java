@@ -8,5 +8,7 @@ public interface TestMethodService {
 	public int getCount();
 		
 	// 마지막으로 등록한 상품 정보(테스트용)
-	public int getLastPK();
+	default int getLastPK() {
+		return 0;
+	}
 }
