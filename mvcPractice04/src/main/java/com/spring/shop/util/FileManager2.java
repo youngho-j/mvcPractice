@@ -26,15 +26,18 @@ public class FileManager2 {
 	// 고정 경로
 	private final String fixedPath;
 
+	// MultipartFile List
+	private final List<MultipartFile> fileList;
+	
 	// 변동 경로
 	private final String variationPath;
-
-	// 파일 이름
+	
 	private final String fileName;
 	
 	private FileManager2(Builder builder) {
 		this.fixedPath = builder.fixedPath;
 		this.variationPath = builder.variationPath;
+		this.fileList = builder.fileList;
 		this.fileName = builder.fileName;
 	}
 	
@@ -42,12 +45,16 @@ public class FileManager2 {
 
 		private String fixedPath;
 		
+		private List<MultipartFile> fileList;
+		
 		private String variationPath = "";
-
+		
 		private String fileName = "";
 
-		public Builder(String fixedPath) {
+
+		public Builder(String fixedPath, List<MultipartFile> fileList) {
 			this.fixedPath = fixedPath;
+			this.fileList = fileList;
 		}
 
 		public Builder variationPath(String variationPath) {
@@ -59,7 +66,7 @@ public class FileManager2 {
 			this.fileName = fileName;
 			return this;
 		}
-
+		
 		public FileManager2 build() {
 			return new FileManager2(this);
 		}
@@ -76,47 +83,39 @@ public class FileManager2 {
 		return false;
 	}
 
-	public List<ImageInfoVO> getSavedImagefileList(MultipartFile[] multipartFile, String uploadRoot) throws Exception {
-
+	public List<ImageInfoVO> getSavedImagefile() throws Exception {
+		
 		List<ImageInfoVO> imageList = new ArrayList<ImageInfoVO>();
-
-		StringBuilder imageFileName = new StringBuilder();
-
-		for (MultipartFile file : multipartFile) {
+		
+		for (MultipartFile file : fileList) {
 			String uploadFileName = file.getOriginalFilename();
-
+			
 			// 파일 이름 중복을 막기위해 UUID 사용
 			String uuid = UUID.randomUUID().toString();
-
+			
 			// 이미지 정보를 담은 객체
 			ImageInfoVO imageInfo = 
 					new ImageInfoVO.Builder()
-					.uploadPath(uploadRoot).uuid(uuid)
+					.uploadPath(fixedPath + File.separator + variationPath).uuid(uuid)
 					.fileName(uploadFileName)
 					.build();
-
-			imageFileName.append(uuid);
-			imageFileName.append("_");
-			imageFileName.append(uploadFileName);
-
-			String convertUploadFileName = imageFileName.toString();
 			
-			// 변경된 파일 이름과 해당년월일자 폴더 경로를 갖는 file 객체 생성
-			File saveFile = new File(uploadRoot, convertUploadFileName);
+			String uploadRoot = imageInfo.getUploadPath();
+			String convertFileName = imageInfo.getUuid() + "_" + imageInfo.getFileName();
+			
+			// 업로드 경로와 최종 수정된 파일이름을 갖는 이미지 객체
+			File destImageFile = new File(uploadRoot, convertFileName);
 			
 			// 이미지 파일 업로드 폴더 내 저장
-			saveImageFile(file, saveFile);
+			saveImageFile(file, destImageFile);
 			
-			// 썸네일 생성 및 저장
-			saveThumbnail(imageFileName, uploadRoot, saveFile);
-
+			String thumbFileName = "t_" + convertFileName;
+			
+			// 썸네일 파일 업로드 폴더 내 저장
+			saveThumbnail(uploadRoot, thumbFileName, destImageFile);
+			
 			imageList.add(imageInfo);
-
-			log.info("파일 저장 완료!");
-
-			// 길이를 0으로 설정하여 StringBuilder 초기화
-			imageFileName.setLength(0);
-
+			
 		}
 		return imageList;
 	}
@@ -125,16 +124,11 @@ public class FileManager2 {
 		
 		// 수신한 멀티파트파일 객체(file)를 목적지 파일 객체(savefile)로 전달하여 저장
 		file.transferTo(destFile);			
-		
+		log.info("이미지 파일 저장 완료!");
 	}
 	
-	public void saveThumbnail(StringBuilder sb, String uploadRoot, File saveFile) throws Exception {
+	public void saveThumbnail(String uploadRoot, String thumbnailSaveFileName ,File saveFile) throws Exception {
 		double scaleDown = 3;
-		
-		// 기존 작성된 파일명 앞에 추가
-		sb.insert(0, "t_");
-
-		String thumbnailSaveFileName = sb.toString();
 
 		File thumbnailFile = new File(uploadRoot, thumbnailSaveFileName);
 
@@ -158,13 +152,13 @@ public class FileManager2 {
 		log.info("썸네일 파일 저장 완료!");
 	}
 
-	public boolean MIMETYPECheck(MultipartFile[] multipartFile) throws Exception {
-		for (MultipartFile file : multipartFile) {
+	public boolean MIMETYPECheck() throws Exception {
+		for (MultipartFile file : fileList) {
 
 			Path filePath = new File(file.getOriginalFilename()).toPath();
 
 			String mimeType = Files.probeContentType(filePath);
-			log.info("파일 MIME TYPE : " + mimeType);
+			log.info("파일 MIME TYPE : {}", mimeType);
 
 			if (!mimeType.startsWith("image")) {
 				return false;
