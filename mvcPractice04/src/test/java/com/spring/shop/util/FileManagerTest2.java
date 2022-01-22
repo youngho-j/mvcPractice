@@ -74,7 +74,7 @@ public class FileManagerTest2 {
 	}
 	
 	@Test
-	public void 파일_저장_테스트() throws Exception {
+	public void 이미지_파일_저장_테스트() throws Exception {
 		
 		fileManager1.createFolder();
 		
@@ -82,17 +82,44 @@ public class FileManagerTest2 {
 		
 		String fileName = fileList.get(0).getOriginalFilename();
 		
-		File destFile = new File(fileManager1.getFixedPath() + File.separator + fileManager1.getVariationPath(), fileName);
+		String uploadRoot = fileManager1.getFixedPath() + File.separator + fileManager1.getVariationPath();
+		
+		File destFile = new File(uploadRoot, fileName);
 		
 		for(MultipartFile file : fileList) {
 			fileManager1.saveImageFile(file, destFile);
-			
 			log.info("{} >> 저장되었습니다.", destFile.toPath());
 		}
 		
 		assertTrue(destFile.exists());
-		
-		
 	}
+	
+	@Test
+	public void 썸네일_파일_저장_테스트() throws Exception {
+		
+		fileManager1.createFolder();
+		
+		List<MultipartFile> fileList = fileManager1.getFileList();
+		
+		String fileName = fileList.get(0).getOriginalFilename();
+		
+		String thumbFileName = "t_" + fileName;
+		
+		String uploadRoot = fileManager1.getFixedPath() + File.separator + fileManager1.getVariationPath();
+		
+		File destFile = new File(uploadRoot, fileName);
+		File thumbFile = new File(uploadRoot, thumbFileName);
+		
+		for(MultipartFile file : fileList) {
+			fileManager1.saveImageFile(file, destFile);
+			log.info("{} >> 저장되었습니다.", destFile.toPath());
+			
+			fileManager1.saveThumbnail(thumbFile, destFile);
+			log.info("{} >> 저장되었습니다.", thumbFile.toPath());
+		}
+		
+		assertTrue(thumbFile.exists());
+	}
+	
 	
 }

@@ -103,7 +103,7 @@ public class FileManager2 {
 			String uploadRoot = imageInfo.getUploadPath();
 			String convertFileName = imageInfo.getUuid() + "_" + imageInfo.getFileName();
 			
-			// 업로드 경로와 최종 수정된 파일이름을 갖는 이미지 객체
+			// 업로드 경로와 최종 수정된 이미지 파일이름을 갖는 이미지 객체
 			File destImageFile = new File(uploadRoot, convertFileName);
 			
 			// 이미지 파일 업로드 폴더 내 저장
@@ -111,8 +111,11 @@ public class FileManager2 {
 			
 			String thumbFileName = "t_" + convertFileName;
 			
+			// 업로드 경로와 썸네일 이미지 파일이름을 갖는 이미지 객체
+			File thumbImageFile = new File(uploadRoot, thumbFileName);
+			
 			// 썸네일 파일 업로드 폴더 내 저장
-			saveThumbnail(uploadRoot, thumbFileName, destImageFile);
+			saveThumbnail(thumbImageFile, destImageFile);
 			
 			imageList.add(imageInfo);
 			
@@ -127,13 +130,11 @@ public class FileManager2 {
 		log.info("이미지 파일 저장 완료!");
 	}
 	
-	public void saveThumbnail(String uploadRoot, String thumbnailSaveFileName ,File saveFile) throws Exception {
+	public void saveThumbnail(File thumbnailFile , File imageFile) throws Exception {
 		double scaleDown = 3;
 
-		File thumbnailFile = new File(uploadRoot, thumbnailSaveFileName);
-
 		// 기존 파일 객체를 BufferedImage 객체로 변환 (썸네일로 만들기 위한 전 작업)
-		BufferedImage originImage = ImageIO.read(saveFile);
+		BufferedImage originImage = ImageIO.read(imageFile);
 
 		// 원본 사진의 높이와 너비 길이 축소
 		int width = convertSize(originImage.getWidth(), scaleDown);
