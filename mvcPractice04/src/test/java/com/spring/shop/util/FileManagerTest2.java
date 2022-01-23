@@ -21,6 +21,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.shop.vo.ImageInfoVO;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -121,5 +123,27 @@ public class FileManagerTest2 {
 		assertTrue(thumbFile.exists());
 	}
 	
+	@Test
+	public void 파일_MIME_TYPE_확인_테스트() throws Exception {
+		
+		boolean result = fileManager1.MIMETYPECheck();
+		
+		assertTrue(result);
+		
+	}
 	
+	@Test
+	public void 폴더내_저장된_파일목록_테스트() throws Exception {
+		File targetFolder = new File(fileManager1.getFixedPath(), fileManager1.getVariationPath());
+		
+		fileManager1.createFolder();
+		
+		List<ImageInfoVO> imageList = fileManager1.getSavedImagefile();
+		
+		File[] result = targetFolder.listFiles();
+		
+		assertThat(imageList.size(), is(1));
+		
+		assertThat(result.length, is(2));
+	}
 }
