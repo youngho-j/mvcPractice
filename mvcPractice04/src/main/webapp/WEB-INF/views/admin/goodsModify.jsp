@@ -189,6 +189,9 @@
                     		
                     		<!-- 해당 상품의 정보 수정을 위한 bookId -->
                     		<input type="hidden" name="bookId" value="${goodsDetail.bookId}">
+                    		
+                    		<!-- csrf 토큰 -->
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                    		</form>
                    		<!-- 버튼 영역 -->
                    		<div class="btn_section">
@@ -453,6 +456,10 @@
 			type : 'POST',
 			data : formData,
 			dataType : 'json',
+			beforeSend : function(xhr)
+			{
+				xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+			},
 			success : function(result) {
 				showImage(result);
 			},
