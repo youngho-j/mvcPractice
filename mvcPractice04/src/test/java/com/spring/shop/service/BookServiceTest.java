@@ -126,7 +126,7 @@ public class BookServiceTest {
 	public void 이미지_없는_상품_등록_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));
 		
-		int result = bookService.bookEnroll(book3);
+		int result = bookService.goodsEnroll(book3);
 		
 		assertThat(result, is(1));
 		assertThat(bookService.getCount(), is(1));
@@ -136,7 +136,7 @@ public class BookServiceTest {
 	public void 이미지_있는_상품_등록_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));
 		
-		int result = bookService.bookEnroll(book1);
+		int result = bookService.goodsEnroll(book1);
 		
 		assertThat(result, is(2));
 		assertThat(bookService.getCount(), is(2));
@@ -146,14 +146,14 @@ public class BookServiceTest {
 	public void 이미지_있는_상품_등록_에러_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));
 		
-		bookService.bookEnroll(book2);
+		bookService.goodsEnroll(book2);
 	}
 	
 	@Test
 	public void 상품_상세정보_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));
 		
-		bookService.bookEnroll(book1);
+		bookService.goodsEnroll(book1);
 		
 		int lastBookId = bookService.getLastPK();
 		
@@ -166,7 +166,7 @@ public class BookServiceTest {
 	public void 이미지_등록된_상품_삭제_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));
 		
-		bookService.bookEnroll(book1);
+		bookService.goodsEnroll(book1);
 		
 		int lastBookId = bookService.getLastPK();
 		
@@ -180,7 +180,7 @@ public class BookServiceTest {
 	public void 이미지_없는_상품_삭제_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));
 		
-		bookService.bookEnroll(book3);
+		bookService.goodsEnroll(book3);
 		
 		int lastBookId = bookService.getLastPK();
 		
@@ -194,7 +194,7 @@ public class BookServiceTest {
 	public void 이미지없는_상품_수정_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));
 		
-		bookService.bookEnroll(book1);
+		bookService.goodsEnroll(book1);
 		
 		int lastBookId = bookService.getLastPK();
 		
@@ -212,7 +212,7 @@ public class BookServiceTest {
 	public void 이미지있는_상품_수정_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));
 		
-		bookService.bookEnroll(book1);
+		bookService.goodsEnroll(book1);
 		
 		int lastBookId = bookService.getLastPK();
 		

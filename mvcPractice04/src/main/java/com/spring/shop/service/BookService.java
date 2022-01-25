@@ -4,7 +4,7 @@ import com.spring.shop.vo.BookVO;
 
 public interface BookService extends TestMethodService{
 	// 상품 등록
-	public int bookEnroll(BookVO bookVO) throws Exception;
+	public int goodsEnroll(BookVO bookVO) throws Exception;
 		
 	// 상품 상세정보 조회
 	public BookVO goodsDetail(int bookId) throws Exception;

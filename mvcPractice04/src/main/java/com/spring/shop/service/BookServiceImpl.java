@@ -1,6 +1,8 @@
 package com.spring.shop.service;
 
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class BookServiceImpl implements BookService{
 	
 	@Transactional
 	@Override
-	public int bookEnroll(BookVO bookVO) throws Exception {
+	public int goodsEnroll(BookVO bookVO) throws Exception {
 		log.info("상품 등록 service 실행");
 
 		int enrollResult = 0;
@@ -133,6 +135,25 @@ public class BookServiceImpl implements BookService{
 		List<ImageInfoVO> goodsImgList = fileMapper.getImageList(bookId);
 		
 		if(goodsImgList.size() > 0) {
+			log.info("상품 이미지 파일 목록 존재할 경우");
+			
+			List<File> deleteFileList = new ArrayList<File>();
+			
+			goodsImgList.forEach(info -> {
+				
+				File imageFile = new File(info.getUploadPath(), info.getUuid() + "_" + info.getFileName());
+				File thumbFile = new File(info.getUploadPath(), "t_" + info.getUuid() + "_" + info.getFileName());
+				
+				deleteFileList.add(imageFile);
+				deleteFileList.add(thumbFile);
+				
+			});
+			
+			for(File file : deleteFileList) {
+				log.info("{} > 경로의 파일 삭제", file.getAbsolutePath());
+				file.delete();
+			}
+			
 			deleteResult += fileMapper.goodsImgDelete(bookId);
 		}
 		
