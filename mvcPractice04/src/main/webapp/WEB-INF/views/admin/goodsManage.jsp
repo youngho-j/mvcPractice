@@ -143,7 +143,7 @@
 		/* 삭제 성공시 */
 		let deleteResult = '<c:out value="${deleteResult}"/>';
 		
-		if(deleteResult == 1) {
+		if(deleteResult > 0) {
 			alert("상품 정보 삭제 성공!");
 		}
 	});

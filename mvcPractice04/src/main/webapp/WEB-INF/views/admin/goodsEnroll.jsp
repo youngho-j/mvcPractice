@@ -564,7 +564,7 @@
 		formData.append("uploadFile", fileObj);
 		
 		$.ajax({
-			url : '/admin/ajaxUpload',
+			url : '/uploadImg',
 			processData : false,
 			contentType : false,
 			type : 'POST',
@@ -651,7 +651,7 @@
 		let imgArea = $("#img_area");
 		
 		$.ajax({
-			url : '/admin/delUploadImg',
+			url : '/delUploadImg',
 			data : {fileName : file},
 			dataType : 'text',
 			type : 'POST',
