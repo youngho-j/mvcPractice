@@ -1,13 +1,10 @@
 package com.spring.shop.service;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.core.Is.*;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Test;
@@ -53,25 +50,11 @@ public class FileServiceTest {
 	}
 	
 	@Test
-	public void 폴더_날자_경로_문자열_값_테스트() throws Exception {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		
-		Calendar calendar = Calendar.getInstance();
-		
-		// 현재 날짜에서 하루 전 
-		calendar.add(Calendar.DATE, -1);
-		
-		String datePath = dateFormat.format(calendar.getTime()).replace("-", File.separator);
-		
-		assertThat(datePath, is("2021\\11\\23"));
-	}
-	
-	@Test
 	public void 이미지_비교후_파일삭제_테스트() throws Exception {
 		List<Path> dbImageList = null;
 		List<File> folderImageList = null;
 		
-		boolean result = fileService.thinOutFilesInFolder(dbImageList, folderImageList);
+		boolean result = fileService.deleteUnknownFiles(dbImageList, folderImageList);
 		
 		assertTrue(result);
 	}

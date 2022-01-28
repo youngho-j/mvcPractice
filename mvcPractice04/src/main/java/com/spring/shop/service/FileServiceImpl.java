@@ -3,16 +3,15 @@ package com.spring.shop.service;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.shop.mapper.FileMapper;
+import com.spring.shop.util.PathManager;
 import com.spring.shop.vo.ImageInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +34,7 @@ public class FileServiceImpl implements FileService{
 		// 이미지 파일 경로를 담을 객체
 		List<Path> ImageFilePathList = new ArrayList<Path>();
 		
-		List<ImageInfoVO> imageInfoList = fileMapper.getImageListCheck();
+		List<ImageInfoVO> imageInfoList = fileMapper.getPreviousImageList();
 		
 		if(!imageInfoList.isEmpty()) {
 			
@@ -57,8 +56,8 @@ public class FileServiceImpl implements FileService{
 	
 	@Override
 	public List<File> getImageFileListInFolder() throws Exception {
-		// 폴더 경로를 가진 파일 객체 생성
-		File folderPath = Paths.get("H:\\mvcPractice04upload", getFolderDatePath()).toFile();
+		// 하루전 날짜의 폴더 경로를 가진 파일 객체 생성
+		File folderPath = Paths.get("H:\\mvcPractice04upload", new PathManager().getTheDayBeforePath()).toFile();
 		
 		// 경로 안에 있는 모든 파일 정보를 배열에 담아 리턴
 		File[] fileList = folderPath.listFiles();
@@ -76,7 +75,7 @@ public class FileServiceImpl implements FileService{
 	}
 	
 	@Override
-	public boolean thinOutFilesInFolder(List<Path> dbImageList, List<File> folderImageList) {
+	public boolean deleteUnknownFiles(List<Path> dbImageList, List<File> folderImageList) {
 		try {
 			if(dbImageList == null && folderImageList == null) {
 				log.info("DB, Folder 저장된 이미지 없음");
@@ -123,30 +122,17 @@ public class FileServiceImpl implements FileService{
 		return false;
 	}
 
-	// 폴더 날자 경로 문자열 값 리턴 
-	private String getFolderDatePath() throws Exception {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		
-		Calendar calendar = Calendar.getInstance();
-		
-		// 현재 날짜에서 하루 전 
-		calendar.add(Calendar.DATE, -1);
-		
-		String datePath = dateFormat.format(calendar.getTime()).replace("-", File.separator);
-		
-		return datePath;
-	}
-
 	@Override
 	public boolean deleteImageFiles(List<ImageInfoVO> fileList)  {
-		// 이미지 정보가 존재할때 
+		log.info("이미지 파일들 삭제");
 		if(!fileList.isEmpty()) {
 			List<File> deleteFileList = new ArrayList<File>();
 			
 			fileList.forEach(info -> {
+				
 				File imageFile = new File(info.getUploadPath(), info.getUuid() + "_" + info.getFileName());
 				File thumbFile = new File(info.getUploadPath(), "t_" + info.getUuid() + "_" + info.getFileName());
-				log.info(imageFile.getPath() + " 경로");
+				
 				deleteFileList.add(imageFile);
 				deleteFileList.add(thumbFile);
 				

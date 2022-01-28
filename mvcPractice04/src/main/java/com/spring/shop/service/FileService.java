@@ -18,7 +18,7 @@ public interface FileService {
 	public List<File> getImageFileListInFolder() throws Exception;
 	
 	// 파일 비교 후 삭제
-	public boolean thinOutFilesInFolder(List<Path> dbImageList, List<File> folderImageList);
+	public boolean deleteUnknownFiles(List<Path> dbImageList, List<File> folderImageList);
 	
 	// DB 저장 이미지 파일 삭제
 	public boolean deleteImageFiles(List<ImageInfoVO> fileList);
