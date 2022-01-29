@@ -1,7 +1,5 @@
 package com.spring.shop.service;
 
-import java.io.File;
-import java.nio.file.Path;
 import java.util.List;
 
 import com.spring.shop.vo.ImageInfoVO;
@@ -12,13 +10,13 @@ public interface FileService {
 	public List<ImageInfoVO> getImageList(int bookId) throws Exception;
 	
 	// 이미지 파일 경로 출력
-	public List<Path> getImageFilePathList() throws Exception;
+	public List<String> getImageFileList() throws Exception;
 	
 	// 폴더 저장 이미지 파일 목록 출력
-	public List<File> getImageFileListInFolder() throws Exception;
+	public List<String> getImageFileListInFolder() throws Exception;
 	
 	// 파일 비교 후 삭제
-	public boolean deleteUnknownFiles(List<Path> dbImageList, List<File> folderImageList);
+	public boolean deleteUnknownFiles(List<String> dbImageList, List<String> folderImageList);
 	
 	// DB 저장 이미지 파일 삭제
 	public boolean deleteImageFiles(List<ImageInfoVO> fileList);

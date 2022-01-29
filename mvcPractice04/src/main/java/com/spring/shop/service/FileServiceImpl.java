@@ -1,11 +1,10 @@
 package com.spring.shop.service;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,23 +29,21 @@ public class FileServiceImpl implements FileService{
 	}
 
 	@Override
-	public List<Path> getImageFilePathList() throws Exception {
+	public List<String> getImageFileList() throws Exception {
 		// 이미지 파일 경로를 담을 객체
-		List<Path> ImageFilePathList = new ArrayList<Path>();
+		List<String> ImageFilePathList = new ArrayList<String>();
 		
 		List<ImageInfoVO> imageInfoList = fileMapper.getPreviousImageList();
 		
 		if(!imageInfoList.isEmpty()) {
 			
 			imageInfoList.forEach(imageInfo -> {
-				Path imagePath = Paths.get(imageInfo.getUploadPath(), imageInfo.getUuid() + "_" + imageInfo.getFileName());
-				Path thumbPath = Paths.get(imageInfo.getUploadPath(), "t_" + imageInfo.getUuid() + "_" + imageInfo.getFileName());
 				
-				ImageFilePathList.add(imagePath);
-				ImageFilePathList.add(thumbPath);
+				ImageFilePathList.add(
+						Paths.get(imageInfo.getUploadPath(), imageInfo.getUuid() + "_" + imageInfo.getFileName()).toString());
+				ImageFilePathList.add(
+						Paths.get(imageInfo.getUploadPath(), "t_" + imageInfo.getUuid() + "_" + imageInfo.getFileName()).toString());
 				
-				imagePath = null;
-				thumbPath = null;
 			});
 			
 			return ImageFilePathList;
@@ -55,7 +52,7 @@ public class FileServiceImpl implements FileService{
 	}
 	
 	@Override
-	public List<File> getImageFileListInFolder() throws Exception {
+	public List<String> getImageFileListInFolder() throws Exception {
 		// 하루전 날짜의 폴더 경로를 가진 파일 객체 생성
 		File folderPath = Paths.get("H:\\mvcPractice04upload", new PathManager().getTheDayBeforePath()).toFile();
 		
@@ -64,8 +61,13 @@ public class FileServiceImpl implements FileService{
 		
 		// 경로내 파일이 존재하는 경우  
 		if(fileList.length != 0) {
+			
 			// 배열 리스트로 변환
-			List<File> removeFileList = new ArrayList<>(Arrays.asList(fileList));
+			List<String> removeFileList = new ArrayList<>();
+			
+			for(File file : fileList) {
+				removeFileList.add(file.toPath().toString());
+			}
 			
 			return removeFileList;						
 		}
@@ -75,7 +77,8 @@ public class FileServiceImpl implements FileService{
 	}
 	
 	@Override
-	public boolean deleteUnknownFiles(List<Path> dbImageList, List<File> folderImageList) {
+	public boolean deleteUnknownFiles(List<String> dbImageList, List<String> folderImageList) {
+		List<String> targetFileList = new ArrayList<String>();
 		try {
 			if(dbImageList == null && folderImageList == null) {
 				log.info("DB, Folder 저장된 이미지 없음");
@@ -85,8 +88,11 @@ public class FileServiceImpl implements FileService{
 			if(dbImageList == null && folderImageList != null) {
 				log.info("Folder 저장된 이미지 삭제");
 				
-				for(File file : folderImageList) {
-					file.delete();
+				for(String file : folderImageList) {
+					File deleteFile = Paths.get(file).toFile();
+					
+					log.info("DB에 저장되어 있지 않은 파일 삭제 [{}]", deleteFile.toPath());
+					deleteFile.delete();
 				}
 				
 				return true;
@@ -95,19 +101,17 @@ public class FileServiceImpl implements FileService{
 			if(dbImageList != null && folderImageList != null) {
 				log.info("DB와 비교 후 Folder 저장된 이미지 삭제");
 				
-				File[] checkList = folderImageList.toArray(new File[folderImageList.size()]);
-				
-				for(File folderImageFile : checkList) {
-					for(Path dbImagePath : dbImageList) {
-						if(folderImageFile.toPath().equals(dbImagePath)) {
-							folderImageList.remove(folderImageFile);
-						}
-					}
-				}
+				// 폴더 내 이미지 목록과 DB 저장 이미지 목록을 비교 후 겹치는 목록을 제외한 나머지 목록 
+				targetFileList = folderImageList.stream()
+						.filter(x -> !dbImageList.contains(x))
+						.collect(Collectors.toList());
 				
 				// 파일 삭제
-				for(File file : folderImageList) {
-					file.delete();
+				for(String file : targetFileList) {
+					File deleteFile = Paths.get(file).toFile();
+					
+					log.info("DB에 저장되어 있지 않은 파일 삭제 [{}]", deleteFile.toPath());
+					deleteFile.delete();
 				}
 				
 				return true;
@@ -154,6 +158,4 @@ public class FileServiceImpl implements FileService{
 		}
 		return true;
 	}
-	
-	
 }
