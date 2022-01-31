@@ -9,7 +9,7 @@ public interface FileService {
 	// 이미지 정보 출력
 	public List<ImageInfoVO> getImageList(int bookId) throws Exception;
 	
-	// 이미지 파일 경로 출력
+	// DB 저장 이미지 파일 목록 출력
 	public List<String> getImageFileList() throws Exception;
 	
 	// 폴더 저장 이미지 파일 목록 출력
