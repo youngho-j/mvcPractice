@@ -32,8 +32,7 @@ public class FileManager {
 	// 파일 이름
 	private String fileName;
 
-	public FileManager() {
-	}
+	public FileManager() {}
 
 	public static class Builder {
 
@@ -78,7 +77,7 @@ public class FileManager {
 		return false;
 	}
 
-	public List<ImageInfoVO> transferToFolder(MultipartFile[] multipartFile, String uploadRoot) throws Exception {
+	public List<ImageInfoVO> transferToFolder(List<MultipartFile> multipartFile, String uploadRoot) throws Exception {
 
 		List<ImageInfoVO> imageList = new ArrayList<ImageInfoVO>();
 
@@ -153,7 +152,7 @@ public class FileManager {
 		log.info("썸네일 파일 저장 완료!");
 	}
 
-	public boolean imageCheck(MultipartFile[] multipartFile) throws Exception {
+	public boolean imageCheck(List<MultipartFile> multipartFile) throws Exception {
 		for (MultipartFile file : multipartFile) {
 
 			Path filePath = new File(file.getOriginalFilename()).toPath();

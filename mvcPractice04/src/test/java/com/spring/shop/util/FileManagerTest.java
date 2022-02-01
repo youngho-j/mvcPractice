@@ -4,11 +4,16 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.core.Is.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,39 +28,65 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/security-context.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class FileManagerTest {
-
+	
+	private final String fixedPath = "H:\\mvcPractice04upload";
+	
+	private final String variationPath = new PathManager().getNowPath();
+	
+	private List<MultipartFile> fileList = new ArrayList<MultipartFile>();
+	
 	private FileManager fileManager;
 	
 	@Before
 	public void setUp() throws Exception {
-		fileManager = new FileManager.Builder("H:\\mvcPractice04upload")
-				.build();
+		// 테스트 파일 이름 및 경로 
+		String fileName = "book2.png";
+		String filePath = "C:\\Users\\admin\\Desktop";
+				
+		// MockMultipartFile 생성
+		MultipartFile mockMultipartFile = new MockMultipartFile(fileName, fileName, "image/png", new FileInputStream(new File(filePath, fileName)));
+				
+		fileList.add(mockMultipartFile);
+		
+		fileManager = new FileManager
+		.Builder(fixedPath)
+		.variationPath(variationPath)
+		.build();
+	}
+	
+	@After
+	public void afterTest() throws Exception {
+		File targetFolder = new File(fileManager.getFixedPath());
+		
+		Files.walk(targetFolder.toPath())
+			.sorted(Comparator.reverseOrder())
+			.map(Path::toFile)
+			.forEach((file)->{
+				if(file.getPath().equals(fileManager.getFixedPath())){
+					return;
+				}
+				log.info("{} >> 삭제되었습니다.", file.getPath());
+				file.delete();
+			});
 	}
 	
 	@Test
 	public void 폴더_생성_테스트() throws Exception {
-		File image = new File(fileManager.getFixedPath());
+		File image = new File(fileManager.getFixedPath(), fileManager.getVariationPath());
 		
-		boolean result = fileManager.createFolder(image);
+		fileManager.createFolder(image);
 		
-		assertThat(false, is(result));
+		assertTrue(image.exists());
 	}
 	
 	@Test
 	public void 이미지_파일_저장_테스트() throws Exception {
 		
-		// 테스트 파일 이름 및 경로 
-		String fileName = "book2.png";
-		String filePath = "C:\\Users\\admin\\Desktop";
-		
-		// MockMultipartFile 생성
-		MultipartFile mockMultipartFile = new MockMultipartFile(fileName, fileName, "image/png", new FileInputStream(new File(filePath, fileName)));
-		
-		MultipartFile[] multipartFiles = {mockMultipartFile};
-		
-		List<ImageInfoVO> list = fileManager.transferToFolder(multipartFiles, fileManager.getFixedPath());
+		List<ImageInfoVO> list = fileManager.transferToFolder(fileList, fileManager.getFixedPath());
 		
 		String getfileName = list.get(0).getFileName();
 		
@@ -101,30 +132,9 @@ public class FileManagerTest {
 	
 	@Test
 	public void 이미지_파일_확인_테스트() throws Exception {
-		// 테스트 파일 이름 및 경로 
-		String fileName = "book2.png";
-		String filePath = "C:\\Users\\admin\\Desktop";
 				
-		// MockMultipartFile 생성
-		MultipartFile mockMultipartFile = new MockMultipartFile(fileName, fileName, "image/png", new FileInputStream(new File(filePath, fileName)));
-				
-		MultipartFile[] multipartFiles = {mockMultipartFile};
-		
-		boolean result = fileManager.imageCheck(multipartFiles);
+		boolean result = fileManager.imageCheck(fileList);
 		
 		assertTrue(result);
-	}
-	
-	@Test
-	public void 이미지_삭제_테스트() throws Exception {
-		fileManager = new FileManager
-				.Builder("H:\\mvcPractice04upload")
-				.fileName("t_a250c959-f4b0-4c3c-9144-7a5e0f109739_book2.png")
-				.build();
-		
-		boolean result = fileManager.deleteImg();
-		
-		assertTrue(result);
-		
 	}
 }
