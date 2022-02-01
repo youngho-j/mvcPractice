@@ -124,7 +124,7 @@ public class BookSearchServiceTest {
 	public void 작가검색_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));		
 		
-		bookService.bookEnroll(book3);
+		bookService.goodsEnroll(book3);
 		
 		assertThat(bookService.getCount(), is(1));
 		
@@ -139,7 +139,7 @@ public class BookSearchServiceTest {
 	public void 작가검색_테스트2() throws Exception {
 		assertThat(bookService.getCount(), is(0));		
 		
-		bookService.bookEnroll(book1);
+		bookService.goodsEnroll(book1);
 		
 		assertThat(bookService.getCount(), is(2));
 		
@@ -156,8 +156,8 @@ public class BookSearchServiceTest {
 		
 		pageInfo.setType("T");
 		
-		bookService.bookEnroll(book1);
-		bookService.bookEnroll(book3);
+		bookService.goodsEnroll(book1);
+		bookService.goodsEnroll(book3);
 		
 		assertThat(bookService.getCount(), is(3));
 		
@@ -174,8 +174,8 @@ public class BookSearchServiceTest {
 		pageInfo.setType("T");
 		pageInfo.setKeyword("신");
 		
-		bookService.bookEnroll(book1);
-		bookService.bookEnroll(book3);
+		bookService.goodsEnroll(book1);
+		bookService.goodsEnroll(book3);
 		
 		assertThat(bookService.getCount(), is(3));
 		
@@ -189,8 +189,8 @@ public class BookSearchServiceTest {
 	public void 작가검색_상품_개수출력_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));		
 		
-		bookService.bookEnroll(book1);
-		bookService.bookEnroll(book3);
+		bookService.goodsEnroll(book1);
+		bookService.goodsEnroll(book3);
 		
 		assertThat(bookService.getCount(), is(3));
 		
@@ -206,8 +206,8 @@ public class BookSearchServiceTest {
 		
 		pageInfo.setType("T");
 		
-		bookService.bookEnroll(book1);
-		bookService.bookEnroll(book3);
+		bookService.goodsEnroll(book1);
+		bookService.goodsEnroll(book3);
 		
 		assertThat(bookService.getCount(), is(3));
 		
@@ -223,8 +223,8 @@ public class BookSearchServiceTest {
 		
 		pageInfo.setKeyword("-");
 		
-		bookService.bookEnroll(book1);
-		bookService.bookEnroll(book3);
+		bookService.goodsEnroll(book1);
+		bookService.goodsEnroll(book3);
 		
 		assertThat(bookService.getCount(), is(3));
 		
@@ -238,8 +238,8 @@ public class BookSearchServiceTest {
 	public void 관리자페이지_검색_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));		
 		
-		bookService.bookEnroll(book1);
-		bookService.bookEnroll(book3);
+		bookService.goodsEnroll(book1);
+		bookService.goodsEnroll(book3);
 		
 		assertThat(bookService.getCount(), is(3));
 		
@@ -253,8 +253,8 @@ public class BookSearchServiceTest {
 	public void 관리자페이지_검색_상품_개수_테스트() throws Exception {
 		assertThat(bookService.getCount(), is(0));		
 		
-		bookService.bookEnroll(book1);
-		bookService.bookEnroll(book3);
+		bookService.goodsEnroll(book1);
+		bookService.goodsEnroll(book3);
 		
 		assertThat(bookService.getCount(), is(3));
 		
