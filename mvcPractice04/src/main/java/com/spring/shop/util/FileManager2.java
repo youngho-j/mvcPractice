@@ -169,6 +169,7 @@ public class FileManager2 {
 		return true;
 	}
 	
+	// 상품 등록 페이지 - ajax 이미지 파일 삭제
 	public boolean deleteImageFile() {
 		File file = null;
 		
