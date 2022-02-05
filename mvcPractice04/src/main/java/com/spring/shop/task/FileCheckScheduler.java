@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.spring.shop.service.FileService;
+import com.spring.shop.util.FileCheckService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,28 +15,26 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class FileCheckScheduler {
 	
-	FileService fileService;
+	private FileService fileService;
+	
+	private FileCheckService fileCheckService;
 	
 	@Autowired
-	public FileCheckScheduler(FileService fileService) {
+	public FileCheckScheduler(FileService fileService, FileCheckService fileCheckService) {
 		this.fileService = fileService;
+		this.fileCheckService = fileCheckService;
 	}
 
 	@Scheduled(cron = "0 0 1 1/1 * ?")
 	public void checkNeedlessFiles() throws Exception {
-		log.warn("불필요 이미지 파일 제거 스케쥴러 실행");
+		log.info("불필요 이미지 파일 제거 스케쥴러 실행");
 		
 		List<String> dbImageList = fileService.getImageFileList();
 		
-		List<String> folderImageList = fileService.getImageFileListInFolder();
+		List<String> folderImageList = fileCheckService.getListOfFilesInFolder();
 		
-		boolean result = 
-				fileService.deleteUnknownFiles(dbImageList, folderImageList);
+		List<String> deleteImageList = fileCheckService.getUnknownFiles(dbImageList, folderImageList);
 		
-		if(!result) {
-			log.info("파일 제거 실패");
-			return;
-		}
-		log.info("파일 제거 성공");
+		fileCheckService.deleteFilesInFolder(deleteImageList);
 	}
 }

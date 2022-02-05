@@ -35,7 +35,7 @@ public class FileCheckSchedulerTest {
 	private final String variationPath = new PathManager().getTheDayBeforePath();
 	
 	@Autowired
-	FileCheckScheduler scheduler;
+	private FileCheckScheduler scheduler;
 	
 	@Before
 	public void setUp() throws Exception {

@@ -93,24 +93,6 @@ public class FileServiceTest {
 	}
 	
 	@Test
-	public void 이미지폴더_내부_파일_목록_출력_테스트() throws Exception {
-		List<String> list = fileService.getImageFileListInFolder();
-		
-		assertThat(list.size(), is(2));
-	}
-	
-	@Test
-	public void 이미지_비교후_파일삭제_테스트() throws Exception {
-		List<String> list1 = fileService.getImageFileList();
-		
-		List<String> list2 = fileService.getImageFileListInFolder();
-		
-		boolean result = fileService.deleteUnknownFiles(list1, list2);
-		
-		assertTrue(result);
-	}
-	
-	@Test
 	public void 이미지_파일_삭제() throws Exception {
 		List<ImageInfoVO> infoList = new ArrayList<ImageInfoVO>();
 		

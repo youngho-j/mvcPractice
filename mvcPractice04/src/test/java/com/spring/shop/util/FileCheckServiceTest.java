@@ -195,9 +195,9 @@ public class FileCheckServiceTest {
 	
 	@Test
 	public void 이미지_파일_삭제_테스트() throws Exception {
-		List<String> list2 = fileCheckService.getListOfFilesInFolder();
+		List<String> list = fileCheckService.getListOfFilesInFolder();
 		
-		fileCheckService.deleteFilesInFolder(list2);
+		fileCheckService.deleteFilesInFolder(list);
         
 		File[] filesList = new File(fixedRoot, variationRoot).listFiles();
 		
@@ -206,12 +206,29 @@ public class FileCheckServiceTest {
 	
 	@Test
 	public void 이미지_파일_삭제_불필요한_이미지파일_존재하지_않을경우() throws Exception {
-		List<String> list2 = new ArrayList<>();
 		
-		fileCheckService.deleteFilesInFolder(list2);
+		List<String> list = new ArrayList<>();
+		
+		fileCheckService.deleteFilesInFolder(list);
 		
 		File[] filesList = new File(fixedRoot, variationRoot).listFiles();
 		
 		assertThat(filesList.length, is(4));
+	}
+	
+	@Test
+	public void 이미지_파일_삭제_불필요한_이미지파일_존재하는경우() throws Exception {
+		
+		List<String> list1 = fileService.getImageFileList();
+		
+		List<String> list2 = fileCheckService.getListOfFilesInFolder();
+		
+		List<String> result = fileCheckService.getUnknownFiles(list1, list2);
+		
+		fileCheckService.deleteFilesInFolder(result);
+		
+		File[] filesList = new File(fixedRoot, variationRoot).listFiles();
+		
+		assertThat(filesList.length, is(2));
 	}
 }
