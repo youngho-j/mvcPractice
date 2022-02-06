@@ -24,29 +24,43 @@ import lombok.extern.slf4j.Slf4j;
 public class FileManager {
 
 	// 고정 경로
-	private String fixedPath;
+	private final String fixedPath;
 
+	// MultipartFile List
+	private final List<MultipartFile> fileList;
+	
 	// 변동 경로
-	private String variationPath;
-
-	// 파일 이름
-	private String fileName;
-
-	public FileManager() {}
-
+	private final String variationPath;
+	
+	private final String fileName;
+	
+	private FileManager(Builder builder) {
+		this.fixedPath = builder.fixedPath;
+		this.variationPath = builder.variationPath;
+		this.fileList = builder.fileList;
+		this.fileName = builder.fileName;
+	}
+	
 	public static class Builder {
 
-		// 필수
 		private String fixedPath;
+		
+		private List<MultipartFile> fileList;
+		
+		private String variationPath = "";
+		
+		private String fileName = "";
 
-		private String variationPath;
-
-		private String fileName;
 
 		public Builder(String fixedPath) {
 			this.fixedPath = fixedPath;
 		}
 
+		public Builder fileList(List<MultipartFile> fileList) {
+			this.fileList = fileList;
+			return this;
+		}
+		
 		public Builder variationPath(String variationPath) {
 			this.variationPath = variationPath;
 			return this;
@@ -56,84 +70,75 @@ public class FileManager {
 			this.fileName = fileName;
 			return this;
 		}
-
+		
 		public FileManager build() {
-			FileManager fileManager = new FileManager();
-
-			fileManager.fixedPath = fixedPath;
-			fileManager.variationPath = variationPath;
-			fileManager.fileName = fileName;
-
-			return fileManager;
+			return new FileManager(this);
 		}
 	}
 	
-	public boolean createFolder(File file) throws Exception {
-		if (!file.exists()) {
+	public boolean createFolder() throws Exception {
+		File folder = new File(fixedPath, variationPath);
+		
+		if (!folder.exists()) {
 			log.info("폴더 생성");
-			return file.mkdirs();
+			return folder.mkdirs();
 		}
 		log.info("이미 폴더가 생성되었습니다.");
 		return false;
 	}
 
-	public List<ImageInfoVO> transferToFolder(List<MultipartFile> multipartFile, String uploadRoot) throws Exception {
-
+	public List<ImageInfoVO> getSavedImagefile() throws Exception {
+		
 		List<ImageInfoVO> imageList = new ArrayList<ImageInfoVO>();
-
-		StringBuilder sb = new StringBuilder();
-
-		for (MultipartFile file : multipartFile) {
+		
+		for (MultipartFile file : fileList) {
 			String uploadFileName = file.getOriginalFilename();
-
+			
 			// 파일 이름 중복을 막기위해 UUID 사용
 			String uuid = UUID.randomUUID().toString();
-
+			
 			// 이미지 정보를 담은 객체
 			ImageInfoVO imageInfo = 
 					new ImageInfoVO.Builder()
-					.uploadPath(uploadRoot).uuid(uuid)
+					.uploadPath(fixedPath + File.separator + variationPath).uuid(uuid)
 					.fileName(uploadFileName)
 					.build();
-
-			sb.append(uuid);
-			sb.append("_");
-			sb.append(uploadFileName);
-
-			uploadFileName = sb.toString();
-
-			// 변경된 파일 이름과 해당년월일자 폴더 경로를 갖는 file 객체 생성
-			File saveFile = new File(uploadRoot, uploadFileName);
-
-			// 수신 파일 객체(file)를 목적지 파일 객체(savefile)로 전달하여 저장
-			file.transferTo(saveFile);
-
-			// 썸네일 생성 및 저장
-			saveThumbnail(sb, uploadRoot, saveFile);
-
+			
+			String uploadRoot = imageInfo.getUploadPath();
+			String convertFileName = imageInfo.getUuid() + "_" + imageInfo.getFileName();
+			
+			// 업로드 경로와 최종 수정된 이미지 파일이름을 갖는 이미지 객체
+			File destImageFile = new File(uploadRoot, convertFileName);
+			
+			// 이미지 파일 업로드 폴더 내 저장
+			saveImageFile(file, destImageFile);
+			
+			String thumbFileName = "t_" + convertFileName;
+			
+			// 업로드 경로와 썸네일 이미지 파일이름을 갖는 이미지 객체
+			File thumbImageFile = new File(uploadRoot, thumbFileName);
+			
+			// 썸네일 파일 업로드 폴더 내 저장
+			saveThumbnail(thumbImageFile, destImageFile);
+			
 			imageList.add(imageInfo);
-
-			log.info("파일 저장 완료!");
-
-			// 길이를 0으로 설정하여 StringBuilder 초기화
-			sb.setLength(0);
-
+			
 		}
 		return imageList;
 	}
-
-	public void saveThumbnail(StringBuilder sb, String uploadRoot, File saveFile) throws Exception {
-		// 기존 작성된 파일명 앞에 추가
-		sb.insert(0, "t_");
-
+	
+	public void saveImageFile(MultipartFile file, File destFile) throws Exception {
+		
+		// 수신한 멀티파트파일 객체(file)를 목적지 파일 객체(savefile)로 전달하여 저장
+		file.transferTo(destFile);			
+		log.info("이미지 파일 저장 완료!");
+	}
+	
+	public void saveThumbnail(File thumbnailFile , File imageFile) throws Exception {
 		double scaleDown = 3;
 
-		String thumbnailSaveFileName = sb.toString();
-
-		File thumbnailFile = new File(uploadRoot, thumbnailSaveFileName);
-
 		// 기존 파일 객체를 BufferedImage 객체로 변환 (썸네일로 만들기 위한 전 작업)
-		BufferedImage originImage = ImageIO.read(saveFile);
+		BufferedImage originImage = ImageIO.read(imageFile);
 
 		// 원본 사진의 높이와 너비 길이 축소
 		int width = convertSize(originImage.getWidth(), scaleDown);
@@ -152,17 +157,15 @@ public class FileManager {
 		log.info("썸네일 파일 저장 완료!");
 	}
 
-	public boolean imageCheck(List<MultipartFile> multipartFile) throws Exception {
-		for (MultipartFile file : multipartFile) {
+	public boolean MIMETYPECheck() throws Exception {
+		for (MultipartFile file : fileList) {
 
 			Path filePath = new File(file.getOriginalFilename()).toPath();
 
-			String getType = null;
+			String mimeType = Files.probeContentType(filePath);
+			log.info("파일 MIME TYPE : {}", mimeType);
 
-			getType = Files.probeContentType(filePath);
-			log.info("파일 MIME TYPE : " + getType);
-
-			if (!getType.startsWith("image")) {
+			if (!mimeType.startsWith("image")) {
 				return false;
 			}
 
@@ -170,7 +173,8 @@ public class FileManager {
 		return true;
 	}
 	
-	public boolean deleteImg() {
+	// 상품 등록 페이지 - 폴더내 이미지 파일 삭제(ajax)
+	public boolean deleteImageFile() {
 		File file = null;
 		
 		try {
