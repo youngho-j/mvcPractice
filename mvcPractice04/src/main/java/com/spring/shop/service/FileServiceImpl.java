@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class FileServiceImpl implements FileService{
+public class FileServiceImpl implements FileService {
 
 	@Autowired
 	private FileMapper fileMapper;
@@ -27,7 +27,7 @@ public class FileServiceImpl implements FileService{
 	}
 
 	@Override
-	public List<String> getImageFileList() throws Exception {
+	public List<String> getTheDayBeforeListOfImgFiles() throws Exception {
 		log.info("하루 전 저장된 이미지 정보 목록");
 		
 		// 이미지 파일 경로를 담을 객체
@@ -50,37 +50,37 @@ public class FileServiceImpl implements FileService{
 		}
 		return new ArrayList<>();
 	}
-	
-	@Override
-	public boolean deleteImageFiles(List<ImageInfoVO> fileList)  {
-		log.info("이미지 파일들 삭제");
-		if(!fileList.isEmpty()) {
-			List<File> deleteFileList = new ArrayList<File>();
-			
-			fileList.forEach(info -> {
-				
-				File imageFile = new File(info.getUploadPath(), info.getUuid() + "_" + info.getFileName());
-				File thumbFile = new File(info.getUploadPath(), "t_" + info.getUuid() + "_" + info.getFileName());
-				
-				deleteFileList.add(imageFile);
-				deleteFileList.add(thumbFile);
-				
-			});
-			
-			// 삭제
-			for(File file : deleteFileList) {
-				try {
-					log.info(file.getAbsolutePath() + " 경로의 파일 삭제");
-					file.delete();
-				} catch (Exception e) {
-					e.printStackTrace();
-					return false;
-				}
-				
-			}
-			
-			return true;
-		}
-		return true;
-	}
+// 사용되는 곳이 없어 일단 주석 처리
+//	@Override
+//	public boolean deleteImageFiles(List<ImageInfoVO> fileList)  {
+//		log.info("이미지 파일들 삭제");
+//		if(!fileList.isEmpty()) {
+//			List<File> deleteFileList = new ArrayList<File>();
+//			
+//			fileList.forEach(info -> {
+//				
+//				File imageFile = new File(info.getUploadPath(), info.getUuid() + "_" + info.getFileName());
+//				File thumbFile = new File(info.getUploadPath(), "t_" + info.getUuid() + "_" + info.getFileName());
+//				
+//				deleteFileList.add(imageFile);
+//				deleteFileList.add(thumbFile);
+//				
+//			});
+//			
+//			// 삭제
+//			for(File file : deleteFileList) {
+//				try {
+//					log.info(file.getAbsolutePath() + " 경로의 파일 삭제");
+//					file.delete();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					return false;
+//				}
+//				
+//			}
+//			
+//			return true;
+//		}
+//		return true;
+//	}
 }

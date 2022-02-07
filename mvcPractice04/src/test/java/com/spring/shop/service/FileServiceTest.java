@@ -87,28 +87,28 @@ public class FileServiceTest {
 	
 	@Test
 	public void DB에_저장된_이미지_경로_목록_출력_테스트() throws Exception {
-		List<String> list = fileService.getImageFileList();
+		List<String> list = fileService.getTheDayBeforeListOfImgFiles();
 		
 		assertNull(list);
 	}
-	
-	@Test
-	public void 이미지_파일_삭제() throws Exception {
-		List<ImageInfoVO> infoList = new ArrayList<ImageInfoVO>();
-		
-		ImageInfoVO vo = new ImageInfoVO();
-		vo.setUploadPath(fixedRoot + "\\" + variationRoot);
-		vo.setUuid(uuid);
-		vo.setFileName("book2.png");
-		
-		infoList.add(vo);
-		
-		boolean result = fileService.deleteImageFiles(infoList);
-		
-		assertTrue(result);
-        
-		File[] filesList = new File(fixedRoot, variationRoot).listFiles();
-		
-		assertThat(filesList.length, is(0));
-	}
+// 사용되는 곳이 없어 일단 주석 처리
+//	@Test
+//	public void 이미지_파일_삭제() throws Exception {
+//		List<ImageInfoVO> infoList = new ArrayList<ImageInfoVO>();
+//		
+//		ImageInfoVO vo = new ImageInfoVO();
+//		vo.setUploadPath(fixedRoot + "\\" + variationRoot);
+//		vo.setUuid(uuid);
+//		vo.setFileName("book2.png");
+//		
+//		infoList.add(vo);
+//		
+//		boolean result = fileService.deleteImageFiles(infoList);
+//		
+//		assertTrue(result);
+//        
+//		File[] filesList = new File(fixedRoot, variationRoot).listFiles();
+//		
+//		assertThat(filesList.length, is(0));
+//	}
 }
