@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -30,11 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 @ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml"})
 public class FileManagerTest {
 
-	private FileManager fileManager1;
+	private FileManager fileManager;
 	
 	@Before
 	public void setUp() throws Exception {
-		List<MultipartFile> fileList = new ArrayList<MultipartFile>();
 		
 		// 테스트 파일 이름 및 경로 
 		String fileName = "book2.png";
@@ -43,24 +41,22 @@ public class FileManagerTest {
 		// MockMultipartFile 생성
 		MultipartFile mockMultipartFile = new MockMultipartFile(fileName, fileName, "image/png", new FileInputStream(new File(filePath, fileName)));
 		
-		fileList.add(mockMultipartFile);
-		
-		fileManager1 = new FileManager
+		fileManager = new FileManager
 				.Builder("H:\\mvcPractice04upload")
-				.fileList(fileList)
+				.fileInfo(mockMultipartFile)
 				.variationPath("2022\\01\\20")
 				.build();
 	}
 	
 	@After
 	public void afterTest() throws Exception {
-		File targetFolder = new File(fileManager1.getFixedPath());
+		File targetFolder = new File(fileManager.getFixedPath());
 		
 		Files.walk(targetFolder.toPath())
 			.sorted(Comparator.reverseOrder())
 			.map(Path::toFile)
 			.forEach((file)->{
-				if(file.getPath().equals(fileManager1.getFixedPath())){
+				if(file.getPath().equals(fileManager.getFixedPath())){
 					return;
 				}
 				log.info("{} >> 삭제되었습니다.", file.getPath());
@@ -71,7 +67,7 @@ public class FileManagerTest {
 	@Test
 	public void 폴더_생성_테스트() throws Exception {
 		
-		boolean result = fileManager1.createFolder();
+		boolean result = fileManager.createFolder();
 		
 		assertThat(true, is(result));
 	}
@@ -79,20 +75,18 @@ public class FileManagerTest {
 	@Test
 	public void 이미지_파일_저장_테스트() throws Exception {
 		
-		fileManager1.createFolder();
+		fileManager.createFolder();
 		
-		List<MultipartFile> fileList = fileManager1.getFileList();
+		MultipartFile fileInfo = fileManager.getFileInfo();
 		
-		String fileName = fileList.get(0).getOriginalFilename();
+		String fileName = fileInfo.getOriginalFilename();
 		
-		String uploadRoot = fileManager1.getFixedPath() + File.separator + fileManager1.getVariationPath();
+		String uploadRoot = fileManager.getFixedPath() + File.separator + fileManager.getVariationPath();
 		
 		File destFile = new File(uploadRoot, fileName);
 		
-		for(MultipartFile file : fileList) {
-			fileManager1.saveImageFile(file, destFile);
-			log.info("{} >> 저장되었습니다.", destFile.toPath());
-		}
+		fileManager.saveImageFile(fileInfo, destFile);
+		log.info("{} >> 저장되었습니다.", destFile.toPath());
 		
 		assertTrue(destFile.exists());
 	}
@@ -100,26 +94,24 @@ public class FileManagerTest {
 	@Test
 	public void 썸네일_파일_저장_테스트() throws Exception {
 		
-		fileManager1.createFolder();
+		fileManager.createFolder();
 		
-		List<MultipartFile> fileList = fileManager1.getFileList();
+		MultipartFile fileInfo = fileManager.getFileInfo();
 		
-		String fileName = fileList.get(0).getOriginalFilename();
+		String fileName = fileInfo.getOriginalFilename();
 		
 		String thumbFileName = "t_" + fileName;
 		
-		String uploadRoot = fileManager1.getFixedPath() + File.separator + fileManager1.getVariationPath();
+		String uploadRoot = fileManager.getFixedPath() + File.separator + fileManager.getVariationPath();
 		
 		File destFile = new File(uploadRoot, fileName);
 		File thumbFile = new File(uploadRoot, thumbFileName);
 		
-		for(MultipartFile file : fileList) {
-			fileManager1.saveImageFile(file, destFile);
-			log.info("{} >> 저장되었습니다.", destFile.toPath());
+		fileManager.saveImageFile(fileInfo, destFile);
+		log.info("{} >> 저장되었습니다.", destFile.toPath());
 			
-			fileManager1.saveThumbnail(thumbFile, destFile);
-			log.info("{} >> 저장되었습니다.", thumbFile.toPath());
-		}
+		fileManager.saveThumbnail(thumbFile, destFile);
+		log.info("{} >> 저장되었습니다.", thumbFile.toPath());
 		
 		assertTrue(thumbFile.exists());
 	}
@@ -127,7 +119,7 @@ public class FileManagerTest {
 	@Test
 	public void 파일_MIME_TYPE_확인_테스트() throws Exception {
 		
-		boolean result = fileManager1.MIMETYPECheck();
+		boolean result = fileManager.MIMETYPECheck();
 		
 		assertTrue(result);
 		
@@ -135,11 +127,11 @@ public class FileManagerTest {
 	
 	@Test
 	public void 폴더내_저장된_파일목록_테스트() throws Exception {
-		File targetFolder = new File(fileManager1.getFixedPath(), fileManager1.getVariationPath());
+		File targetFolder = new File(fileManager.getFixedPath(), fileManager.getVariationPath());
 		
-		fileManager1.createFolder();
+		fileManager.createFolder();
 		
-		List<ImageInfoVO> imageList = fileManager1.getSavedImagefile();
+		List<ImageInfoVO> imageList = fileManager.getSavedImagefile();
 		
 		File[] result = targetFolder.listFiles();
 		

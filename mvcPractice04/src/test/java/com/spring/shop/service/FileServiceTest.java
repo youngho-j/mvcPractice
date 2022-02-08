@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -81,15 +80,15 @@ public class FileServiceTest {
 		
 		List<ImageInfoVO> list = fileService.getImageList(16);
 		
-		assertNotNull(list);
+		assertTrue(list.isEmpty());
 		assertThat(list.size(), is(0));
 	}
 	
 	@Test
-	public void DB에_저장된_이미지_경로_목록_출력_테스트() throws Exception {
+	public void 하루전_저장된_이미지_정보_목록_출력_테스트() throws Exception {
 		List<String> list = fileService.getTheDayBeforeListOfImgFiles();
 		
-		assertNull(list);
+		assertTrue(list.isEmpty());
 	}
 // 사용되는 곳이 없어 일단 주석 처리
 //	@Test

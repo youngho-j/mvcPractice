@@ -181,7 +181,7 @@ public class FileCheckServiceTest {
 	@Test
 	public void 불필요한_이미지_파일제거_DB_폴더내_이미지_존재하는경우() throws Exception {
 		
-		List<String> list1 = fileService.getImageFileList();
+		List<String> list1 = fileService.getTheDayBeforeListOfImgFiles();
 		log.info("DB 목록 : {}", list1.toString());
 		
 		List<String> list2 = fileCheckService.getListOfFilesInFolder();
@@ -219,7 +219,7 @@ public class FileCheckServiceTest {
 	@Test
 	public void 이미지_파일_삭제_불필요한_이미지파일_존재하는경우() throws Exception {
 		
-		List<String> list1 = fileService.getImageFileList();
+		List<String> list1 = fileService.getTheDayBeforeListOfImgFiles();
 		
 		List<String> list2 = fileCheckService.getListOfFilesInFolder();
 		

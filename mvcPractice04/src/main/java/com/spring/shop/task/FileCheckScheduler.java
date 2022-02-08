@@ -29,7 +29,7 @@ public class FileCheckScheduler {
 	public void checkNeedlessFiles() throws Exception {
 		log.info("불필요 이미지 파일 제거 스케쥴러 실행");
 		
-		List<String> dbImageList = fileService.getImageFileList();
+		List<String> dbImageList = fileService.getTheDayBeforeListOfImgFiles();
 		
 		List<String> folderImageList = fileCheckService.getListOfFilesInFolder();
 		

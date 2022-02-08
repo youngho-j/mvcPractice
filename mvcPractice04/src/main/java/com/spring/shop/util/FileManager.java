@@ -27,7 +27,7 @@ public class FileManager {
 	private final String fixedPath;
 
 	// MultipartFile List
-	private final List<MultipartFile> fileList;
+	private final MultipartFile fileInfo;
 	
 	// 변동 경로
 	private final String variationPath;
@@ -37,7 +37,7 @@ public class FileManager {
 	private FileManager(Builder builder) {
 		this.fixedPath = builder.fixedPath;
 		this.variationPath = builder.variationPath;
-		this.fileList = builder.fileList;
+		this.fileInfo = builder.fileInfo;
 		this.fileName = builder.fileName;
 	}
 	
@@ -45,7 +45,7 @@ public class FileManager {
 
 		private String fixedPath;
 		
-		private List<MultipartFile> fileList;
+		private MultipartFile fileInfo;
 		
 		private String variationPath = "";
 		
@@ -56,8 +56,8 @@ public class FileManager {
 			this.fixedPath = fixedPath;
 		}
 
-		public Builder fileList(List<MultipartFile> fileList) {
-			this.fileList = fileList;
+		public Builder fileInfo(MultipartFile fileInfo) {
+			this.fileInfo = fileInfo;
 			return this;
 		}
 		
@@ -91,39 +91,37 @@ public class FileManager {
 		
 		List<ImageInfoVO> imageList = new ArrayList<ImageInfoVO>();
 		
-		for (MultipartFile file : fileList) {
-			String uploadFileName = file.getOriginalFilename();
+		String uploadFileName = fileInfo.getOriginalFilename();
 			
-			// 파일 이름 중복을 막기위해 UUID 사용
-			String uuid = UUID.randomUUID().toString();
+		// 파일 이름 중복을 막기위해 UUID 사용
+		String uuid = UUID.randomUUID().toString();
 			
-			// 이미지 정보를 담은 객체
-			ImageInfoVO imageInfo = 
-					new ImageInfoVO.Builder()
-					.uploadPath(fixedPath + File.separator + variationPath).uuid(uuid)
-					.fileName(uploadFileName)
-					.build();
+		// 이미지 정보를 담은 객체
+		ImageInfoVO imageInfo = 
+				new ImageInfoVO.Builder()
+				.uploadPath(fixedPath + File.separator + variationPath).uuid(uuid)
+				.fileName(uploadFileName)
+				.build();
 			
-			String uploadRoot = imageInfo.getUploadPath();
-			String convertFileName = imageInfo.getUuid() + "_" + imageInfo.getFileName();
+		String uploadRoot = imageInfo.getUploadPath();
+		String convertFileName = imageInfo.getUuid() + "_" + imageInfo.getFileName();
 			
-			// 업로드 경로와 최종 수정된 이미지 파일이름을 갖는 이미지 객체
-			File destImageFile = new File(uploadRoot, convertFileName);
+		// 업로드 경로와 최종 수정된 이미지 파일이름을 갖는 이미지 객체
+		File destImageFile = new File(uploadRoot, convertFileName);
 			
-			// 이미지 파일 업로드 폴더 내 저장
-			saveImageFile(file, destImageFile);
+		// 이미지 파일 업로드 폴더 내 저장
+		saveImageFile(fileInfo, destImageFile);
 			
-			String thumbFileName = "t_" + convertFileName;
+		String thumbFileName = "t_" + convertFileName;
 			
-			// 업로드 경로와 썸네일 이미지 파일이름을 갖는 이미지 객체
-			File thumbImageFile = new File(uploadRoot, thumbFileName);
+		// 업로드 경로와 썸네일 이미지 파일이름을 갖는 이미지 객체
+		File thumbImageFile = new File(uploadRoot, thumbFileName);
 			
-			// 썸네일 파일 업로드 폴더 내 저장
-			saveThumbnail(thumbImageFile, destImageFile);
+		// 썸네일 파일 업로드 폴더 내 저장
+		saveThumbnail(thumbImageFile, destImageFile);
 			
-			imageList.add(imageInfo);
+		imageList.add(imageInfo);
 			
-		}
 		return imageList;
 	}
 	
@@ -158,18 +156,16 @@ public class FileManager {
 	}
 
 	public boolean MIMETYPECheck() throws Exception {
-		for (MultipartFile file : fileList) {
 
-			Path filePath = new File(file.getOriginalFilename()).toPath();
+		Path filePath = new File(fileInfo.getOriginalFilename()).toPath();
 
-			String mimeType = Files.probeContentType(filePath);
-			log.info("파일 MIME TYPE : {}", mimeType);
+		String mimeType = Files.probeContentType(filePath);
+		log.info("파일 MIME TYPE : {}", mimeType);
 
-			if (!mimeType.startsWith("image")) {
-				return false;
-			}
-
+		if (!mimeType.startsWith("image")) {
+			return false;
 		}
+
 		return true;
 	}
 	

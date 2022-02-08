@@ -554,8 +554,7 @@
 		let formData = new FormData();
 		
 		let uploadFile = $('input[name="uploadFile"]');
-		let fileList = uploadFile[0].files;
-		let fileObj = fileList[0];
+		let fileObj = uploadFile[0].files[0];
 		
 		if(!fileCheck(fileObj.name, fileObj.size)) {
 			return false;
