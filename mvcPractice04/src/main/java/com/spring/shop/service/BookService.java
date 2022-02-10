@@ -1,6 +1,9 @@
 package com.spring.shop.service;
 
+import java.util.List;
+
 import com.spring.shop.vo.BookVO;
+import com.spring.shop.vo.ImageInfoVO;
 
 public interface BookService extends TestMethodService{
 	// 상품 등록
@@ -14,4 +17,7 @@ public interface BookService extends TestMethodService{
 		
 	// 상품 정보 삭제
 	public int goodsDelete(int bookId) throws Exception;
+	
+	// 상품 정보 삭제 태스트
+	public List<ImageInfoVO> goodsDelete2(int bookId) throws Exception;
 }

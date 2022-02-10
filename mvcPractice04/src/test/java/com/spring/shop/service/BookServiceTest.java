@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.CollectionUtils;
 
 import com.spring.shop.mapper.AuthorMapper;
 import com.spring.shop.mapper.FileMapper;
@@ -173,6 +174,34 @@ public class BookServiceTest {
 		int deleteResult = bookService.goodsDelete(lastBookId);
 		
 		assertThat(deleteResult, is(2));
+		assertThat(bookService.getCount(), is(0));
+	}
+	
+	@Test
+	public void 이미지_등록된_상품_삭제_테스트2() throws Exception {
+		assertThat(bookService.getCount(), is(0));
+		
+		bookService.goodsEnroll(book1);
+		
+		int lastBookId = bookService.getLastPK();
+		
+		List<ImageInfoVO> list = bookService.goodsDelete2(lastBookId);
+		
+		assertFalse(CollectionUtils.isEmpty(list));
+		assertThat(bookService.getCount(), is(0));
+	}
+	
+	@Test
+	public void 이미지_없는_상품_삭제_테스트2() throws Exception {
+		assertThat(bookService.getCount(), is(0));
+		
+		bookService.goodsEnroll(book3);
+		
+		int lastBookId = bookService.getLastPK();
+		
+		List<ImageInfoVO> list = bookService.goodsDelete2(lastBookId);
+		
+		assertTrue(CollectionUtils.isEmpty(list));
 		assertThat(bookService.getCount(), is(0));
 	}
 	

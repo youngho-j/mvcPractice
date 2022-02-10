@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.spring.shop.mapper.BookMapper;
 import com.spring.shop.mapper.FileMapper;
@@ -50,7 +51,7 @@ public class BookServiceImpl implements BookService{
 		}
 			
 		// 이미지 없는 상품 등록
-		if(bookEnrollResult == 1 && bookVO.getImagesList() == null || bookVO.getImagesList().size() <= 0) {
+		if(bookEnrollResult == 1 && CollectionUtils.isEmpty(bookVO.getImagesList())) {
 			log.info("이미지 없는 상품 정보 등록");
 			return bookEnrollResult;
 		}
@@ -134,6 +135,7 @@ public class BookServiceImpl implements BookService{
 		
 		List<ImageInfoVO> goodsImgList = fileMapper.getImageList(bookId);
 		
+		// 해당 메서드에서 파일 목록을 삭제하지말고 삭제가 완료 되었을때 삭제하도록 변경해보기
 		if(goodsImgList.size() > 0) {
 			log.info("상품 이미지 파일 목록 존재할 경우");
 			
@@ -162,6 +164,24 @@ public class BookServiceImpl implements BookService{
 		return deleteResult;
 	}
 	
+	@Transactional
+	@Override
+	public List<ImageInfoVO> goodsDelete2(int bookId) throws Exception {
+		log.info("상품 정보 삭제 service 실행");
+		List<ImageInfoVO> goodsImgList = fileMapper.getImageList(bookId);
+		
+		if(CollectionUtils.isEmpty(goodsImgList)) {
+			log.info("등록된 이미지 정보 없음");
+			bookMapper.goodsDelete(bookId);
+			return new ArrayList<>();
+		}
+		
+		fileMapper.goodsImgDelete(bookId);
+		bookMapper.goodsDelete(bookId);
+		
+		return goodsImgList;
+	}
+
 	@Override
 	public void deleteAll() {
 		fileMapper.deleteAll();
