@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -12,9 +13,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.shop.service.BookService;
 import com.spring.shop.service.CategoryService;
+import com.spring.shop.util.FileManager;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.CategoryVO;
+import com.spring.shop.vo.ImageInfoVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,10 +87,23 @@ public class BookController {
 	public String goodsDeletePOST(int bookId, RedirectAttributes redirect) throws Exception {
 		log.info("관리자 - 상품 정보 삭제");
 		
-		int result = bookService.goodsDelete(bookId);
+		List<ImageInfoVO> list = bookService.goodsDelete2(bookId);
 		
-		redirect.addFlashAttribute("deleteResult", result);
+		if(!CollectionUtils.isEmpty(list)) {
+			
+			for(ImageInfoVO image : list) {
+				FileManager file = new FileManager
+						.Builder(image.getUploadPath())
+						.fileName(image.getUuid() + "_" + image.getFileName()).build();
+				
+				file.deleteImageFile();
+			}
+			
+			redirect.addFlashAttribute("deleteResult", list.size());
+			return "redirect:/admin/goodsManage";
+		}
 		
+		log.info("삭제할 이미지 정보가 존재하지 않습니다.");
 		return "redirect:/admin/goodsManage";
 	}
 }

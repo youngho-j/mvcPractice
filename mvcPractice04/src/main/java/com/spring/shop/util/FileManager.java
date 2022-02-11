@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -47,9 +48,9 @@ public class FileManager {
 		
 		private MultipartFile fileInfo;
 		
-		private String variationPath = "";
+		private String variationPath;
 		
-		private String fileName = "";
+		private String fileName;
 
 
 		public Builder(String fixedPath) {
@@ -174,8 +175,14 @@ public class FileManager {
 		File file = null;
 		
 		try {
-			// 썸네일 객체 생성 / fileName -> 유동경로 + UUID + 파일 이름
-			file = new File(fixedPath, URLDecoder.decode(fileName, "UTF-8"));
+			if(Objects.equals(fixedPath, "H:\\mvcPractice04upload")) {
+				// 썸네일 객체 생성 / fileName -> 유동경로 + UUID + 파일 이름
+				log.info("파일 삭제 - ajax 방식");
+				file = new File(fixedPath, URLDecoder.decode(fileName, "UTF-8"));				
+			} else {
+				log.info("파일 삭제 - 관리자 삭제");
+				file = new File(fixedPath, "t_" + fileName);								
+			}
 			
 			// 원본 파일 경로
 			String originFilePath = file.getAbsolutePath().replace("t_", "");

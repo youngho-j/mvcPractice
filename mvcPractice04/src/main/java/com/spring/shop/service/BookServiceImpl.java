@@ -1,7 +1,6 @@
 package com.spring.shop.service;
 
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,43 +124,6 @@ public class BookServiceImpl implements BookService{
 		updateResult = bookUpdateResult + imageUpdateResult;
 		
 		return updateResult;
-	}
-	
-	@Transactional
-	@Override
-	public int goodsDelete(int bookId) throws Exception {
-		log.info("상품 삭제 service 실행");
-		int deleteResult = 0;
-		
-		List<ImageInfoVO> goodsImgList = fileMapper.getImageList(bookId);
-		
-		// 해당 메서드에서 파일 목록을 삭제하지말고 삭제가 완료 되었을때 삭제하도록 변경해보기
-		if(goodsImgList.size() > 0) {
-			log.info("상품 이미지 파일 목록 존재할 경우");
-			
-			List<File> deleteFileList = new ArrayList<File>();
-			
-			goodsImgList.forEach(info -> {
-				
-				File imageFile = new File(info.getUploadPath(), info.getUuid() + "_" + info.getFileName());
-				File thumbFile = new File(info.getUploadPath(), "t_" + info.getUuid() + "_" + info.getFileName());
-				
-				deleteFileList.add(imageFile);
-				deleteFileList.add(thumbFile);
-				
-			});
-			
-			for(File file : deleteFileList) {
-				log.info("{} > 경로의 파일 삭제", file.getAbsolutePath());
-				file.delete();
-			}
-			
-			deleteResult += fileMapper.goodsImgDelete(bookId);
-		}
-		
-		deleteResult += bookMapper.goodsDelete(bookId);
-		
-		return deleteResult;
 	}
 	
 	@Transactional

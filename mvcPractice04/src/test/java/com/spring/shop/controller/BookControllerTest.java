@@ -165,11 +165,10 @@ public class BookControllerTest {
 	}
 	
 	@Test
-	public void 책_정보삭제_테스트() throws Exception {
+	public void 이미지_없는_책_정보삭제_테스트() throws Exception {
 		mock.perform(post("/admin/goodsDelete")
 				.param("bookId", bookId))
 		.andExpect(status().is3xxRedirection())
-		.andExpect(flash().attributeExists("deleteResult"))
 		.andExpect(redirectedUrl("/admin/goodsManage"))
 		.andDo(print());
 	}

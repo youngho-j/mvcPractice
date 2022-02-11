@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.shop.vo.ImageInfoVO;
@@ -30,7 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 public class FileManagerTest {
 
 	private FileManager fileManager;
-	
 	@Before
 	public void setUp() throws Exception {
 		
@@ -44,8 +44,9 @@ public class FileManagerTest {
 		fileManager = new FileManager
 				.Builder("H:\\mvcPractice04upload")
 				.fileInfo(mockMultipartFile)
-				.variationPath("2022\\01\\20")
+				.variationPath(new PathManager().getNowPath())
 				.build();
+		
 	}
 	
 	@After
@@ -69,7 +70,7 @@ public class FileManagerTest {
 		
 		boolean result = fileManager.createFolder();
 		
-		assertThat(true, is(result));
+		assertTrue(result);
 	}
 	
 	@Test
@@ -117,26 +118,45 @@ public class FileManagerTest {
 	}
 	
 	@Test
+	public void 이미지_저장후_목록리턴_테스트() throws Exception {
+		
+		fileManager.createFolder();
+		
+		List<ImageInfoVO> list = fileManager.getSavedImagefile();
+		
+		assertTrue(!CollectionUtils.isEmpty(list));
+		
+		File[] files = new File(fileManager.getFixedPath(), fileManager.getVariationPath()).listFiles();
+		
+		assertThat(files.length, is(2));
+	}
+	
+	@Test
 	public void 파일_MIME_TYPE_확인_테스트() throws Exception {
 		
 		boolean result = fileManager.MIMETYPECheck();
 		
 		assertTrue(result);
-		
 	}
 	
 	@Test
-	public void 폴더내_저장된_파일목록_테스트() throws Exception {
-		File targetFolder = new File(fileManager.getFixedPath(), fileManager.getVariationPath());
+	public void 이미지_삭제_테스트() throws Exception {
 		
 		fileManager.createFolder();
 		
-		List<ImageInfoVO> imageList = fileManager.getSavedImagefile();
+		List<ImageInfoVO> list = fileManager.getSavedImagefile();
 		
-		File[] result = targetFolder.listFiles();
+		for(ImageInfoVO image : list) {
+			FileManager file = new FileManager
+					.Builder(image.getUploadPath())
+					.fileName(image.getUuid() + "_" + image.getFileName()).build();
+			
+			file.deleteImageFile();
+		}
 		
-		assertThat(imageList.size(), is(1));
+		File[] files = new File(fileManager.getFixedPath(), fileManager.getVariationPath()).listFiles();
 		
-		assertThat(result.length, is(2));
+		assertThat(files.length, is(0));
 	}
+	
 }

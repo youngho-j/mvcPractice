@@ -171,37 +171,9 @@ public class BookServiceTest {
 		
 		int lastBookId = bookService.getLastPK();
 		
-		int deleteResult = bookService.goodsDelete(lastBookId);
-		
-		assertThat(deleteResult, is(2));
-		assertThat(bookService.getCount(), is(0));
-	}
-	
-	@Test
-	public void 이미지_등록된_상품_삭제_테스트2() throws Exception {
-		assertThat(bookService.getCount(), is(0));
-		
-		bookService.goodsEnroll(book1);
-		
-		int lastBookId = bookService.getLastPK();
-		
 		List<ImageInfoVO> list = bookService.goodsDelete2(lastBookId);
 		
 		assertFalse(CollectionUtils.isEmpty(list));
-		assertThat(bookService.getCount(), is(0));
-	}
-	
-	@Test
-	public void 이미지_없는_상품_삭제_테스트2() throws Exception {
-		assertThat(bookService.getCount(), is(0));
-		
-		bookService.goodsEnroll(book3);
-		
-		int lastBookId = bookService.getLastPK();
-		
-		List<ImageInfoVO> list = bookService.goodsDelete2(lastBookId);
-		
-		assertTrue(CollectionUtils.isEmpty(list));
 		assertThat(bookService.getCount(), is(0));
 	}
 	
@@ -213,9 +185,9 @@ public class BookServiceTest {
 		
 		int lastBookId = bookService.getLastPK();
 		
-		int deleteResult = bookService.goodsDelete(lastBookId);
+		List<ImageInfoVO> list = bookService.goodsDelete2(lastBookId);
 		
-		assertThat(deleteResult, is(1));
+		assertTrue(CollectionUtils.isEmpty(list));
 		assertThat(bookService.getCount(), is(0));
 	}
 	
