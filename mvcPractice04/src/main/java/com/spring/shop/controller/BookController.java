@@ -87,7 +87,7 @@ public class BookController {
 	public String goodsDeletePOST(int bookId, RedirectAttributes redirect) throws Exception {
 		log.info("관리자 - 상품 정보 삭제");
 		
-		List<ImageInfoVO> list = bookService.goodsDelete2(bookId);
+		List<ImageInfoVO> list = bookService.goodsDelete(bookId);
 		
 		if(!CollectionUtils.isEmpty(list)) {
 			

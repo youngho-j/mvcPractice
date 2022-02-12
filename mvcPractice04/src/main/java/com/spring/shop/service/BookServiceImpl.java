@@ -128,7 +128,7 @@ public class BookServiceImpl implements BookService{
 	
 	@Transactional
 	@Override
-	public List<ImageInfoVO> goodsDelete2(int bookId) throws Exception {
+	public List<ImageInfoVO> goodsDelete(int bookId) throws Exception {
 		log.info("상품 정보 삭제 service 실행");
 		List<ImageInfoVO> goodsImgList = fileMapper.getImageList(bookId);
 		

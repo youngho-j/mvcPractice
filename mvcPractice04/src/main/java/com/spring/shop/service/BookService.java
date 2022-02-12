@@ -16,5 +16,5 @@ public interface BookService extends TestMethodService{
 	public int goodsModify(BookVO bookVO) throws Exception;
 		
 	// 상품 정보 삭제
-	public List<ImageInfoVO> goodsDelete2(int bookId) throws Exception;
+	public List<ImageInfoVO> goodsDelete(int bookId) throws Exception;
 }

@@ -19,9 +19,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/security-context.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 @WithMockUser(username = "testUser", roles = {"ADMIN"})
-public class AuthorSearchControllerTest2 {
+public class BookSearchControllerTest {
 	
 	@Autowired
 	private WebApplicationContext wac;
@@ -37,22 +39,30 @@ public class AuthorSearchControllerTest2 {
 	}
 	
 	@Test
-	public void 관리자_작가관리_페이지_호출_테스트() throws Exception {
-		mock.perform(get("/admin/authorManage"))
+	public void 상품검색_페이지이동_테스트() throws Exception {
+		mock.perform(get("/search"))
 		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("list"))
-		.andExpect(model().attributeExists("pagingManager"))
-		.andExpect(view().name("admin/authorManage"))
+		.andExpect(model().attributeExists("goodsListResult"))		
+		.andExpect(view().name("user/search"))
 		.andDo(print());
 	}
 	
 	@Test
-	public void 작가목록_팝업창_호출_테스트() throws Exception {
-		// 상품 등록 페이지에서 실행됨
-		mock.perform(get("/admin/authorSearch"))
+	public void 상품검색_관리자_페이지이동_테스트() throws Exception {
+		mock.perform(get("/admin/goodsManage"))
 		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("list"))
-		.andExpect(view().name("admin/authorSearch"))
+		.andExpect(model().attributeExists("checkResult"))		
+		.andExpect(view().name("admin/goodsManage"))
+		.andDo(print());
+	}
+	@Test
+	public void 상품검색_검색타입_키워드_입력_페이지이동_테스트() throws Exception {
+		mock.perform(get("/search")
+				.param("type", "T")
+				.param("keyword", ""))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("goodsListResult"))		
+		.andExpect(view().name("user/search"))
 		.andDo(print());
 	}
 }

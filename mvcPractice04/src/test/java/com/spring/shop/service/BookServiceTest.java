@@ -171,7 +171,7 @@ public class BookServiceTest {
 		
 		int lastBookId = bookService.getLastPK();
 		
-		List<ImageInfoVO> list = bookService.goodsDelete2(lastBookId);
+		List<ImageInfoVO> list = bookService.goodsDelete(lastBookId);
 		
 		assertFalse(CollectionUtils.isEmpty(list));
 		assertThat(bookService.getCount(), is(0));
@@ -185,7 +185,7 @@ public class BookServiceTest {
 		
 		int lastBookId = bookService.getLastPK();
 		
-		List<ImageInfoVO> list = bookService.goodsDelete2(lastBookId);
+		List<ImageInfoVO> list = bookService.goodsDelete(lastBookId);
 		
 		assertTrue(CollectionUtils.isEmpty(list));
 		assertThat(bookService.getCount(), is(0));
