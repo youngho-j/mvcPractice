@@ -14,7 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"})
 public class MailManagerTest {
 
 	private MailManager mailManager;
@@ -32,5 +33,6 @@ public class MailManagerTest {
 		
 		assertThat(6, is(num.length()));
 	}
+	
 	
 }
