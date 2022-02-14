@@ -22,7 +22,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/security-context.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class UserControllerTest {
 	
 	@Autowired
@@ -95,9 +97,10 @@ public class UserControllerTest {
 	}
 	
 	@Test
+	@WithAnonymousUser
 	public void 회원가입시_인증메일_테스트() throws Exception {
 		mock.perform(get("/mailCheck")
-				.param("email","test45"))
+				.param("email","wlslwlsl089@gmail.com"))
 		.andExpect(status().isOk())
 		.andDo(print());
 	}
@@ -118,26 +121,6 @@ public class UserControllerTest {
 				.with(csrf()))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/main"))
-		.andDo(print());
-	}
-	
-	@Test
-	public void 상품검색_페이지이동_테스트() throws Exception {
-		mock.perform(get("/search"))
-		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("goodsListResult"))		
-		.andExpect(view().name("/user/search"))
-		.andDo(print());
-	}
-	
-	@Test
-	public void 상품검색_검색타입_키워드_입력_페이지이동_테스트() throws Exception {
-		mock.perform(get("/search")
-				.param("type", "T")
-				.param("keyword", ""))
-		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("goodsListResult"))		
-		.andExpect(view().name("/user/search"))
 		.andDo(print());
 	}
 }

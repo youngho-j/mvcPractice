@@ -1,7 +1,5 @@
 package com.spring.shop.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.shop.service.BookService;
 import com.spring.shop.service.CategoryService;
 import com.spring.shop.service.MemberService;
 import com.spring.shop.util.MailManager;
-import com.spring.shop.util.PageInfo;
-import com.spring.shop.util.PagingManager;
-import com.spring.shop.vo.BookVO;
 import com.spring.shop.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,23 +24,19 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class UserController {
 	
-	private BookService bookService;
-	
 	private CategoryService categoryService;
 	
 	private MemberService memberService;
 	
-	// 메일관련 다시 만들기
 	private JavaMailSender mailSender;
 	
-	private MailManager mailManager;
-	
-	// 불필요한 코드 이관 필요
 	@Autowired
-	public UserController(BookService bookService, CategoryService categoryService, MemberService memberService) {
-		this.bookService = bookService;
+	public UserController(CategoryService categoryService,
+			MemberService memberService,
+			JavaMailSender mailSender) {
 		this.categoryService = categoryService;
 		this.memberService = memberService;
+		this.mailSender = mailSender;
 	}
 
 	// 메인 페이지 이동
@@ -115,13 +105,11 @@ public class UserController {
 	@ResponseBody
 	public String mailCheckGET(String email) throws Exception {
 		
-		log.info("이메일 데이터 전송 확인 : " + email);
+		log.info("이메일 데이터 전송 확인 : {}", email);
 		
-		mailManager = new MailManager(mailSender);
+		MailManager mailManager = new MailManager(mailSender);
 		
-		String check = mailManager.sendAuthEmail(email);
-		
-		return check;
+		return mailManager.sendAuthEmail(email);
 	}
 	
 	// 로그인
@@ -134,27 +122,5 @@ public class UserController {
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public void logoutPOST(HttpServletRequest request) throws Exception {
 		log.info("로그아웃 진행");
-	}
-	
-	// 상품 검색
-	@GetMapping("/search")
-	public String SearchGoodsListGET(PageInfo pageInfo, Model model) throws Exception {
-		
-		List<BookVO> goodsList = bookService.getGoodsList(pageInfo);
-		
-		// 목록이 없을 경우
-		if(goodsList.isEmpty()) {
-			model.addAttribute("goodsListResult", "empty");
-			return "/user/search";
-		}
-		
-		// 국내, 외 카테고리 목록
-		model.addAttribute("domestic", categoryService.getDomesticCategoryCode());
-		model.addAttribute("international", categoryService.getInternationalCategoryCode());
-		
-		model.addAttribute("goodsListResult", goodsList);
-		model.addAttribute("pagingManager", new PagingManager(pageInfo, bookService.getGoodsTotal(pageInfo)));
-		
-		return "/user/search";
 	}
 }
