@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -91,12 +93,16 @@ public class FileController {
 	
 	// 상품 이미지 호출
 	@GetMapping("/display")
-	public ResponseEntity<byte[]> showImageGET(String fileName) throws Exception {
+	public ResponseEntity<byte[]> showImageGET(String fileName, HttpServletRequest request) throws Exception {
 		log.info("이미지 파일 출력");
 			
 		HttpHeaders header = new HttpHeaders();
 		
 		File file = new File("H:\\mvcPractice04upload", fileName);
+		
+		if(!file.exists()) {
+			file = new File(request.getServletContext().getRealPath("resources/img/fileNotFound.png"));
+		}
 		
 		// 파일 MIME TYPE 추가
 		header.add("Content-type", Files.probeContentType(file.toPath()));

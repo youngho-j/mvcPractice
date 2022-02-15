@@ -115,10 +115,21 @@ public class FileControllerTest {
 	}
 	
 	@Test
-	public void 이미지파일_호출_테스트() throws Exception {
+	public void 존재하는_이미지파일_호출_테스트() throws Exception {
 		mock.perform(get("/display")
 				.param("fileName", variationRoot + "\\t_" + uuid + "_book2.png"))
 		.andExpect(status().isOk())
+		.andExpect(header().exists("Content-type"))
+		.andExpect(content().contentType(MediaType.IMAGE_PNG_VALUE))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 존재하지않는_이미지파일_호출_테스트() throws Exception {
+		mock.perform(get("/display")
+				.param("fileName", variationRoot + "\\t_book2.png"))
+		.andExpect(status().isOk())
+		.andExpect(header().exists("Content-type"))
 		.andExpect(content().contentType(MediaType.IMAGE_PNG_VALUE))
 		.andDo(print());
 	}
