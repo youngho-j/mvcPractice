@@ -3,6 +3,8 @@ package com.spring.myApp.controller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,15 +13,21 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.myApp.dto.NewsInfoDTO;
 
 @Controller
 public class NewsController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
 	
-	@GetMapping(value = "/crawling")
-	public String newsCrawl() throws IOException {
+	@GetMapping(value = {"/crawling", "/"})
+	public String newsCrawl(Model model) throws IOException {
+		List<NewsInfoDTO> newsList = new ArrayList<>();
+		
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 		
 		String today = LocalDate.now().format(dateFormat);
@@ -60,12 +68,16 @@ public class NewsController {
 				String title = element.getElementsByClass("news_tit").attr("title");
 				
 				if(!link.isEmpty() && !title.isEmpty()) {
-					logger.info("링크 : {}", link);
-					logger.info("제목 : {}", title);
+					newsList.add(new NewsInfoDTO(link, title));
 				}
 			}
 			
-		
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonList = mapper.writeValueAsString(newsList);
+			logger.info("목록 : {}", jsonList);
+			
+			model.addAttribute("list", jsonList);
+			
 		return "home";
 	}
 }
