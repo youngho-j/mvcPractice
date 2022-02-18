@@ -12,20 +12,22 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.myApp.dto.NewsInfoDTO;
 
-@Controller
+@RestController
 public class NewsController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
 	
-	@GetMapping(value = {"/crawling", "/"})
-	public String newsCrawl(Model model) throws IOException {
+	@GetMapping(value = "/crawling")
+	public ResponseEntity<List<NewsInfoDTO>> newsCrawl(Model model) throws IOException {
 		List<NewsInfoDTO> newsList = new ArrayList<>();
 		
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd");
@@ -72,12 +74,11 @@ public class NewsController {
 				}
 			}
 			
-			ObjectMapper mapper = new ObjectMapper();
-			String jsonList = mapper.writeValueAsString(newsList);
-			logger.info("목록 : {}", jsonList);
+			if(CollectionUtils.isEmpty(newsList)) {
+				logger.info("목록 크롤링 성공");
+				return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);				
+			}
 			
-			model.addAttribute("list", jsonList);
-			
-		return "home";
+			return new ResponseEntity<>(newsList, HttpStatus.OK);
 	}
 }

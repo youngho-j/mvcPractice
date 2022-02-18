@@ -15,7 +15,7 @@
 		
 		<lombok.version>1.18.12</lombok.version>
 		<jsoup.version>1.13.1</jsoup.version>
-		<jackson.version>2.12.1</jackson.version>
+		<jackson.version>2.12.3</jackson.version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
@@ -36,7 +36,15 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-				
+		
+		<!-- Spring_test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework-version}</version>
+			<scope>test</scope>
+		</dependency>
+		
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
