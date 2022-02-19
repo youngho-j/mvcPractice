@@ -26,6 +26,8 @@ public class NewsController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
 	
+	private static final int nextPage = 10;
+	
 	@GetMapping(value = "/crawling")
 	public ResponseEntity<List<NewsInfoDTO>> newsCrawl(Model model) throws IOException {
 		List<NewsInfoDTO> newsList = new ArrayList<>();
@@ -39,7 +41,8 @@ public class NewsController {
 		String query = "올림픽";
 		
 		int startPage = 1;
-		
+		while(startPage < 20) {
+			
 			String newsURL = 
 					"https://search.naver.com/search.naver?"
 					+ "where=news&query=" + query
@@ -74,11 +77,14 @@ public class NewsController {
 				}
 			}
 			
-			if(CollectionUtils.isEmpty(newsList)) {
-				logger.info("목록 크롤링 성공");
-				return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);				
-			}
+			startPage += nextPage;
+		}
+		
+		if(CollectionUtils.isEmpty(newsList)) {
+			logger.info("목록 크롤링 성공");
+			return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);				
+		}
 			
-			return new ResponseEntity<>(newsList, HttpStatus.OK);
+		return new ResponseEntity<>(newsList, HttpStatus.OK);
 	}
 }
