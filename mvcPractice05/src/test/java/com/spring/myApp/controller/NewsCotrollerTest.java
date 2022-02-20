@@ -39,5 +39,4 @@ public class NewsCotrollerTest {
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 		.andDo(print());
 	}
-
 }

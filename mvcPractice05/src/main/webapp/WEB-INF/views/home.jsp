@@ -24,10 +24,10 @@
 </head>
 </head>
 <body>
-<table id="test" class="table table-hover">
+<table class="table table-hover">
 	<thead class="thead-dark">
 		<tr>
-			<th scope="col" class="text-center"><strong>올림픽 소식</strong></th>
+			<th scope="col" class="text-center" id="tableTitle"></th>
 		</tr>
 	</thead>
 	<tbody id="tableList">
@@ -36,28 +36,47 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+	let tableTitle =  $('#tableTitle');
+	let tableList =  $('#tableList');
+	
 	$.ajax({
 		  type : "GET",
 		  url : "/crawling",
 		  success : function(result) {
 			  let str = "";
 			  
-			  $('#tableList').empty();
+			  tableTitle.empty();
 			  
-			  $.each(result, function(i){
+			  tableTitle.html("<string>" + result['keyword'] +" 실시간 뉴스 </strong>");
+			  
+			  tableList.empty();
+			  
+			  let list = result['newsList'];
+			  
+			  $.each(list, function(i){
 			
 				  str += "<tr>"
 				  str += "<th scope='row' class='text-center'>"
-				  str += "<a href="+ result[i].newsURL + " target='_blank'>"+ result[i].newsTitle+"</a>"
+				  str += "<a href="+ list[i].newsURL + " target='_blank'>" + list[i].newsTitle + "</a>"
 				  str += "</th>"
 				  str += "</tr>"
 				  
 			  });
 			  
-			  $('#tableList').html(str);
+			  tableList.html(str);
 		  },
 		  error : function(error, status, msg) {
-		  	alert("상태 코드 : " + status + "\n" + "원인 : " + msg);
+			  let str = "";
+			  
+			  alert("상태 코드 : " + status + "\n" + "원인 : " + msg);
+			  
+			  str += "<tr>"
+			  str += "<th scope='row' class='text-center'>"
+			  str += msg
+			  str += "</th>"
+			  str += "</tr>"
+			  
+			  tableList.html(str);
 		  }
 	});
 });
