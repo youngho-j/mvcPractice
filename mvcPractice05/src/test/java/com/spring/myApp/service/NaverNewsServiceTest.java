@@ -30,5 +30,24 @@ public class NaverNewsServiceTest {
 		assertThat(map.get("keyword"), is("올림픽"));
 		
 	}
-
+	
+	@Test
+	public void 키워드_존재하는경우_뉴스목록_리턴_테스트2() throws Exception {
+		
+		Map<String, Object> map = newsService.getNewsList2("축구");
+		
+		assertTrue(!CollectionUtils.isEmpty(map));
+		assertThat(map.get("keyword"), is("축구"));
+		
+	}
+	
+	@Test
+	public void 키워드_없는경우_뉴스목록_리턴_테스트3() throws Exception {
+		
+		Map<String, Object> map = newsService.getNewsList2("");
+		
+		assertTrue(!CollectionUtils.isEmpty(map));
+		assertThat(map.get("keyword"), is("올림픽"));
+		
+	}
 }
