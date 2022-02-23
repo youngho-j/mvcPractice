@@ -1,6 +1,6 @@
 package com.spring.myApp.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,7 +34,16 @@ public class NewsCotrollerTest {
 	
 	@Test
 	public void 기사_정보_JSON_리턴_테스트() throws Exception {
-		mock.perform(get("/crawling"))
+		mock.perform(post("/crawling"))
+		.andExpect(status().isOk())
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 검색시_기사_정보_JSON_리턴_테스트() throws Exception {
+		mock.perform(post("/crawling2")
+				.param("keyword", "축구"))
 		.andExpect(status().isOk())
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 		.andDo(print());

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -23,25 +23,64 @@
 </script>
 </head>
 </head>
-<body>
-<table class="table table-hover">
-	<thead class="thead-dark">
-		<tr>
-			<th scope="col" class="text-center" id="tableTitle"></th>
-		</tr>
-	</thead>
-	<tbody id="tableList">
-	</tbody>
-</table>
-
+<body class="pt-5">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+	<div class="container-fluid">
+		<b class="navbar-brand">Hello News</b>
+	</div>
+</nav>
+<div class="container-fluid">
+	<div class="text-center">
+		<div class="bg-image row align-items-end" 
+			style="background-image: url('https://img.freepik.com/free-vector/news-concept-for-landing-page_52683-20522.jpg?w=1380');
+				background-size: 100% 100%;
+				height: 300px;
+				width: 100;	">
+			<div class="col">
+			</div>
+			<div class="col-4 mb-2" >
+				<form class="form-inline" id="searchForm">
+					<input name="keyword" class="form-control col-lg" placeholder="검색어 입력">
+					<button id="search" type="button" class="btn btn-primary">검색</button>
+				</form>
+			</div>
+			<div class="col">
+			</div>
+		
+		</div>
+	</div>
+</div>
+<div class="container-fluid">
+	<table class="table table-hover">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col" class="text-center" id="tableTitle"></th>
+			</tr>
+		</thead>
+		<tbody id="tableList">
+		</tbody>
+	</table>
+</div>
 <script type="text/javascript">
-$(document).ready(function() {
+// DOCUMENT READY 사용 이유
+// .ready() -> DOM(Document Object Model)이 완전히 불러와지면 실행되는 이벤트 
+// 즉, 디자인이 적용되지 않은 문서 구조가 만들어진 시점에 실행되며 Event가 계속 발생
+// .ready() Event는 1.8 버전에서 deprecated 됨 대신, $()을 사용
+// (참고, DOMContentLoaded 좀 더 알아보기 - ready()와 비슷한 기능)
+$(function() {
+	getJSONData();
+	
+	$("#search").click(getJSONData);
+});
+function getJSONData () {
 	let tableTitle =  $('#tableTitle');
 	let tableList =  $('#tableList');
-	
+	let searchBar = $('input[name=keyword]');
+	let form = $('#searchForm').serialize();
 	$.ajax({
-		  type : "GET",
-		  url : "/crawling",
+		  type : "POST",
+		  url : "/crawling2",
+		  data : form,
 		  success : function(result) {
 			  let str = "";
 			  
@@ -50,6 +89,8 @@ $(document).ready(function() {
 			  tableTitle.html("<string>" + result['keyword'] +" 실시간 뉴스 </strong>");
 			  
 			  tableList.empty();
+			  
+			  searchBar.val(result['keyword']);
 			  
 			  let list = result['newsList'];
 			  
@@ -79,8 +120,7 @@ $(document).ready(function() {
 			  tableList.html(str);
 		  }
 	});
-});
-
+}
 </script>
 </body>
 </html>
