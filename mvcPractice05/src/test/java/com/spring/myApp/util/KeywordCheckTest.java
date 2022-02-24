@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class KeywordCheckerTest {
+public class KeywordCheckTest {
 	
 	private KeywordCheck check;
 	
@@ -20,7 +20,7 @@ public class KeywordCheckerTest {
 		
 		String str = " sad  2352 ";
 			
-		String result = check.convertKeyword(str);
+		String result = check.convertValue(str);
 		
 		assertThat(result, is("sad+2352"));
 	}
@@ -30,7 +30,7 @@ public class KeywordCheckerTest {
 		
 		String str = "hi,          hello";
 		
-		String result = check.convertKeyword(str);
+		String result = check.convertValue(str);
 		
 		assertThat(result, is("hi,+hello"));
 	}
@@ -40,7 +40,7 @@ public class KeywordCheckerTest {
 		
 		String str = "  ";
 		
-		String result = check.convertKeyword(str);
+		String result = check.convertValue(str);
 		
 		assertThat(result, is("올림픽"));
 	}
@@ -50,7 +50,7 @@ public class KeywordCheckerTest {
 		
 		String str = null;
 		
-		String result = check.convertKeyword(str);
+		String result = check.convertValue(str);
 		
 		assertThat(result, is("올림픽"));
 	}
@@ -60,7 +60,7 @@ public class KeywordCheckerTest {
 		
 		String str = "test+code";
 		
-		String result = check.restoreKeyword(str);
+		String result = check.restoreValue(str);
 		
 		assertThat(result, is("test code"));
 	}
@@ -70,7 +70,7 @@ public class KeywordCheckerTest {
 		
 		String str = "testCode";
 		
-		String result = check.restoreKeyword(str);
+		String result = check.restoreValue(str);
 		
 		assertThat(result, is("testCode"));
 	}

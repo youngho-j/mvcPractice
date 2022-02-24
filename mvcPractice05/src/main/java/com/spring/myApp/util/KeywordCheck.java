@@ -1,10 +1,11 @@
 package com.spring.myApp.util;
 
-public class KeywordCheck {
+public class KeywordCheck implements ValueCheck{
 
-	public KeywordCheck() {};
+	public KeywordCheck() {}
 	
-	public String convertKeyword(String str) {
+	@Override
+	public String convertValue(String str) {
 		
 		if(str == null || str.trim().isEmpty()) {
 			return "올림픽";			
@@ -13,7 +14,8 @@ public class KeywordCheck {
 		return str.trim().replaceAll("\\s+","+");
 	}
 	
-	public String restoreKeyword(String str) {
+	@Override
+	public String restoreValue(String str) {
 		if(str.contains("+")) {
 			return str.replaceAll("\\++", " ");
 		}
