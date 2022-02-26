@@ -3,10 +3,9 @@ package com.spring.myApp.service;
 import java.io.IOException;
 import java.util.Map;
 
+import com.spring.myApp.dto.SearchOptionDTO;
+
 public interface NewsService {
 	
-	public Map<String, Object> getNewsList() throws IOException;
-	
-	public Map<String, Object> getNewsList2(String keyword) throws IOException;
-
+	Map<String, Object> getNewsList(SearchOptionDTO searchOption) throws IOException;
 }
