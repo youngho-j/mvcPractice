@@ -34,7 +34,9 @@ public class NewsCotrollerTest {
 	
 	@Test
 	public void 기사_정보_JSON_리턴_테스트() throws Exception {
-		mock.perform(post("/crawling"))
+		mock.perform(post("/crawling")
+				.param("keyword", "")
+				.param("selectOption", ""))
 		.andExpect(status().isOk())
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 		.andDo(print());
@@ -42,8 +44,9 @@ public class NewsCotrollerTest {
 	
 	@Test
 	public void 검색시_기사_정보_JSON_리턴_테스트() throws Exception {
-		mock.perform(post("/crawling2")
-				.param("keyword", "축구"))
+		mock.perform(post("/crawling")
+				.param("keyword", "축구")
+				.param("selectOption", "0"))
 		.andExpect(status().isOk())
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
 		.andDo(print());
