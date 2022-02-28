@@ -11,7 +11,7 @@
 		<java-version>1.8</java-version>
 		<org.springframework-version>5.2.6.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
-		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<org.slf4j-version>1.7.25</org.slf4j-version>
 		
 		<lombok.version>1.18.12</lombok.version>
 		<jsoup.version>1.13.1</jsoup.version>
@@ -52,30 +52,53 @@
 			<version>${org.aspectj-version}</version>
 		</dependency>	
 		
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${org.slf4j-version}</version>
-		</dependency>
+		<!-- 
+			jcl-over-slf4j (SLF4J Bridging)
+			- JCL과 SLF4j 간의 브릿지(어댑터) 역할 수행
+			- slf4j-api 1.7.25 버전 종속성 포함
+		-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
+			<exclusions>
+		        <exclusion>
+		        	<groupId>org.slf4j</groupId>
+    				<artifactId>slf4j-api</artifactId>
+		        </exclusion>
+		    </exclusions>
 		</dependency>
+		
+		<!-- 
+			Log4j 2 SLF4J Binding
+			- log4j2 와 slf4j를 바인딩
+			- log4j-slf4j-impl 사용시 SLF4J 1.7.x 버전 혹은 그 이전 버전을 사용해야함
+			- log4j-api 2.17.1 버전과 slf4j-api 1.7.25 종속성 포함
+		-->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${org.slf4j-version}</version>
-			<scope>runtime</scope>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		    <version>2.17.1</version>
 		</dependency>
+		<!-- 
+			Log4j Core 2.17.1
+			- 핵심 log4j 구현 클래스(구현자)
+			- log4j-api 2.17.1 버전 종속성 포함, jackson-core 등.. optional
+			- 참고 : log4j-api : 구현자가 로깅 구현에 필요한 어댑터 구성요소 제공
+		-->
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-core</artifactId>
 		    <version>2.17.1</version>
+		    <exclusions>
+		    	<exclusion>
+		        	<groupId>org.apache.logging.log4j</groupId>
+		        	<artifactId>log4j-api</artifactId>
+		        </exclusion>
+		    </exclusions>
 		</dependency>
-
+				
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -113,6 +136,12 @@
 		<dependency>
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-databind</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
 		    <version>${jackson.version}</version>
 		</dependency>
 		
