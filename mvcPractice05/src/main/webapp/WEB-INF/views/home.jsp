@@ -39,14 +39,18 @@
 			<div class="col">
 			</div>
 			<div class="col-4 mb-2" >
-				<form class="form-inline" id="searchForm">
+				<form class="form-inline" id="searchForm" onsubmit="return false">
+					<select name="selectOption" class="custom-select">
+					  <option value="1" selected="selected">최신</option>
+					  <option value="0">관련</option>
+					</select>
 					<input name="keyword" class="form-control col-lg" placeholder="검색어 입력">
 					<button id="search" type="button" class="btn btn-primary">검색</button>
 				</form>
 			</div>
-			<div class="col">
+			<div class="col mb-2">
+				<button id="excelDown" type="button" class="btn btn-primary">엑셀 다운로드</button>
 			</div>
-		
 		</div>
 	</div>
 </div>
@@ -62,65 +66,107 @@
 	</table>
 </div>
 <script type="text/javascript">
-// DOCUMENT READY 사용 이유
-// .ready() -> DOM(Document Object Model)이 완전히 불러와지면 실행되는 이벤트 
-// 즉, 디자인이 적용되지 않은 문서 구조가 만들어진 시점에 실행되며 Event가 계속 발생
-// .ready() Event는 1.8 버전에서 deprecated 됨 대신, $()을 사용
-// (참고, DOMContentLoaded 좀 더 알아보기 - ready()와 비슷한 기능)
+// 로드 시 프로미스 실행
 $(function() {
-	getJSONData();
-	
-	$("#search").click(getJSONData);
+	getJSONData()
+	.then(successAction)
+	.catch(failAction);
 });
-function getJSONData () {
-	let tableTitle =  $('#tableTitle');
-	let tableList =  $('#tableList');
+
+$("#search").on("click", function(){
+	getJSONData()
+	.then(successAction)
+	.catch(failAction);
+});
+
+function getJSONData() {
+	
+	let tableTitle = $('#tableTitle');
+	let tableList = $('#tableList');
 	let searchBar = $('input[name=keyword]');
+	let select = $('select[name=selectOption]');
+	
 	let form = $('#searchForm').serialize();
-	$.ajax({
-		  type : "POST",
-		  url : "/crawling2",
-		  data : form,
-		  success : function(result) {
-			  let str = "";
-			  
-			  tableTitle.empty();
-			  
-			  tableTitle.html("<string>" + result['keyword'] +" 실시간 뉴스 </strong>");
-			  
-			  tableList.empty();
-			  
-			  searchBar.val(result['keyword']);
-			  
-			  let list = result['newsList'];
-			  
-			  $.each(list, function(i){
-			
+	
+	return new Promise((resolve, reject) => {
+		$.ajax({
+			  type : "POST",
+			  url : "/crawling",
+			  data : form,
+			  success : function(result) {
+				  let str = "";
+				  
+				  select.val(result['selectOption']).prop("selected", true);
+				  
+				  tableTitle.empty();
+				  
+				  tableTitle.html("<string>" + result['keyword'] + " " + $('select[name=selectOption] option:selected').text() + " 뉴스 </strong>");
+				  
+				  tableList.empty();
+				  
+				  searchBar.val(result['keyword']);
+				  
+				  let list = result['newsList'];
+				  
+				  $.each(list, function(i){
+				
+					  str += "<tr>"
+					  str += "<th scope='row' class='text-center'>"
+					  str += "<a href="+ list[i].newsURL + " target='_blank'>" + list[i].newsTitle + "</a>"
+					  str += "</th>"
+					  str += "</tr>"
+					  
+				  });
+				  
+				  tableList.html(str);
+				  
+				  resolve(result);
+			  },
+			  error : function(jqXHR) {
+				  let str = "";
+				  
+				  alert("상태 : " + jqXHR.status + "\n원인 : " + jqXHR.responseText);
+				  
 				  str += "<tr>"
 				  str += "<th scope='row' class='text-center'>"
-				  str += "<a href="+ list[i].newsURL + " target='_blank'>" + list[i].newsTitle + "</a>"
+				  str += jqXHR.responseText
 				  str += "</th>"
 				  str += "</tr>"
 				  
-			  });
-			  
-			  tableList.html(str);
-		  },
-		  error : function(error, status, msg) {
-			  let str = "";
-			  
-			  alert("상태 코드 : " + status + "\n" + "원인 : " + msg);
-			  
-			  str += "<tr>"
-			  str += "<th scope='row' class='text-center'>"
-			  str += msg
-			  str += "</th>"
-			  str += "</tr>"
-			  
-			  tableList.html(str);
-		  }
+				  tableList.html(str);
+			  }
+		});
+	})
+}
+
+function successAction(data) {
+	let downloadBtn = $('#excelDown');
+	// 기존 등록된 이벤트 제거 
+	// - 이벤트는 누적으로 등록되어 이벤트 삭제를 통해 다운로드가 두번 실행되는 것 방지
+	downloadBtn.off("click");
+	
+	let result = JSON.stringify(data);
+	
+	downloadBtn.on("click", function(){
+		$.ajax({
+			  type : "POST",
+			  url : "/downloadExcel",
+			  contentType : 'application/json; charset=UTF-8',
+			  data : result,
+			  success : function(res) {
+				  alert("데이터 전송 성공" + res );
+			  },
+			  error : function(error, textStatus){
+				  alert(error + ", " + textStatus);
+			  }
+		})
 	});
 }
+
+function failAction() {
+	alert(new Error("fail"));
+}
+
 </script>
 </body>
 </html>

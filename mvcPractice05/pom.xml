@@ -16,6 +16,8 @@
 		<lombok.version>1.18.12</lombok.version>
 		<jsoup.version>1.13.1</jsoup.version>
 		<jackson.version>2.12.3</jackson.version>
+		<Log4j_SLF4J_Binding.version>2.17.1</Log4j_SLF4J_Binding.version>
+		<log4j.version>2.17.1</log4j.version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
@@ -79,7 +81,7 @@
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-slf4j-impl</artifactId>
-		    <version>2.17.1</version>
+		    <version>${Log4j_SLF4J_Binding.version}</version>
 		</dependency>
 		<!-- 
 			Log4j Core 2.17.1
@@ -90,7 +92,7 @@
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-core</artifactId>
-		    <version>2.17.1</version>
+		    <version>${log4j.version}</version>
 		    <exclusions>
 		    	<exclusion>
 		        	<groupId>org.apache.logging.log4j</groupId>
