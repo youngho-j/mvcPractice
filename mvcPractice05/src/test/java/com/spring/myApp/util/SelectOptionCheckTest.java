@@ -44,5 +44,4 @@ public class SelectOptionCheckTest {
 		
 		assertThat(result, is("2"));
 	}
-
 }
