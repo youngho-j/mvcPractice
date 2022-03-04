@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+<Configuration>
 
 	<!-- Appenders --> 
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
-			<PatternLayout pattern="%-5p: %c - %m%n" />
+			<PatternLayout pattern="%d{yyyy-MM-dd hh:mm:ss} [%p] %c - %m%n" />
 		</Console>
 	</Appenders>
 
@@ -14,15 +14,15 @@
 		<Logger name="java.sql" level="DEBUG" additivity="false">
 			<AppenderRef ref="console" />
 		</Logger>
-		<Logger name="egovframework" level="DEBUG" additivity="false">
-			<AppenderRef ref="console" /> 
-		</Logger> 
 		<Logger name="jdbc.sqltiming" level="DEBUG" additivity="false"> 
 			<AppenderRef ref="console" /> 
 		</Logger> 
 		<Logger name="org.springframework" level="DEBUG" additivity="false">
 			<AppenderRef ref="console" /> 
-		</Logger> 
+		</Logger>
+		 <Root level="info">
+      		<AppenderRef ref="console"/>
+    	</Root>
 	</Loggers>
 
 </Configuration>
