@@ -1,5 +1,7 @@
 package com.spring.myApp.util;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,32 +23,24 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.myApp.enums.ExcelFontSize;
+import com.spring.myApp.enums.SelectOption;
 
 @Component
 public class ExcelUtil {
 	
-	enum ExcelSizeOption {
-		ZERO((short) 0),
-		ONE((short) 1),
-		TWO((short) 2),
-		THREE((short) 3),
-		FOUR((short) 4),
-		FIVE((short) 5),
-		SIX((short) 6),
-		SEVEN((short) 7),
-		EIGHT((short) 8),
-		NINE((short) 9),
-		TEN((short) 10),
-		TWELVE((short) 12),
-		TWENTY((short) 20);
+	public String makeExcelFileName(Map<String, Object> params) {
 		
-		private final short value;
+		String firstWord = LocalDateTime.now()
+				.format(DateTimeFormatter.ofPattern("yyMMdd_HH시"));
 		
-		private ExcelSizeOption(short value) {
-			this.value = value;
-		}
+		String keyword = params.get("keyword").toString();
 		
-		public short getValue() {return value;}
+		String selectOption = SelectOption
+				.OptionCheck(params.get("selectOption").toString())
+				.getSearchOption();
+		
+		return firstWord + "_" + keyword + selectOption + "뉴스";
 	}
 	
 	public Workbook makeExcelFile(Map<String, Object> params) {
@@ -56,20 +50,14 @@ public class ExcelUtil {
 		
 		String keyword = params.get("keyword").toString();
 		
-		String selectOption;
-		
-		String convertOption = params.get("selectOption").toString();
+		String selectOption = SelectOption
+				.OptionCheck(params.get("selectOption").toString())
+				.getSearchOption();
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
 		@SuppressWarnings("unchecked")
 		List<LinkedHashMap<String, String>> list = mapper.convertValue(params.get("newsList"), List.class);
-		
-		if(convertOption.equals("1")) {
-			 selectOption = "최신";
-		} else {
-			selectOption = "관련";
-		}
 		
 		Workbook workbook = new XSSFWorkbook();
 		
@@ -80,7 +68,7 @@ public class ExcelUtil {
 		// 제목 폰트
 		Font titleFont = workbook.createFont();
 		titleFont.setFontName(HSSFFont.FONT_ARIAL);
-		titleFont.setFontHeightInPoints(ExcelSizeOption.TWELVE.getValue());
+		titleFont.setFontHeightInPoints(ExcelFontSize.TWELVE.getValue());
 		titleFont.setBold(true);
 		titleFont.setColor(IndexedColors.AQUA.getIndex());
 					
@@ -106,7 +94,7 @@ public class ExcelUtil {
 		// 테이블 헤더 폰트
 		Font tableHeaderFont = workbook.createFont();
 		tableHeaderFont.setFontName(HSSFFont.FONT_ARIAL);
-		tableHeaderFont.setFontHeightInPoints(ExcelSizeOption.TEN.getValue());
+		tableHeaderFont.setFontHeightInPoints(ExcelFontSize.TEN.getValue());
 		tableHeaderFont.setBold(true);
 		tableHeaderFont.setColor(IndexedColors.BLUE_GREY.getIndex());
 					
@@ -143,7 +131,7 @@ public class ExcelUtil {
 		// 테이블 바디 폰트
 		Font tableBodyFont = workbook.createFont();
 		tableBodyFont.setFontName(HSSFFont.FONT_ARIAL);
-		tableBodyFont.setFontHeightInPoints(ExcelSizeOption.EIGHT.getValue());
+		tableBodyFont.setFontHeightInPoints(ExcelFontSize.EIGHT.getValue());
 		tableBodyFont.setBold(true);
 		
 		// 테이블 바디 순번 스타일
@@ -163,7 +151,7 @@ public class ExcelUtil {
 		// 하이퍼링크 폰트
 		Font hyperlinkFont = workbook.createFont();
 		hyperlinkFont.setFontName(HSSFFont.FONT_ARIAL);
-		hyperlinkFont.setFontHeightInPoints(ExcelSizeOption.EIGHT.getValue());
+		hyperlinkFont.setFontHeightInPoints(ExcelFontSize.EIGHT.getValue());
 		hyperlinkFont.setUnderline(Font.U_SINGLE);
 		hyperlinkFont.setColor(IndexedColors.BLUE.getIndex());
 		hyperlinkFont.setBold(true);

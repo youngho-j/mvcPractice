@@ -1,6 +1,7 @@
 package com.spring.myApp.util;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Before;
 import org.junit.Test;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class ExcelUtilTest {
 	
 	private ExcelUtil excel;
@@ -52,5 +56,13 @@ public class ExcelUtilTest {
 		assertFalse(workbook.getNumberOfSheets() == 0);
 		assertTrue(workbook.getSheetAt(0).getLastRowNum() > 0);
 	}
-
+	
+	@Test
+	public void 엑셀_파일_이름_생성_테스트() throws Exception {
+		String fileName = excel.makeExcelFileName(data);
+		
+		log.info("파일 이름 [{}]", fileName);
+		
+		assertThat(fileName.length(), is(18));
+	}
 }
