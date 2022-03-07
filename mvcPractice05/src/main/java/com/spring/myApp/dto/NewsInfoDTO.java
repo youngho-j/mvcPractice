@@ -1,11 +1,20 @@
 package com.spring.myApp.dto;
 
+import java.beans.ConstructorProperties;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public class NewsInfoDTO {
-	private final String newsURL;
-	private final String newsTitle;
+	private String newsURL;
+	private String newsTitle;
+	
+	@JsonCreator
+	@ConstructorProperties({"newsURL", "newsTitle"})
+	public NewsInfoDTO(String newsURL, String newsTitle) {
+		this.newsURL = newsURL;
+		this.newsTitle = newsTitle;
+	}
 }
