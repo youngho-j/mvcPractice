@@ -1,8 +1,8 @@
 package com.spring.myApp.util;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +23,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.spring.myApp.dto.NewsInfoDTO;
 import com.spring.myApp.enums.ExcelFontSize;
 import com.spring.myApp.enums.SelectOption;
 
@@ -31,16 +33,30 @@ public class ExcelUtil {
 	
 	public String makeExcelFileName(Map<String, Object> params) {
 		
-		String firstWord = LocalDateTime.now()
-				.format(DateTimeFormatter.ofPattern("yyMMdd_HH시"));
+		// 서울 시간으로 변경
+		// 참고 https://jeong-pro.tistory.com/163
 		
-		String keyword = params.get("keyword").toString();
+		// StringBuilder 적용
 		
-		String selectOption = SelectOption
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		stringBuilder
+			.append(LocalDateTime
+					.now(ZoneId.of("Asia/Seoul"))
+					.format(DateTimeFormatter
+							.ofPattern("yyMMdd_HH시")));
+		
+		stringBuilder
+			.append("_")
+			.append(params.get("keyword").toString());
+		
+		stringBuilder
+			.append(SelectOption
 				.OptionCheck(params.get("selectOption").toString())
-				.getSearchOption();
+				.getSearchOption())
+			.append("뉴스");
 		
-		return firstWord + "_" + keyword + selectOption + "뉴스";
+		return stringBuilder.toString();
 	}
 	
 	public Workbook makeExcelFile(Map<String, Object> params) {
@@ -54,10 +70,9 @@ public class ExcelUtil {
 				.OptionCheck(params.get("selectOption").toString())
 				.getSearchOption();
 		
-		ObjectMapper mapper = new ObjectMapper();
-		
-		@SuppressWarnings("unchecked")
-		List<LinkedHashMap<String, String>> list = mapper.convertValue(params.get("newsList"), List.class);
+//		@SuppressWarnings("unchecked")
+//		List<LinkedHashMap<String, String>> list = mapper.convertValue(params.get("newsList"), List.class);
+		List<NewsInfoDTO> list = new ObjectMapper().convertValue(params.get("newsList"), TypeFactory.defaultInstance().constructCollectionType(List.class, NewsInfoDTO.class));
 		
 		Workbook workbook = new XSSFWorkbook();
 		
@@ -173,9 +188,9 @@ public class ExcelUtil {
 				tableBodyLink = sheet.getRow(i + rowNum).createCell(j); // rowNum : 3
 				
 				if(j == 1) {
-					tableBodyLink.setCellValue(list.get(i).get("newsTitle"));
+					tableBodyLink.setCellValue(list.get(i).getNewsTitle());
 					Hyperlink link = workbook.getCreationHelper().createHyperlink(HyperlinkType.URL);
-					link.setAddress(list.get(i).get("newsURL"));
+					link.setAddress(list.get(i).getNewsURL());
 					tableBodyLink.setHyperlink(link);
 				}
 				
