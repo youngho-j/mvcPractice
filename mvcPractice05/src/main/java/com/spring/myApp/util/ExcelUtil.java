@@ -70,8 +70,6 @@ public class ExcelUtil {
 				.OptionCheck(params.get("selectOption").toString())
 				.getSearchOption();
 		
-//		@SuppressWarnings("unchecked")
-//		List<LinkedHashMap<String, String>> list = mapper.convertValue(params.get("newsList"), List.class);
 		List<NewsInfoDTO> list = new ObjectMapper().convertValue(params.get("newsList"), TypeFactory.defaultInstance().constructCollectionType(List.class, NewsInfoDTO.class));
 		
 		Workbook workbook = new XSSFWorkbook();
