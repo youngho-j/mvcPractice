@@ -28,8 +28,6 @@ public class ExcelController {
 	public ResponseEntity<byte[]> downloadExcel(@RequestBody Map<String, Object> params) throws Exception {
 		if(!MapUtils.isEmpty(params)) {
 			
-			// 리턴 ResponseEntity
-			// 참고 : https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=mankeys&logNo=221493130600
 			Workbook workbook = excelUtil.makeExcelFile(params);			
 			
 			if(workbook.getNumberOfSheets() > 0) {
@@ -38,11 +36,7 @@ public class ExcelController {
 				workbook.write(os);
 					
 				workbook.close();
-					
-				// 엑셀 Content-Type
-				// 참고 : https://jhhan009.tistory.com/68
-				// 엑셀 파일 이름 ?? 출력
-				// 참고 : https://dololak.tistory.com/19 - 인코딩 처리후 디코딩 필요
+				
 				return  ResponseEntity.ok()
 						.contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
 						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+  URLEncoder.encode(excelUtil.makeExcelFileName(params),"UTF-8") + ".xlsx")

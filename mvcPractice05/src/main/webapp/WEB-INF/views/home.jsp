@@ -22,7 +22,6 @@
 	referrerpolicy="no-referrer">
 </script>
 </head>
-</head>
 <body class="pt-5">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 	<div class="container-fluid">
@@ -153,11 +152,29 @@ function successAction(data) {
 			  url : "/downloadExcel",
 			  contentType : 'application/json; charset=UTF-8',
 			  data : result,
-			  success : function(res) {
-				  alert("데이터 전송 성공" + res );
+			  xhrFields:{
+	                responseType: 'blob'
+	           },
+			  success : function(data, message, xhr) {
+			        let fileName = "";
+			        let disposition = xhr.getResponseHeader("Content-Disposition");
+
+			        if (disposition && disposition.indexOf("attachment") !== -1) {
+			            let filenameRegex = /filename[^;\n]*=((['"]).*?\2|[^;\n]*)/;
+			            let matches = filenameRegex.exec(disposition);
+			            if (matches != null && matches[1]) {
+			                fileName = matches[1].replace(/['"]/g, '');
+			            }
+			        }
+			        
+			        let blob = new Blob([data]);
+			        let link = document.createElement('a');
+			        link.href = window.URL.createObjectURL(blob);
+			        link.download = decodeURI(fileName);
+			        link.click();
 			  },
 			  error : function(error, textStatus){
-				  alert(error + ", " + textStatus);
+				  alert(textStatus);
 			  }
 		})
 	});
