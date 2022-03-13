@@ -6,6 +6,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.spring.myApp.enums.SearchTerms;
+
 public class KeywordCheckTest {
 	
 	private KeywordCheck check;
@@ -26,6 +28,16 @@ public class KeywordCheckTest {
 	}
 	
 	@Test
+	public void 띄어쓰기가_있는_검색어_변환_메서드_테스트() throws Exception {
+		
+		String str = SearchTerms.VertualAsset.getKeyword();
+		
+		String result = check.convertValue(str);
+		
+		assertThat(result, is("가상+자산"));
+	}
+	
+	@Test
 	public void 띄어쓰기가_긴_검색어_변환_메서드_테스트() throws Exception {
 		
 		String str = "hi,          hello";
@@ -42,7 +54,7 @@ public class KeywordCheckTest {
 		
 		String result = check.convertValue(str);
 		
-		assertThat(result, is("올림픽"));
+		assertThat(result, is(SearchTerms.War.getKeyword()));
 	}
 	
 	@Test
@@ -52,7 +64,7 @@ public class KeywordCheckTest {
 		
 		String result = check.convertValue(str);
 		
-		assertThat(result, is("올림픽"));
+		assertThat(result, is(SearchTerms.War.getKeyword()));
 	}
 	
 	@Test

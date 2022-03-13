@@ -5,7 +5,8 @@ public enum SearchTerms {
 	PresidentialElection("대통령선거"),
 	Covid("코로나"),
 	War("전쟁"),
-	Cryptocurrency("암호화폐");
+	Cryptocurrency("암호화폐"),
+	VertualAsset("가상 자산");
 	
 	private final String keyword;
 

@@ -1,6 +1,8 @@
 package com.spring.myApp.util;
 
-public class KeywordCheck implements ValueCheck{
+import com.spring.myApp.enums.SearchTerms;
+
+public class KeywordCheck implements ValueCheck {
 
 	public KeywordCheck() {}
 	
@@ -8,7 +10,7 @@ public class KeywordCheck implements ValueCheck{
 	public String convertValue(String str) {
 		
 		if(str == null || str.trim().isEmpty()) {
-			return "올림픽";			
+			str = SearchTerms.War.getKeyword();		
 		}
 		
 		return str.trim().replaceAll("\\s+","+");
