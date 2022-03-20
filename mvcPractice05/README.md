@@ -81,7 +81,7 @@
 </details>
 <details>
 <summary>AJAX</summary>
- 
+
  - AJAX : 비동기 자바스크립트와 XML(Asynchronous JavaScript And XML)  
    `서버와의 통신을 위해 XMLHttpRequest 객체를 사용하는 것`  
    
@@ -108,10 +108,79 @@
      |dataType|서버 응답시 예상되는 데이터타입|
      |contentType|서버에 데이터를 보낼 때 사용할 콘텐츠 유형|
      |xhr|XMLHttpRequest 객체 생성을 위한 콜백|
-     |xhrFields|XHR 객체에 설정할 fieldName:fieldValue 형식으로 이루어진 값|  
-       
-     [jQuery.ajax() 참고](https://api.jquery.com/jquery.ajax/)    
+     |xhrFields|XHR 객체에 설정할 fieldName:fieldValue 형식으로 이루어진 값|
      
+     [jQuery.ajax() 참고](https://api.jquery.com/jquery.ajax/)    
+</details>
+<details>
+<summary>Promise function</summary>
+ 
+ - Promise : 자바스크립트 비동기 처리에 사용되는 객체  
+   비동기 연산이 종료 된 이후 결과 값과 실패 사유를 처리할 수 있음 즉, 동기 메서드 처럼 값을 반환 할 수 있다는 것  
+   단, 결과를 반환하는 것이 아니고 미래의 어떤 시점에 결과를 제공하겠다는 `약속(프로미스) 반환`  
+     
+   참고! 비동기 처리? `특정 코드의 실행이 완료될 때까지 기다리지 않고 다음 코드를 먼저 수행하는 자바스크립트의 특성`  
+   
+   - 상태(Producer - 함수를 선언한다)  
+     - 대기(pending) : 초기 - 비동기 처리 로직이 아직 완료되지 않은 상태  
+       ```javascript
+       // 예시
+       new Promise();
+  
+       // new Promise() 호출시 콜백 함수 선언 가능하며, 인자는 resolve, reject
+       new Promise(function(resolve, reject) {
+         // ...
+       });
+       ```
+   	 - 이행(fulfilled) : 연산 성공(resolve) - 비동기 처리가 완료되어 프로미스가 결과 값을 반환해준 상태  
+       ```javascript
+       // 예시
+       new Promise(function(resolve, reject) {
+         resolve();
+       });
+       ```
+     - 거부(reject) : 실패(오류발생) - 비동기 처리가 실패하거나 오류가 발생한 상태  
+       ```javascript
+       // 예시
+       new Promise(function(resolve, reject) {
+         reject();
+       });
+       ```
+   - Consumer - 함수를 사용한다  
+     - then : Promise의 resolve or reject 된 결과를 리턴  
+       ```javascript
+       // 예시
+       function getData() {
+         return new Promise(function(resolve, reject) {
+           var data = 100;
+           resolve(data);
+         });
+       }
+
+       // resolve()의 결과 값 data를 resolvedData로 받음
+       getData().then(function(resolvedData) {
+         console.log(resolvedData); // 100
+       });
+       ```
+     - catch : 에러 핸들링  
+       ```javascript
+       // 예시
+       function getData() {
+         return new Promise(function(resolve, reject) {
+           reject(new Error("Request is failed"));
+         });
+       }
+
+       // reject()의 결과 값 Error를 err에 받음
+       getData().then().catch(function(err) {
+         console.log(err); // Error: Request is failed
+       });
+       ```
+     - finally : 성공 실패 상관없이 마지막에 호출
+  
+   - 처리 흐름  
+     <img src="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/promises.png"></img>  
+     [출처 - mdn web docs](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise)  
 </details>
 
 ## Reference  
@@ -119,4 +188,6 @@
 - [HTTP Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP#reference)  
 - [Jsoup.org Docs](https://jsoup.org/apidocs/org/jsoup/Jsoup.html#connect(java.lang.String))  
 - [Jsoup 튜토리얼](https://www.javacodeexamples.com/jsoup-tutorial-with-examples/1628)  
-- [jQuery api](https://api.jquery.com/)
+- [jQuery api](https://api.jquery.com/)  
+- [mdn web docs Promise](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise)  
+- [captain pangyo Promise 쉽게 이해하기](https://joshua1988.github.io/web-development/javascript/promise-for-beginners/)   
