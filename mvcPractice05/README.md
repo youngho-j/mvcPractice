@@ -65,7 +65,7 @@
       기본값 : close  
       keep-alive 설정시 연결이 지속되고, 동일 서버에 대한 후속 요청이 가능해짐  
     - get : GET 요청을 실행하고 결과를 파싱(return Document)  
-      
+    
   - Connection timeout(int millis)  
     시간 초과 범위를 설정할 수 있음  
     기본 값 : 30초(30000 millis)   
@@ -79,9 +79,44 @@
     기본값 : false  
     인식할 수 없는 content-type은 IOException을 발생시킬 수 있음  
 </details>
+<details>
+<summary>AJAX</summary>
+ 
+ - AJAX : 비동기 자바스크립트와 XML(Asynchronous JavaScript And XML)  
+   `서버와의 통신을 위해 XMLHttpRequest 객체를 사용하는 것`  
+   
+   - XMLHttpRequest : 서버와 상호작용하기 위해 사용되는 객체  
+     전체 페이지의 새로고침 없이도 URL 로부터 데이터를 받을 수 있음  
+     모든 종류의 데이터를 받을 수 있고, HTTP 이외의 프로토콜도 지원(file, ftp 포함)    
+     [XMLHttpRequest 참고](https://developer.mozilla.org/ko/docs/Web/API/XMLHttpRequest)  
+   - AJAX 특징  
+     ```
+     페이지 전체를 리프레쉬 하지 않아도 수행 가능 -> `비동기성` 
+     ```
+   - 위와 같은 특징을 이용하여 백그라운드 영역에서 서버와 통신하여 받아온 결과를 웹 페이지 일부분에 표시 가능  
+   - 동작원리  
+     <img src="http://www.tcpschool.com/lectures/img_ajax_ajax_application.png"></img>  
+     [출처 - TCP School](http://www.tcpschool.com/ajax/ajax_intro_works)  
+   - Property
+     |key|설명|
+     |:-:|:-:|
+     |type|Http 요청 방식 [Get, post]|
+     |url|Http 요청이 전송되는 URL이 포함된 문자열|
+     |data|서버로 보낼 데이터|
+     |success|Http 요청 성공시 호출되는 함수|
+     |error|Http 요청 실패시 호출되는 함수|
+     |dataType|서버 응답시 예상되는 데이터타입|
+     |contentType|서버에 데이터를 보낼 때 사용할 콘텐츠 유형|
+     |xhr|XMLHttpRequest 객체 생성을 위한 콜백|
+     |xhrFields|XHR 객체에 설정할 fieldName:fieldValue 형식으로 이루어진 값|  
+       
+     [jQuery.ajax() 참고](https://api.jquery.com/jquery.ajax/)    
+     
+</details>
 
-## Reference
+## Reference  
 - [Jsoup 웹 크롤링](https://learntutorials.net/ko/jsoup/topic/319/jsoup%EB%A1%9C-%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%A7%81)  
 - [HTTP Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP#reference)  
 - [Jsoup.org Docs](https://jsoup.org/apidocs/org/jsoup/Jsoup.html#connect(java.lang.String))  
 - [Jsoup 튜토리얼](https://www.javacodeexamples.com/jsoup-tutorial-with-examples/1628)  
+- [jQuery api](https://api.jquery.com/)
