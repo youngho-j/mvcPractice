@@ -114,11 +114,11 @@
 </details>
 <details>
 <summary>Promise function</summary>
- 
+
  - Promise : 자바스크립트 비동기 처리에 사용되는 객체  
    비동기 연산이 종료 된 이후 결과 값과 실패 사유를 처리할 수 있음 즉, 동기 메서드 처럼 값을 반환 할 수 있다는 것  
    단, 결과를 반환하는 것이 아니고 미래의 어떤 시점에 결과를 제공하겠다는 `약속(프로미스) 반환`  
-     
+   
    참고! 비동기 처리? `특정 코드의 실행이 완료될 때까지 기다리지 않고 다음 코드를 먼저 수행하는 자바스크립트의 특성`  
    
    - 상태(Producer - 함수를 선언한다)  
@@ -126,7 +126,7 @@
        ```javascript
        // 예시
        new Promise();
-  
+    
        // new Promise() 호출시 콜백 함수 선언 가능하며, 인자는 resolve, reject
        new Promise(function(resolve, reject) {
          // ...
@@ -177,12 +177,65 @@
        });
        ```
      - finally : 성공 실패 상관없이 마지막에 호출
-  
+    
    - 처리 흐름  
      <img src="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/promises.png"></img>  
      [출처 - mdn web docs](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise)  
 </details>
+<details>
+<summary>ResponseEntity? ResponseBody?</summary>
+  
+ - HTTP : HyperText Transfer Protocol, 클라이언트와 서버의 `요청과 응답을 처리하기 위한 규약`  
+   - HTTP 요청 요소  
+     1. Start Line : method, URL, version 으로 구성, 서버에서 요청을 받아들이는 첫 줄  
+     2. Headers : 요청에 대한 접속 운영체제, 브라우저, 인증 정보와 같은 부가적인 정보  
+     3. Body : 요청에 관련된 json, html과 같은 구체적인 내용  
+   - HTTP 응답 요소
+     1. Status Line : HTTP 버전과 함께 헤딩 요청에 대한 처리 상태(StatusCode)를 나타냄  
+     2. Headers : 응답에 대한 접속 운영체제, 브라우저, 인증 정보와 같은 부가적인 정보    
+     3. Body : 응답에 관련된 json, html과 같은 구체적인 내용  
+  
+ - HTTP Response를 만드는 방법  
+   1. @ResponseBody  
+      - 반환된 객체가 HttpMessageConverter를 통해 JSON으로 직렬화 되고 `HttpResponse 객체`(body)로 다시 전달됨(바인딩)을 알려줌  
+      - 자바 객체를 HTTP 응답 본문의 객체로 변환하여 클라이언트로 전송  
+      - 사용시 별도의 뷰를 제공하지 않고, 데이터만 전송  
+      - 장점
+        ```
+        Annotation 추가만으로 간단하게 처리 가능
 
+        @RestController Annotation 사용시 @ResponseBody Annotation 생략 가능
+        ```
+      - 단점
+        ```
+        Header에 대해 유연한 설정을 할 수 없음
+
+        Status도 메서드 밖에서 Annotation을 사용하여 따로 설정해야함 Ex)@ResponseStatus
+        ```
+   2. ResponseEntity 
+      - 전체 HTTP 응답(상태 코드, 헤더 및 본문)을 나타내며, 이를 사용하여 HTTP 응답을 완전하게 구성 가능
+      - 응답으로 변환될 정보를 모두 담은 요소들을 객체로 만들어서 반환  
+      - HttpMessageConverter를 통해 JSON으로 직렬화 되고, 응답이 되는 본문을 처리 한 뒤, StatusCode를 전달  
+      - Builder 활용 권장 - 상태 코드 작성시 잘못된 코드를 넣게 될 수 있으므로..  
+      - 구조
+        ```java
+        //HttpEntity 선언 구조
+        public class HttpEntity<T> {
+            public static final HttpEntity<?> EMPTY = new HttpEntity<>();
+            
+            private final HttpHeaders headers;
+
+            @Nullable
+            private final T body; 
+        }
+
+        //ResponseEntity 선언 구조 - HttpEntity를 상속하여 구현되어 headers, body, status 값을 모두 가질 수 있음
+        public class ResponseEntity extends HttpEntity {
+          private final Object status;
+        }
+        ```
+</details>  
+  
 ## Reference  
 - [Jsoup 웹 크롤링](https://learntutorials.net/ko/jsoup/topic/319/jsoup%EB%A1%9C-%EC%9B%B9-%ED%81%AC%EB%A1%A4%EB%A7%81)  
 - [HTTP Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP#reference)  
@@ -191,3 +244,7 @@
 - [jQuery api](https://api.jquery.com/)  
 - [mdn web docs Promise](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise)  
 - [captain pangyo Promise 쉽게 이해하기](https://joshua1988.github.io/web-development/javascript/promise-for-beginners/)   
+- [Tecoble ResponseEntity](https://tecoble.techcourse.co.kr/post/2021-05-10-response-entity/)    
+- [Spring docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html)   
+- [Baeldung spring ResponseEntity](https://www.baeldung.com/spring-response-entity)  
+- [bepoz HttpMessageConverter 적용시점](https://bepoz-study-diary.tistory.com/374)  
