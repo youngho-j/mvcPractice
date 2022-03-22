@@ -3,6 +3,9 @@ package com.spring.myApp.util;
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -59,9 +62,14 @@ public class ExcelUtilTest {
 	
 	@Test
 	public void 엑셀_파일_이름_생성_테스트() throws Exception {
+		String nowDateTime = 
+				LocalDateTime.now(ZoneId.of("Asia/Seoul")).format(DateTimeFormatter.ofPattern("yyMMdd_HH시")).toString();
+		
 		String fileName = excel.makeExcelFileName(data);
 		
 		log.info("파일 이름 [{}]", fileName);
+		
+		assertTrue(fileName.contains(nowDateTime));
 		
 		assertThat(fileName.length(), is(18));
 	}

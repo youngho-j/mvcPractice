@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.CollectionUtils;
 
 import com.spring.myApp.dto.SearchOptionDTO;
+import com.spring.myApp.enums.SearchTerms;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
@@ -30,7 +31,7 @@ public class NaverNewsServiceTest {
 		Map<String, Object> map = newsService.getNewsList(searchOption);
 		
 		assertTrue(!CollectionUtils.isEmpty(map));
-		assertThat(map.get("keyword"), is("올림픽"));
+		assertThat(map.get("keyword"), is(SearchTerms.War.getKeyword()));
 		assertThat(map.get("selectOption"), is("1"));
 		
 	}

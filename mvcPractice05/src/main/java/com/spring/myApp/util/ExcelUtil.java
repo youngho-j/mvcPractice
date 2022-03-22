@@ -33,26 +33,18 @@ public class ExcelUtil {
 	
 	public String makeExcelFileName(Map<String, Object> params) {
 		
-		// 서울 시간으로 변경
-		// 참고 https://jeong-pro.tistory.com/163
-		
-		// StringBuilder 적용
-		
 		StringBuilder stringBuilder = new StringBuilder();
 		
 		stringBuilder
-			.append(LocalDateTime
-					.now(ZoneId.of("Asia/Seoul"))
-					.format(DateTimeFormatter
-							.ofPattern("yyMMdd_HH시")));
+			.append(LocalDateTime.now(ZoneId.of("Asia/Seoul"))
+					.format(DateTimeFormatter.ofPattern("yyMMdd_HH시")));
 		
 		stringBuilder
 			.append("_")
 			.append(params.get("keyword").toString());
 		
 		stringBuilder
-			.append(SelectOption
-				.OptionCheck(params.get("selectOption").toString())
+			.append(SelectOption.OptionCheck(params.get("selectOption").toString())
 				.getSearchOption())
 			.append("뉴스");
 		
