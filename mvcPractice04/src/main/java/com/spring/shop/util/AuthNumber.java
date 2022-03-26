@@ -11,8 +11,15 @@ public class AuthNumber {
 	}
 	
 	// 인증번호 생성 - 시간 활용하여 무작위 생성
-	public int getAuthNum() throws Exception {
+	public String getAuthNum(int length) throws Exception {
+		StringBuilder sb = new StringBuilder();
+		
 		generator.setSeed(System.currentTimeMillis());
-		return generator.nextInt(1000000) % 1000000;
+		
+		for(int i = 0 ; i < length ; i++) {
+			sb.append(generator.nextInt(10));
+		}
+		
+		return sb.toString();
 	}
 }

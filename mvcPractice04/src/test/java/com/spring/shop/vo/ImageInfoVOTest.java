@@ -13,13 +13,13 @@ public class ImageInfoVOTest {
 		ImageInfoVO imageInfo = 
 				new ImageInfoVO
 				.Builder()
-				.uploadPath("C;\\work")
+				.uploadPath("C:\\work")
 				.uuid("121kfd-g43")
-				.fileName("book2.jsg")
+				.fileName("book2.jpg")
 				.build();
 		
 		assertNotNull(imageInfo);
-		assertThat(9, is(imageInfo.getBookId()));
+		assertThat("book2.jpg", is(imageInfo.getFileName()));
 	}
 
 }

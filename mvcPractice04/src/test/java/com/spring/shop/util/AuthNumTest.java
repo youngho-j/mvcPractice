@@ -14,7 +14,7 @@ public class AuthNumTest {
 	public void 인증번호_자리수_테스트() throws Exception {
 		AuthNumber authNumber = new AuthNumber();
 		
-		String authNum = String.valueOf(authNumber.getAuthNum());
+		String authNum = authNumber.getAuthNum(6);
 		
 		log.info("인증번호 : " + authNum);
 		

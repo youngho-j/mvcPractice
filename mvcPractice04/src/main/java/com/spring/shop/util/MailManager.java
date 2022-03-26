@@ -15,7 +15,7 @@ public class MailManager {
 		this.mailSender = mailSender;
 	}
 	
-	public String sendAuthEmail(String email) throws Exception {
+	public String sendAuthEmail(String recipientsEmail) throws Exception {
 		
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		
@@ -23,10 +23,10 @@ public class MailManager {
 			= new MimeMessageHelper(mimeMessage, true, "UTF-8");
 		
 		// 인증 번호
-		int checkNum = new AuthNumber().getAuthNum();
+		String checkNum = new AuthNumber().getAuthNum(6);
 		
 		mimeMessageHelper.setFrom(sender);
-		mimeMessageHelper.setTo(email);
+		mimeMessageHelper.setTo(recipientsEmail);
 		mimeMessageHelper.setSubject("회원가입 인증 이메일 입니다.");
 		mimeMessageHelper.setText(			
 	                "홈페이지를 방문해주셔서 감사합니다." +
@@ -38,6 +38,6 @@ public class MailManager {
         
         mailSender.send(mimeMessage);
 		
-		return Integer.toString(checkNum);
+		return checkNum;
 	}
 }

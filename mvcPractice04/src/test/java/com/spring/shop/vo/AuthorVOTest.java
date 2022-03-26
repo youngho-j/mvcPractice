@@ -5,9 +5,6 @@ import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class AuthorVOTest {
 
 	@Test
@@ -20,8 +17,6 @@ public class AuthorVOTest {
 		
 		assertNotNull(authorVO);
 		assertThat("국내", is(authorVO.getNationName()));
-		
-		log.info(authorVO.toString());
 	}
 
 }
