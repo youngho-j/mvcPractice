@@ -3,6 +3,8 @@ package com.spring.shop.mapper;
 import static org.hamcrest.core.Is.*;
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.junit.After;
@@ -75,10 +77,16 @@ public class FileMapperTest {
 		
 		testBookId = bookMapper.getLastPK();
 		
+		String nowDay = LocalDate.now()
+		.format(DateTimeFormatter.ofPattern("yyyy\\MM\\dd"));
+		
+		String minusDay = LocalDate.now().minusDays(1)
+				.format(DateTimeFormatter.ofPattern("yyyy\\MM\\dd"));
+		
 		testImage1 = new ImageInfoVO
 				.Builder()
 				.bookId(testBookId)
-				.uploadPath("test\\2022\\01\\12")
+				.uploadPath("test\\".concat(nowDay))
 				.uuid("test")
 				.fileName("test").build();
 		
@@ -92,7 +100,7 @@ public class FileMapperTest {
 		testImage3 = new ImageInfoVO
 				.Builder()
 				.bookId(testBookId)
-				.uploadPath("test\\2022\\01\\11")
+				.uploadPath("test\\".concat(minusDay))
 				.uuid("test3")
 				.fileName("test3").build();
 	}
