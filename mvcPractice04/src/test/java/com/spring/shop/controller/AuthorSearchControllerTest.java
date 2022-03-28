@@ -19,7 +19,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/security-context.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 @WithMockUser(username = "testUser", roles = {"ADMIN"})
 public class AuthorSearchControllerTest {
 	
@@ -40,8 +42,8 @@ public class AuthorSearchControllerTest {
 	public void 관리자_작가관리_페이지_호출_테스트() throws Exception {
 		mock.perform(get("/admin/authorManage"))
 		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("list"))
 		.andExpect(model().attributeExists("pagingManager"))
+		.andExpect(model().attributeExists("checkResult"))
 		.andExpect(view().name("admin/authorManage"))
 		.andDo(print());
 	}
@@ -51,7 +53,7 @@ public class AuthorSearchControllerTest {
 		// 상품 등록 페이지에서 실행됨
 		mock.perform(get("/admin/authorSearch"))
 		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("list"))
+		.andExpect(model().attributeExists("checkResult"))
 		.andExpect(view().name("admin/authorSearch"))
 		.andDo(print());
 	}

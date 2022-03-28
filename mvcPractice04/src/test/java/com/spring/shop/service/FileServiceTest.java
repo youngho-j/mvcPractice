@@ -89,25 +89,6 @@ public class FileServiceTest {
 		List<String> list = fileService.getTheDayBeforeListOfImgFiles();
 		
 		assertTrue(list.isEmpty());
+		
 	}
-// 사용되는 곳이 없어 일단 주석 처리
-//	@Test
-//	public void 이미지_파일_삭제() throws Exception {
-//		List<ImageInfoVO> infoList = new ArrayList<ImageInfoVO>();
-//		
-//		ImageInfoVO vo = new ImageInfoVO();
-//		vo.setUploadPath(fixedRoot + "\\" + variationRoot);
-//		vo.setUuid(uuid);
-//		vo.setFileName("book2.png");
-//		
-//		infoList.add(vo);
-//		
-//		boolean result = fileService.deleteImageFiles(infoList);
-//		
-//		assertTrue(result);
-//        
-//		File[] filesList = new File(fixedRoot, variationRoot).listFiles();
-//		
-//		assertThat(filesList.length, is(0));
-//	}
 }
