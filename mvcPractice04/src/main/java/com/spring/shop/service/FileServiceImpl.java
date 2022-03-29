@@ -51,9 +51,12 @@ public class FileServiceImpl implements FileService {
 				sb.setLength(0);
 				
 			});
-			
-			return ImageFilePathList;
 		}
-		return new ArrayList<>();
+		return ImageFilePathList;
+	}
+
+	@Override
+	public void deleteAll() {
+		fileMapper.deleteAll();
 	}
 }
