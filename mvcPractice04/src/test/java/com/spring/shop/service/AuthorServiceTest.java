@@ -1,6 +1,9 @@
 package com.spring.shop.service;
 
 import static org.junit.Assert.*;
+
+import org.junit.After;
+
 import static org.hamcrest.core.Is.*;
 
 import org.junit.Before;
@@ -11,6 +14,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.spring.shop.mapper.BookMapper;
+import com.spring.shop.mapper.FileMapper;
 import com.spring.shop.vo.AuthorVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,12 +28,22 @@ public class AuthorServiceTest {
 	@Autowired
 	private AuthorService authorService;
 	
+	@Autowired
+	private BookMapper bookMapper;
+	
+	@Autowired
+	private FileMapper fileMapper;
+	
 	private AuthorVO author1;
 	private AuthorVO author2;
 	private AuthorVO author3;
 	
 	@Before
 	public void setUp() {
+		fileMapper.deleteAll();
+		bookMapper.deleteAll();
+		authorService.deleteAll();
+		
 		author1 = new AuthorVO();
 		author2 = new AuthorVO();
 		author3 = new AuthorVO();
@@ -46,9 +61,16 @@ public class AuthorServiceTest {
 		author3.setAuthorProfile("테스터입니다.");
 	}
 	
+	@After
+	public void afterAction() {
+		fileMapper.deleteAll();
+		bookMapper.deleteAll();
+		authorService.deleteAll();
+	}
+	
 	@Test
 	public void getCount_메서드_테스트() throws Exception {
-		authorService.deleteAll();
+		
 		assertThat(authorService.getCount(), is(0));
 		
 		authorService.authorEnroll(author1);
@@ -61,8 +83,6 @@ public class AuthorServiceTest {
 	@Test(expected = DataIntegrityViolationException.class)
 	public void 작가_등록시_작가이름범위초과_예외처리_테스트() throws Exception {
 		
-		authorService.deleteAll();
-		
 		assertThat(authorService.getCount(), is(0));
 		
 		authorService.authorEnroll(author3);
@@ -70,8 +90,6 @@ public class AuthorServiceTest {
 	
 	@Test
 	public void 작가등록_테스트() throws Exception {
-		
-		authorService.deleteAll();
 		
 		assertThat(authorService.getCount(), is(0));
 		
@@ -84,7 +102,6 @@ public class AuthorServiceTest {
 	
 	@Test
 	public void 작가_상세정보_테스트() throws Exception {
-		authorService.deleteAll();
 		
 		assertThat(authorService.getCount(), is(0));
 		
@@ -97,7 +114,6 @@ public class AuthorServiceTest {
 	
 	@Test
 	public void 작가_정보_수정_테스트() throws Exception {
-		authorService.deleteAll();
 		
 		assertThat(authorService.getCount(), is(0));
 		
@@ -119,7 +135,6 @@ public class AuthorServiceTest {
 	
 	@Test
 	public void 작가정보_삭제_테스트() throws Exception {
-		authorService.deleteAll();
 		
 		assertThat(authorService.getCount(), is(0));
 		
