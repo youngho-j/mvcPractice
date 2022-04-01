@@ -5,7 +5,9 @@ import static org.hamcrest.core.Is.*;
 
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,53 +28,57 @@ public class AuthorSearchMapperTest {
 	@Autowired
 	private AuthorSearchMapper authorSearchMapper;
 	
-	private AuthorVO author1;
-	private AuthorVO author2;
-	private AuthorVO author3;
+	private static AuthorVO localAuthorInfo;
+	private static AuthorVO foreignAuthorInfo;
+	private static AuthorVO wrongAuthorInfo;
 	
-	private PageInfo pageInfo;
+	private static PageInfo pageInfo;
 	
-	@Before
-	public void setUp() {
-		author1 = new AuthorVO();
-		author2 = new AuthorVO();
-		author3 = new AuthorVO();
+	@BeforeClass
+	public static void setUp() {
+		localAuthorInfo = new AuthorVO();
+		foreignAuthorInfo = new AuthorVO();
+		wrongAuthorInfo = new AuthorVO();
 		
+		localAuthorInfo.setNationId("01");
+		localAuthorInfo.setAuthorName("테스트1");
+		localAuthorInfo.setAuthorProfile("테스터입니다.");
 		
-		author1.setNationId("01");
-		author1.setAuthorName("테스트1");
-		author1.setAuthorProfile("테스터입니다.");
+		foreignAuthorInfo.setNationId("02");
+		foreignAuthorInfo.setAuthorName("테스트2");
+		foreignAuthorInfo.setAuthorProfile("테스터입니다.");
 		
-		author2.setNationId("02");
-		author2.setAuthorName("테스트2");
-		author2.setAuthorProfile("테스터입니다.");
-		
-		author3.setNationId("23534654365443653968450968402437329847");
-		author3.setAuthorName("테스트1");
-		author3.setAuthorProfile("테스터입니다.");
+		wrongAuthorInfo.setNationId("23534654365443653968450968402437329847");
+		wrongAuthorInfo.setAuthorName("테스트1");
+		wrongAuthorInfo.setAuthorProfile("테스터입니다.");
 	
 		pageInfo = new PageInfo(1, 10);
 	}
 	
+	@Before
+	public void beforeMethod() {
+		authorMapper.deleteAll();		
+		assertThat(authorMapper.getCount(), is(0));
+	}
+	
+	@After
+	public void afterMethod() {
+		authorMapper.deleteAll();		
+		assertThat(authorMapper.getCount(), is(0));
+	}
+	
 	@Test
 	public void getCount_메서드_테스트() throws Exception {
-		authorSearchMapper.deleteAll();
-		assertThat(authorSearchMapper.getCount(), is(0));
-		
-		authorMapper.authorEnroll(author1);
+		authorMapper.authorEnroll(localAuthorInfo);
 		assertThat(authorSearchMapper.getCount(), is(1));
 		
-		authorMapper.authorEnroll(author2);
+		authorMapper.authorEnroll(foreignAuthorInfo);
 		assertThat(authorSearchMapper.getCount(), is(2));
 	}
 	
 	@Test
 	public void 작가_등록_메서드_테스트() throws Exception {
-		authorSearchMapper.deleteAll();
-		
-		assertThat(authorSearchMapper.getCount(), is(0));
-		
-		int result = authorMapper.authorEnroll(author1);
+		int result = authorMapper.authorEnroll(localAuthorInfo);
 		
 		assertThat(1, is(result));
 		
@@ -81,21 +87,11 @@ public class AuthorSearchMapperTest {
 	
 	@Test(expected = DataIntegrityViolationException.class)
 	public void 작가_등록시_컬럼값_초과_예외처리_테스트() throws Exception {
-		
-		authorSearchMapper.deleteAll();
-		
-		assertThat(authorSearchMapper.getCount(), is(0));
-		
-		authorMapper.authorEnroll(author3);
+		authorMapper.authorEnroll(wrongAuthorInfo);
 	}
 
 	@Test
 	public void 작가목록_존재하지_않응경우_출력_메서드_테스트() throws Exception {
-		
-		authorSearchMapper.deleteAll();
-		
-		assertThat(authorSearchMapper.getCount(), is(0));
-		
 		List<AuthorVO> list = authorSearchMapper.authorGetList(pageInfo);		
 		
 		assertTrue(list.isEmpty());
@@ -104,13 +100,8 @@ public class AuthorSearchMapperTest {
 	
 	@Test
 	public void 작가목록_출력_메서드_테스트() throws Exception {
-		
-		authorSearchMapper.deleteAll();
-		
-		assertThat(authorSearchMapper.getCount(), is(0));
-		
-		authorMapper.authorEnroll(author1);
-		authorMapper.authorEnroll(author2);
+		authorMapper.authorEnroll(localAuthorInfo);
+		authorMapper.authorEnroll(foreignAuthorInfo);
 		
 		assertThat(authorSearchMapper.getCount(), is(2));
 		
@@ -122,9 +113,6 @@ public class AuthorSearchMapperTest {
 	
 	@Test
 	public void 등록된_작가수_없는경우_카운팅_메서드_테스트() throws Exception {
-		
-		authorSearchMapper.deleteAll();
-		
 		assertThat(authorSearchMapper.getCount(), is(0));
 		
 		int total = authorSearchMapper.authorGetTotal(pageInfo);
@@ -134,13 +122,8 @@ public class AuthorSearchMapperTest {
 	
 	@Test
 	public void 등록된_작가수_카운팅_메서드_테스트() throws Exception {
-		
-		authorSearchMapper.deleteAll();
-		
-		assertThat(authorSearchMapper.getCount(), is(0));
-		
-		authorMapper.authorEnroll(author1);
-		authorMapper.authorEnroll(author2);
+		authorMapper.authorEnroll(localAuthorInfo);
+		authorMapper.authorEnroll(foreignAuthorInfo);
 		
 		int total = authorSearchMapper.authorGetTotal(pageInfo);
 		
