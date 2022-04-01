@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,80 +34,77 @@ public class FileMapperTest {
 	@Autowired
 	private AuthorMapper authorMapper;
 	
-	private BookVO testBook;
+	private static BookVO bookWithoutAuthorId;
 	
-	private AuthorVO testAuthor;
+	private static AuthorVO authorInfo;
 	
-	private ImageInfoVO testImage1;
-	private ImageInfoVO testImage2;
-	private ImageInfoVO testImage3;
+	private static ImageInfoVO imageInfoSavedToday;
+	private static ImageInfoVO imageInfoWithWrongBookId;
+	private static ImageInfoVO imageInfoSavedDayBefore;
 	
-	private int testBookId;
-	
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
 		
-		fileMapper.deleteAll();
-		bookMapper.deleteAll();
-		authorMapper.deleteAll();
-		
-		testAuthor = new AuthorVO();
-		
-		testAuthor.setNationId("01");
-		testAuthor.setAuthorName("테스트1");
-		testAuthor.setAuthorProfile("테스터입니다.");
-		
-		authorMapper.authorEnroll(testAuthor);
-		
-		int testAuthorId = authorMapper.getLastPK();
-		
-		testBook = new BookVO();
-		
-		testBook.setBookName("테스트책");
-		testBook.setAuthorId(testAuthorId);
-		testBook.setPublicationDate("2022-01-10");
-		testBook.setPublisher("한국출판사");
-		testBook.setCategoryCode("104000");
-		testBook.setBookPrice(20000);
-		testBook.setBookStock(50);
-		testBook.setBookDiscount(0.2);
-		testBook.setBookIntro("책 소개 ");
-		testBook.setBookContents("책 목차 ");
-		
-		bookMapper.bookEnroll(testBook);
-		
-		testBookId = bookMapper.getLastPK();
-		
-		String nowDay = LocalDate.now()
-		.format(DateTimeFormatter.ofPattern("yyyy\\MM\\dd"));
-		
-		String minusDay = LocalDate.now().minusDays(1)
+		String today = LocalDate.now()
 				.format(DateTimeFormatter.ofPattern("yyyy\\MM\\dd"));
 		
-		testImage1 = new ImageInfoVO
+		String dayBefore = LocalDate.now().minusDays(1)
+				.format(DateTimeFormatter.ofPattern("yyyy\\MM\\dd"));
+		
+		authorInfo = new AuthorVO();
+		
+		authorInfo.setNationId("01");
+		authorInfo.setAuthorName("테스트1");
+		authorInfo.setAuthorProfile("테스터입니다.");
+		
+		bookWithoutAuthorId = new BookVO();
+		
+		bookWithoutAuthorId.setBookName("테스트책");
+		bookWithoutAuthorId.setPublicationDate("2022-01-10");
+		bookWithoutAuthorId.setPublisher("한국출판사");
+		bookWithoutAuthorId.setCategoryCode("104000");
+		bookWithoutAuthorId.setBookPrice(20000);
+		bookWithoutAuthorId.setBookStock(50);
+		bookWithoutAuthorId.setBookDiscount(0.2);
+		bookWithoutAuthorId.setBookIntro("책 소개 ");
+		bookWithoutAuthorId.setBookContents("책 목차 ");
+		
+		imageInfoSavedToday = new ImageInfoVO
 				.Builder()
-				.bookId(testBookId)
-				.uploadPath("test\\".concat(nowDay))
+				.uploadPath("test\\".concat(today))
 				.uuid("test")
 				.fileName("test").build();
 		
-		testImage2 = new ImageInfoVO
+		imageInfoWithWrongBookId = new ImageInfoVO
 				.Builder()
 				.bookId(100)
 				.uploadPath("test2")
 				.uuid("test2")
 				.fileName("test2").build();
 		
-		testImage3 = new ImageInfoVO
+		imageInfoSavedDayBefore = new ImageInfoVO
 				.Builder()
-				.bookId(testBookId)
-				.uploadPath("test\\".concat(minusDay))
+				.uploadPath("test\\".concat(dayBefore))
 				.uuid("test3")
 				.fileName("test3").build();
 	}
 	
+	@Before
+	public void beforeMethod() throws Exception {
+		authorMapper.authorEnroll(authorInfo);
+		
+		bookWithoutAuthorId.setAuthorId(authorMapper.getLastPK());
+		
+		bookMapper.bookEnroll(bookWithoutAuthorId);
+		
+		int bookId = bookMapper.getLastPK();
+		
+		imageInfoSavedToday.setBookId(bookId);
+		imageInfoSavedDayBefore.setBookId(bookId);
+	}
+	
 	@After
-	public void afterTest() {
+	public void afterMethod() {
 		fileMapper.deleteAll();
 		bookMapper.deleteAll();
 		authorMapper.deleteAll();
@@ -114,17 +112,14 @@ public class FileMapperTest {
 	
 	@Test
 	public void getCount_메서드_테스트() throws Exception {
-		fileMapper.deleteAll();
-		assertThat(fileMapper.getCount(), is(0));
-		
-		fileMapper.goodsImgEnroll(testImage1);
+		fileMapper.goodsImgEnroll(imageInfoSavedToday);
 		assertThat(fileMapper.getCount(), is(1));
 	}
 	
 	@Test(expected = DataIntegrityViolationException.class)
 	public void 이미지_정보_등록_외래키_테스트() throws Exception {
 		
-		int result = fileMapper.goodsImgEnroll(testImage2);
+		int result = fileMapper.goodsImgEnroll(imageInfoWithWrongBookId);
 		
 		assertThat(result, is(0));
 		
@@ -133,8 +128,7 @@ public class FileMapperTest {
 	
 	@Test
 	public void 이미지_정보_등록_테스트() throws Exception {
-		
-		int result = fileMapper.goodsImgEnroll(testImage1);
+		int result = fileMapper.goodsImgEnroll(imageInfoSavedToday);
 		
 		assertThat(result, is(1));
 		
@@ -144,24 +138,24 @@ public class FileMapperTest {
 	@Test
 	public void 이미지_목록_출력_테스트() throws Exception {
 		
-		fileMapper.goodsImgEnroll(testImage1);
-		fileMapper.goodsImgEnroll(testImage3);
+		fileMapper.goodsImgEnroll(imageInfoSavedToday);
+		fileMapper.goodsImgEnroll(imageInfoSavedDayBefore);
 		
 		List<ImageInfoVO> list = fileMapper.getImageList(fileMapper.getLastPK());
 		
 		assertThat(list.size(), is(2));
-		assertThat(list.get(0).getUploadPath(), is(testImage1.getUploadPath()));
+		assertThat(list.get(0).getUploadPath(), is(imageInfoSavedToday.getUploadPath()));
 	}
 	
 	@Test
 	public void 하루전_이미지_목록_출력_테스트() throws Exception {
-		fileMapper.goodsImgEnroll(testImage1);
-		fileMapper.goodsImgEnroll(testImage3);
+		fileMapper.goodsImgEnroll(imageInfoSavedToday);
+		fileMapper.goodsImgEnroll(imageInfoSavedDayBefore);
 		
 		List<ImageInfoVO> list = fileMapper.getPreviousImageList();
 		
 		assertThat(list.size(), is(1));
-		assertThat(list.get(0).getUploadPath(), is(testImage3.getUploadPath()));
+		assertThat(list.get(0).getUploadPath(), is(imageInfoSavedDayBefore.getUploadPath()));
 	}
 	
 	
