@@ -2,7 +2,9 @@ package com.spring.shop.service;
 
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 import static org.hamcrest.core.Is.*;
 
@@ -23,50 +25,55 @@ public class MemberServiceTest {
 	@Autowired
 	private MemberService memberService;
 	
-	private MemberVO testInfo1;
+	private static MemberVO testUserInfo;
 	
-	private EncodePassword passwordEncoder;
+	private static EncodePassword passwordEncoder;
 	
-	@Before
-	public void setUp() {
+	@BeforeClass
+	public static void setUp() {
 		passwordEncoder = new EncodePassword(new BCryptPasswordEncoder());
 		
-		testInfo1 = new MemberVO();
+		testUserInfo = new MemberVO();
 		
-		testInfo1.setMemberId("test1");
-		testInfo1.setMemberPw("1q2w3e4r");
-		testInfo1.setMemberName("test");		
-		testInfo1.setMemberMail("test");		
-		testInfo1.setMemberAddr1("test");	
-		testInfo1.setMemberAddr2("test");	
-		testInfo1.setMemberAddr3("test");
+		testUserInfo.setMemberId("test1");
+		testUserInfo.setMemberPw("1q2w3e4r");
+		testUserInfo.setMemberName("test");		
+		testUserInfo.setMemberMail("test");		
+		testUserInfo.setMemberAddr1("test");	
+		testUserInfo.setMemberAddr2("test");	
+		testUserInfo.setMemberAddr3("test");
+	}
+	
+	@Before
+	public void beforeMethod() throws Exception {
+		memberService.deleteAll();
+		
+		assertThat(memberService.getCount(), is(0));		
+	}
+	
+	@After
+	public void afterMethod() throws Exception {
+		memberService.deleteAll();
+		
+		assertThat(memberService.getCount(), is(0));		
 	}
 	
 	@Test
 	public void 회원등록_테스트() throws Exception {
+		String encoding = passwordEncoder.EncodingPassword(testUserInfo.getMemberPw());
 		
-		memberService.deleteAll();
+		assertTrue(passwordEncoder.comparePassword(testUserInfo.getMemberPw(), encoding));
 		
-		assertThat(memberService.getCount(), is(0));
-		
-		String encoding = passwordEncoder.EncodingPassword(testInfo1.getMemberPw());
-		
-		assertTrue(passwordEncoder.comparePassword(testInfo1.getMemberPw(), encoding));
-		
-		assertThat(1, is(memberService.memberJoin(testInfo1)));
+		assertThat(1, is(memberService.memberJoin(testUserInfo)));
 		
 	}
 	
 	@Test
 	public void 아이디중복체크_테스트() throws Exception {
-		
-		memberService.deleteAll();
-		
-		assertThat(memberService.getCount(), is(0));
-		
-		memberService.memberJoin(testInfo1);
+		memberService.memberJoin(testUserInfo);
 		
 		assertFalse(memberService.idCheck("test232"));
-		assertTrue(memberService.idCheck(testInfo1.getMemberId()));
+		
+		assertTrue(memberService.idCheck(testUserInfo.getMemberId()));
 	}
 }

@@ -5,7 +5,7 @@ import static org.hamcrest.core.Is.*;
 
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,13 @@ public class FileServiceTest {
 	@Autowired
 	private FileService fileService;
 	
-	@Before
-	public void setUp() {
+	@After
+	public void afterMethod() {
 		fileService.deleteAll();
 	}
 	
 	@Test
 	public void 존재하지않는_이미지_정보_출력_테스트() throws Exception {
-		
 		List<ImageInfoVO> list = fileService.getImageList(16);
 		
 		assertTrue(list.isEmpty());
@@ -42,6 +41,5 @@ public class FileServiceTest {
 		List<String> list = fileService.getTheDayBeforeListOfImgFiles();
 		
 		assertThat(list.isEmpty(), is(true));
-		
 	}
 }
