@@ -140,23 +140,18 @@ public class BookServiceImpl implements BookService{
 		
 		fileMapper.goodsImgDelete(bookId);
 		bookMapper.goodsDelete(bookId);
-		
+		// 파일 삭제를 위해 목록형식으로 리턴
 		return goodsImgList;
 	}
 
 	@Override
 	public void deleteAll() {
-		fileMapper.deleteAll();
 		bookMapper.deleteAll();
 	}
 
 	@Override
 	public int getCount() {
-		
-		int bookCount = bookMapper.getCount();
-		int fileCount = fileMapper.getCount();
-		
-		return bookCount + fileCount;
+		return bookMapper.getCount();
 	}
 	
 	@Override

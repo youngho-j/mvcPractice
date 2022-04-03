@@ -88,16 +88,12 @@ public class BookSearchServiceImpl implements BookSearchService{
 
 	@Override
 	public void deleteAll() {
-		fileMapper.deleteAll();
 		bookSearchMapper.deleteAll();
 	}
 
 	@Override
 	public int getCount() {
-		int bookCount = bookSearchMapper.getCount();
-		int fileCount = fileMapper.getCount();
-		
-		return bookCount + fileCount;
+		return bookSearchMapper.getCount();
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import org.junit.After;
 import static org.hamcrest.core.Is.*;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.spring.shop.mapper.BookMapper;
-import com.spring.shop.mapper.FileMapper;
 import com.spring.shop.vo.AuthorVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,104 +27,84 @@ public class AuthorServiceTest {
 	@Autowired
 	private AuthorService authorService;
 	
-	@Autowired
-	private BookMapper bookMapper;
+	private static AuthorVO localAuthorInfo;
+	private static AuthorVO foreignAuthorInfo;
+	private static AuthorVO wrongAuthorInfo;
 	
-	@Autowired
-	private FileMapper fileMapper;
-	
-	private AuthorVO author1;
-	private AuthorVO author2;
-	private AuthorVO author3;
+	@BeforeClass
+	public static void setUp() {
+		localAuthorInfo = new AuthorVO();
+		foreignAuthorInfo = new AuthorVO();
+		wrongAuthorInfo = new AuthorVO();
+		
+		localAuthorInfo.setNationId("01");
+		localAuthorInfo.setAuthorName("service테스트1");
+		localAuthorInfo.setAuthorProfile("테스터입니다.");
+		
+		foreignAuthorInfo.setNationId("02");
+		foreignAuthorInfo.setAuthorName("service테스트2");
+		foreignAuthorInfo.setAuthorProfile("테스터입니다.");
+		
+		wrongAuthorInfo.setNationId("01");
+		wrongAuthorInfo.setAuthorName("service테스트312394328432057349587324320987413298746324958724");
+		wrongAuthorInfo.setAuthorProfile("테스터입니다.");
+	}
 	
 	@Before
-	public void setUp() {
-		fileMapper.deleteAll();
-		bookMapper.deleteAll();
+	public void beforeMethod() {
 		authorService.deleteAll();
-		
-		author1 = new AuthorVO();
-		author2 = new AuthorVO();
-		author3 = new AuthorVO();
-		
-		author1.setNationId("01");
-		author1.setAuthorName("service테스트1");
-		author1.setAuthorProfile("테스터입니다.");
-		
-		author2.setNationId("02");
-		author2.setAuthorName("service테스트2");
-		author2.setAuthorProfile("테스터입니다.");
-		
-		author3.setNationId("01");
-		author3.setAuthorName("service테스트312394328432057349587324320987413298746324958724");
-		author3.setAuthorProfile("테스터입니다.");
+		assertThat(authorService.getCount(), is(0));
 	}
 	
 	@After
 	public void afterAction() {
-		fileMapper.deleteAll();
-		bookMapper.deleteAll();
 		authorService.deleteAll();
+		assertThat(authorService.getCount(), is(0));
 	}
 	
 	@Test
 	public void getCount_메서드_테스트() throws Exception {
-		
-		assertThat(authorService.getCount(), is(0));
-		
-		authorService.authorEnroll(author1);
+		authorService.authorEnroll(localAuthorInfo);
 		assertThat(authorService.getCount(), is(1));
 		
-		authorService.authorEnroll(author2);
+		authorService.authorEnroll(foreignAuthorInfo);
 		assertThat(authorService.getCount(), is(2));
 	}
 	
 	@Test(expected = DataIntegrityViolationException.class)
 	public void 작가_등록시_작가이름범위초과_예외처리_테스트() throws Exception {
-		
-		assertThat(authorService.getCount(), is(0));
-		
-		authorService.authorEnroll(author3);
+		authorService.authorEnroll(wrongAuthorInfo);
 	}
 	
 	@Test
 	public void 작가등록_테스트() throws Exception {
+		int result = authorService.authorEnroll(localAuthorInfo);
 		
-		assertThat(authorService.getCount(), is(0));
-		
-		int result = authorService.authorEnroll(author1);
-		
-		assertThat(1, is(result));
+		assertThat(result, is(1));
 		
 		assertThat(authorService.getCount(), is(1));
 	}
 	
 	@Test
 	public void 작가_상세정보_테스트() throws Exception {
-		
-		assertThat(authorService.getCount(), is(0));
-		
-		authorService.authorEnroll(author1);
+		authorService.authorEnroll(localAuthorInfo);
 		
 		AuthorVO authorDetail = authorService.authorGetDetail(authorService.getLastPK());
 		
-		assertThat(author1.getAuthorName(), is(authorDetail.getAuthorName()));
+		assertThat(localAuthorInfo.getAuthorName(), is(authorDetail.getAuthorName()));
 	}
 	
 	@Test
 	public void 작가_정보_수정_테스트() throws Exception {
-		
-		assertThat(authorService.getCount(), is(0));
-		
-		authorService.authorEnroll(author1);
+		authorService.authorEnroll(localAuthorInfo);
 		
 		int primaryKey = authorService.getLastPK();
 		
 		AuthorVO authorDetail = authorService.authorGetDetail(primaryKey);
 		
-		author2.setAuthorId(primaryKey);
+		foreignAuthorInfo.setAuthorId(primaryKey);
 		
-		int result = authorService.authorModify(author2);
+		int result = authorService.authorModify(foreignAuthorInfo);
 		
 		AuthorVO ModifyDetail = authorService.authorGetDetail(primaryKey);
 		
@@ -135,10 +114,7 @@ public class AuthorServiceTest {
 	
 	@Test
 	public void 작가정보_삭제_테스트() throws Exception {
-		
-		assertThat(authorService.getCount(), is(0));
-		
-		authorService.authorEnroll(author1);
+		authorService.authorEnroll(localAuthorInfo);
 		
 		int primaryKey = authorService.getLastPK();
 		

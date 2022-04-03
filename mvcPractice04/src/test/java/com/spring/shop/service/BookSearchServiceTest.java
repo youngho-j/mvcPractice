@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.spring.shop.mapper.AuthorMapper;
+import com.spring.shop.mapper.FileMapper;
 import com.spring.shop.util.PageInfo;
 import com.spring.shop.vo.AuthorVO;
 import com.spring.shop.vo.BookVO;
@@ -36,32 +38,33 @@ public class BookSearchServiceTest {
 	@Autowired
 	private AuthorMapper authorMapper;
 	
-	private AuthorVO author1;
+	@Autowired
+	private FileMapper fileMapper;
 	
-	private BookVO book1;
-	private BookVO book2;
-	private BookVO book3;
+	private static AuthorVO localAuthorInfo;
+	private static AuthorVO foreignAuthorInfo;
 	
-	private ImageInfoVO testImage1;
+	private static BookVO bookContainImage;
+	private static BookVO bookWithoutImage;
 	
-	private PageInfo pageInfo;
+	private static ImageInfoVO imageInfo;
 	
-	@Before
-	public void setUp() {
-		bookSearchService.deleteAll();
-		authorMapper.deleteAll();
+	private static PageInfo pageInfo;
+	
+	@BeforeClass
+	public static void setUp() {
+		localAuthorInfo = new AuthorVO();
 		
-		author1 = new AuthorVO();
+		localAuthorInfo.setNationId("01");
+		localAuthorInfo.setAuthorName("테스트1");
+		localAuthorInfo.setAuthorProfile("테스터입니다.");
 		
-		author1.setNationId("01");
-		author1.setAuthorName("테스트1");
-		author1.setAuthorProfile("테스터입니다.");
+		foreignAuthorInfo = new AuthorVO();
+		foreignAuthorInfo.setNationId("02");
+		foreignAuthorInfo.setAuthorName("미국인");
+		foreignAuthorInfo.setAuthorProfile("테스터입니다.");
 		
-		authorMapper.authorEnroll(author1);
-		
-		int authorId = authorMapper.getLastPK();
-		
-		testImage1 = new ImageInfoVO
+		imageInfo = new ImageInfoVO
 				.Builder()
 				.uploadPath("test\\2022\\01\\12")
 				.uuid("test")
@@ -69,115 +72,84 @@ public class BookSearchServiceTest {
 		
 		List<ImageInfoVO> imageList = new ArrayList<ImageInfoVO>();
 		
-		imageList.add(testImage1);
+		imageList.add(imageInfo);
 		
-		book1 = new BookVO();
-		book2 = new BookVO();
-		book3 = new BookVO();
+		bookContainImage = new BookVO();
+		bookWithoutImage = new BookVO();
 		
-		book1.setBookName("테스트책");
-		book1.setAuthorId(authorId);
-		book1.setPublicationDate("2022-01-10");
-		book1.setPublisher("한국출판사");
-		book1.setCategoryCode("104000");
-		book1.setBookPrice(20000);
-		book1.setBookStock(50);
-		book1.setBookDiscount(0.2);
-		book1.setBookIntro("책 소개 ");
-		book1.setBookContents("책 목차 ");
-		book1.setImagesList(imageList);
+		bookContainImage.setBookName("테스트책");
+		bookContainImage.setPublicationDate("2022-01-10");
+		bookContainImage.setPublisher("한국출판사");
+		bookContainImage.setCategoryCode("104000");
+		bookContainImage.setBookPrice(20000);
+		bookContainImage.setBookStock(50);
+		bookContainImage.setBookDiscount(0.2);
+		bookContainImage.setBookIntro("책 소개 ");
+		bookContainImage.setBookContents("책 목차 ");
+		bookContainImage.setImagesList(imageList);
 		
-		book2.setBookName("테스트책2");
-		book2.setAuthorId(101);
-		book2.setPublicationDate("2022-01-10");
-		book2.setPublisher("미국출판사");
-		book2.setCategoryCode("104000");
-		book2.setBookPrice(20000);
-		book2.setBookStock(10);
-		book2.setBookDiscount(0.4);
-		book2.setBookIntro("책 소개 ");
-		book2.setBookContents("책 목차 ");
-		
-		book3.setBookName("테스트책3");
-		book3.setAuthorId(authorId);
-		book3.setPublicationDate("2022-01-12");
-		book3.setPublisher("미국출판사");
-		book3.setCategoryCode("104000");
-		book3.setBookPrice(20000);
-		book3.setBookStock(10);
-		book3.setBookDiscount(0.4);
-		book3.setBookIntro("책 소개 ");
-		book3.setBookContents("책 목차 ");
+		bookWithoutImage.setBookName("미국의역사");
+		bookWithoutImage.setPublicationDate("2022-01-12");
+		bookWithoutImage.setPublisher("미국출판사");
+		bookWithoutImage.setCategoryCode("104000");
+		bookWithoutImage.setBookPrice(20000);
+		bookWithoutImage.setBookStock(10);
+		bookWithoutImage.setBookDiscount(0.4);
+		bookWithoutImage.setBookIntro("책 소개 ");
+		bookWithoutImage.setBookContents("책 목차 ");
 		
 		pageInfo = new PageInfo(1, 10);
-		pageInfo.setKeyword("테");
-		pageInfo.setType("A");
+	}
+	
+	@Before
+	public void beforeMethod() throws Exception {
+		fileMapper.deleteAll();
+		bookService.deleteAll();
+		authorMapper.deleteAll();
+		
+		authorMapper.authorEnroll(localAuthorInfo);
+		assertThat(authorMapper.getCount(), is(1));
+		
+		bookContainImage.setAuthorId(authorMapper.getLastPK());
+		bookWithoutImage.setAuthorId(authorMapper.getLastPK());
+		
+		bookService.goodsEnroll(bookContainImage);
+		assertThat(bookService.getCount(), is(1));
+		
+		bookService.goodsEnroll(bookWithoutImage);
+		assertThat(bookService.getCount(), is(2));
+		assertThat(fileMapper.getCount(), is(1));
+		
+		authorMapper.authorEnroll(foreignAuthorInfo);
+		assertThat(authorMapper.getCount(), is(2));
 	}
 	
 	@After
-	public void afterTest() {
+	public void afterMethod() {
+		pageInfo = new PageInfo(1, 10);
+		
+		fileMapper.deleteAll();
 		bookService.deleteAll();
 		authorMapper.deleteAll();
 	}
 	
 	@Test
 	public void 작가검색_테스트() throws Exception {
-		assertThat(bookService.getCount(), is(0));		
-		
-		bookService.goodsEnroll(book3);
-		
-		assertThat(bookService.getCount(), is(1));
-		
-		List<BookVO> list = bookSearchService.getGoodsList(pageInfo);
-		
-		assertThat(list.size(), is(1));
-		
-		assertThat(list.get(0).getBookName(), is(book3.getBookName()));
-	}
-	
-	@Test
-	public void 작가검색_테스트2() throws Exception {
-		assertThat(bookService.getCount(), is(0));		
-		
-		bookService.goodsEnroll(book1);
-		
-		assertThat(bookService.getCount(), is(2));
-		
-		List<BookVO> list = bookSearchService.getGoodsList(pageInfo);
-		
-		assertThat(list.size(), is(1));
-		
-		assertThat(list.get(0).getImagesList().get(0).getFileName(), is(book1.getImagesList().get(0).getFileName()));
-	}
-	
-	@Test
-	public void 제목검색_테스트() throws Exception {
-		assertThat(bookService.getCount(), is(0));		
-		
-		pageInfo.setType("T");
-		
-		bookService.goodsEnroll(book1);
-		bookService.goodsEnroll(book3);
-		
-		assertThat(bookService.getCount(), is(3));
+		pageInfo.setType("A");
+		pageInfo.setKeyword("테");
 		
 		List<BookVO> list = bookSearchService.getGoodsList(pageInfo);
 		
 		assertThat(list.size(), is(2));
 		
+		assertThat(list.get(0).getBookName(), is(bookContainImage.getBookName()));
+		assertThat(list.get(0).getImagesList().get(0).getFileName(), is(bookContainImage.getImagesList().get(0).getFileName()));
 	}
 	
 	@Test
-	public void 상품제목에_해당하지_않는_키워드로_제목검색_테스트() throws Exception {
-		assertThat(bookService.getCount(), is(0));		
-		
+	public void 제목_공백_검색_테스트() throws Exception {
 		pageInfo.setType("T");
-		pageInfo.setKeyword("신");
-		
-		bookService.goodsEnroll(book1);
-		bookService.goodsEnroll(book3);
-		
-		assertThat(bookService.getCount(), is(3));
+		pageInfo.setKeyword(" ");
 		
 		List<BookVO> list = bookSearchService.getGoodsList(pageInfo);
 		
@@ -186,13 +158,28 @@ public class BookSearchServiceTest {
 	}
 	
 	@Test
-	public void 작가검색_상품_개수출력_테스트() throws Exception {
-		assertThat(bookService.getCount(), is(0));		
+	public void 제목_키워드없이_검색_테스트() throws Exception {
+		pageInfo.setType("T");
 		
-		bookService.goodsEnroll(book1);
-		bookService.goodsEnroll(book3);
+		List<BookVO> list = bookSearchService.getGoodsList(pageInfo);
 		
-		assertThat(bookService.getCount(), is(3));
+		assertThat(list.size(), is(0));
+		
+	}
+	
+	@Test
+	public void 상품제목에_해당하지_않는_키워드로_제목검색_테스트() throws Exception {
+		pageInfo.setType("T");
+		pageInfo.setKeyword("신");
+		
+		List<BookVO> list = bookSearchService.getGoodsList(pageInfo);
+		
+		assertThat(list.size(), is(0));
+		
+	}
+	
+	@Test
+	public void 작가검색_조건없을경우_상품_개수출력_테스트() throws Exception {
 		
 		int listCount = bookSearchService.getGoodsTotal(pageInfo);
 		
@@ -201,32 +188,19 @@ public class BookSearchServiceTest {
 	}
 	
 	@Test
-	public void 제목검색_상품_개수출력_테스트() throws Exception {
-		assertThat(bookService.getCount(), is(0));		
-		
-		pageInfo.setType("T");
-		
-		bookService.goodsEnroll(book1);
-		bookService.goodsEnroll(book3);
-		
-		assertThat(bookService.getCount(), is(3));
+	public void 작가검색_작가이름키워드일경우_상품_개수출력_테스트() throws Exception {
+		pageInfo.setType("A");
+		pageInfo.setKeyword("미");
 		
 		int listCount = bookSearchService.getGoodsTotal(pageInfo);
 		
-		assertThat(listCount, is(2));
+		assertThat(listCount, is(0));
 		
 	}
 	
 	@Test
 	public void 관리자페이지_상품제목에_해당하지_않는_키워드로_검색_테스트() throws Exception {
-		assertThat(bookService.getCount(), is(0));		
-		
 		pageInfo.setKeyword("-");
-		
-		bookService.goodsEnroll(book1);
-		bookService.goodsEnroll(book3);
-		
-		assertThat(bookService.getCount(), is(3));
 		
 		List<BookVO> list = bookSearchService.adminPageGoodsList(pageInfo);
 		
@@ -236,13 +210,6 @@ public class BookSearchServiceTest {
 	
 	@Test
 	public void 관리자페이지_검색_테스트() throws Exception {
-		assertThat(bookService.getCount(), is(0));		
-		
-		bookService.goodsEnroll(book1);
-		bookService.goodsEnroll(book3);
-		
-		assertThat(bookService.getCount(), is(3));
-		
 		List<BookVO> list = bookSearchService.adminPageGoodsList(pageInfo);
 		
 		assertThat(list.size(), is(2));
@@ -251,13 +218,6 @@ public class BookSearchServiceTest {
 	
 	@Test
 	public void 관리자페이지_검색_상품_개수_테스트() throws Exception {
-		assertThat(bookService.getCount(), is(0));		
-		
-		bookService.goodsEnroll(book1);
-		bookService.goodsEnroll(book3);
-		
-		assertThat(bookService.getCount(), is(3));
-		
 		int goodsTotal = bookSearchService.adminPageGoodsTotal(pageInfo);
 		
 		assertThat(goodsTotal, is(2));
