@@ -91,6 +91,10 @@ public class FileMapperTest {
 	
 	@Before
 	public void beforeMethod() throws Exception {
+		fileMapper.deleteAll();
+		bookMapper.deleteAll();
+		authorMapper.deleteAll();
+		
 		authorMapper.authorEnroll(authorInfo);
 		
 		bookWithoutAuthorId.setAuthorId(authorMapper.getLastPK());

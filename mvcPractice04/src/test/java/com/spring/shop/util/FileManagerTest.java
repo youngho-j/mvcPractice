@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FileManagerTest {
 
 	private FileManager fileManager;
+	
 	@Before
 	public void setUp() throws Exception {
 		

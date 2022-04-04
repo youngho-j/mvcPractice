@@ -82,6 +82,9 @@ public class BookMapperTest {
 		bookMapper.deleteAll();
 		assertThat(bookMapper.getCount(), is(0));
 		
+		authorMapper.deleteAll();
+		assertThat(authorMapper.getCount(), is(0));
+		
 		authorMapper.authorEnroll(authorInfo);
 		
 		bookWithoutAuthorId1.setAuthorId(authorMapper.getLastPK());

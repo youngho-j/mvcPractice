@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,19 +38,20 @@ import lombok.extern.slf4j.Slf4j;
 	"file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 public class FileCheckServiceTest {
 	
-	private final String fixedRoot = "H:\\mvcPractice04upload";  
+	private static final String fixedRoot = "H:\\mvcPractice04upload";  
 	
-	private final String variationRoot = new PathManager().getTheDayBeforePath();  
+	private static final String variationRoot = new PathManager().getTheDayBeforePath();  
 	
-	private final String uuid = UUID.randomUUID().toString();
+	// 원본 이미지 파일 객체
+	private static final File sourceFile = new File("C:\\Users\\admin\\Desktop\\book2.png");
 	
-	private final String uuid2 = UUID.randomUUID().toString();
+	private final String uuidNotStoredInDB = UUID.randomUUID().toString();
 	
-	private AuthorVO author1;
+	private static AuthorVO authorInfo;
 	
-	private BookVO book1;
+	private static BookVO bookContainImage;
 	
-	private ImageInfoVO testImage1;
+	private static ImageInfoVO bookImage;
 	
 	@Autowired
 	private BookService bookService;
@@ -63,76 +65,77 @@ public class FileCheckServiceTest {
 	@Autowired
 	private FileCheckService fileCheckService;
 	
-	@Before
-	public void setUp() throws Exception {
-		bookService.deleteAll();
-		authorMapper.deleteAll();
-		
+	@BeforeClass
+	public static void setUp() throws Exception {
 		// 이미지 등록을 위한 작가, 상품 등록
 		// 작가 등록
-		author1 = new AuthorVO();
+		authorInfo = new AuthorVO();
 		
-		author1.setNationId("01");
-		author1.setAuthorName("테스트1");
-		author1.setAuthorProfile("테스터입니다.");
-		
-		authorMapper.authorEnroll(author1);
-		
-		int authorId = authorMapper.getLastPK();
-		
-		File folderPath = Paths.get(fixedRoot, variationRoot).toFile();
-		
-		// 원본 이미지 파일
-		File sourceFile = new File("C:\\Users\\admin\\Desktop\\book2.png");
-		
-		testImage1 = new ImageInfoVO
-				.Builder()
-				.uploadPath(Paths.get(fixedRoot, variationRoot).toString())
-				.uuid(uuid2)
-				.fileName("book2.png").build();
+		authorInfo.setNationId("01");
+		authorInfo.setAuthorName("테스트1");
+		authorInfo.setAuthorProfile("테스터입니다.");
 		
 		List<ImageInfoVO> imageList = new ArrayList<ImageInfoVO>();
 		
-		imageList.add(testImage1);
+		bookImage = new ImageInfoVO
+				.Builder()
+				.uploadPath(Paths.get(fixedRoot, variationRoot).toString())
+				.uuid(UUID.randomUUID().toString())
+				.fileName(sourceFile.getName()).build();
 		
+		imageList.add(bookImage);
+
 		// 상품 등록
-		book1 = new BookVO();
+		bookContainImage = new BookVO();
 		
-		book1.setBookName("테스트책");
-		book1.setAuthorId(authorId);
-		book1.setPublicationDate("2022-01-10");
-		book1.setPublisher("한국출판사");
-		book1.setCategoryCode("104000");
-		book1.setBookPrice(20000);
-		book1.setBookStock(50);
-		book1.setBookDiscount(0.2);
-		book1.setBookIntro("책 소개 ");
-		book1.setBookContents("책 목차 ");
-		book1.setImagesList(imageList);
+		bookContainImage.setBookName("테스트책");
+		bookContainImage.setPublicationDate("2022-01-10");
+		bookContainImage.setPublisher("한국출판사");
+		bookContainImage.setCategoryCode("104000");
+		bookContainImage.setBookPrice(20000);
+		bookContainImage.setBookStock(50);
+		bookContainImage.setBookDiscount(0.2);
+		bookContainImage.setBookIntro("책 소개 ");
+		bookContainImage.setBookContents("책 목차 ");
+		bookContainImage.setImagesList(imageList);
+	}
+	
+	@Before
+	public void beforeMethod() throws Exception {
+		fileService.deleteAll();
+		bookService.deleteAll();
+		authorMapper.deleteAll();
 		
-		bookService.goodsEnroll(book1);
+		authorMapper.authorEnroll(authorInfo);
+		
+		bookContainImage.setAuthorId(authorMapper.getLastPK());
+		
+		bookService.goodsEnroll(bookContainImage);
+		
+		File folderPath = Paths.get(fixedRoot, variationRoot).toFile();
 		
 		if(!folderPath.exists()) {
 			log.info("[{}] 경로를 가진 폴더 생성", folderPath.toPath());
 			folderPath.mkdirs();
 		}
 		
-		File targetFile1 = Paths.get(fixedRoot, variationRoot + "\\" + uuid + "_book2.png").toFile();
-		File targetFile2 = Paths.get(fixedRoot, variationRoot + "\\t_" + uuid + "_book2.png").toFile();
+		File ImageOnlyInfolder = Paths.get(fixedRoot, variationRoot + "\\" + bookImage.getUuid() + "_" + sourceFile.getName()).toFile();
+		File thumbnailOnlyInfolder = Paths.get(fixedRoot, variationRoot + "\\t_" + bookImage.getUuid() + "_" + sourceFile.getName()).toFile();
 		
-		File DBFile1 = Paths.get(testImage1.getUploadPath(), uuid2 + "_book2.png").toFile();
-		File DBFile2 = Paths.get(testImage1.getUploadPath(), "t_" + uuid2 + "_book2.png").toFile();
+		File ImageInDB = Paths.get(bookImage.getUploadPath(), uuidNotStoredInDB + "_" + sourceFile.getName()).toFile();
+		File thumbnailInDB = Paths.get(bookImage.getUploadPath(), "t_" + uuidNotStoredInDB + "_" + sourceFile.getName()).toFile();
 		
 		// 파일 복사 - 폴더에만 저장된 파일, DB-폴더 둘다 저장된 파일
-		Files.copy(sourceFile.toPath(), targetFile1.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(sourceFile.toPath(), targetFile2.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(sourceFile.toPath(), ImageOnlyInfolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(sourceFile.toPath(), thumbnailOnlyInfolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		
-		Files.copy(sourceFile.toPath(), DBFile1.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(sourceFile.toPath(), DBFile2.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(sourceFile.toPath(), ImageInDB.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(sourceFile.toPath(), thumbnailInDB.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 	
 	@After
-	public void afterTest() throws Exception {
+	public void afterMethod() throws Exception {
+		// 폴더내 이미지 삭제
 		File targetFolder = new File(fixedRoot);
 		
 		Files.walk(targetFolder.toPath())
@@ -144,6 +147,10 @@ public class FileCheckServiceTest {
 				}
 				file.delete();
 			});
+		
+		fileService.deleteAll();
+		bookService.deleteAll();
+		authorMapper.deleteAll();
 	}
 	
 	@Test
