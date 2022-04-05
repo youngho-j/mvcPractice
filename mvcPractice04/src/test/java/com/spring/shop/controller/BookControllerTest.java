@@ -5,7 +5,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +43,9 @@ public class BookControllerTest {
 	@Autowired
 	private FileMapper fileMapper;
 	
-	private AuthorVO author;
+	private static AuthorVO localAuthorInfo;
 	
-	private BookVO book;
+	private static BookVO bookWithoutAuthorId;
 	
 	private MockMvc mock;
 	
@@ -51,40 +53,51 @@ public class BookControllerTest {
 	
 	private String bookId;
 	
+	@BeforeClass
+	public static void setUp() throws Exception {
+		localAuthorInfo = new AuthorVO();
+		
+		localAuthorInfo.setNationId("01");
+		localAuthorInfo.setAuthorName("테스트1");
+		localAuthorInfo.setAuthorProfile("테스터입니다.");
+
+		bookWithoutAuthorId = new BookVO();
+		
+		bookWithoutAuthorId.setBookName("테스트책");
+		bookWithoutAuthorId.setPublicationDate("2022-02-10");
+		bookWithoutAuthorId.setPublisher("한국출판사");
+		bookWithoutAuthorId.setCategoryCode("104000");
+		bookWithoutAuthorId.setBookPrice(20000);
+		bookWithoutAuthorId.setBookStock(50);
+		bookWithoutAuthorId.setBookDiscount(0.2);
+		bookWithoutAuthorId.setBookIntro("책 소개 ");
+		bookWithoutAuthorId.setBookContents("책 목차 ");
+	}
+	
 	@Before
-	public void setUp() throws Exception {
+	public void beforeMethod() throws Exception {
 		fileMapper.deleteAll();
 		bookMapper.deleteAll();
 		authorMapper.deleteAll();
 		
 		this.mock = MockMvcBuilders.webAppContextSetup(wac).build();
 		
-		author = new AuthorVO();
-		
-		author.setNationId("01");
-		author.setAuthorName("테스트1");
-		author.setAuthorProfile("테스터입니다.");
-		
-		authorMapper.authorEnroll(author);
+		authorMapper.authorEnroll(localAuthorInfo);
 		
 		authorId = authorMapper.getLastPK();
 		
-		book = new BookVO();
+		bookWithoutAuthorId.setAuthorId(authorId);
 		
-		book.setBookName("테스트책");
-		book.setAuthorId(authorId);
-		book.setPublicationDate("2022-02-10");
-		book.setPublisher("한국출판사");
-		book.setCategoryCode("104000");
-		book.setBookPrice(20000);
-		book.setBookStock(50);
-		book.setBookDiscount(0.2);
-		book.setBookIntro("책 소개 ");
-		book.setBookContents("책 목차 ");
-		
-		bookMapper.bookEnroll(book);
+		bookMapper.bookEnroll(bookWithoutAuthorId);
 		
 		bookId = Integer.toString(bookMapper.getLastPK());
+	}
+	
+	@After
+	public void afterAction() {
+		fileMapper.deleteAll();
+		bookMapper.deleteAll();
+		authorMapper.deleteAll();
 	}
 	
 	@Test

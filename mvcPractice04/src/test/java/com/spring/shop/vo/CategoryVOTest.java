@@ -1,12 +1,10 @@
 package com.spring.shop.vo;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class CategoryVOTest {
 
 	@Test
@@ -18,8 +16,7 @@ public class CategoryVOTest {
 		category.setCategoryCode("100000");
 		
 		assertNotNull(category);
-		
-		log.info(category.toString());
+		assertThat(category.getCategoryName(), is("국내"));
 	}
 
 }

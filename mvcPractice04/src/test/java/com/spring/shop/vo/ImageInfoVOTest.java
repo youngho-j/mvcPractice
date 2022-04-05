@@ -19,7 +19,7 @@ public class ImageInfoVOTest {
 				.build();
 		
 		assertNotNull(imageInfo);
-		assertThat("book2.jpg", is(imageInfo.getFileName()));
+		assertThat(imageInfo.getFileName(), is("book2.jpg"));
 	}
 
 }

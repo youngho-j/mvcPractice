@@ -16,7 +16,7 @@ public class AuthorVOTest {
 		authorVO.setNationId("01");
 		
 		assertNotNull(authorVO);
-		assertThat("국내", is(authorVO.getNationName()));
+		assertThat(authorVO.getNationName(), is("국내"));
 	}
 
 }

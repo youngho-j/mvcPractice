@@ -18,7 +18,7 @@ public class AuthNumTest {
 		
 		log.info("인증번호 : " + authNum);
 		
-		assertThat(6, is(authNum.length()));
+		assertThat(authNum.length(), is(6));
 	}
 
 }

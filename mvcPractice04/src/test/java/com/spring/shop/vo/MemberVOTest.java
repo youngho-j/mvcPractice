@@ -5,9 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class MemberVOTest {
 	
 	private MemberVO memberVO;
@@ -22,8 +19,6 @@ public class MemberVOTest {
 	
 	@Test
 	public void MemberVO_getter_테스트() {
-		assertEquals("testId", memberVO.getMemberId());
-		
-		log.info("getter return : " + memberVO.getMemberId());
+		assertEquals(memberVO.getMemberId(), "testId");
 	}
 }

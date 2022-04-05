@@ -1,12 +1,10 @@
 package com.spring.shop.vo;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.core.Is.*;
 
 import org.junit.Test;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class BookVOTest {
 
 	@Test
@@ -17,8 +15,7 @@ public class BookVOTest {
 		book.setBookName("삼국지");
 		
 		assertNotNull(book);
-		
-		log.info(book.toString());
+		assertThat(book.getBookName(), is("삼국지"));
 	}
 
 }
