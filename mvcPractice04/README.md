@@ -84,6 +84,7 @@
        @Before 
        public void setUp() throws Exception {
        }
+       ```
      ```
     
     `@After(Junit5 - @AfterEach)`  
@@ -101,6 +102,7 @@
        @BeforeClass 
        public static void setUpBeforeClass() throws Exception {
        }
+       ```
      ```
     
     `@AfterClass(Junit5 - @AfterAll)`  
@@ -144,6 +146,7 @@
    - Spring 기반의 어플리케이션의 `보안(인증과 권한, 인가 등)을 담당`하는 스프링 하위 프레임워크  
    - `'인증'과 '권한'에 대한 부분을 Filter 흐름에 따라 처리`  
      서블릿 Filter를 기반으로 서블릿을 지원
+   - 기본적으로 Session & Cookie 방식으로 인증  
      ```
      참고. 단일 HTTP 요청 예시
      1. Client --- request --> application
@@ -176,13 +179,52 @@
      ```
 
    - 흐름  
-     <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FoMnop%2FbtqEJh4jxCX%2FPhClhzrEpVOCRK7wYM5R4k%2Fimg.png"></img>  
-     [이미지 출처](https://mangkyu.tistory.com/76)  
+     <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FoMnop%2FbtqEJh4jxCX%2FPhClhzrEpVOCRK7wYM5R4k%2Fimg.png">  
+[이미지 출처](https://mangkyu.tistory.com/76)</img>  
+       
      - 인증과 인가를 위해 `Credential 기반의 인증 방식` 사용  
        Principal을 아이디로, Credential을 비밀번호로 사용
 
    - work flow  
-     <img src="https://miro.medium.com/max/1400/1*oVUa7n_m5LkLRzcE-jN_EQ.png"></img>  
+     <img src="https://miro.medium.com/max/1400/1*oVUa7n_m5LkLRzcE-jN_EQ.png">
+[이미지 출처](https://medium.com/@satyakm.dev/understanding-spring-security-internals-with-code-walkthrough-850d5749252c)</img>  
+     ```
+     1. 클라이언트(브라우저)의 요청(Request)
+     
+     2. Web Server 요청 검색 후, 존재하지 않을 경우 웹 컨테이너(ServletContext)에게 요청 이관 
+     
+     3. web.xml 설정에 등록해둔 springSecurityFilterChain 필터(DelegatingFilterProxy class)가  
+        요청을 가로 챔  
+     
+     4. 여러 필터 리스트(AuthenticationFilter)를 순회하면서 필터링 실시
+     
+     5. UsernamePasswordAuthenticationFilter 클래스의 attemptAuthentication(request, response)  
+        메서드를 통해 username과 password를 얻어온 뒤 Authentication 인터페이스의 구현체인  
+        UsernamePasswordAuthenticationToken(Authentication)을 생성  
+     
+     6. AuthenticationManager(Interface)을 구현한 ProviderManager(class)에 token 객체를 보냄
+     
+     7. ProviderManager는 받은 token을 멤버변수로 가지고 있는  
+        AuthenticationProvider(Interface) 구현한 class들에게 처리할 수 있는지 물어봄(supports() 메서드)  
+     
+     8. 처리해줄 객체를 찾았을 떄 해당 인증과정을 처리해달라고 위임(authenticate() 메서드)
+     
+     9. 객체에서 UserDetailsService(Interface)의 loadUserByUsername(String username)를 통해  
+        UserDetails 값을 얻어와 리턴
+     
+     10. 인증 성공시 ProviderManager는 요청이 인증되었다고 알림
+     ```
+     - `DelegatingFilterProxy?`  
+       Filter 구현체, 내부에 위임대상(FilterChainProxy)을 가지고 있음   
+       서블릿 컨테이너와 Spring IOC 컨테이너를 연결해주는 역할  
+     
+     - `FilterChainProxy?`  
+       서블릿 지원의 시작점이자 중심점  
+       특별한 Filter, SecurityFilterChain을 통해 여러 Filter 인스턴스로 위임 가능  
+       사용할 SecurityFilterChain 결정  
+     
+     - `SecurityFilterChain?`  
+       Security Filter 묶음, 체인마다 고유한 각각의 설정을 가질 수 있음  
  
 </details>
 
@@ -197,3 +239,4 @@
 - [정아마추어 로그인 과정으로 살펴보는 스프링 시큐리티 아키텍처](https://jeong-pro.tistory.com/205)   
 - [망나니 개발자 Spring Security란?](https://mangkyu.tistory.com/76)  
 - [INCHEOL's log DelegatingFilterProxy](https://velog.io/@yaho1024/spring-security-delegatingFilterProxy)  
+- [Crucian Carp Spring MVC 동작 원리와 처리 흐름](https://aaronryu.github.io/2021/02/14/a-tutorial-for-spring-mvc-and-security/)  
