@@ -55,12 +55,27 @@ public class BookSearchControllerTest {
 		.andExpect(view().name("admin/goodsManage"))
 		.andDo(print());
 	}
+	
 	@Test
 	public void 상품검색_검색타입_키워드_입력_페이지이동_테스트() throws Exception {
 		mock.perform(get("/search")
 				.param("type", "T")
 				.param("keyword", ""))
 		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("domestic"))		
+		.andExpect(model().attributeExists("goodsListResult"))		
+		.andExpect(view().name("user/search"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 상품_카테고리정보_검색_페이지이동_테스트() throws Exception {
+		mock.perform(get("/search")
+				.param("type", "C")
+				.param("categoryCode", "101000"))
+		.andExpect(status().isOk())
+		.andExpect(model().attributeExists("domestic"))		
+		.andExpect(model().attributeExists("international"))		
 		.andExpect(model().attributeExists("goodsListResult"))		
 		.andExpect(view().name("user/search"))
 		.andDo(print());

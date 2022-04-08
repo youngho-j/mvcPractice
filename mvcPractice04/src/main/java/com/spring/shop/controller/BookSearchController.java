@@ -38,15 +38,15 @@ public class BookSearchController {
 		
 		List<BookVO> goodsList = bookSearchService.getGoodsList(pageInfo);
 		
+		// 국내, 외 카테고리 목록
+		model.addAttribute("domestic", categoryService.getDomesticCategoryCode());
+		model.addAttribute("international", categoryService.getInternationalCategoryCode());
+		
 		// 목록이 없을 경우
 		if(goodsList.isEmpty()) {
 			model.addAttribute("goodsListResult", "empty");
 			return "user/search";
 		}
-		
-		// 국내, 외 카테고리 목록
-		model.addAttribute("domestic", categoryService.getDomesticCategoryCode());
-		model.addAttribute("international", categoryService.getInternationalCategoryCode());
 		
 		model.addAttribute("goodsListResult", goodsList);
 		model.addAttribute("pagingManager", new PagingManager(pageInfo, bookSearchService.getGoodsTotal(pageInfo)));
