@@ -51,7 +51,7 @@ public class FileControllerTest {
 	
 	private final String uuid = UUID.randomUUID().toString();
 	
-	private File sourceFile = new File("C:\\Users\\admin\\Desktop\\book2.png");
+	private File fileToUpload = new File("C:\\Users\\admin\\Desktop\\book2.png");
 	
 	@Before
 	public void setUp() throws Exception {
@@ -60,17 +60,17 @@ public class FileControllerTest {
 				.apply(SecurityMockMvcConfigurers.springSecurity())
 				.build();
 		
-		File folderPath = Paths.get(fixedRoot, variationRoot).toFile();
+		File fileStoragePath = Paths.get(fixedRoot, variationRoot).toFile();
 		
-		if(!folderPath.exists()) {
-			folderPath.mkdirs();
+		if(!fileStoragePath.exists()) {
+			fileStoragePath.mkdirs();
 		}
 		
-		File targetFile1 = Paths.get(fixedRoot, variationRoot + "\\" + uuid + "_book2.png").toFile();
-		File targetFile2 = Paths.get(fixedRoot, variationRoot + "\\t_" + uuid + "_book2.png").toFile();
+		File originFile = Paths.get(fixedRoot, variationRoot + "\\" + uuid + "_book2.png").toFile();
+		File thumnailFile = Paths.get(fixedRoot, variationRoot + "\\t_" + uuid + "_book2.png").toFile();
 			
-		Files.copy(sourceFile.toPath(), targetFile1.toPath(), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(sourceFile.toPath(), targetFile2.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(fileToUpload.toPath(), originFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(fileToUpload.toPath(), thumnailFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 	
 	@After
@@ -89,7 +89,7 @@ public class FileControllerTest {
 	}
 	
 	@Test
-	public void 업로드_이미지_삭제_테스트() throws Exception {
+	public void 업로드된_이미지_파일_삭제_테스트() throws Exception {
 		// 테스트 파일 이름 및 경로 
 		String fileName = new StringBuilder()
 				.append(variationRoot)
@@ -106,7 +106,7 @@ public class FileControllerTest {
 	}
 	
 	@Test
-	public void 이미지_정보_JSON_리턴_테스트() throws Exception {
+	public void 이미지_정보_JSON형식으로_리턴_테스트() throws Exception {
 		mock.perform(get("/getImageInfo")
 				.param("bookId", "16"))
 		.andExpect(status().isOk())
@@ -116,8 +116,14 @@ public class FileControllerTest {
 	
 	@Test
 	public void 존재하는_이미지파일_호출_테스트() throws Exception {
+		String fileName = new StringBuilder()
+				.append(variationRoot)
+				.append("\\t_")
+				.append(uuid)
+				.append("_book2.png").toString();
+		
 		mock.perform(get("/display")
-				.param("fileName", variationRoot + "\\t_" + uuid + "_book2.png"))
+				.param("fileName", fileName))
 		.andExpect(status().isOk())
 		.andExpect(header().exists("Content-type"))
 		.andExpect(content().contentType(MediaType.IMAGE_PNG_VALUE))
@@ -126,8 +132,13 @@ public class FileControllerTest {
 	
 	@Test
 	public void 존재하지않는_이미지파일_호출_테스트() throws Exception {
+		String fileName = new StringBuilder()
+				.append(variationRoot)
+				.append("\\t_book2.png")
+				.toString();
+		
 		mock.perform(get("/display")
-				.param("fileName", variationRoot + "\\t_book2.png"))
+				.param("fileName", variationRoot + fileName))
 		.andExpect(status().isOk())
 		.andExpect(header().exists("Content-type"))
 		.andExpect(content().contentType(MediaType.IMAGE_PNG_VALUE))
@@ -137,7 +148,7 @@ public class FileControllerTest {
 	@Test
 	public void 파일_업로드_테스트() throws Exception {
 		MockMultipartFile uploadFile = 
-				new MockMultipartFile("uploadFile","book2.png","image/png", new FileInputStream(sourceFile));
+				new MockMultipartFile("uploadFile","book2.png","image/png", new FileInputStream(fileToUpload));
 		
 		mock.perform(multipart("/uploadImg")
 				.file(uploadFile).with(csrf()))
@@ -147,8 +158,7 @@ public class FileControllerTest {
 	}
 	
 	@Test
-	public void 파일_업로드_파일없는경우_테스트() throws Exception {
-		
+	public void 파일_업로드시_파일이_없는경우_테스트() throws Exception {
 		mock.perform(multipart("/uploadImg")
 				.with(csrf()))
 		.andExpect(status().isOk())
