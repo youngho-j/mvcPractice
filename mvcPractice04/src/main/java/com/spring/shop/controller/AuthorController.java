@@ -4,6 +4,7 @@ package com.spring.shop.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,15 +46,31 @@ public class AuthorController {
 		return "redirect:/admin/authorEnroll";
 	}
 	
+//	// URL 배열 처리 - 상세 페이지와 수정 페이지 같은 작가 데이터를 동일하게 사용
+//	@GetMapping({"/admin/authorDetail", "/admin/authorModify"})
+//	public void authorGetInfoGET(int authorId, PageInfo pageInfo, Model model) throws Exception {
+//		log.info("작가 상세or수정 페이지로 이동");
+//		
+//		// 상세 페이지 넘어가기전 작기 관리 페이지 정보
+//		model.addAttribute("PreviousPageInfo", pageInfo);
+//		
+//		model.addAttribute("authorInfo", authorService.authorGetDetail(authorId));
+//	}
+	
 	// URL 배열 처리 - 상세 페이지와 수정 페이지 같은 작가 데이터를 동일하게 사용
-	@GetMapping({"/admin/authorDetail", "/admin/authorModify"})
-	public void authorGetInfoGET(int authorId, PageInfo pageInfo, Model model) throws Exception {
-		log.info("작가 상세or수정 페이지로 이동");
-		
+	@GetMapping("/admin/authorDetail")
+	public String authorDetailGET(int authorId, PageInfo pageInfo, Model model) throws Exception {
+		log.info("작가 상세 페이지로 이동");
+		AuthorVO authorInfo = authorService.authorGetDetail(authorId);
+		if(ObjectUtils.isEmpty(authorInfo)) {
+			return "redirect:/admin/authorManage";
+		}
 		// 상세 페이지 넘어가기전 작기 관리 페이지 정보
 		model.addAttribute("PreviousPageInfo", pageInfo);
 		
-		model.addAttribute("authorInfo", authorService.authorGetDetail(authorId));
+		model.addAttribute("authorInfo", authorInfo);
+		
+		return "/admin/authorDetail";
 	}
 	
 	@PostMapping("/admin/authorModify")

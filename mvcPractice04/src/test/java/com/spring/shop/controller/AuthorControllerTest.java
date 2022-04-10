@@ -22,7 +22,9 @@ import org.springframework.web.util.NestedServletException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml","file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml","file:src/main/webapp/WEB-INF/spring/security-context.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml",
+	"file:src/main/webapp/WEB-INF/spring/security-context.xml"})
 @WithMockUser(username = "testUser", roles = {"ADMIN"})
 public class AuthorControllerTest {
 	
@@ -63,19 +65,18 @@ public class AuthorControllerTest {
 		mock.perform(post("/admin/authorEnroll").with(csrf())
 				.param("authorName", "test01")
 				.param("nationId", "02")
-				.param("authorProfile", "test")
-				)
+				.param("authorProfile", "test"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}
 	
 	@Test
-	public void 작가_상세페이지_호출_테스트() throws Exception {
+	public void 존재하지않는_작가_상세페이지_호출_테스트() throws Exception {
 		mock.perform(get("/admin/authorDetail")
 				.param("authorId", "94"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("admin/authorDetail"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}
 	
