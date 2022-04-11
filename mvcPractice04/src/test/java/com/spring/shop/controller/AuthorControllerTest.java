@@ -3,10 +3,13 @@ package com.spring.shop.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.NestedServletException;
 
+import com.spring.shop.mapper.AuthorMapper;
+import com.spring.shop.vo.AuthorVO;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/test-root-context.xml",
@@ -31,14 +37,41 @@ public class AuthorControllerTest {
 	@Autowired
 	private WebApplicationContext wac;
 	
+	@Autowired
+	private AuthorMapper authorMapper;
+	
+	private static AuthorVO localAuthorInfo;
+	
 	private MockMvc mock;
 	
+	private int authorId;
+	
+	@BeforeClass
+	public static void setUp() {
+		localAuthorInfo = new AuthorVO();
+		
+		localAuthorInfo.setNationId("01");
+		localAuthorInfo.setAuthorName("service테스트1");
+		localAuthorInfo.setAuthorProfile("테스터입니다.");
+	}
+	
 	@Before
-	public void setUp() {
+	public void beforeMethod() {
 		this.mock = MockMvcBuilders
 				.webAppContextSetup(wac)
 				.apply(SecurityMockMvcConfigurers.springSecurity())
 				.build();
+		
+		authorMapper.deleteAll();
+		authorMapper.authorEnroll(localAuthorInfo);
+		
+		authorId = authorMapper.getLastPK();
+	}
+	
+	@After
+	public void afterAction() {
+		authorMapper.deleteAll();
+		assertThat(authorMapper.getCount(), is(0));
 	}
 	
 	@Test
@@ -81,11 +114,29 @@ public class AuthorControllerTest {
 	}
 	
 	@Test
-	public void 작가_수정페이지_호출_테스트() throws Exception {
+	public void 작가_상세페이지_호출_테스트() throws Exception {
+		mock.perform(get("/admin/authorDetail")
+				.param("authorId", Integer.toString(authorId)))
+		.andExpect(status().isOk())
+		.andExpect(view().name("/admin/authorDetail"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 존재하지않는_작가_수정페이지_호출_테스트() throws Exception {
 		mock.perform(get("/admin/authorModify")
 				.param("authorId", "94"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(redirectedUrl("/admin/authorManage"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 작가_수정페이지_호출_테스트() throws Exception {
+		mock.perform(get("/admin/authorModify")
+				.param("authorId", Integer.toString(authorId)))
 		.andExpect(status().isOk())
-		.andExpect(view().name("admin/authorModify"))
+		.andExpect(view().name("/admin/authorModify"))
 		.andDo(print());
 	}
 	
