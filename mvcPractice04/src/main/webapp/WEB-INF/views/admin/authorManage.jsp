@@ -133,6 +133,7 @@ $(document).ready(function(){
     let result = '<c:out value="${enroll_result}"/>';
     let modifyResult = '<c:out value="${modifyResult}"/>';
     let deleteResult = '<c:out value="${deleteResult}"/>';
+    let alertMsg = '<c:out value="${alertMsg}"/>';
     
     checkResult(result);
     
@@ -140,7 +141,15 @@ $(document).ready(function(){
     
     checkDeleteResult(deleteResult);
     
+    printAlert(alertMsg);
 });
+
+function printAlert(alertMsg) {
+	if(alertMsg === ''){
+    	return;
+    }
+    alert(alertMsg);
+}
 
 function checkResult(result){
 	if(result === ''){

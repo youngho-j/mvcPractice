@@ -109,6 +109,7 @@ public class AuthorControllerTest {
 		mock.perform(get("/admin/authorDetail")
 				.param("authorId", "94"))
 		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attributeExists("alertMsg"))
 		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}
@@ -127,6 +128,7 @@ public class AuthorControllerTest {
 		mock.perform(get("/admin/authorModify")
 				.param("authorId", "94"))
 		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attributeExists("alertMsg"))
 		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}

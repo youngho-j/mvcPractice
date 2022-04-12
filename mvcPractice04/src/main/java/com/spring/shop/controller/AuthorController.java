@@ -47,12 +47,15 @@ public class AuthorController {
 	}
 	
 	@GetMapping("/admin/authorDetail")
-	public String authorDetailGET(int authorId, PageInfo pageInfo, Model model) throws Exception {
+	public String authorDetailGET(int authorId, PageInfo pageInfo, Model model, RedirectAttributes redirectAttributes) throws Exception {
 		log.info("작가 상세 페이지로 이동");
 		
 		AuthorVO authorInfo = authorService.authorGetDetail(authorId);
 		
 		if(ObjectUtils.isEmpty(authorInfo)) {
+			
+			redirectAttributes.addFlashAttribute("alertMsg", "존재하지 않는 작가 ID입니다.");
+			
 			return "redirect:/admin/authorManage";
 		}
 		
@@ -65,12 +68,15 @@ public class AuthorController {
 	}
 	
 	@GetMapping("/admin/authorModify")
-	public String authorModifyGET(int authorId, PageInfo pageInfo, Model model) throws Exception {
+	public String authorModifyGET(int authorId, PageInfo pageInfo, Model model, RedirectAttributes redirectAttributes) throws Exception {
 		log.info("작가 수정 페이지로 이동");
 		
 		AuthorVO authorInfo = authorService.authorGetDetail(authorId);
 		
 		if(ObjectUtils.isEmpty(authorInfo)) {
+			
+			redirectAttributes.addFlashAttribute("alertMsg", "존재하지 않는 작가 ID입니다.");
+			
 			return "redirect:/admin/authorManage";
 		}
 		
