@@ -89,6 +89,7 @@ public class AuthorControllerTest {
 				.param("nationId", "02")
 				.param("authorProfile", "test"))
 		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attributeExists("enroll_result"))
 		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}

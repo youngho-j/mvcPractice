@@ -36,13 +36,13 @@ public class AuthorController {
 	@RequestMapping(value = "/admin/authorEnroll", method = RequestMethod.POST)
 	public String authorEnrollGET(AuthorVO authorVO, RedirectAttributes redirect) throws Exception {
 		int result = authorService.authorEnroll(authorVO);
+		
 		if(result != 0) {
-			log.info("작가 등록 성공");
 			redirect.addFlashAttribute("enroll_result", authorVO.getAuthorName());
-			
 			return "redirect:/admin/authorManage";
 		}
-		log.info("작가 등록 실패");
+		
+		redirect.addFlashAttribute("enroll_result", "작가 등록에 실패하였습니다.");
 		return "redirect:/admin/authorEnroll";
 	}
 	

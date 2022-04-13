@@ -94,33 +94,46 @@
 		</div>
 	</div>
 <script type="text/javascript">
-	/* 등록 버튼 */
-	$("#enrollBtn").click(function(){
+$(function() {
+	let result = '<c:out value="${enroll_result}"/>';
+    
+    enrollFailAlert(result);
+});
+
+function enrollFailAlert(result){
+	if(result === ''){
+    	return;
+    }
+    alert(enroll_result);
+}
+
+/* 등록 버튼 */
+$("#enrollBtn").click(function(){
 		
-		/* 유효성 체크 변수 */ 
-		let nameCheck = false;
-		let nationCheck = false;
-		let profileCheck = false;
+	/* 유효성 체크 변수 */ 
+	let nameCheck = false;
+	let nationCheck = false;
+	let profileCheck = false;
 		
-		let authorName = $('input[name=authorName]').val();
-	    let nationId = $('select[name=nationId]').val();
-	    let authorProfile = $('input[name=authorProfile]').val(); 
+	let authorName = $('input[name=authorName]').val();
+	let nationId = $('select[name=nationId]').val();
+	let authorProfile = $('input[name=authorProfile]').val(); 
 	    
-	    /* span 영역 변수 */
-	    let authorNameMsg = $('#authorName_msg');
-	    let nationIdMsg = $('#nationId_msg');
-	    let authorProfileMsg = $('#authorProfile_msg');
+	/* span 영역 변수 */
+	let authorNameMsg = $('#authorName_msg');
+	let nationIdMsg = $('#nationId_msg');
+	let authorProfileMsg = $('#authorProfile_msg');
 		
-	    /* 작가 이름 공란 체크 */
-	    if(authorName === '') {
-	    	authorNameMsg.html("작가 이름을 입력해주세요.");
-	    	authorNameMsg.css('color', 'red');
-	    	authorNameMsg.css('display', 'block');
-	    	nameCheck = false;
-	    } else {
-	    	authorNameMsg.css('display', 'none');
-	    	nameCheck = true;
-	    }
+	/* 작가 이름 공란 체크 */
+	if(authorName === '') {
+		authorNameMsg.html("작가 이름을 입력해주세요.");
+		authorNameMsg.css('color', 'red');
+		authorNameMsg.css('display', 'block');
+		nameCheck = false;
+	} else {
+		authorNameMsg.css('display', 'none');
+		nameCheck = true;
+	}
 	    
 	    /* 소속 국가 공란 체크 */
 	    if(nationId === 'none') {
@@ -150,10 +163,10 @@
 	    }
 	});
 	 
-	/* 취소 버튼 */
-	$("#cancelBtn").click(function(){
-	    location.href="/admin/authorManage"
-	});
+/* 취소 버튼 */
+$("#cancelBtn").click(function(){
+    location.href="/admin/authorManage"
+});
 </script>
 </body>
 </html>
