@@ -159,19 +159,28 @@ function checkResult(result){
 }
 
 function checkModifyResult(modifyResult) {
-	if(modifyResult === '1'){
-		alert("작가 정보 수정을 완료하였습니다.");
-	} else if(modifyResult === '0') {
-		alert("작가 정부 수정을 하지 못하였습니다.")	
-	}
+	switch(modifyResult) {
+		case '0': 
+			alert("작가 정보를 수정할 수 없습니다.");
+			break;
+		case '1':
+			alert("작가 정보를 수정하였습니다.");
+			break;
+	}	    
 }
 
 function checkDeleteResult(deleteResult) {
-	if(deleteResult == 1) {
-		alert("작가 정보 삭제 완료!");	
-	} else if(deleteResult == 2) {
-		alert("해당 작가의 이름으로 등록된 책이 존재하므로 정보를 삭제할 수 없습니다.");
-	}	
+	switch(deleteResult) {
+		case '0': 
+			alert("작가 정보를 삭제할 수 없습니다.");
+			break;
+		case '1':
+			alert("작가 정보 삭제 완료!");	
+			break;
+		case '2':
+			alert("해당 작가의 이름으로 등록된 책이 존재하므로 정보를 삭제할 수 없습니다.");
+			break;
+	}	    
 }
 
 let moveForm = $("#moveForm");

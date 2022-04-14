@@ -3,8 +3,8 @@ package com.spring.shop.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.Is.*;
+import static org.junit.Assert.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 import org.junit.After;
@@ -89,7 +89,7 @@ public class AuthorControllerTest {
 				.param("nationId", "02")
 				.param("authorProfile", "test"))
 		.andExpect(status().is3xxRedirection())
-		.andExpect(flash().attributeExists("enroll_result"))
+		.andExpect(flash().attribute("enroll_result", is("작가 등록에 실패하였습니다.")))
 		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}
@@ -101,17 +101,26 @@ public class AuthorControllerTest {
 				.param("nationId", "02")
 				.param("authorProfile", "test"))
 		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attribute("enroll_result", is("test01")))
 		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}
 	
 	@Test
-	public void 존재하지않는_작가_상세페이지_호출_테스트() throws Exception {
+	public void 존재하지_않는_작가id_입력시_상세페이지_호출_테스트() throws Exception {
 		mock.perform(get("/admin/authorDetail")
 				.param("authorId", "94"))
 		.andExpect(status().is3xxRedirection())
-		.andExpect(flash().attributeExists("alertMsg"))
+		.andExpect(flash().attribute("alertMsg", is("존재하지 않는 작가 ID입니다.")))
 		.andExpect(redirectedUrl("/admin/authorManage"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 잘못된_타입의_작가id_입력시_상세페이지_호출_테스트() throws Exception {
+		mock.perform(get("/admin/authorDetail")
+				.param("authorId", "test"))
+		.andExpect(status().is4xxClientError())
 		.andDo(print());
 	}
 	
@@ -125,12 +134,20 @@ public class AuthorControllerTest {
 	}
 	
 	@Test
-	public void 존재하지않는_작가_수정페이지_호출_테스트() throws Exception {
+	public void 존재하지_않는_작가_수정페이지_호출_테스트() throws Exception {
 		mock.perform(get("/admin/authorModify")
 				.param("authorId", "94"))
 		.andExpect(status().is3xxRedirection())
-		.andExpect(flash().attributeExists("alertMsg"))
+		.andExpect(flash().attribute("alertMsg", is("존재하지 않는 작가 ID입니다.")))
 		.andExpect(redirectedUrl("/admin/authorManage"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 잘못된_타입의_작가id_입력시_수정페이지_호출_테스트() throws Exception {
+		mock.perform(get("/admin/authorModify")
+				.param("authorId", "test"))
+		.andExpect(status().is4xxClientError())
 		.andDo(print());
 	}
 	
@@ -144,14 +161,37 @@ public class AuthorControllerTest {
 	}
 	
 	@Test
-	public void 작가_정보_수정_테스트() throws Exception {
+	public void 존재하지_않는_작가_정보_수정_테스트() throws Exception {
 		mock.perform(post("/admin/authorModify").with(csrf())
 				.param("authorId", "94")
 				.param("authorName", "test")
 				.param("nationId", "02")
 				.param("authorProfile", "test"))
 		.andExpect(status().is3xxRedirection())
-		.andExpect(flash().attributeExists("modifyResult"))
+		.andExpect(flash().attribute("modifyResult", is(0)))
+		.andExpect(redirectedUrl("/admin/authorManage"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 작가_정보_수정_테스트() throws Exception {
+		mock.perform(post("/admin/authorModify").with(csrf())
+				.param("authorId", Integer.toString(authorId))
+				.param("authorName", "modify")
+				.param("nationId", "01")
+				.param("authorProfile", "modify"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attribute("modifyResult", is(1)))
+		.andExpect(redirectedUrl("/admin/authorManage"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 작가_정보_삭제_테스트() throws Exception {
+		mock.perform(post("/admin/authorDelete").with(csrf())
+				.param("authorId", Integer.toString(authorId)))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attribute("deleteResult", is(1)))
 		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}
@@ -161,7 +201,7 @@ public class AuthorControllerTest {
 		mock.perform(post("/admin/authorDelete").with(csrf())
 				.param("authorId", "1"))
 		.andExpect(status().is3xxRedirection())
-		.andExpect(flash().attributeExists("deleteResult"))
+		.andExpect(flash().attribute("deleteResult", is(0)))
 		.andExpect(redirectedUrl("/admin/authorManage"))
 		.andDo(print());
 	}

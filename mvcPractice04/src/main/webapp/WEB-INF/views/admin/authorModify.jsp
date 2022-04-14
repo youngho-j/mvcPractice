@@ -101,8 +101,8 @@
                    		<!-- 버튼 영역 -->
                    		<div class="btn_section">
                    			<button id="cancelBtn" class="btn">상세 페이지</button>
-	                    	<button id="modifyBtn" class="btn modify_btn">상품 수정</button>
-	                    	<button id="deleteBtn" class="btn delete_btn">상품 삭제</button>
+	                    	<button id="modifyBtn" class="btn modify_btn">작가정보 수정</button>
+	                    	<button id="deleteBtn" class="btn delete_btn">작가정보 삭제</button>
 	                    </div>
 	                    
 	                    <!-- csrf 토큰 -->
@@ -195,6 +195,7 @@ $("#deleteBtn").on("click", function(e) {
 $("input[name='authorName']").on("focus", function() {
 	$("#authorName_msg").css("display","none");
 });
+
 $("textarea").on("focus", function() {
 	$("#authorProfile_msg").css("display","none");
 });

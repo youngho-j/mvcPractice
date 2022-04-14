@@ -37,7 +37,7 @@ public class AuthorController {
 	public String authorEnrollGET(AuthorVO authorVO, RedirectAttributes redirect) throws Exception {
 		int result = authorService.authorEnroll(authorVO);
 		
-		if(result != 0) {
+		if(result == 1) {
 			redirect.addFlashAttribute("enroll_result", authorVO.getAuthorName());
 			return "redirect:/admin/authorManage";
 		}
@@ -61,7 +61,6 @@ public class AuthorController {
 		
 		// 상세 페이지 넘어가기전 작기 관리 페이지 정보
 		model.addAttribute("PreviousPageInfo", pageInfo);
-		
 		model.addAttribute("authorInfo", authorInfo);
 		
 		return "/admin/authorDetail";
