@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -35,27 +37,15 @@ public class BookController {
 		this.bookService = bookService;
 	}
 	
+	@ModelAttribute("categoryList")
+	private String getCategoryList() throws Exception {
+		List<CategoryVO> list = categoryService.getCategoryList();
+		return new ObjectMapper().writeValueAsString(list);
+	}
+	
 	@GetMapping("/admin/goodsEnroll")
 	public void goodsEnrollGET(Model model) throws Exception {
 		log.info("관리자 - 상품 등록 페이지로 이동");
-		
-		List<CategoryVO> list = categoryService.getCategoryList();
-		
-		String categoryList = new ObjectMapper().writeValueAsString(list);
-		
-		model.addAttribute("categoryList", categoryList);
-	}
-	
-	@GetMapping({"/admin/goodsDetail", "/admin/goodsModify"})
-	public void goodsDetailGET(int bookId, PageInfo pageInfo, Model model) throws Exception {
-		log.info("관리자 - 상품 상세, 수정 페이지로 이동");
-		
-		// 카테고리 데이터 
-		model.addAttribute("categoryList", new ObjectMapper().writeValueAsString(categoryService.getCategoryList()));
-		
-		model.addAttribute("PreviousPageInfo", pageInfo);
-		
-		model.addAttribute("goodsDetail", bookService.goodsDetail(bookId));
 	}
 	
 	@PostMapping("/admin/goodsEnroll")
@@ -70,6 +60,42 @@ public class BookController {
 		}
 		
 		return "redirect:/admin/goodsManage";
+	}
+	
+	@GetMapping("/admin/goodsModify")
+	public String goodsModifyGET(int bookId, 
+			@ModelAttribute("PreviousPageInfo") PageInfo pageInfo,
+			Model model,
+			RedirectAttributes redirect) throws Exception {
+		log.info("관리자 - 상품 수정 페이지로 이동");
+		BookVO bookInfo = bookService.goodsDetail(bookId);
+		
+		if(ObjectUtils.isEmpty(bookInfo)) {
+			redirect.addFlashAttribute("pageInfo", pageInfo);
+			return "redirect:/admin/goodsManage";
+		}
+		
+		model.addAttribute("goodsDetail", bookInfo);
+		
+		return "/admin/goodsModify";
+	}
+	
+	@GetMapping("/admin/goodsDetail")
+	public String goodsDetailGET(int bookId, 
+			@ModelAttribute("PreviousPageInfo") PageInfo pageInfo,
+			Model model,
+			RedirectAttributes redirect) throws Exception {
+		log.info("관리자 - 상품 상세 페이지로 이동");
+		BookVO bookInfo = bookService.goodsDetail(bookId);
+		
+		if(ObjectUtils.isEmpty(bookInfo)) {
+			redirect.addFlashAttribute("pageInfo", pageInfo);
+			return "redirect:/admin/goodsManage";
+		}
+		
+		model.addAttribute("goodsDetail", bookInfo);
+		
+		return "/admin/goodsDetail";
 	}
 	
 	@PostMapping("/admin/goodsModify")

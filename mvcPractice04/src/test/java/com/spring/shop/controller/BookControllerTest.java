@@ -116,7 +116,17 @@ public class BookControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("categoryList"))
 		.andExpect(model().attributeExists("goodsDetail"))
-		.andExpect(view().name("admin/goodsDetail"))
+		.andExpect(view().name("/admin/goodsDetail"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 존재하지않는_상품_상세페이지_이동_테스트() throws Exception {
+		mock.perform(get("/admin/goodsDetail")
+				.param("bookId", "130"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attributeExists("pageInfo"))
+		.andExpect(redirectedUrl("/admin/goodsManage"))
 		.andDo(print());
 	}
 	
@@ -127,7 +137,17 @@ public class BookControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("categoryList"))
 		.andExpect(model().attributeExists("goodsDetail"))
-		.andExpect(view().name("admin/goodsModify"))
+		.andExpect(view().name("/admin/goodsModify"))
+		.andDo(print());
+	}
+	
+	@Test
+	public void 존재하지않는_상품_수정페이지_이동_테스트() throws Exception {
+		mock.perform(get("/admin/goodsModify")
+				.param("bookId", "150"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(flash().attributeExists("pageInfo"))
+		.andExpect(redirectedUrl("/admin/goodsManage"))
 		.andDo(print());
 	}
 	
