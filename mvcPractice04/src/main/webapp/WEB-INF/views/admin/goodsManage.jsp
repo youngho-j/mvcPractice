@@ -33,7 +33,7 @@
                     <div class="admin_contents_body">
                     	<div class="goods_table_area">
 	                    	<c:choose>
-	                    		<c:when test="${checkResult ne 'empty'}">
+	                    		<c:when test="${listData ne 'empty'}">
 	                    			<table class="goods_table">
 	                    				<thead>
 	                    					<tr>
@@ -45,7 +45,7 @@
 			                    				<td class="th_column_3">등록일자</td>
 	                    					</tr>
 	                    				</thead>
-	                    				<c:forEach items="${list}" var="list">
+	                    				<c:forEach items="${listData}" var="list">
 	                    					<tr>
 	                    						<td><c:out value="${list.bookId}"/></td>
 				                    			<td>

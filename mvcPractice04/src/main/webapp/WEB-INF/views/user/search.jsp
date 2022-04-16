@@ -36,7 +36,7 @@
 		
 		<div class="content_area">
 			<c:choose>
-				<c:when test="${goodsListResult ne 'empty'}">
+				<c:when test="${listData ne 'empty'}">
 					<div class="goods_table_area">
 						<table class="goods_table">
 							<colgroup>
@@ -47,7 +47,7 @@
 								<col width="120">
 							</colgroup>
 							<tbody>
-								<c:forEach items="${goodsListResult}" var="list">
+								<c:forEach items="${listData}" var="list">
 									<tr>
 										<!-- 이미지, data 속성 대문자 입력 불가 -->
 										<td class="image">

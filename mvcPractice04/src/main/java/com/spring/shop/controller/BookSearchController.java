@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,7 +35,7 @@ public class BookSearchController {
 	}
 
 	@GetMapping("/search")
-	public String SearchGoodsListGET(PageInfo pageInfo, Model model) throws Exception {
+	public String SearchGoodsListGET(@ModelAttribute("PreviousPageInfo") PageInfo pageInfo, Model model) throws Exception {
 		log.info("[전체 유저] 상품 검색 페이지 이동");
 		
 		List<BookVO> goodsList = bookSearchService.getGoodsList(pageInfo);
@@ -43,33 +45,28 @@ public class BookSearchController {
 		model.addAttribute("international", categoryService.getInternationalCategoryCode());
 		
 		// 목록이 없을 경우
-		if(goodsList.isEmpty()) {
-			model.addAttribute("goodsListResult", "empty");
-			return "user/search";
+		if(CollectionUtils.isEmpty(goodsList)) {
+			model.addAttribute("listData", "empty");
+		} else {
+			model.addAttribute("listData", goodsList);
+			model.addAttribute("pagingManager", new PagingManager(pageInfo, bookSearchService.getGoodsTotal(pageInfo)));
 		}
-		
-		model.addAttribute("goodsListResult", goodsList);
-		model.addAttribute("pagingManager", new PagingManager(pageInfo, bookSearchService.getGoodsTotal(pageInfo)));
-		
 		return "user/search";
 	}
 	
 	@RequestMapping(value = "/admin/goodsManage", method = RequestMethod.GET)
-	public void goodsManageGET(PageInfo pageInfo, Model model) throws Exception {
-		log.info("[관리자 상품 페이지] 상품 목록 페이지 이동");
+	public void goodsManageGET(@ModelAttribute("PreviousPageInfo") PageInfo pageInfo, Model model) throws Exception {
+		log.info("[관리자 페이지] 상품 목록 페이지 이동");
 		
 		// 상품 목록 데이터
-		List<BookVO> list = bookSearchService.adminPageGoodsList(pageInfo);
+		List<BookVO> goodsList = bookSearchService.adminPageGoodsList(pageInfo);
 		
-		if(!list.isEmpty()) {
-			model.addAttribute("list", list);
-			// 페이징 관련 정보	
-			model.addAttribute("pagingManager", new PagingManager(pageInfo, bookSearchService.adminPageGoodsTotal(pageInfo)));
-			return;
+		if(CollectionUtils.isEmpty(goodsList)) {
+			model.addAttribute("listData", "empty");
 		} else {
-			model.addAttribute("checkResult", "empty");
-			return;
+			// 페이징 관련 정보	
+			model.addAttribute("listData", goodsList);
+			model.addAttribute("pagingManager", new PagingManager(pageInfo, bookSearchService.adminPageGoodsTotal(pageInfo)));
 		}
-		
 	}
 }
