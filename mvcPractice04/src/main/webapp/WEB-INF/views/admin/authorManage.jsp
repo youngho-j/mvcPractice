@@ -31,45 +31,47 @@
 				<div class="admin_contents_area">
                     <div class="admin_contents_title"><span>작가 관리</span></div>
                     <div class="admin_contents_body">
-                    	<c:if test="${checkResult != 'empty'}">
-	                    	<table class="author_table">
-	                    		<thead>
-	                    			<tr>
-	                    				<td class="th_column_1">작가 번호</td>
-	                    				<td class="th_column_1">작가 이름</td>
-	                    				<td class="th_column_2">작가 국가</td>
-	                    				<td class="th_column_3">등록 날짜</td>
-	                    				<td class="th_column_3">수정 날짜</td>
-	                    			</tr>
-	                    		</thead>
-	                    		<c:forEach items="${list}" var="list">
-	                    		<tr>
-	                    			<td>
-	                    				<c:out value="${list.authorId}"/>
-	                    			</td>
-	                    			<td>
-	                    				<a class="move" href='<c:out value="${list.authorId}"/>'>
-	                    					<c:out value="${list.authorName}"/>
-	                    				</a>
-	                    			</td>
-	                    			<td>
-	                    				<c:out value="${list.nationName}"/>
-	                    			</td>
-	                    			<td>
-	                    				<fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/>
-	                    			</td>
-	                    			<td>
-	                    				<fmt:formatDate value="${list.updateDate}" pattern="yyyy-MM-dd"/>
-	                    			</td>
-	                    		</tr>
-	                    		</c:forEach>
-	                    	</table>
-                    	</c:if>
-                    	<c:if test="${checkResult == 'empty'}">
-                    		<div class="author_table_empty">
-                				등록된 작가가 없습니다.
-                			</div>
-                    	</c:if>          
+                    	<c:choose>
+	                    	<c:when test="${listData ne 'empty'}">
+		                    	<table class="author_table">
+		                    		<thead>
+		                    			<tr>
+		                    				<td class="th_column_1">작가 번호</td>
+		                    				<td class="th_column_1">작가 이름</td>
+		                    				<td class="th_column_2">작가 국가</td>
+		                    				<td class="th_column_3">등록 날짜</td>
+		                    				<td class="th_column_3">수정 날짜</td>
+		                    			</tr>
+		                    		</thead>
+		                    		<c:forEach items="${listData}" var="list">
+		                    		<tr>
+		                    			<td>
+		                    				<c:out value="${list.authorId}"/>
+		                    			</td>
+		                    			<td>
+		                    				<a class="move" href='<c:out value="${list.authorId}"/>'>
+		                    					<c:out value="${list.authorName}"/>
+		                    				</a>
+		                    			</td>
+		                    			<td>
+		                    				<c:out value="${list.nationName}"/>
+		                    			</td>
+		                    			<td>
+		                    				<fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/>
+		                    			</td>
+		                    			<td>
+		                    				<fmt:formatDate value="${list.updateDate}" pattern="yyyy-MM-dd"/>
+		                    			</td>
+		                    		</tr>
+		                    		</c:forEach>
+		                    	</table>
+                    		</c:when>
+                    		<c:otherwise>
+	                    		<div class="author_table_empty">
+	                				등록된 작가가 없습니다.
+	                			</div>
+                    		</c:otherwise>
+                    	</c:choose>          
                     </div>
                     
                     <!-- 검색 인터페이스 영역 -->

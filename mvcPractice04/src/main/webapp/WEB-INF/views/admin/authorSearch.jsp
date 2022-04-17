@@ -25,7 +25,7 @@
 			<div class="author_table_area">
 				<!-- 게시물 테이블 영역 -->
 				<c:choose>
-					<c:when test="${checkResult eq 'empty'}">
+					<c:when test="${listData eq 'empty'}">
 						<div class="empty_table_area">
 			            	등록된 작가가 없습니다.
 			            </div>
@@ -40,7 +40,7 @@
 					                    <td class="th_column_3">작가 국적</td>
 			                  		</tr>
 			                  	</thead>
-			                  	<c:forEach items="${list}" var="list">
+			                  	<c:forEach items="${listData}" var="list">
 			                  		<tr>
 			                  			<td><c:out value="${list.authorId}"/></td>
 				                    	<td>
