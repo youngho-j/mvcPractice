@@ -197,8 +197,9 @@ public class BookSearchControllerTest {
 				.param("type", "T")
 				.param("keyword", "테"))
 		.andExpect(status().isOk())
-		.andExpect(model().attribute("listData", is("empty")))		
-		.andExpect(model().size(2))		
+		.andExpect(model().attribute("listData", is("empty")))
+		.andExpect(model().attributeExists("pagingManager"))	
+		.andExpect(model().size(3))		
 		.andExpect(view().name("admin/goodsManage"))
 		.andDo(print());
 	}

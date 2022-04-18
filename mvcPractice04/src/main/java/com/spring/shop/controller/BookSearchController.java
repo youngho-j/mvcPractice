@@ -66,7 +66,7 @@ public class BookSearchController {
 		} else {
 			// 페이징 관련 정보	
 			model.addAttribute("listData", goodsList);
-			model.addAttribute("pagingManager", new PagingManager(pageInfo, bookSearchService.adminPageGoodsTotal(pageInfo)));
 		}
+		model.addAttribute("pagingManager", new PagingManager(pageInfo, bookSearchService.adminPageGoodsTotal(pageInfo)));
 	}
 }
