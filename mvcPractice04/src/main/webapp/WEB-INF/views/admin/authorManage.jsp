@@ -130,37 +130,37 @@
 		</div>
 	</div>
 <script type="text/javascript">
-$(document).ready(function(){
+$(function(){
     
-    let result = '<c:out value="${enroll_result}"/>';
-    let modifyResult = '<c:out value="${modifyResult}"/>';
-    let deleteResult = '<c:out value="${deleteResult}"/>';
+    let authorEnrollResult = '<c:out value="${enroll_result}"/>';
+    let authorModifyResult = '<c:out value="${modifyResult}"/>';
+    let authorDeleteResult = '<c:out value="${deleteResult}"/>';
     let alertMsg = '<c:out value="${alertMsg}"/>';
     
-    checkResult(result);
+    printTheEnrollResult(authorEnrollResult);
     
-    checkModifyResult(modifyResult);
+    printTheModifyResult(authorModifyResult);
     
-    checkDeleteResult(deleteResult);
+    printTheDeleteResult(authorDeleteResult);
     
-    printAlert(alertMsg);
+    printMisInformation(alertMsg);
 });
 
-function printAlert(alertMsg) {
+function printMisInformation(alertMsg) {
 	if(alertMsg === ''){
     	return;
     }
     alert(alertMsg);
 }
 
-function checkResult(result){
-	if(result === ''){
+function printTheEnrollResult(enrollResult) {
+	if(enrollResult === ''){
     	return;
     }
-    alert("작가 '${enroll_result}' 을 등록하였습니다.");
+    alert("작가 '"+ enrollResult +"' 을(를) 등록하였습니다.");
 }
 
-function checkModifyResult(modifyResult) {
+function printTheModifyResult(modifyResult) {
 	switch(modifyResult) {
 		case '0': 
 			alert("작가 정보를 수정할 수 없습니다.");
@@ -171,7 +171,7 @@ function checkModifyResult(modifyResult) {
 	}	    
 }
 
-function checkDeleteResult(deleteResult) {
+function printTheDeleteResult(deleteResult) {
 	switch(deleteResult) {
 		case '0': 
 			alert("작가 정보를 삭제할 수 없습니다.");
